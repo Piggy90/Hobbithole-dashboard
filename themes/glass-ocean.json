@@ -1,0 +1,23 @@
+{
+  "id": "glass-ocean",
+  "name": "Glass Ocean",
+  "author": "PiggyOriginal",
+  "version": "1.0.0",
+  "description": "Diepblauwe glass-look met veel blur en ronde hoeken.",
+  "screenshot": null,
+  "tags": ["glass", "blue", "rounded"],
+  "visuals": {
+    "--bg-color": "#082f49",
+    "--accent-color": "#38bdf8",
+    "--card-bg": "rgba(15, 23, 42, 0.4)",
+    "--card-radius": "16px",
+    "--blur-amount": "24px"
+  },
+  "config": {
+    "weatherBackdrop": "standard",
+    "statusDots": true
+  },
+  "homeLayout": null,
+  "liveWallpaper": null,
+  "widgetVariants": null
+}

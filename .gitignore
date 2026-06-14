@@ -1,0 +1,15 @@
+# Hobbithole Dashboard Gitignore
+
+# Backups and built artifacts
+backups/
+template_index.html
+template_docker-compose.yml
+
+# Personal/Sensitive Data
+data/
+import/
+*.bak-*
+
+# Node.js
+node_modules/
+npm-debug.log

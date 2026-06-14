@@ -1,0 +1,25 @@
+{
+  "id": "classic-tiles",
+  "name": "Classic Tiles",
+  "author": "PiggyOriginal",
+  "version": "1.0.0",
+  "description": "De originele Hobbithole-look — donker navy met sky-blue accent. De v1.x basis-ervaring voor wie het herkenbaar wil houden.",
+  "screenshot": null,
+  "tags": ["classic", "dark", "baseline"],
+  "visuals": {
+    "--bg-color": "#0f172a",
+    "--accent-color": "#38bdf8",
+    "--card-bg": "rgba(30, 41, 59, 0.7)",
+    "--text-color": "#f8fafc",
+    "--border-color": "rgba(255, 255, 255, 0.1)",
+    "--blur-amount": "12px",
+    "--card-radius": "20px"
+  },
+  "config": {
+    "weatherBackdrop": "standard",
+    "statusDots": true
+  },
+  "homeLayout": null,
+  "liveWallpaper": null,
+  "widgetVariants": null
+}

@@ -1,0 +1,63 @@
+services:
+  dashboard:
+    image: nginx:1.27-alpine
+    container_name: hobbithole-dashboard
+    restart: unless-stopped
+    ports:
+      - "8086:80"
+    volumes:
+      - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/index.html:/usr/share/nginx/html/index.html:ro
+      - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/croc-help.html:/usr/share/nginx/html/croc-help.html:ro
+      - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/CHANGELOG.md:/usr/share/nginx/html/CHANGELOG.md:ro
+      - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/images:/usr/share/nginx/html/images:ro
+      - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/i18n:/usr/share/nginx/html/i18n:ro
+      - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - dashboard_net
+    depends_on:
+      - config-api
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  config-api:
+    image: node:18-alpine
+    container_name: hobbithole-config-api
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/server.js:/app/server.js:ro
+      - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/package.json:/app/package.json:ro
+      - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/widgets:/app/widgets:ro
+      - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/themes:/app/themes:ro
+      - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/data:/app/data
+      - /root/docker/stats:/app/data/stats:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /usb:/usb
+    command: sh -c "npm install --omit=dev --no-audit --no-fund && node server.js"
+    networks:
+      - dashboard_net
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+networks:
+  dashboard_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.20.0/24

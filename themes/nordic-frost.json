@@ -1,0 +1,24 @@
+{
+  "id": "nordic-frost",
+  "name": "Nordic Frost",
+  "author": "PiggyOriginal",
+  "version": "1.0.0",
+  "description": "Minimalistisch grijs-blauw met extra grote ronde hoeken.",
+  "screenshot": null,
+  "tags": ["minimal", "nordic", "rounded"],
+  "visuals": {
+    "--bg-color": "#2e3440",
+    "--accent-color": "#88c0d0",
+    "--card-bg": "rgba(67, 76, 94, 0.7)",
+    "--card-radius": "24px",
+    "--blur-amount": "15px",
+    "--text-color": "#eceff4"
+  },
+  "config": {
+    "weatherBackdrop": "standard",
+    "statusDots": true
+  },
+  "homeLayout": null,
+  "liveWallpaper": null,
+  "widgetVariants": null
+}

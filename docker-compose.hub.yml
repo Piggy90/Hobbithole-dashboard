@@ -1,0 +1,33 @@
+services:
+  dashboard:
+    image: piggyoriginal/hobbithole-dashboard:latest
+    container_name: hobbithole-dashboard
+    restart: unless-stopped
+    ports:
+      - "8086:80"
+    volumes:
+      # Optioneel: Mount de /images map als je foto's lokaal in plaats van via URL wilt gebruiken
+      # - ./images:/usr/share/nginx/html/images:ro
+
+      # Vereist voor de Auto-Detectie van Docker containers
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - dashboard_net
+    depends_on:
+      - config-api
+
+  config-api:
+    image: piggyoriginal/hobbithole-config-api:latest
+    container_name: hobbithole-config-api
+    restart: unless-stopped
+    volumes:
+      # Persistente opslag van instellingen (cross-device sync). Maak deze map vooraf aan: mkdir -p data && chmod 777 data
+      - ./data:/app/data
+      # Optioneel: voor de Container Manager / Portainer widgets (lokale Docker stats)
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - dashboard_net
+
+networks:
+  dashboard_net:
+    driver: bridge

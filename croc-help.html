@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Croc Send - Hobbithole Helper</title>
+    <style>
+        :root {
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text: #ffffff;
+            --accent: #00d2ff;
+            --success: #00ff88;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0f0c29;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        h1 { margin-top: 0; color: var(--accent); font-size: 2rem; display: flex; align-items: center; gap: 10px; }
+        h2 { font-size: 1.2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 5px; margin-top: 2rem; }
+        p { line-height: 1.6; opacity: 0.9; }
+        .command-group { margin-bottom: 1.5rem; }
+        .path-hint { font-size: 0.85rem; color: var(--accent); font-weight: bold; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+        .command-block {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        .command-block:hover { background: rgba(0, 0, 0, 0.6); border-color: var(--accent); }
+        code {
+            font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+            color: var(--success);
+            font-size: 1rem;
+        }
+        .copy-btn {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .copy-btn:active { transform: scale(0.95); }
+        .step { display: flex; gap: 15px; align-items: flex-start; margin-bottom: 15px; }
+        .step-num { background: var(--accent); color: #000; min-width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem; }
+        .footer { margin-top: 3rem; text-align: center; font-size: 0.9rem; border-top: 1px solid var(--glass-border); padding-top: 1.5rem; }
+        .footer a { color: var(--accent); text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐊 Croc Cheat-Sheet</h1>
+        <p>Grote bestanden direct vanaf de NAS versturen via de Gemini-CLI of SSH.</p>
+        
+        <h2>1. Kies je bestand op de NAS</h2>
+        
+        <div class="command-group">
+            <div class="path-hint">📁 Downloads</div>
+            <div class="command-block">
+                <code>crocsend /data/downloads/[file]</code>
+                <button class="copy-btn" onclick="copyText('crocsend /data/downloads/')">Kopieer</button>
+            </div>
+        </div>
+
+        <div class="command-group">
+            <div class="path-hint">🎥 Media</div>
+            <div class="command-block">
+                <code>crocsend /data/media/[file]</code>
+                <button class="copy-btn" onclick="copyText('crocsend /data/media/')">Kopieer</button>
+            </div>
+        </div>
+
+        <div class="command-group">
+            <div class="path-hint">📄 Documenten</div>
+            <div class="command-block">
+                <code>crocsend /data/documenten/[file]</code>
+                <button class="copy-btn" onclick="copyText('crocsend /data/documenten/')">Kopieer</button>
+            </div>
+        </div>
+
+        <h2>2. Stuur dit naar de ontvanger</h2>
+        <div class="step">
+            <div class="step-num">A</div>
+            <div>Download Croc: <a href="https://github.com/schollz/croc/releases" target="_blank">schollz.com/croc</a></div>
+        </div>
+        <div class="step">
+            <div class="step-num">B</div>
+            <div>Typ dit commando in je terminal:</div>
+        </div>
+        <div class="command-block" style="background: var(--success); color: #000;">
+            <code style="color: #000;">croc [CODE-VAN-NAS]</code>
+        </div>
+
+        <div class="footer">
+            Gebruik <a href="http://192.168.1.169:3001" target="_blank">Pingvin Share</a> voor een browser-link.
+        </div>
+    </div>
+
+    <script>
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = 'OK!';
+            setTimeout(() => btn.innerText = originalText, 1000);
+        }
+    </script>
+</body>
+</html>

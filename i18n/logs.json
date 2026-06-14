@@ -1,0 +1,1927 @@
+[
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 0,
+    "type": "user",
+    "message": "/settings",
+    "timestamp": "2026-04-11T20:39:03.055Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 1,
+    "type": "user",
+    "message": "ik wilcgraag dit toevoegen aan mijn docker \n\nhttps://github.com/hrfee/jfa-go?tab=readme-ov-file",
+    "timestamp": "2026-04-11T20:39:31.065Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 2,
+    "type": "user",
+    "message": "nee niet aan de gemini cli natuurlijk",
+    "timestamp": "2026-04-11T20:40:25.553Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 3,
+    "type": "user",
+    "message": "dit is bedoeld voor jellyfin je hebt de pagina toch doorgenomen. want ik weet ool niet hoe ik dit moet toevoegen of gebruiken vandaar dat ik jou hulp erbij vraag",
+    "timestamp": "2026-04-11T20:41:19.578Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 4,
+    "type": "user",
+    "message": "gevonden?",
+    "timestamp": "2026-04-11T20:42:43.995Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 5,
+    "type": "user",
+    "message": "oke zoek maar",
+    "timestamp": "2026-04-11T20:43:53.960Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 6,
+    "type": "user",
+    "message": "/settings",
+    "timestamp": "2026-04-11T20:47:52.208Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 7,
+    "type": "user",
+    "message": "/settings",
+    "timestamp": "2026-04-11T20:49:19.414Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 8,
+    "type": "user",
+    "message": "kan jij het doen?",
+    "timestamp": "2026-04-11T20:49:40.410Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 9,
+    "type": "user",
+    "message": "ik kan hem nu niet meer starten de stack hij zegt dat jellyfin nog in use is. kan je de spoke process killen",
+    "timestamp": "2026-04-11T20:55:35.201Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 10,
+    "type": "user",
+    "message": "ahh de bind mount failed die map voor jfo ofsoiets bestaat nog niet",
+    "timestamp": "2026-04-11T20:56:50.296Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 11,
+    "type": "user",
+    "message": "nu zegt die weer dat een stack met de naam jellyfin weer runt",
+    "timestamp": "2026-04-11T20:57:29.528Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 12,
+    "type": "user",
+    "message": "ja als het goed is doen ze het nu allrbri",
+    "timestamp": "2026-04-11T20:59:23.167Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 13,
+    "type": "user",
+    "message": "wat moet ik hier invullen?\nExternal jfa-go URL (Required)\n\nThe URL you'll be accessing jfa-go from. Used to generate links for things like password resets. Make sure to include the above URL base if you set one.",
+    "timestamp": "2026-04-11T21:01:56.449Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 14,
+    "type": "user",
+    "message": "en wat moet ik hierin vullen?\n\nURL Base (Optional)\n\nOnly needed if using a reverse proxy on a subfolder (e.g 'jellyf.in/accounts').",
+    "timestamp": "2026-04-11T21:03:26.707Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 15,
+    "type": "user",
+    "message": "oke het werkt top",
+    "timestamp": "2026-04-11T21:12:47.013Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 16,
+    "type": "user",
+    "message": "maar is nog best lastig in te stellen allemaal",
+    "timestamp": "2026-04-11T21:13:00.415Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 17,
+    "type": "user",
+    "message": "Password Resets\nSettings for the password reset handler.\n\nEnabled\nSetup: There are multiple ways password resets can be set up. See the wiki page for more information.\nJellyfin directory\n \n\nUse reset link instead of PIN (Required for Ombi)\nGenerating Reset Links: Set the \"External jfa-go URL\" value in General so that links to jfa-go can be made.\nCustom email (HTML)\n \nCustom email (plaintext)\n \nEmail subject\n \nSetup: There are multiple ways password resets can be set up. See the wiki page for more information.\nGenerating Reset Links: Set the \"External jfa-go URL\" value in General so that links to jfa-go can be made.\nSetup: There are multiple ways password resets can be set up. See the wiki page for more information.\nGenerating Reset Links: Set the \"External jfa-go URL\" value in General so that links to jfa-go can be made.",
+    "timestamp": "2026-04-11T21:16:17.150Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 18,
+    "type": "user",
+    "message": "bedoel je dit:\n\nReverse proxy-ing to a subfolder? Put the folder (e.g. /accounts) in \"Reverse Proxy subfolder\", and the full URL including it (e.g. https://jellyf.in/accounts) in \"External jfa-go URL\".\nExternal jfa-go URL\n \n\nUse reverse-proxy reported \"Host\" when possible\nReverse Proxy subfolder\n \nLogin screen appearance",
+    "timestamp": "2026-04-11T21:18:35.607Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 19,
+    "type": "user",
+    "message": "ik zat te denken om gewoon die poorten open te stellen",
+    "timestamp": "2026-04-11T21:20:49.519Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 20,
+    "type": "user",
+    "message": "dat heb ik ooit al eens ingesteldasr ben het vergeren",
+    "timestamp": "2026-04-11T21:21:55.089Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 21,
+    "type": "user",
+    "message": "ja dat wat hobbithole.sonology.me",
+    "timestamp": "2026-04-11T21:22:33.232Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 22,
+    "type": "user",
+    "message": "oh ik heb hobbitholedocker gedaan. misschien is dat voor alles wat onder docker valt?",
+    "timestamp": "2026-04-11T21:24:17.179Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 23,
+    "type": "user",
+    "message": "ja als het goed is had ik dat ook maar ben bang dat het nu uit staat ofso kan jij dat controleren of niet allemaal?",
+    "timestamp": "2026-04-11T21:27:39.982Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 24,
+    "type": "user",
+    "message": "oke maar die docker is alleen voor wordpress idd. nu weet il het weer kunnen we niet een hobbithole aanmaken gewoon voir jellyfin en de jfa-go? ik kon net alleen 443 niet gebruiken omdat die bezet was. maar ik ga die wordpress verwijderen dus hij komt weer vrij",
+    "timestamp": "2026-04-11T21:29:44.912Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 25,
+    "type": "user",
+    "message": "kan jij het ook doen?",
+    "timestamp": "2026-04-11T21:30:18.036Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 26,
+    "type": "user",
+    "message": "ja",
+    "timestamp": "2026-04-11T21:30:47.484Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 27,
+    "type": "user",
+    "message": "poortnummer is in gebruik de 443 zegt sie",
+    "timestamp": "2026-04-11T21:32:32.899Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 28,
+    "type": "user",
+    "message": "het was web station",
+    "timestamp": "2026-04-11T21:35:33.776Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 29,
+    "type": "user",
+    "message": "kan je hem killen",
+    "timestamp": "2026-04-11T21:35:48.215Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 30,
+    "type": "user",
+    "message": "hij staat al uit maar hij blijft zeggen dat 443 bezet is",
+    "timestamp": "2026-04-11T21:37:26.816Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 31,
+    "type": "user",
+    "message": "ah had hem op http ipv https",
+    "timestamp": "2026-04-11T21:39:20.275Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 32,
+    "type": "user",
+    "message": "ik hen er jellyfin.hobbithole.synology.me van gemaakt",
+    "timestamp": "2026-04-11T21:39:53.279Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 33,
+    "type": "user",
+    "message": "ah het is ddnshobbithole.synology.me maar die verloopt in mei. zal ik een nieuwe aanmaken? of kan jik dat doen?",
+    "timestamp": "2026-04-11T21:41:47.966Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 34,
+    "type": "user",
+    "message": "oke heb een nieuwe aangrmaskt voor hobbithole",
+    "timestamp": "2026-04-11T21:45:03.875Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 35,
+    "type": "user",
+    "message": "oh hen een ongeldig domeinnaam opgegeven",
+    "timestamp": "2026-04-11T21:45:31.356Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 36,
+    "type": "user",
+    "message": "nee ik ben bezog met de lets encrypt",
+    "timestamp": "2026-04-11T21:46:56.544Z"
+  },
+  {
+    "sessionId": "fd76ba8b-ad5c-4aad-9bff-2a7c2243fc58",
+    "messageId": 37,
+    "type": "user",
+    "message": "ik ga er morgen wel weer meer verder moet gewoon even een nieuwe https opstellen voor hobbithole.synology.me, want ik zag nu dat die jellyfin ook onder die ddnshobbithole valt",
+    "timestamp": "2026-04-11T21:54:40.929Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 0,
+    "type": "user",
+    "message": "ik heb al eens een keertje een reverse proxy aangemaakt via de synology. maar nu ben ik erachter dat het ook via nginx kan. wat is beter?",
+    "timestamp": "2026-04-13T10:57:53.251Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 1,
+    "type": "user",
+    "message": "oke dat is een  goed idee. kan jij daarbij  helpen om het op te zetten? ik  ben vergeten hoe het moet",
+    "timestamp": "2026-04-13T10:59:22.212Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 2,
+    "type": "user",
+    "message": "nee je moet eerst kijken waar de rest  van de docker containers staan. want die map die jij wilt aanmaken is niet de goede pad.",
+    "timestamp": "2026-04-13T11:00:20.452Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 3,
+    "type": "user",
+    "message": "kan ik hem opstarten ookall zijn de poorten 443 nog bezet?",
+    "timestamp": "2026-04-13T11:06:49.084Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 4,
+    "type": "user",
+    "message": "weetje wat start nginx maar op dat kijken we wat er gebeurt",
+    "timestamp": "2026-04-13T11:08:51.388Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 5,
+    "type": "user",
+    "message": "optie 1 is beter laten  we  dat doen",
+    "timestamp": "2026-04-13T11:13:53.361Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 6,
+    "type": "user",
+    "message": "oh dus jij kan het niet doen via terminal?",
+    "timestamp": "2026-04-13T11:15:44.882Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 7,
+    "type": "user",
+    "message": "oke gedaan",
+    "timestamp": "2026-04-13T11:23:47.492Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 8,
+    "type": "user",
+    "message": "hij heeft idd nog 2 staan op de reverse proxy maar ik kan  ze niet verwijderen",
+    "timestamp": "2026-04-13T11:25:25.200Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 9,
+    "type": "user",
+    "message": "oke ik zit in het dashboard van nginx en heb de port forwarding gedaan",
+    "timestamp": "2026-04-13T11:34:49.996Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 10,
+    "type": "user",
+    "message": "kan je het volgende eens bekijken:\n\nJa, absoluut — als je jfa-go via Docker Compose draait, dan is het veel slimmer en schoner om gewoon de docker-compose.yml aan te passen.\nDat geeft je:\n\nhet juiste netwerk\n\nde juiste poortmapping\n\nconsistente container‑namen\n\nvoorspelbaar gedrag voor Nginx Proxy Manager\n\ncorrecte reverse‑proxy detectie in jfa-go\n\nEn het voorkomt precies de problemen die je nu hebt.\n\n⭐ Wat er nu misgaat (kort en duidelijk)\nUit je screenshot blijkt:\n\njfa-go draait in jellyfin_default netwerk\n\ndat netwerk is geïsoleerd\n\nNginx Proxy Manager kan jfa-go alleen bereiken omdat je een poortmapping hebt\n\nmaar jfa-go ziet geen reverse proxy headers\n\ndaardoor blijft hij interne URLs genereren\n\nDe oplossing is:\n\n👉 jfa-go moet in bridge draaien\n👉 met een expliciete poortmapping  \n👉 en een stabiele containernaam\n\nDat fixen we in één keer via Docker Compose.\n\n⭐ De juiste docker-compose configuratie voor jfa-go\nHier is een perfecte, bewezen werkende compose‑config voor jfa-go op Synology:\n\nyaml\nversion: \"3.8\"\n\nservices:\n  jfa-go:\n    image: hrfee/jfa-go:latest\n    container_name: jfa-go\n    restart: unless-stopped\n    networks:\n      - bridge\n    ports:\n      - \"8056:8056\"\n    volumes:\n      - /volume1/docker/jfa-go:/data\n    environment:\n      - PUID=1026\n      - PGID=100\nBelangrijk:\n\nnetworks: - bridge forceert het standaard Docker-netwerk\n\nports: \"8056:8056\" maakt jfa-go bereikbaar op de host\n\nNPM kan nu perfect proxy’en\n\njfa-go ziet de juiste headers\n\njfa-go gebruikt de External URL\n\n⭐ Stap‑voor‑stap wat je nu moet doen\n1️⃣ Stop de huidige jfa-go container\nIn Container Manager → Stoppen\n\n2️⃣ Verwijder de container\nActie → Verwijderen\n(laat de data map staan)\n\n3️⃣ Pas je docker-compose.yml aan met de config hierboven\n4️⃣ Run:\nCode\ndocker compose up -d\n5️⃣ Controleer of jfa-go draait op:\nCode\nhttp://192.168.1.169:8056\n6️⃣ Ga naar Nginx Proxy Manager\nProxy Host → accounts.hobbitholecinema.duckdns.org\n\nDetails:\n\nCode\nScheme: http\nForward Hostname/IP: 192.168.1.169\nForward Port: 8056\nAdvanced:\n\nCode\nproxy_set_header X-Forwarded-Proto $scheme;\nproxy_set_header X-Forwarded-Host $host;\nproxy_set_header X-Forwarded-Port $server_port;\n7️⃣ Ga naar jfa-go → Settings → General\nVul in:\n\nCode\nExternal jfa-go URL:\nhttps://accounts.hobbitholecinema.duckdns.org\nZet aan:\n\nCode\nUse reverse-proxy reported \"Host\" when possible\nKlik Save → Restart",
+    "timestamp": "2026-04-13T12:05:39.752Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 11,
+    "type": "user",
+    "message": "Wat je nu moet doen (laatste check)\nNu DSM schoon is, werkt HTTPS vrijwel altijd meteen.\nTest dit:\n\nCode\nhttps://jellyfin.hobbitholecinema.duckdns.org\nAls het nog niet werkt, dan is dit de allerlaatste stap:\n\n✔ 1. Herstart Nginx Proxy Manager\nSoms cached NPM de oude DSM‑routing.\n\n✔ 2. Herstart Jellyfin container\nZodat hij opnieuw netjes bindt op 8096.",
+    "timestamp": "2026-04-13T12:31:09.846Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 12,
+    "type": "user",
+    "message": "ik krijg deze melding als ik naar de jellyfin url wil gaan. de accounts url werkt wel alleen deze niet ik snap het niet:\n\nCongratulations!\nYou've successfully started the Nginx Proxy Manager.\n\nIf you're seeing this site then you're trying to access a host that isn't set up yet.\n\nLog in to the Admin panel to get started.",
+    "timestamp": "2026-04-13T12:34:08.001Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 13,
+    "type": "user",
+    "message": "ik kan in jfa-go geen profiel aanmaken weet jij hoe dat moet of kan jij dat aanmaken?",
+    "timestamp": "2026-04-13T12:54:30.819Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 14,
+    "type": "user",
+    "message": "ik heb die optie dus niet \"add profile\"",
+    "timestamp": "2026-04-13T12:55:41.469Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 15,
+    "type": "user",
+    "message": "ik kan alleen gebruikers toe voegen maar geen profielen. die bllijft leeg.",
+    "timestamp": "2026-04-13T12:57:53.512Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 16,
+    "type": "user",
+    "message": "ja ik heb  een sc-jellyfin beheerders account",
+    "timestamp": "2026-04-13T12:59:16.880Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 17,
+    "type": "user",
+    "message": "ik krijg dit te zien bij gebbruikersprofielen:\n\nGebruikersprofielen ×\nProfielen worden toegepast op gebruikers wanneer ze een account aanmaken. Een profiel bevat rechten voor bibliotheken en indeling van de startpagina.\n\nNaam\tStandaard\tVerwijzingen\tVan\tBibliotheken\tAanmaken\nGeen",
+    "timestamp": "2026-04-13T13:01:36.249Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 18,
+    "type": "user",
+    "message": "oke zoek op het web naar een goede JFA-go versie of een oplossing hiervoor",
+    "timestamp": "2026-04-13T13:02:33.641Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 19,
+    "type": "user",
+    "message": "oke pas aan",
+    "timestamp": "2026-04-13T13:07:08.674Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 20,
+    "type": "user",
+    "message": "ik snap er helemaal niks van. wat zeggen de forums?",
+    "timestamp": "2026-04-13T13:10:15.725Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 21,
+    "type": "user",
+    "message": "moet ik  ook een wachtwoord aanmaken voor  de nieuwe gebruiker in jellyfin ik noem hem \"friends\"",
+    "timestamp": "2026-04-13T13:14:27.032Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 22,
+    "type": "user",
+    "message": "hij vind de nieuwe gebruiker niet in accounts?",
+    "timestamp": "2026-04-13T13:17:01.661Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 23,
+    "type": "user",
+    "message": "ja ik ben aan het syncen, ik heb ook een oude test gebruiker verwijderd via jellyfin die jfa-go wel zag dus als het goed is zou die moeten verdwijnen",
+    "timestamp": "2026-04-13T13:18:20.150Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 24,
+    "type": "user",
+    "message": "maar helaas doet die het niet",
+    "timestamp": "2026-04-13T13:19:32.666Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 25,
+    "type": "user",
+    "message": "ja nu doet die het wel in de account pagina",
+    "timestamp": "2026-04-13T13:20:20.675Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 26,
+    "type": "user",
+    "message": "damn ik ga nu in de edge browser en nu zie ik hem wel staan",
+    "timestamp": "2026-04-13T13:22:07.496Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 27,
+    "type": "user",
+    "message": "ik heb de profiel friends aangemaakt",
+    "timestamp": "2026-04-13T13:22:46.888Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 28,
+    "type": "user",
+    "message": "als ik een account heb aangemaakt stuurt die  hem nog niet goed door naar de juiste website mijn jellyfin server maar naar een standaar jellyfin website ofso",
+    "timestamp": "2026-04-13T13:35:29.352Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 29,
+    "type": "user",
+    "message": "je hebt het verkeerd gedaan nu wilt die het ip adres openen ipv accounts..... url",
+    "timestamp": "2026-04-13T13:39:34.092Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 30,
+    "type": "user",
+    "message": "nee weer niet weer de ip adres link in plaats van accounts....",
+    "timestamp": "2026-04-13T13:41:02.987Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 31,
+    "type": "user",
+    "message": "ah nu doet die  het wel",
+    "timestamp": "2026-04-13T13:44:31.835Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 32,
+    "type": "user",
+    "message": "ja hehe nu werkt het helemaal en gaat het naar mijn eigen jellyfin  server.",
+    "timestamp": "2026-04-13T13:45:44.773Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 33,
+    "type": "user",
+    "message": "zullen we even kijken naar jellyfin zelf daar heb je ook super veel plugins voor. Ik heb een trailer plugin alleen werkt die niet. kan jij op het web opzoeken naar een werkende trailer plugin.",
+    "timestamp": "2026-04-13T13:49:15.889Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 34,
+    "type": "user",
+    "message": "ja wil je naar de metatube kijken wnat die werkt nu niet. De hovertrailer spreekt mij ook wel aan als dat wel werkt is het ook goed natuurlijk.",
+    "timestamp": "2026-04-13T14:08:54.833Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 35,
+    "type": "user",
+    "message": "ja laten we voor de hovertrailer gaan",
+    "timestamp": "2026-04-13T14:11:02.771Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 36,
+    "type": "user",
+    "message": "ik heb hovertrailer zelf geinstalleerd",
+    "timestamp": "2026-04-13T14:15:57.585Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 37,
+    "type": "user",
+    "message": "ja hij werkt wel maar nog niet optimaal. want er komt wel een schermpje tvoorschijn maar ik kan niet op play drukken. kan het niet automatisch afsplen?",
+    "timestamp": "2026-04-13T14:17:53.538Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 38,
+    "type": "user",
+    "message": "ja je hebt gelijk in edge doet die het wel. Werkt dit dan ook op de apple tv?",
+    "timestamp": "2026-04-13T14:23:15.046Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 39,
+    "type": "user",
+    "message": "laten we anders Trailarr installeren dat werkt zo ie zo toch?:\n\nhttps://github.com/nandyalu/trailarr",
+    "timestamp": "2026-04-13T14:24:25.344Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 40,
+    "type": "user",
+    "message": "ik kom niet in het dashboard",
+    "timestamp": "2026-04-13T14:32:07.921Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 41,
+    "type": "user",
+    "message": "ik moet een gebruikersnaam en wachtwoord invullen maar van wat?",
+    "timestamp": "2026-04-13T14:34:44.181Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 42,
+    "type": "user",
+    "message": "nee was geen admin admin kan je zoeken op het web",
+    "timestamp": "2026-04-13T14:35:08.570Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 43,
+    "type": "user",
+    "message": "ja datw as hem",
+    "timestamp": "2026-04-13T14:36:29.867Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 44,
+    "type": "user",
+    "message": "zoek mijn radarr en sonarr ip adressen op met docker ps",
+    "timestamp": "2026-04-13T14:37:13.910Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 45,
+    "type": "user",
+    "message": "ahh die had ik inderdaad via de dsm geinstalleerd en niet via docker",
+    "timestamp": "2026-04-13T14:38:27.828Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 46,
+    "type": "user",
+    "message": "oke radarr is succesvol",
+    "timestamp": "2026-04-13T14:41:27.498Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 47,
+    "type": "user",
+    "message": "ja ik zie al mobies staan",
+    "timestamp": "2026-04-13T14:44:22.822Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 48,
+    "type": "user",
+    "message": "zie nog nergens een trailer staan doet die het automatisch downloaden?:\n\nPiggy@Hobbithole-Nas:/volume1/Media/Films$ tree\n.\n├── 10,000 BC (2008)\n│   └── 10,000 BC (2008) BR-DISK.iso\n├── After (2019)\n│   └── After (2019) Bluray-1080p.mkv\n├── Against the Wild Survive the Serengeti\n│   └── Against the Wild Survive the Serengeti.ts\n├── A Haunting in Venice (2023)\n│   └── A Haunting in Venice (2023) WEBDL-2160p.mkv\n├── Alien.Romulus.2024.Hybrid.2160p.WEB-DL.DV.HDR.DDP5.1.Atmos.H265-AOC.(1)\n│   ├── Alien.Romulus.2024.Hybrid.2160p.WEB-DL.DV.HDR.DDP5.1.Atmos.H265-AOC.mkv\n│   ├── AOC.nfo\n│   └── Screens\n│       ├── mpv-shot0001.jpg\n│       ├── mpv-shot0002.jpg\n│       ├── mpv-shot0003.jpg\n│       ├── mpv-shot0004.jpg\n│       ├── mpv-shot0005.jpg\n│       ├── mpv-shot0006.jpg\n│       ├── mpv-shot0007.jpg\n│       └── mpv-shot0008.jpg\n├── A Minecraft Movie (2025) BluRay 2160p DV HDR TrueHD Atmos AC3 HEVC NL-RetailSub + NL + VL Gesproken REMUX-KaPPa\n│   └── A Minecraft Movie (2025) BluRay 2160p DV HDR TrueHD Atmos AC3 HEVC NL-RetailSub + NL + VL Gesproken REMUX-KaPPa.mkv\n├── Anaconda (2025)\n│   └── Anaconda (2025) WEBDL-2160p.mp4\n├── Anyone But You (2023)\n│   └── Anyone But You (2023) WEBDL-2160p.mkv\n├── Argylle (2024) 2160p DV HDR WEB-DL DDP 5.1 Atmos HEVC NL-RetailSub.mkv\n├── Arthur the King (2024)\n│   └── Arthur the King (2024) WEBDL-2160p.mkv\n├── Assepoester en de geheime prins\n│   └── Assepoester en de geheime prins.ts\n├── Avatar Fire and Ash (2025)\n│   └── Avatar Fire and Ash (2025) WEBDL-2160p.mkv\n├── Avontuur in de wildernis\n│   └── Avontuur in de wildernis.ts\n├── Braveheart (1995)\n│   └── Braveheart (1995) Remux-2160p.mkv\n├── Bridget Jones Mad About the Boy (2025)\n│   └── Bridget Jones Mad About the Boy (2025) WEBDL-2160p.mkv\n├── Brothers (2024) WebDl 2160p DV HDR+ DDP 5_1 Atmos H265 NL-RetailSub-KaPPa\n│   └── Brothers (2024) WebDl 2160p DV HDR+ DDP 5.1 Atmos H265 NL-RetailSub-KaPPa.mkv\n├── Bugonia (2025)\n│   └── Bugonia (2025) WEBDL-2160p.mkv\n├── Challengers (2024)\n│   └── Challengers (2024) WEBDL-2160p.mkv\n├── Civil War (2024)\n│   └── Civil War (2024) WEBDL-2160p.mkv\n├── Clash_of_the_Titans_2010_2160p_UHD_Blu-ray_REMUX_DV_HDR_HEVC_DTS-HD_MA_5_1-W32\n│   └── Clash.of.the.Titans.2010.2160p.UHD.Blu-ray.REMUX.DV.HDR.HEVC.DTS-HD.MA.5.1-W32.mkv\n├── Deadpool.and.Wolverine.2024.UHD.BluRay.2160p.TrueHD.Atmos.7.1.DV.HEVC.REMUX-FraMeSToR\n│   └── Deadpool.and.Wolverine.2024.UHD.BluRay.2160p.TrueHD.Atmos.7.1.DV.HEVC.REMUX-FraMeSToR.mkv\n├── Despicable Me 4 (2024)\n│   └── Despicable Me 4 (2024) WEBDL-2160p.mkv\n├── Downton Abbey The Grand Finale (2025)\n│   └── Downton Abbey The Grand Finale (2025) Bluray-2160p.mkv\n├── Dracula.1931.UHD.BluRay.2160p.FLAC.1.0.HEVC.REMUX-FraMeSToR\n│   └── Dracula.1931.UHD.BluRay.2160p.FLAC.1.0.HEVC.REMUX-FraMeSToR.mkv\n├── Dune Part Two (2024)\n│   └── Dune Part Two (2024) WEBDL-2160p Proper.mkv\n├── Dungeons & Dragons Honor Among Thieves (2023)\n│   └── Dungeons & Dragons Honor Among Thieves (2023) Remux-2160p.mkv\n├── @eaDir\n├── Eddington (2025)\n│   └── Eddington (2025) Bluray-2160p.mkv\n├── Eden (2025)\n│   └── Eden (2025) WEBDL-2160p.mkv\n├── F1 (2025)\n│   └── F1 (2025) WEBDL-2160p Proper.mkv\n├── Flight Risk (2025)\n│   └── Flight Risk (2025) Remux-2160p.mkv\n├── Formule 1 - F1 Kwalificatie Grand Prix Van Singapore\n│   └── Formule 1 - F1 Kwalificatie Grand Prix Van Singapore .ts\n├── Formule 1 - F1 Vrije Training 2 Grand Prix Van Italie\n│   └── Formule 1 - F1 Vrije Training 2 Grand Prix Van Italie .ts\n├── Frankenstein (2025)\n│   └── Frankenstein (2025) WEBDL-2160p.mkv\n── Furiosa A Mad Max Saga (2024)\n│   └── Furiosa A Mad Max Saga (2024) WEBDL-2160p.mkv\n├── Gladiator II (2024)\n│   └── Gladiator II (2024) WEBDL-2160p.mkv\n├── Godzilla x Kong The New Empire (2024)\n│   └── Godzilla x Kong The New Empire (2024) WEBDL-2160p.mkv\n├── Guillermo Del Toros Pinocchio (2022) BluRay 2160p DV HDR TrueHD AC3 HEVC NL-RetailSub REMUX + NL gesproken\n│   └── Guillermo Del Toros Pinocchio (2022) BluRay 2160p DV HDR TrueHD AC3 HEVC NL-RetailSub REMUX + NL gesproken.mkv\n├── Heidi (1937) - FHD zwart_wit - Topaz - NLsub\n│   └── Heidi.(1937).mkv\n├── Horizon An American Saga - Chapter 1 (2024)\n│   └── Horizon An American Saga - Chapter 1 (2024) WEBDL-2160p.mkv\n├── Hot Frosty (2024)\n│   └── Hot Frosty (2024) WEBDL-1080p.mkv\n├── How to Train Your Dragon (2025)\n│   └── How to Train Your Dragon (2025) Bluray-2160p Proper.mkv\n├── In Bruges (2008)\n│   └── In Bruges (2008) Remux-2160p.mkv\n├── Indiana Jones and the Dial of Destiny (2023)\n│   └── Indiana Jones and the Dial of Destiny (2023) Remux-2160p.mkv\n├── Jerry & Marge Go Large (2022)\n│   └── Jerry & Marge Go Large (2022) Remux-1080p.mkv\n├── Jurassic.Park.1993.2160p.BluRay.REMUX.HEVC.DTS-X.7.1-FGT\n│   └── Jurassic.Park.1993.2160p.BluRay.REMUX.HEVC.DTS-X.7.1-FGT.mkv\n├── Kingdom of the Planet of the Apes (2024)\n│   └── Kingdom of the Planet of the Apes (2024) Remux-2160p.mkv\n├── Madame Web (2024)\n│   └── Madame Web (2024) WEBDL-2160p.mkv\n├── Marty Supreme (2025)\n│   └── Marty Supreme (2025) Bluray-2160p.mp4\n├── Miller's Girl (2024)\n│   └── Miller's Girl (2024) WEBDL-2160p.mkv\n├── Mission Impossible - The Final Reckoning (2025)\n│   └── Mission Impossible - The Final Reckoning (2025) WEBDL-2160p.mkv\n├── Mufasa The Lion King (2024)\n│   └── Mufasa The Lion King (2024) Bluray-2160p Proper.mkv\n├── No Hard Feelings (2023)\n│   └── No Hard Feelings (2023) WEBDL-2160p.mkv\n├── NOS De Avondetappe\n│   └── NOS De Avondetappe.ts\n├── No Way Up (2024)\n│   └── No Way Up (2024) Remux-1080p.mkv\n├── Now You See Me Now You Don't (2025)\n│   └── Now You See Me Now You Don't (2025) WEBDL-2160p.mkv\n├── Nuremberg (2025)\n│   └── Nuremberg (2025) Remux-1080p.mkv\n├── One Battle After Another (2025)\n│   └── One Battle After Another (2025) WEBDL-2160p.mp4\n├── Oppenheimer (2023)\n│   └── Oppenheimer (2023) BluRay 2160p HDR DTS-HD AC3 HEVC NL-RetailSub REMUX.mkv\n├── Pirates.of.the.Caribbean.At.Worlds.End.2007.2160p.UHD.Theater.SDR.REMUX.HEVC.PCM.7.1.4-NaNi\n│   └── Pirates.of.the.Caribbean.At.Worlds.End.2007.2160p.UHD.Theater.SDR.REMUX.HEVC.PCM.7.1.4-NaNi.mkv\n├── Playdate (2025)\n│   └── Playdate (2025) WEBDL-2160p.mp4\n├── Poor Things (2023)\n│   └── Poor Things (2023) WEBDL-2160p.mkv\n├── Predator Badlands (2025)\n│   └── Predator Badlands (2025) WEBDL-2160p.mkv\n├── Prey (2022)\n│   └── Prey (2022) Remux-2160p.mkv\n├── Prey (2024)\n│   └── Prey (2024) WEBRip-1080p.mp4\n├── Prey_2024_1080p_WEB-DL_EAC3_DDP5_1_H264_GP-M-NLsubs\n│   └── Prey.2024.1080p.WEB-DL.EAC3.DDP5.1.H264.GP-M-NLsubs.mkv\n├── Rat Race\n│   └── Rat Race.ts\n├── Rebel Moon - Part Two The Scargiver (2024)\n│   └── Rebel Moon - Part Two The Scargiver (2024) WEBDL-2160p.mkv\n├── Red One (2024)\n│   └── Red One (2024) WEBDL-2160p Proper.mkv\n├── Red Right Hand (2024)\n│   └── Red Right Hand (2024) Remux-1080p.mkv\n├── Regretting You (2025)\n│   └── Regretting You (2025) WEBDL-2160p.mkv\n├── Road House (2024)\n│   └── Road House (2024) WEBDL-2160p.mkv\n├── Roofman (2025)\n│   └── Roofman (2025) WEBDL-2160p.mkv\n├── Sinners (2025)\n│   ── Sinners (2025) WEBDL-2160p.mkv\n├── Superman (2025)\n│   └── Superman (2025) WEBDL-2160p.mkv\n├── The Bikeriders (2024)\n│   └── The Bikeriders (2024) WEBDL-2160p.mkv\n├── The Dead Don't Hurt (2024)\n│   └── The Dead Don't Hurt (2024) WEBDL-1080p.mkv\n├── The Fall Guy (2024)\n│   └── The Fall Guy (2024) WEBDL-2160p.mkv\n├── The Family Plan 2 (2025)\n│   └── The Family Plan 2 (2025) WEBDL-2160p.mkv\n├── The Fantastic 4 First Steps (2025)\n│   └── The Fantastic 4 First Steps (2025) WEBDL-2160p.mp4\n├── The Gray Man (2022)\n│   └── The Gray Man (2022) WEBRip-2160p.mkv\n├── The_Guernsey_Literary_and_Potato_Peel_Pie_Society_2018_2160p_WEB_H265-SLOT\n│   └── The.Guernsey.Literary.and.Potato.Peel.Pie.Society.2018.2160p.WEB.H265-SLOT.mkv\n├── The Hunger Games The Ballad of Songbirds & Snakes (2023)\n│   └── The Hunger Games The Ballad of Songbirds & Snakes (2023) WEBDL-2160p.mkv\n├─ The Instigators (2024)\n│   └── The Instigators (2024) WEBDL-2160p.mkv\n├── The_King's_Man_2021_Hybrid_2160p_UHD_BluRay_TrueHD_Atmos_7.1_HDR10+_DoVi_x265-LEGi0N\n│   └── The King's Man 2021 Hybrid 2160p UHD BluRay TrueHD Atmos 7.1 HDR10+ DoVi x265-LEGi0N.mkv\n├── The Little Mermaid (2023)\n│   └── The Little Mermaid (2023) Remux-2160p.mkv\n├── The Ministry of Ungentlemanly Warfare (2024)\n│   └── The Ministry of Ungentlemanly Warfare (2024) Remux-2160p.mkv\n├── The Naked Gun (2025)\n│   └── The Naked Gun (2025) WEBDL-2160p.mkv\n├── The Northman (2022)\n│   └── The Northman (2022) Remux-2160p.mkv\n├── The Old Guard 2 (2025)\n│   └── The Old Guard 2 (2025) WEBDL-2160p.mkv\n├── The Rip (2026)\n│   └── The Rip (2026) WEBDL-2160p.mkv\n├── The Roses (2025)\n│   └── The Roses (2025) WEBDL-2160p.mp4\n├── The_Super_Mario_Bros_Movie_2023_1080p_Bluray_DD+5_1_NL_Gespr\n│   └── The_Super_Mario_Bros_Movie_2023_1080p_Bluray_DD+5_1_NL_Gespr.mkv\n├── The Thursday Murder Club (2025)\n│   └── The Thursday Murder Club (2025) WEBDL-2160p.mkv\n├── The Union (2024)\n│   └── The Union (2024) WEBDL-2160p.mkv\n├── The Woman in Cabin 10 (2025)\n│   └── The Woman in Cabin 10 (2025) WEBDL-2160p.mkv\n├── The Woman King (2022)\n│   └── The Woman King (2022) Remux-2160p.mkv\n├── The Wrong Paris (2025)\n│   └── The Wrong Paris (2025) WEBDL-1080p.mkv\n├── The Zone of Interest (2023)\n│   └── The Zone of Interest (2023) WEBDL-2160p.mkv\n├── Top Gun Maverick (2022)\n│   └── Top Gun Maverick (2022) WEBDL-2160p.mkv\n├── TRON Ares (2025)\n│   └── TRON Ares (2025) WEBDL-2160p.mkv\n├── Twisters (2024)\n│   └── Twisters (2024) WEBDL-2160p.mkv\n├── Wake Up Dead Man A Knives Out Mystery (2025)\n│   └── Wake Up Dead Man A Knives Out Mystery (2025) WEBDL-2160p.mkv\n├── Wicked (2024)\n│   └── Wicked (2024) WEBDL-2160p.mkv\n├── Wicked For Good (2025)\n│   └── Wicked For Good (2025) WEBDL-2160p.mkv\n├── Wicked Little Letters (2024)\n│   └── Wicked Little Letters (2024) WEBDL-2160p.mkv\n├── Wolfs (2024)\n│   └── Wolfs (2024) WEBDL-2160p.mkv\n├── Wonka (2023) BluRay 2160p DV HDR TrueHD Atmos AC3 HEVC NL-RetailSub REMUX + NL gesproken\n│   └── Wonka (2023) BluRay 2160p DV HDR TrueHD Atmos AC3 HEVC NL-RetailSub REMUX + NL gesproken.mkv\n└── Zack Snyder's Justice League (2021)\n    └── Zack Snyder's Justice League (2021) Bluray-2160p.mkv\n\n110 directories, 117 files",
+    "timestamp": "2026-04-13T14:47:39.862Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 49,
+    "type": "user",
+    "message": "ik zie dat die over 30 seconden gaat beginnen met dowloaden van missing trailers",
+    "timestamp": "2026-04-13T14:48:16.419Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 50,
+    "type": "user",
+    "message": "doet die alleen films die in folders staan downloaden?\n\nDownload Skipped\nPrey Skipped: Folder does not exist\nSystem\nDownloadMissingTrailers\n10 seconds ago\nDownload Skipped\nPoor Things Skipped: Folder does not exist\nSystem\nDownloadMissingTrailers\n11 seconds ago\nDownload Skipped\nZack Snyder's Justice League Skipped: Folder does not exist\nSystem\nDownloadMissingTrailers\n12 seconds ago\nDownload Skipped\nRoad House Skipped: Folder does not exist\nSystem\nDownloadMissingTrailers\n13 seconds ago\nDownload Skipped\nThe Gray Man Skipped: Folder does not exist\nSystem\nDownloadMissingTrailers\n14 seconds ago\nDownload Skipped\n10,000 BC Skipped: Folder does not exist\nSystem\nDownloadMissingTrailers\n14 seconds ago\nDownload Skipped\nOppenheimer Skipped: Folder does not exist\nSystem\nDownloadMissingTrailers\n16 seconds ago\nDownload Skipped\nThe Woman King Skipped: Folder does not exist\nSystem\nDownloadMissingTrailers\n18 seconds ago\nDownload Skipped\nThe Northman Skipped: Folder does not exist\nSystem\nDownloadMissingTrailers\n19 seconds ago\nDownload Skipped\nAnyone But You Skipped: Folder does not exist\nSystem\nDownloadMissingTrailers\n19 seconds ago\nDownload Skipped\nA Haunting in Venice Skipped: Folder does not exist\nSystem",
+    "timestamp": "2026-04-13T14:49:09.636Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 51,
+    "type": "user",
+    "message": "ik heb dit gedaan:\n\nPath Mappings\nPath From\n/volume1/Media/Films/\nPath To\n/volume1/Media/Films/\n\n\nPath From\n/volume1/Media/Anime/\nPath To\n/volume1/Media/Anime/\n\n\nPath From\n/volume1/Media/Kinderfilms/\nPath To\n/volume1/Media/Kinderfilms/\n\n\nPath From\n/volume1/Media/Blu-Ray/\nPath To\n/volume1/Media/Blu-Ray/\n\n\n\nTest",
+    "timestamp": "2026-04-13T14:50:10.980Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 52,
+    "type": "user",
+    "message": "kan je een restart doen van de container",
+    "timestamp": "2026-04-13T14:53:39.379Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 53,
+    "type": "user",
+    "message": "ja nu werkt het",
+    "timestamp": "2026-04-13T14:55:55.677Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 54,
+    "type": "user",
+    "message": "denk ik:\n\nPiggy@Hobbithole-Nas:/volume1/Media/Films$ tree\n.\n├── 10,000 BC (2008)\n│   └── 10,000 BC (2008) BR-DISK.iso\n├── After (2019)\n│   └── After (2019) Bluray-1080p.mkv\n├── Against the Wild Survive the Serengeti\n│   └── Against the Wild Survive the Serengeti.ts\n├── A Haunting in Venice (2023)\n│   ├── A Haunting in Venice (2023)-trailer.mkv\n│   └── A Haunting in Venice (2023) WEBDL-2160p.mkv\n├── Alien.Romulus.2024.Hybrid.2160p.WEB-DL.DV.HDR.DDP5.1.Atmos.H265-AOC.(1)\n│   ├── Alien.Romulus.2024.Hybrid.2160p.WEB-DL.DV.HDR.DDP5.1.Atmos.H265-AOC.mkv\n│   ├── AOC.nfo\n│   └── Screens\n│       ├── mpv-shot0001.jpg\n│       ├── mpv-shot0002.jpg\n│       ├── mpv-shot0003.jpg\n│       ├── mpv-shot0004.jpg\n│       ├── mpv-shot0005.jpg\n│       ├── mpv-shot0006.jpg\n│       ├── mpv-shot0007.jpg\n│       └── mpv-shot0008.jpg\n├── A Minecraft Movie (2025) BluRay 2160p DV HDR TrueHD Atmos AC3 HEVC NL-RetailSub + NL + VL Gesproken REMUX-KaPPa\n│   └── A Minecraft Movie (2025) BluRay 2160p DV HDR TrueHD Atmos AC3 HEVC NL-RetailSub + NL + VL Gesproken REMUX-KaPPa.mkv\n├── Anaconda (2025)\n│   └── Anaconda (2025) WEBDL-2160p.mp4\n├── Anyone But You (2023)\n│   └── Anyone But You (2023) WEBDL-2160p.mkv\n├── Argylle (2024) 2160p DV HDR WEB-DL DDP 5.1 Atmos HEVC NL-RetailSub.mkv\n├── Arthur the King (2024)\n│   └── Arthur the King (2024) WEBDL-2160p.mkv\n├── Assepoester en de geheime prins\n│   └── Assepoester en de geheime prins.ts\n├── Avatar Fire and Ash (2025)\n│   └── Avatar Fire and Ash (2025) WEBDL-2160p.mkv\n├── Avontuur in de wildernis\n│   └── Avontuur in de wildernis.ts\n├── Braveheart (1995)\n│   └── Braveheart (1995) Remux-2160p.mkv\n├── Bridget Jones Mad About the Boy (2025)\n│   └── Bridget Jones Mad About the Boy (2025) WEBDL-2160p.mkv\n├── Brothers (2024) WebDl 2160p DV HDR+ DDP 5_1 Atmos H265 NL-RetailSub-KaPPa\n│   └── Brothers (2024) WebDl 2160p DV HDR+ DDP 5.1 Atmos H265 NL-RetailSub-KaPPa.mkv\n├── Bugonia (2025)\n│   └── Bugonia (2025) WEBDL-2160p.mkv\n├── Challengers (2024)\n│   └── Challengers (2024) WEBDL-2160p.mkv\n├── Civil War (2024)\n│   └── Civil War (2024) WEBDL-2160p.mkv\n├── Clash_of_the_Titans_2010_2160p_UHD_Blu-ray_REMUX_DV_HDR_HEVC_DTS-HD_MA_5_1-W32\n│   └── Clash.of.the.Titans.2010.2160p.UHD.Blu-ray.REMUX.DV.HDR.HEVC.DTS-HD.MA.5.1-W32.mkv\n├── Deadpool.and.Wolverine.2024.UHD.BluRay.2160p.TrueHD.Atmos.7.1.DV.HEVC.REMUX-FraMeSToR\n│   └── Deadpool.and.Wolverine.2024.UHD.BluRay.2160p.TrueHD.Atmos.7.1.DV.HEVC.REMUX-FraMeSToR.mkv\n├── Despicable Me 4 (2024)\n│   └── Despicable Me 4 (2024) WEBDL-2160p.mkv\n├── Downton Abbey The Grand Finale (2025)\n│   └── Downton Abbey The Grand Finale (2025) Bluray-2160p.mkv\n├── Dracula.1931.UHD.BluRay.2160p.FLAC.1.0.HEVC.REMUX-FraMeSToR\n│   └── Dracula.1931.UHD.BluRay.2160p.FLAC.1.0.HEVC.REMUX-FraMeSToR.mkv\n├── Dune Part Two (2024)\n│   └── Dune Part Two (2024) WEBDL-2160p Proper.mkv\n├── Dungeons & Dragons Honor Among Thieves (2023)\n│   └── Dungeons & Dragons Honor Among Thieves (2023) Remux-2160p.mkv\n├── @eaDir\n├── Eddington (2025)\n│   └── Eddington (2025) Bluray-2160p.mkv\n├── Eden (2025)\n│   └── Eden (2025) WEBDL-2160p.mkv\n├── F1 (2025)\n│   └── F1 (2025) WEBDL-2160p Proper.mkv\n├── Flight Risk (2025)\n│   └── Flight Risk (2025) Remux-2160p.mkv\n├── Formule 1 - F1 Kwalificatie Grand Prix Van Singapore\n│   └── Formule 1 - F1 Kwalificatie Grand Prix Van Singapore .ts\n├── Formule 1 - F1 Vrije Training 2 Grand Prix Van Italie\n│   └── Formule 1 - F1 Vrije Training 2 Grand Prix Van Italie .ts\n├── Frankenstein (2025)\n│   └── Frankenstein (2025) WEBDL-2160p.mkv\n├── Furiosa A Mad Max Saga (2024)\n│   └── Furiosa A Mad Max Saga (2024) WEBDL-2160p.mkv\n├── Gladiator II (2024)\n│   └── Gladiator II (2024) WEBDL-2160p.mkv\n├── Godzilla x Kong The New Empire (2024)\n│   └── Godzilla x Kong The New Empire (2024) WEBDL-2160p.mkv\n├── Guillermo Del Toros Pinocchio (2022) BluRay 2160p DV HDR TrueHD AC3 HEVC NL-RetailSub REMUX + NL gesproken\n│   └── Guillermo Del Toros Pinocchio (2022) BluRay 2160p DV HDR TrueHD AC3 HEVC NL-RetailSub REMUX + NL gesproken.mkv\n├── Heidi (1937) - FHD zwart_wit - Topaz - NLsub\n│   └── Heidi.(1937).mkv\n├── Horizon An American Saga - Chapter 1 (2024)\n│   └── Horizon An American Saga - Chapter 1 (2024) WEBDL-2160p.mkv\n├── Hot Frosty (2024)\n│   └── Hot Frosty (2024) WEBDL-1080p.mkv\n├── How to Train Your Dragon (2025)\n│   └── How to Train Your Dragon (2025) Bluray-2160p Proper.mkv\n├── In Bruges (2008)\n│   └── In Bruges (2008) Remux-2160p.mkv\n├── Indiana Jones and the Dial of Destiny (2023)\n│   └── Indiana Jones and the Dial of Destiny (2023) Remux-2160p.mkv\n├── Jerry & Marge Go Large (2022)\n│   └── Jerry & Marge Go Large (2022) Remux-1080p.mkv\n├── Jurassic.Park.1993.2160p.BluRay.REMUX.HEVC.DTS-X.7.1-FGT\n│   └── Jurassic.Park.1993.2160p.BluRay.REMUX.HEVC.DTS-X.7.1-FGT.mkv\n├── Kingdom of the Planet of the Apes (2024)\n│   └── Kingdom of the Planet of the Apes (2024) Remux-2160p.mkv\n├── Madame Web (2024)\n│   └── Madame Web (2024) WEBDL-2160p.mkv\n├── Marty Supreme (2025)\n│   └── Marty Supreme (2025) Bluray-2160p.mp4\n├── Miller's Girl (2024)\n│   └── Miller's Girl (2024) WEBDL-2160p.mkv\n├── Mission Impossible - The Final Reckoning (2025)\n│   └── Mission Impossible - The Final Reckoning (2025) WEBDL-2160p.mkv\n├── Mufasa The Lion King (2024)\n│   └── Mufasa The Lion King (2024) Bluray-2160p Proper.mkv\n├── No Hard Feelings (2023)\n│   └── No Hard Feelings (2023) WEBDL-2160p.mkv\n├── NOS De Avondetappe\n│   └── NOS De Avondetappe.ts\n├── No Way Up (2024)\n│   └── No Way Up (2024) Remux-1080p.mkv\n├── Now You See Me Now You Don't (2025)\n│   └── Now You See Me Now You Don't (2025) WEBDL-2160p.mkv\n├── Nuremberg (2025)\n│   └── Nuremberg (2025) Remux-1080p.mkv\n├── One Battle After Another (2025)\n│   └── One Battle After Another (2025) WEBDL-2160p.mp4\n├── Oppenheimer (2023)\n│   └── Oppenheimer (2023) BluRay 2160p HDR DTS-HD AC3 HEVC NL-RetailSub REMUX.mkv\n├── Pirates.of.the.Caribbean.At.Worlds.End.2007.2160p.UHD.Theater.SDR.REMUX.HEVC.PCM.7.1.4-NaNi\n│   └── Pirates.of.the.Caribbean.At.Worlds.End.2007.2160p.UHD.Theater.SDR.REMUX.HEVC.PCM.7.1.4-NaNi.mkv\n├── Playdate (2025)\n│   └── Playdate (2025) WEBDL-2160p.mp4\n├── Poor Things (2023)\n│   └── Poor Things (2023) WEBDL-2160p.mkv\n├── Predator Badlands (2025)\n│   └── Predator Badlands (2025) WEBDL-2160p.mkv\n├── Prey (2022)\n│   └── Prey (2022) Remux-2160p.mkv\n├── Prey (2024)\n│   └── Prey (2024) WEBRip-1080p.mp4\n├── Prey_2024_1080p_WEB-DL_EAC3_DDP5_1_H264_GP-M-NLsubs\n│   └── Prey.2024.1080p.WEB-DL.EAC3.DDP5.1.H264.GP-M-NLsubs.mkv\n├── Rat Race\n│   └── Rat Race.ts\n├── Rebel Moon - Part Two The Scargiver (2024)\n│   └── Rebel Moon - Part Two The Scargiver (2024) WEBDL-2160p.mkv\n├── Red One (2024)\n│   └── Red One (2024) WEBDL-2160p Proper.mkv\n├── Red Right Hand (2024)\n│   └── Red Right Hand (2024) Remux-1080p.mkv\n├── Regretting You (2025)\n│   └── Regretting You (2025) WEBDL-2160p.mkv\n├── Road House (2024)\n│   └── Road House (2024) WEBDL-2160p.mkv\n├── Roofman (2025)\n│   └── Roofman (2025) WEBDL-2160p.mkv\n├── Sinners (2025)\n│   └── Sinners (2025) WEBDL-2160p.mkv\n├── Superman (2025)\n│   └── Superman (2025) WEBDL-2160p.mkv\n├── The Bikeriders (2024)\n│   └── The Bikeriders (2024) WEBDL-2160p.mkv\n├── The Dead Don't Hurt (2024)\n│   └── The Dead Don't Hurt (2024) WEBDL-1080p.mkv\n├── The Fall Guy (2024)\n│   └── The Fall Guy (2024) WEBDL-2160p.mkv\n├── The Family Plan 2 (2025)\n│   └── The Family Plan 2 (2025) WEBDL-2160p.mkv\n├── The Fantastic 4 First Steps (2025)\n│   └── The Fantastic 4 First Steps (2025) WEBDL-2160p.mp4\n├── The Gray Man (2022)\n│   └── The Gray Man (2022) WEBRip-2160p.mkv\n├── The_Guernsey_Literary_and_Potato_Peel_Pie_Society_2018_2160p_WEB_H265-SLOT\n│   └── The.Guernsey.Literary.and.Potato.Peel.Pie.Society.2018.2160p.WEB.H265-SLOT.mkv\n├── The Hunger Games The Ballad of Songbirds & Snakes (2023)\n│   └── The Hunger Games The Ballad of Songbirds & Snakes (2023) WEBDL-2160p.mkv\n├── The Instigators (2024)\n│   └── The Instigators (2024) WEBDL-2160p.mkv\n├── The_King's_Man_2021_Hybrid_2160p_UHD_BluRay_TrueHD_Atmos_7.1_HDR10+_DoVi_x265-LEGi0N\n│   └── The King's Man 2021 Hybrid 2160p UHD BluRay TrueHD Atmos 7.1 HDR10+ DoVi x265-LEGi0N.mkv\n├── The Little Mermaid (2023)\n│   └── The Little Mermaid (2023) Remux-2160p.mkv\n├── The Ministry of Ungentlemanly Warfare (2024)\n│   └── The Ministry of Ungentlemanly Warfare (2024) Remux-2160p.mkv\n├── The Naked Gun (2025)\n│   └── The Naked Gun (2025) WEBDL-2160p.mkv\n├── The Northman (2022)\n│   └── The Northman (2022) Remux-2160p.mkv\n├── The Old Guard 2 (2025)\n│   └── The Old Guard 2 (2025) WEBDL-2160p.mkv\n├── The Rip (2026)\n│   └── The Rip (2026) WEBDL-2160p.mkv\n├── The Roses (2025)\n│   └── The Roses (2025) WEBDL-2160p.mp4\n├── The_Super_Mario_Bros_Movie_2023_1080p_Bluray_DD+5_1_NL_Gespr\n│   └── The_Super_Mario_Bros_Movie_2023_1080p_Bluray_DD+5_1_NL_Gespr.mkv\n├── The Thursday Murder Club (2025)\n│   └── The Thursday Murder Club (2025) WEBDL-2160p.mkv\n├── The Union (2024)\n│   └── The Union (2024) WEBDL-2160p.mkv\n├── The Woman in Cabin 10 (2025)\n│   └── The Woman in Cabin 10 (2025) WEBDL-2160p.mkv\n├── The Woman King (2022)\n│   └── The Woman King (2022) Remux-2160p.mkv\n├── The Wrong Paris (2025)\n│   └── The Wrong Paris (2025) WEBDL-1080p.mkv\n├── The Zone of Interest (2023)\n│   └── The Zone of Interest (2023) WEBDL-2160p.mkv\n├── Top Gun Maverick (2022)\n│   └── Top Gun Maverick (2022) WEBDL-2160p.mkv\n├── TRON Ares (2025)\n│   └── TRON Ares (2025) WEBDL-2160p.mkv\n├── Twisters (2024)\n│   └── Twisters (2024) WEBDL-2160p.mkv\n├── Wake Up Dead Man A Knives Out Mystery (2025)\n│   └── Wake Up Dead Man A Knives Out Mystery (2025) WEBDL-2160p.mkv\n├── Wicked (2024)\n│   └── Wicked (2024) WEBDL-2160p.mkv\n├── Wicked For Good (2025)\n│   └── Wicked For Good (2025) WEBDL-2160p.mkv\n├── Wicked Little Letters (2024)\n│   └── Wicked Little Letters (2024) WEBDL-2160p.mkv\n├── Wolfs (2024)\n│   └── Wolfs (2024) WEBDL-2160p.mkv\n├── Wonka (2023) BluRay 2160p DV HDR TrueHD Atmos AC3 HEVC NL-RetailSub REMUX + NL gesproken\n│   └── Wonka (2023) BluRay 2160p DV HDR TrueHD Atmos AC3 HEVC NL-RetailSub REMUX + NL gesproken.mkv\n└── Zack Snyder's Justice League (2021)\n    └── Zack Snyder's Justice League (2021) Bluray-2160p.mkv\n\n110 directories, 118 files",
+    "timestamp": "2026-04-13T14:56:34.186Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 55,
+    "type": "user",
+    "message": "ja die haunting in venice werkt inderdaad. Oke ik had de plugin cinemamode ook al gedownload dat is ervoor zodat trailer starten voordat je film gaat kijken toch?",
+    "timestamp": "2026-04-13T14:58:23.664Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 56,
+    "type": "user",
+    "message": "dit zijn de instellingen die ik zie:\n\nCinema Mode\nThis plugin allows users to enable Jellyfin's Cinema Mode functionality to play intro content before movies. The plugin supports three types of intros: Trailer Pre-Rolls, Trailers, and Feature Pre-Rolls. Each of these can be configured/turned off in the sections below. All of this can be disabled at the user level by turning off Cinema Mode in the users Playback settings. For more information, access the user guide via the above help button. Pro-tip: Skip any pre-roll or trailer by pressing the next button in the player.\n\nCinema Mode Diagram\nDiagram illustrating the order in which the three intro types (Trailer Pre-Rolls, Trailers, and Feature Pre-Rolls) will be shown\n\n\nTrailer Pre-Rolls\nTrailer Pre-Roll Library\n\nFilms\nLibrary containing media to play before a block of trailers. Setting this to \"-\" will disable this section.\nSelection Rules\n\nIgnore Out Of Season\nIgnore any pre-roll that has a seasonal tag not currently in season.\n\nEnforce Rating Limit\nPre-Roll's assigned a rating will not be selected if it exceeds the features rating. Pre-Roll's not assigned a rating are considered suitable for all features.\n\nTrailers\nNumber of Trailers \n0\nThe number of trailers to play. Setting at 0 will turn this section off.\nSelection Rules\n\nConsume Mode\nConsume mode plays only one trailer from a selection rule before moving to the next.\n\nEnforce Rating Limit\nEnsures the rating of the trailer content does not exceed that of the feature (i.e. trailers for an \"R\" rated movie will not be shown before a \"PG-13\" movie). This setting will cause any unrated content to have no trailers played prior and not be shown as a trailer. In this case unrated refers to any content where the \"Parental Rating\" meta data field is marked \"Unrated\" or left blank.\n\nFeature Pre-Rolls\nPre-Roll Library\n\nFilms\nLibrary containing media to play before the feature. Setting this to \"-\" will disable this section.\nSelection Rules\n\nIgnore Out Of Season\nIgnore any pre-roll that has a seasonal tag not currently in season.\n\nEnforce Rating Limit\nPre-Roll's assigned a rating will not be selected if it exceeds the features rating. Pre-Roll's not assigned a rating are considered suitable for all features.\n\nSeasonal Tag Definitions\nYears in the 'Start Date' and 'End Date' will be ignored by the plugin. The Month and Day are the only relevant information and the definitions do not need to be updated every year.",
+    "timestamp": "2026-04-13T15:00:54.668Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 57,
+    "type": "user",
+    "message": "oke ik heb het aan staan voor mij als het goed is. kan ik nu een willekeurige film starten en dan laat die een trailer zien?",
+    "timestamp": "2026-04-13T15:04:23.514Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 58,
+    "type": "user",
+    "message": "ahh ik moet even wachten denk ik tot alle trailers zijn gedownload. nu opent die niet een trailer maar een wilekeurige film. Maar dat komt waarschijnlijk omdat ik een folder voor de trailers moest aanwijzen. Maar Trailer zet de trailers in de folder van de films toch?",
+    "timestamp": "2026-04-13T15:06:14.992Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 59,
+    "type": "user",
+    "message": "ja nu doet die het wel inderdaad. helemaal top maar kan je het ook skippen als je het niet wilt zien?",
+    "timestamp": "2026-04-13T15:07:42.854Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 60,
+    "type": "user",
+    "message": "ja helemaal top het werkt allebei",
+    "timestamp": "2026-04-13T15:08:03.588Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 61,
+    "type": "user",
+    "message": "oke ik heb nu weer een nieuwe gebruiker aangemaakt in jellyfin alleen JFA-GO pakt hem weer niet op als nieuwe gebruikers template. hoe had ik dat gisteren opgelost?",
+    "timestamp": "2026-04-14T08:42:36.805Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 62,
+    "type": "user",
+    "message": "oja dat was ook zo in safari zie je die knop niet.",
+    "timestamp": "2026-04-14T08:43:28.564Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 63,
+    "type": "user",
+    "message": "is niet nodig ik heb het nu al gefixt",
+    "timestamp": "2026-04-14T08:43:52.208Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 64,
+    "type": "user",
+    "message": "het is gen avond meer:P",
+    "timestamp": "2026-04-14T08:46:09.696Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 65,
+    "type": "user",
+    "message": "wat welnee joh het is nu 10,46 uur in de ochtend",
+    "timestamp": "2026-04-14T08:46:31.079Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 66,
+    "type": "user",
+    "message": "dus ik heb nu redelijk wat containers lopen. maar vel lopen er via portainer (via stacks), ik heb toch het idee dat zelf de yml's maken beter is dan met portainer beheren omdat ik nu moeilijk naar die yml's kan in terminal",
+    "timestamp": "2026-04-14T08:48:01.019Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 67,
+    "type": "user",
+    "message": "volgens mij kan je de yml bestanden wel inzien in terminal in portainer alleen moet je de juiste foldernaam hebben toch?",
+    "timestamp": "2026-04-14T08:49:45.877Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 68,
+    "type": "user",
+    "message": "laten we kijken wel docker servers allemaal lopen momenteel welke nog in portainer draaien en die dan overzetten. Dan doen we namelijk eerst de containers die ik gebruik. Maar voor we overzetten eerst opsommen welke het is want misschien moet ik backups maken (voor de zekerheid) voordat we over gaan zetten.",
+    "timestamp": "2026-04-14T08:51:41.824Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 69,
+    "type": "user",
+    "message": "heb zojuist een backup gemaakt van Jellyfin, die staat hier:\n\n2026-04-14T08:55:47.8703828+00:00\nPad\n\n/config/data/backups/jellyfin-backup-20260414105547.zip",
+    "timestamp": "2026-04-14T08:56:40.119Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 70,
+    "type": "user",
+    "message": "Piggy4real!",
+    "timestamp": "2026-04-14T08:58:03.549Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 71,
+    "type": "user",
+    "message": "heb je de backups ook gekopieerd dan?",
+    "timestamp": "2026-04-14T08:58:52.793Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 72,
+    "type": "user",
+    "message": "ja het werkt nog steeds als vanouds",
+    "timestamp": "2026-04-14T09:00:13.557Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 73,
+    "type": "user",
+    "message": "Ollama mag weg die hoeft niet meer. mmm pdf sterling mag in principe wel overgezet worden",
+    "timestamp": "2026-04-14T09:01:19.131Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 74,
+    "type": "user",
+    "message": "ja ollama mag gestopt en verwijderd worden",
+    "timestamp": "2026-04-14T09:02:58.153Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 75,
+    "type": "user",
+    "message": "de stack is gestopt.",
+    "timestamp": "2026-04-14T09:05:56.929Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 76,
+    "type": "user",
+    "message": "ja maar jellyfin werkt nog niet ik heb die stack nu pas uitgezet.",
+    "timestamp": "2026-04-14T09:08:16.965Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 77,
+    "type": "user",
+    "message": "ik zie in portainer ook nog een JFA Go draaien die kan ik uitzetten toch?",
+    "timestamp": "2026-04-14T09:09:11.935Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 78,
+    "type": "user",
+    "message": "oh wacht ik zie de jellyfin container ook weer aan staan in portainer. Is dat onze yml of die van portainer dan nog? laat portainer zien welke containers actief zijn zonder dat ik ze heb ingeladen?",
+    "timestamp": "2026-04-14T09:10:05.376Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 79,
+    "type": "user",
+    "message": "de stack van jellyfin is inactive, als ik die verwijder doet die dan niet de container ook verwijderen?",
+    "timestamp": "2026-04-14T09:13:01.376Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 80,
+    "type": "user",
+    "message": "oke de stack is gedelete",
+    "timestamp": "2026-04-14T09:13:59.028Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 81,
+    "type": "user",
+    "message": "oke verwijderd",
+    "timestamp": "2026-04-14T09:15:53.871Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 82,
+    "type": "user",
+    "message": "oke verwijderd",
+    "timestamp": "2026-04-14T09:17:01.215Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 83,
+    "type": "user",
+    "message": "oke verwijderd maar mtatube server hoeft niet aangezet te worden.",
+    "timestamp": "2026-04-14T09:18:46.502Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 84,
+    "type": "user",
+    "message": "nee we doen gelijk alles zodat het maar goed staat.",
+    "timestamp": "2026-04-14T09:19:24.299Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 85,
+    "type": "user",
+    "message": "oke verwijderd",
+    "timestamp": "2026-04-14T09:22:57.492Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 86,
+    "type": "user",
+    "message": "ja dat lijkt mij en goed idee",
+    "timestamp": "2026-04-14T09:25:11.425Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 87,
+    "type": "user",
+    "message": "ik heb ze alle 3 verwijderd",
+    "timestamp": "2026-04-14T09:33:46.068Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 88,
+    "type": "user",
+    "message": "mmm zullen we even een changelog aanmaken zodat we weten wat we vandaag gedaan hebben? wel handig voor de volgende keer als ik verder wil.",
+    "timestamp": "2026-04-14T09:39:42.928Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 89,
+    "type": "user",
+    "message": "wat is het pad naar het document?",
+    "timestamp": "2026-04-14T09:41:52.334Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 90,
+    "type": "user",
+    "message": "dat is prima",
+    "timestamp": "2026-04-14T09:42:13.263Z"
+  },
+  {
+    "sessionId": "ae8d734e-b033-44b3-b008-047469273420",
+    "messageId": 91,
+    "type": "user",
+    "message": "/quit",
+    "timestamp": "2026-04-14T09:45:25.396Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 0,
+    "type": "user",
+    "message": "/resume",
+    "timestamp": "2026-04-14T09:50:49.276Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 1,
+    "type": "user",
+    "message": "oke ik zag dat ik in de docker folder heel veel gemini-tui-v4 bestanden heb. die mogen verplaatst worden naar de folder Documenten/backups in een nieuwe folder \"Legacy\"",
+    "timestamp": "2026-04-14T09:51:53.047Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 2,
+    "type": "user",
+    "message": "ja is goed",
+    "timestamp": "2026-04-14T10:10:56.870Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 3,
+    "type": "user",
+    "message": "heb ik ook de streammaster in docker?",
+    "timestamp": "2026-04-14T10:18:43.317Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 4,
+    "type": "user",
+    "message": "als die al 13 dagen uit staat betknd het dat het ergens staat. waarschijnlijk in portainer dan",
+    "timestamp": "2026-04-14T10:26:44.145Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 5,
+    "type": "user",
+    "message": "moeten we hem anders even starten zodat ik kan kijken of er een backup gemaakt kan worden. dan houden we weer precies dezelfde staat als nu",
+    "timestamp": "2026-04-14T10:31:25.845Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 6,
+    "type": "user",
+    "message": "helaas ik kan geen backup maken. het werkt wel en alles staat erin wat ik nog had. is er nergens een bestand te vinden di de inhoudt opslaat?",
+    "timestamp": "2026-04-14T11:04:32.380Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 7,
+    "type": "user",
+    "message": "waarom een nieuwe poort als de oude werkt? laat op de oude poort staan. dan oude stoppen en verwijderen.",
+    "timestamp": "2026-04-14T11:16:31.318Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 8,
+    "type": "user",
+    "message": "jazeker",
+    "timestamp": "2026-04-14T11:22:49.212Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 9,
+    "type": "user",
+    "message": "ik zie dat je hem op 8080 heb gezet of niet? maar dat is de poort van sabnzb?",
+    "timestamp": "2026-04-14T11:24:20.634Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 10,
+    "type": "user",
+    "message": "ja hij werkt weer met alle info erin helemaal top",
+    "timestamp": "2026-04-14T11:30:23.786Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 11,
+    "type": "user",
+    "message": "oke dus ik kan eigenlijk alle images enz. die in portainer staan verwijderen?",
+    "timestamp": "2026-04-14T12:29:16.825Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 12,
+    "type": "user",
+    "message": "en?",
+    "timestamp": "2026-04-14T12:34:35.071Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 13,
+    "type": "user",
+    "message": "ik snap niet wat ik moet doen in die shell ik zie het niet?",
+    "timestamp": "2026-04-14T12:41:41.077Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 14,
+    "type": "user",
+    "message": "dat werkt niet op deze manier ik zie geen optie. maar we kunnen vast veel besparen kan je het niet oplossen met een ander command die geen shell input nodig heeft.",
+    "timestamp": "2026-04-14T12:46:01.744Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 15,
+    "type": "user",
+    "message": "nee check eerst even die folder na anders dan kan je toch ook zien wat we kunnen wissen? want niet alles wat uit staat hoeft gewist te worden",
+    "timestamp": "2026-04-14T12:47:36.020Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 16,
+    "type": "user",
+    "message": "we doen eerst stap 1",
+    "timestamp": "2026-04-14T12:49:46.272Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 17,
+    "type": "user",
+    "message": "dat werkt niet ik kan niks doen in de shell kan je niet een normale command ervan maken of doe je een command waar het wachtwoord voor nodig is ofso?",
+    "timestamp": "2026-04-14T13:02:52.527Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 18,
+    "type": "user",
+    "message": "geef mij anders de command dan voer ik hem uit.",
+    "timestamp": "2026-04-14T13:06:28.613Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 19,
+    "type": "user",
+    "message": "we hadden beter met trace kunnen doen maarja ben nu al bezig",
+    "timestamp": "2026-04-14T13:10:59.508Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 20,
+    "type": "user",
+    "message": "Total reclaimed space: 199.5GB",
+    "timestamp": "2026-04-14T13:39:44.609Z"
+  },
+  {
+    "sessionId": "55faa6e5-b7f3-45a9-90b7-9683c3abf5c0",
+    "messageId": 21,
+    "type": "user",
+    "message": "/quit",
+    "timestamp": "2026-04-14T14:18:49.615Z"
+  },
+  {
+    "sessionId": "14ed1db4-d33b-4b94-a2b6-bc4a4a119d01",
+    "messageId": 0,
+    "type": "user",
+    "message": "/quit",
+    "timestamp": "2026-04-17T07:49:03.322Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 0,
+    "type": "user",
+    "message": "Wat de screenshot laat zien\n\n• Process: dockerd (PID 22734) — de Docker‑service die alle containers beheert.\n• User: root — normaal voor de daemon.\n• Status: “Sleeping” — kan kloppen voor de daemon, maar zegt niet dat er geen activiteit is.\n• CPU 223.5% — dit is een samengestelde waarde over meerdere cores (bijv. 2.2 cores). Het kan ook een meetfout of UI‑sampling artefact zijn.\n\n\n---\n\nWaarom dockerd zelf CPU kan gebruiken\n\n• Dockerd kan CPU gebruiken bij veel I/O, netwerk‑NAT, image pulls, of wanneer veel container‑events/logging plaatsvinden.\n• Vaak is de daadwerkelijke werkende load wél in een container‑proces; dockerd kan echter ook zelf werk doen (overlayfs, image GC, log‑driver, etc.).\n\n\n---\n\nSnelle stappen om de schuldige container te vinden\n\n1. Bekijk realtime container‑gebruik\n\n\ndocker stats --no-stream\n\n\nToont CPU/memory per container.\n\n1. Zoek processen die bij de daemon horen (cgroup → container id)\n\n\nsudo cat /proc/22734/cgroup\n\n\nAls dit een container‑PID is, zie je een container id; voor dockerd zie je meestal daemon‑cgroups.\n\n1. Als je een verdachte container‑ID hebt, check details\n\n\ndocker ps --filter id=<container-id> --no-trunc\ndocker inspect <container-id> --format '{{.Name}} {{.State.Status}} {{.HostConfig.CpuShares}}'\ndocker top <container-id>\n\n\n1. Als dockerd zelf veel CPU gebruikt, kijk naar kernel/IO of logging\n\n\n• Check syslog/journal: sudo journalctl -u docker -n 200\n• Check disk IO: iotop -ao (als beschikbaar)\n• Check overlayfs activity: sudo dstat -dny of sudo iostat -xz 1 3\n\n\n1. Kort en krachtig: combineer ps + docker\n\n\n# lijst processen met PID en command\nps -eo pid,ppid,cmd,%cpu --sort=-%cpu | head -n 20\n\n# als je een PID binnen een container wilt mappen:\nsudo cat /proc/<pid>/cgroup\n\n\n---",
+    "timestamp": "2026-04-18T19:50:35.014Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 1,
+    "type": "user",
+    "message": "doe nog eens een keer",
+    "timestamp": "2026-04-18T20:05:46.984Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 2,
+    "type": "user",
+    "message": "heb je ze al uitgezet?",
+    "timestamp": "2026-04-18T20:08:50.113Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 3,
+    "type": "user",
+    "message": "oh volgens mij draait jellfin al niet meer namelijk",
+    "timestamp": "2026-04-18T20:09:22.313Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 4,
+    "type": "user",
+    "message": "ja zet jellyfin aan",
+    "timestamp": "2026-04-18T20:09:50.367Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 5,
+    "type": "user",
+    "message": "doe ook die nginxclear",
+    "timestamp": "2026-04-18T20:13:53.850Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 6,
+    "type": "user",
+    "message": "clear",
+    "timestamp": "2026-04-18T20:13:58.937Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 7,
+    "type": "user",
+    "message": "doe die nginx server opstarten",
+    "timestamp": "2026-04-18T20:14:11.119Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 8,
+    "type": "user",
+    "message": "ik denkd at het kwam omdat er een film aan het transcoderen was dus ja zet trailarr aan",
+    "timestamp": "2026-04-18T20:14:54.960Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 9,
+    "type": "user",
+    "message": "is dat erg als dat gebeurt?",
+    "timestamp": "2026-04-18T20:15:46.412Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 10,
+    "type": "user",
+    "message": "weet jij of ik een hdd uit de nas man halen zonder data stuk te maken?",
+    "timestamp": "2026-04-18T21:42:14.896Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 11,
+    "type": "user",
+    "message": "ja controleer",
+    "timestamp": "2026-04-18T21:44:08.208Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 12,
+    "type": "user",
+    "message": "ik wil hem eruit halen om in mijn nieuwe nas te stoppen.",
+    "timestamp": "2026-04-18T21:46:05.282Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 13,
+    "type": "user",
+    "message": "mm nee ik denk dat ik voorlopig allebei laat staan maar wil alvast een grotere schijf erin plaatsen. ik vind het niet erg als data kwijt raakt. maar het liefst wil ik proberen te bewaren dus ik zat te denken om bijvoorbeeld 1 schijf op te offeren en dan op die manier data over te zetten ik wil 15tb bewaren volgens mij is dat de max",
+    "timestamp": "2026-04-18T21:49:27.272Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 14,
+    "type": "user",
+    "message": "ja en wat er op die 8tb schijf staat kan je daar een document van maken en weg schrijven naar de folder Documenten. dan kan ik het later nog eens terug kijken",
+    "timestamp": "2026-04-18T21:51:36.560Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 15,
+    "type": "user",
+    "message": "ja",
+    "timestamp": "2026-04-18T22:01:21.971Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 16,
+    "type": "user",
+    "message": "ja dat is geen probleem want die docker folde rkan bijna helemaal weg ik denk dat er ook nog wel modellen op geinstalleerd staan en anders zijn het backups die ik even moet uitzoeken",
+    "timestamp": "2026-04-18T22:03:21.449Z"
+  },
+  {
+    "sessionId": "4fe444aa-c920-4154-964d-bd1f59567635",
+    "messageId": 17,
+    "type": "user",
+    "message": "/quit",
+    "timestamp": "2026-05-03T20:39:48.876Z"
+  },
+  {
+    "sessionId": "441d47a4-cddb-4898-a681-b6972319f5ce",
+    "messageId": 0,
+    "type": "user",
+    "message": "/quit",
+    "timestamp": "2026-05-03T20:40:22.870Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 0,
+    "type": "user",
+    "message": "kan jij voor mijn in de docker folder een nieuwe aanmaken en compose voor pitchflat?",
+    "timestamp": "2026-05-03T20:41:38.978Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 1,
+    "type": "user",
+    "message": "oh sorry het is pinchflat",
+    "timestamp": "2026-05-03T20:42:16.752Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 2,
+    "type": "user",
+    "message": "ja doen maar",
+    "timestamp": "2026-05-03T20:43:14.708Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 3,
+    "type": "user",
+    "message": "het werkt perfect.",
+    "timestamp": "2026-05-04T15:38:01.460Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 4,
+    "type": "user",
+    "message": "ik zat te denken om toch heimdall ook te installeren met een en een subdomein voor hobbitholecinema.duckdns.org aan te maken zodat ik altijd bij alle containers kan die ik heb draaien.",
+    "timestamp": "2026-05-04T15:41:19.984Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 5,
+    "type": "user",
+    "message": "ik heb al een nginx server draaien dus daar hoef je niks voor te doen",
+    "timestamp": "2026-05-04T15:51:51.824Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 6,
+    "type": "user",
+    "message": "je moet network host gebruiken anders werkt het niet. tenminste ik heb nu geen toegang?",
+    "timestamp": "2026-05-04T15:52:14.509Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 7,
+    "type": "user",
+    "message": "kan jij trouwens wel al mijn ccontainers die momenteel draaien in heimdall koppelen?",
+    "timestamp": "2026-05-04T15:53:47.488Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 8,
+    "type": "user",
+    "message": "zorg jij maar dat heimdall al mijn docker containers ziet. ik heb heimdall al toegevoegd aan nginx server.",
+    "timestamp": "2026-05-04T16:12:56.953Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 9,
+    "type": "user",
+    "message": "mm ik kan hem niet bereiken",
+    "timestamp": "2026-05-04T16:19:46.325Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 10,
+    "type": "user",
+    "message": "ja het werkt en zie alle apps. maar kan je het dashboard ook nog een beetje mooier maken of kan dat niet?",
+    "timestamp": "2026-05-04T16:29:54.275Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 11,
+    "type": "user",
+    "message": "kan jij ook de containers op de homepagina zetten of moet ik dat zelf doen?",
+    "timestamp": "2026-05-04T16:35:09.471Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 12,
+    "type": "user",
+    "message": "nee dat was niet wat ik bedoelde. ik probeer zelf nog wel wat",
+    "timestamp": "2026-05-04T16:47:42.644Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 13,
+    "type": "user",
+    "message": "api key voor live statistieken zoals welke bedoel je?",
+    "timestamp": "2026-05-04T16:48:42.451Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 14,
+    "type": "user",
+    "message": "mmm kan dat ook voor sabnzb? dat is de enige voor mij die echte stats kan tonen. portainer gebruik ik niet meer.",
+    "timestamp": "2026-05-04T16:50:15.879Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 15,
+    "type": "user",
+    "message": "kan je in plaats van de  pagina die je net op de home pagina had gezet alle draaiende containers op de homepagina kunnen zetten? mij lukt het niet. zoals Jellyfin enz..",
+    "timestamp": "2026-05-04T17:39:39.069Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 16,
+    "type": "user",
+    "message": "moet je nog herstarten?",
+    "timestamp": "2026-05-04T17:41:45.693Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 17,
+    "type": "user",
+    "message": "nee ze staan allemaal in de applicatielijst maar geen een op de homedashboard behalve die searchbar dan.",
+    "timestamp": "2026-05-04T17:42:30.487Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 18,
+    "type": "user",
+    "message": "nee heel vreemd, ik heb net code server unpinnend en weer gepinnend maar het verschijnt gewoon niet op de home dashboard.",
+    "timestamp": "2026-05-04T17:47:21.532Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 19,
+    "type": "user",
+    "message": "ik kan beter zelf een landingspagina bouwen dat is makkelijker dan dit gebruiken....",
+    "timestamp": "2026-05-04T17:57:31.136Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 20,
+    "type": "user",
+    "message": "ja maar vind de functies die heimdall aanbied als achtegrond tegels en websites als snelkoppelingen toevoegen wel een goed idee",
+    "timestamp": "2026-05-04T17:59:37.595Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 21,
+    "type": "user",
+    "message": "ik heb toch al nginx draaien? of bedoel je dat niet",
+    "timestamp": "2026-05-04T18:00:43.613Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 22,
+    "type": "user",
+    "message": "ja is goed",
+    "timestamp": "2026-05-04T18:01:58.522Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 23,
+    "type": "user",
+    "message": "en kan ik dat zelf ook doen net als in heimdall? dat ik instellingen pagina krijg om dingen in te stellen?",
+    "timestamp": "2026-05-04T18:24:52.586Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 24,
+    "type": "user",
+    "message": "of we bouwen zelf een instellingen pagina en beginnen met achtergrond zelf veranderen als eerste instelling. dit is al prima voor nu maar kan dit als projectje erbij nemen;)",
+    "timestamp": "2026-05-04T18:27:27.832Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 25,
+    "type": "user",
+    "message": "oke dat is een goed begin. maar ik wil een volledige settings pagina hebben dus als je op die knop drukt wil ik een settings pagina zien.",
+    "timestamp": "2026-05-04T18:33:05.070Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 26,
+    "type": "user",
+    "message": "op een of andere manier is dit de link voor file browser anders kom ik er niet in. kan je deze gebruiken ervoor:\n\nhttp://192.168.1.230:8081/login?redirect=/files/root/lokaios/os/dev/clients/desktop/release/",
+    "timestamp": "2026-05-04T18:36:08.967Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 27,
+    "type": "user",
+    "message": "oke laten we apps toevoegen doen. en we kijken af bij heimdall. zoek heimdall op github en kijk hoe hun dat doen. dat zijn goede instellingen. zo uitgebreid wil ik ook.",
+    "timestamp": "2026-05-04T18:38:01.740Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 28,
+    "type": "user",
+    "message": "kan ik ook gewoon youtube toevoegen bijvoorbeeldd?",
+    "timestamp": "2026-05-04T18:41:49.554Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 29,
+    "type": "user",
+    "message": "waar haalt homarr of heimdall hun logo's vandaan?",
+    "timestamp": "2026-05-04T18:42:32.788Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 30,
+    "type": "user",
+    "message": "ja maar nu kan ik niet helemaal naar beneden scrollen en de functie om een achtergrond te veranderen is verdwenen?",
+    "timestamp": "2026-05-04T18:45:55.323Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 31,
+    "type": "user",
+    "message": "ja dat is beter maar op een of andere manier staan niet al mijn containers er meer klopt dat?",
+    "timestamp": "2026-05-04T18:47:23.000Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 32,
+    "type": "user",
+    "message": "ja gelukkiig wel. laten we gelijk uhm een kleine backup maken voor het geval je weer fouten maakt.",
+    "timestamp": "2026-05-04T18:49:23.350Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 33,
+    "type": "user",
+    "message": "maak gewoon een tar backup ervan",
+    "timestamp": "2026-05-04T18:59:33.923Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 34,
+    "type": "user",
+    "message": "ja ik wil de tegels vrij kunnen indelen. hoe zullen we dat aanpakken? daarnaast kan ik nog geen achtergrond gebruiken van mijzelf alleen eentje van internet schijnbaar?",
+    "timestamp": "2026-05-04T19:10:13.478Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 35,
+    "type": "user",
+    "message": "/model",
+    "timestamp": "2026-05-04T19:14:23.517Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 36,
+    "type": "user",
+    "message": "dus?",
+    "timestamp": "2026-05-04T19:14:50.116Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 37,
+    "type": "user",
+    "message": "waarom duurt het zo lang om te  antwoorden wtf",
+    "timestamp": "2026-05-04T19:22:30.773Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 38,
+    "type": "user",
+    "message": "dit duurt echt te lang hoor waarom moet ik 30 minuten wachten op een antwoord?",
+    "timestamp": "2026-05-04T19:26:50.591Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 39,
+    "type": "user",
+    "message": "is het gelukt ben alweeer 30 minuten aan heet wachten?",
+    "timestamp": "2026-05-04T20:08:43.934Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 40,
+    "type": "user",
+    "message": "ja het werkt goed. oke nu weer naar de instellingen pagina. wat kunnen we daar nog aan verbteren / toevoegen?",
+    "timestamp": "2026-05-04T20:10:29.414Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 41,
+    "type": "user",
+    "message": "ja app editor is prima. titel hoeft nog niet dit is voor mijzelf",
+    "timestamp": "2026-05-04T20:16:58.932Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 42,
+    "type": "user",
+    "message": "/model",
+    "timestamp": "2026-05-04T21:53:59.003Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 43,
+    "type": "user",
+    "message": "/compress",
+    "timestamp": "2026-05-04T21:54:17.197Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 44,
+    "type": "user",
+    "message": "Search Provider in Settings (zoals Heimdall)\n\nWat je toevoegt in je instellingenpagina:\n\nSectie: Zoekmachine\n\n• [✓] Search bar inschakelen\n• Zoekmachine:• Google\n• DuckDuckGo\n• Bing\n• Brave\n• Startpage\n• Custom (eigen URL)\n\n\n\n---\n\n🧠 Hoe het werkt in jouw config\n\nVoeg dit toe aan je JSON:\n\n\"search\": {\n  \"enabled\": true,\n  \"provider\": \"duckduckgo\",\n  \"customUrl\": \"\"\n}\n\n\nProviders kun je mappen naar echte query‑URL’s:\n\nconst SEARCH_ENGINES = {\n  google: \"https://www.google.com/search?q=\",\n  duckduckgo: \"https://duckduckgo.com/?q=\",\n  bing: \"https://www.bing.com/search?q=\",\n  brave: \"https://search.brave.com/search?q=\",\n  startpage: \"https://www.startpage.com/do/search?q=\",\n  custom: null\n};\n\n\n---\n\n🧩 Hoe de searchbar werkt in je dashboard\n\n1. Input veld bovenaan\n\n<input\n  type=\"text\"\n  placeholder=\"Zoeken…\"\n  onKeyDown={(e) => {\n    if (e.key === \"Enter\") {\n      const base = SEARCH_ENGINES[config.search.provider];\n      const url = config.search.provider === \"custom\"\n        ? config.search.customUrl.replace(\"%s\", encodeURIComponent(e.target.value))\n        : base + encodeURIComponent(e.target.value);\n\n      window.open(url, \"_blank\");\n    }\n  }}\n/>\n\n\n2. Custom provider ondersteunt `%s`\n\nBijv:\n\nhttps://mijnzoekmachine.nl/search?q=%s\n\n\n---\n\n🎨 UI in je instellingenpagina (NAS‑vriendelijk)\n\nZoekmachine\n───────────────────────────────\n[✓] Search bar tonen\n\nZoekprovider:\n(•) Google\n( ) DuckDuckGo\n( ) Bing\n( ) Brave\n( ) Startpage\n( ) Custom\n\nCustom URL:\n[ https://example.com/search?q=%s ]\n\n\n---\n\n🚀 Waarom dit een top‑feature is\n\n• Heimdall heeft het\n• Homarr heeft het\n• Het voelt “premium”\n• Het is super licht om te bouwen\n• Je gebruikt het elke dag",
+    "timestamp": "2026-05-04T21:55:12.046Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 45,
+    "type": "user",
+    "message": "ik krijg niet de optie om bestanden te openen voor het uploaden van de achtergrond. die functie moet uitgreider. en een url van het web af en lokaal met bestanden",
+    "timestamp": "2026-05-04T22:00:24.191Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 46,
+    "type": "user",
+    "message": "ja werkt perfect",
+    "timestamp": "2026-05-04T22:11:58.970Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 47,
+    "type": "user",
+    "message": "ja begin met widgets. die sabnzb wil ik wel zien",
+    "timestamp": "2026-05-04T22:13:36.491Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 48,
+    "type": "user",
+    "message": "ja het is handiger alsje het in de edit oagina stopt van de app ofso of je maakt er een dynamische lijst van maar alleen sabnzb is raar",
+    "timestamp": "2026-05-04T22:17:25.224Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 49,
+    "type": "user",
+    "message": "ja veel beter",
+    "timestamp": "2026-05-04T22:25:02.423Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 50,
+    "type": "user",
+    "message": "1",
+    "timestamp": "2026-05-04T22:25:41.400Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 51,
+    "type": "user",
+    "message": "oke maak weer een tar backup van deze build",
+    "timestamp": "2026-05-04T22:31:30.815Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 52,
+    "type": "user",
+    "message": "themas en niet zomaar themas maar themas die ook de vormen en indeling len veranderd van de home wat denk je daarvan?",
+    "timestamp": "2026-05-04T22:33:22.081Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 53,
+    "type": "user",
+    "message": "en doe ook een thema home van heimdall en die style van homarr dat is cool",
+    "timestamp": "2026-05-04T22:37:17.038Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 54,
+    "type": "user",
+    "message": "ja dit is top",
+    "timestamp": "2026-05-04T22:41:58.797Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 55,
+    "type": "user",
+    "message": "ja pak in",
+    "timestamp": "2026-05-04T22:42:38.207Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 56,
+    "type": "user",
+    "message": "doe trouwens ook maar in de instellingen dat je de titwlnaam kan veranderen van home. wie weet gooi ik deze dashboard nog wel op github of docker",
+    "timestamp": "2026-05-04T22:43:53.571Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 57,
+    "type": "user",
+    "message": "wat is die cors van sabnzb?",
+    "timestamp": "2026-05-04T22:50:30.701Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 58,
+    "type": "user",
+    "message": "ik zie geen special in sabnzb instellingen?",
+    "timestamp": "2026-05-04T22:53:26.703Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 59,
+    "type": "user",
+    "message": "ikz it op de mobiel",
+    "timestamp": "2026-05-04T22:54:44.796Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 60,
+    "type": "user",
+    "message": "het is de desktop site maar dan in mobiele vorm. vreemd",
+    "timestamp": "2026-05-05T07:40:09.151Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 61,
+    "type": "user",
+    "message": "jeezz deze instellingen nog nooit gezien:\n\nZelden gebruikte opties. Voor betekenis en uitleg, klik op de Help knop om naar de Wiki te gaan.\nWijzig hier niet zonder eerst de uitleg op de Wiki te lezen. Er kunnen nadelige bijwerkingen optreden.\nDe standaard instellingen staan tussen haakjes.\nOpties\n\nstart_paused ( uit )\n\npreserve_paused_state ( uit )\n\nno_penalties ( uit )\n\nipv6_servers ( aan )\n\nipv6_staging ( uit )\n\nfast_fail ( aan )\n\noverwrite_files ( uit )\n\nenable_par_cleanup ( aan )\n\nprocess_unpacked_par2 ( aan )\n\nqueue_complete_pers ( uit )\n\napi_warnings ( aan )\n\nhelpful_warnings ( aan )\n\nampm ( uit )\n\nenable_unrar ( aan )\n\nenable_7zip ( aan )\n\nenable_filejoin ( aan )\n\nenable_tsjoin ( aan )\n\nignore_unrar_dates ( uit )\n\ntray_icon ( aan )\n\nallow_incomplete_nzb ( uit )\n\nrss_filenames ( uit )\n\nipv6_hosting ( uit )\n\nkeep_awake ( aan )\n\nempty_postproc ( uit )\n\nnew_nzb_on_failure ( uit )\n\nhtml_login ( aan )\n\ndisable_archive ( uit )\n\nwait_for_dfolder ( uit )\n\nenable_broadcast ( aan )\n\nwarn_dupl_jobs ( uit )\n\nbackup_for_duplicates ( uit ) \n\napi_logging ( aan )\n\nx_frame_options ( aan )\n\nallow_old_ssl_tls ( uit )\n\nenable_season_sorting ( aan )\n\nverify_xff_header ( uit )\n\n \nWaarden\n\ndownloader_sleep_time ( 10 )\n\nsize_limit ( 0 )\n\nnomedia_marker (  )\n\nmax_url_retries ( 10 )\n\nreq_completion_rate ( 100.2 )\n\nwait_ext_drive ( 5 )\n\nmax_foldername_length ( 246 )\n\nurl_base (  )\n\nreceive_threads ( 2 )\n\nswitchinterval ( 0.005 )\n\ndirect_unpack_threads ( 3 )\n\nselftest_host ( self-test.sabnzbd.org )\n\nssdp_broadcast_interval ( 15 )\n\nunrar_parameters (  )\n\noutgoing_nntp_ip (  )\n\nrss_odd_titles ( nzbindex.nl/, nzbindex.com/, nzbclub.com/ )\n\nquick_check_ext_ignore ( nfo, sfv, srr )\n\nhost_whitelist (  )\n\nlocal_ranges (  )\n\next_rename_ignore (  )",
+    "timestamp": "2026-05-05T07:42:16.185Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 62,
+    "type": "user",
+    "message": "ik krijg geen data cors fout. maar laten we dit anders even in de roadmap plaatsen. want ik gebruik momenteel de sabnzb van synology en niet die in docker volgens mij. dus daar kan het ook nog aan liggen",
+    "timestamp": "2026-05-05T07:46:09.137Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 63,
+    "type": "user",
+    "message": "welke features hebben we nu allemaal voor dit dashboard?",
+    "timestamp": "2026-05-05T07:51:47.802Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 64,
+    "type": "user",
+    "message": "dit is te veel info kan nu niet scrollen kleine opsomming",
+    "timestamp": "2026-05-05T07:53:59.957Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 65,
+    "type": "user",
+    "message": "en wat stond er over nas volloopt?",
+    "timestamp": "2026-05-05T07:54:37.458Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 66,
+    "type": "user",
+    "message": "ahh op die manier",
+    "timestamp": "2026-05-05T07:58:05.481Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 67,
+    "type": "user",
+    "message": "als we die tar maken om dit aan een vriend te geven zitten al mijn containers er dan nog in? of is die gewoon clean leeg?",
+    "timestamp": "2026-05-05T08:01:33.261Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 68,
+    "type": "user",
+    "message": "ja",
+    "timestamp": "2026-05-05T08:14:33.145Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 69,
+    "type": "user",
+    "message": "en kijk hij die ook met een compose file opstarten?",
+    "timestamp": "2026-05-05T08:38:00.756Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 70,
+    "type": "user",
+    "message": "maak er dan ook een tar van zodat ik het makkelijk kan delen",
+    "timestamp": "2026-05-05T09:01:45.002Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 71,
+    "type": "user",
+    "message": "oh gek ik zie geen tar",
+    "timestamp": "2026-05-05T09:03:08.634Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 72,
+    "type": "user",
+    "message": "ahh daar vandaar zocht in de folder haha",
+    "timestamp": "2026-05-05T09:05:53.026Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 73,
+    "type": "user",
+    "message": "Auto‑detectie van Docker containers (zoals Homarr Pro doet)\n\n🎯 Wat je automatisch kunt detecteren\n\nMet één simpele API‑call:\n\nGET /var/run/docker.sock → /containers/json\n\n\nKun je direct ophalen:\n\n• container naam\n• image naam\n• poorten\n• status (running / exited)\n• labels\n• environment variables\n• networks\n• exposed ports\n\n\nEn dat is genoeg om:\n\n• apps automatisch toe te voegen\n• icons automatisch te kiezen\n• categorieën automatisch te bepalen\n• URL’s automatisch te genereren\n\n\n---\n\n🧠 Hoe je dit veilig en simpel doet\n\n1. Mount de Docker socket in je dashboard container\n\nIn je docker‑compose:\n\nvolumes:\n  - /var/run/docker.sock:/var/run/docker.sock\n\n\n2. Query de Docker API direct vanuit je dashboard\n\nBijv. in JS:\n\nconst containers = await fetch(\"/docker/containers/json\").then(r => r.json());\n\n\n3. Parse containers → apps\n\nBijv:\n\n• Container jellyfin → URL: http://<host>:8096\n• Container sonarr → URL: http://<host>:8989\n• Container radarr → URL: http://<host>:7878\n• Container sabnzbd → URL: http://<host>:8080\n\n\n4. Automatische categorie‑mapping\n\nJe kunt een mini‑mapping maken:\n\n{\n  \"jellyfin\": \"Media\",\n  \"plex\": \"Media\",\n  \"sonarr\": \"Downloaders\",\n  \"radarr\": \"Downloaders\",\n  \"sabnzbd\": \"Downloaders\",\n  \"portainer\": \"Systeem\",\n  \"pihole\": \"Systeem\"\n}\n\n\n5. Automatische iconen\n\nGebruik:\n\n• SimpleIcons\n• of je eigen icon‑set\n• of fallback: emoji op basis van naam\n\n\n---\n\n🚀 UX: Hoe dit eruit ziet voor de gebruiker\n\nBij eerste run:\n\nDashboard opent → detecteert containers → toont popup:\n\n“We hebben 7 Docker containers gevonden.\nWil je deze automatisch toevoegen aan je dashboard?”\n\nKnoppen:\n\n• Ja, voeg toe\n• Nee, handmatig\n\n\nIn instellingenpagina:\n\nNieuwe sectie:\n\nDocker Auto‑Detectie\n\n• [✓] Automatisch containers scannen\n• Alleen running containers tonen\n• Automatisch categorieën toewijzen\n• Automatisch iconen kiezen\n\n\n---\n\n🎯 Waarom dit een killer feature is\n\n• Je vriend hoeft niets in te stellen\n• Je dashboard wordt plug‑and‑play\n• Je bent functioneel beter dan Homarr/Heimdall\n• Je dashboard wordt “self‑configuring”\n• Je hoeft geen IP’s, poorten of URLs meer te typen\n\n\n---\n\n🔥 Bonus: Je kunt zelfs widgets automatisch activeren\n\nBijv:\n\n• SABnzbd container gevonden → SAB widget aanzetten\n• Sonarr container gevonden → Sonarr widget klaarzetten\n• Radarr container gevonden → Radarr widget klaarzetten",
+    "timestamp": "2026-05-05T12:37:35.230Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 74,
+    "type": "user",
+    "message": "First‑Run Wizard (3 stappen, clean, snel, zero friction)\n\n🟦 Stap 1 — Welkom + Basisinstellingen\n\nKorte intro + 3 velden:\n\n• Dashboard titel\n(default: “Hobbithole Dashboard”)\n• Thema kiezen\n(Modern / Minimalist / Compact / Heimdall / Homarr)\n• Accentkleur\n(7 opties)\n\n\nKnop: Volgende →\n\n---\n\n🟧 Stap 2 — Automatische Docker Detectie\n\nDit is de magie.\n\n• Toon een lijst van gevonden containers\n• Checkbox: “Automatisch categorieën toewijzen”\n• Checkbox: “Automatisch iconen kiezen”\n• Checkbox: “Alleen containers met UI tonen”\n\n\nKnop:\n\n• Scan nu → toont resultaten\n• Alles toevoegen → voegt ze toe aan dashboard\n• Volgende →\n\n\n---\n\n🟩 Stap 3 — Achtergrond & Zoekmachine\n\nTwee simpele keuzes:\n\nAchtergrond:\n\n• Upload\n• URL\n• Solid color\n\n\nZoekmachine:\n\n• Google\n• DuckDuckGo\n• Bing\n• Brave\n• Startpage\n• Custom URL (%s support)\n\n\nKnop: Afronden →\n\n---\n\n🟪 Einde — Dashboard klaar\n\nToon een kleine success‑pagina:\n\nJe dashboard is klaar!\nJe kunt altijd alles aanpassen via Instellingen.\n\nKnop: Ga naar dashboard\n\n---\n\n🎨 Waarom deze wizard perfect is\n\n• Kort (3 stappen)\n• Geen overload\n• Geen technische termen\n• Past bij jouw minimalistische stijl\n• Gebruikt jouw auto‑detectie als “wow‑moment”\n• Maakt het dashboard plug‑and‑play voor vrienden\n• Voelt als een echt product, niet een hobbyproject\n\n\n---\n\n🧠 Technische implementatie (simpel gehouden)\n\nWizard‑state:\n\nwizardStep: 1,\nwizardCompleted: false\n\n\nOpslaan:\n\n• Alles in je bestaande config.json\n• Na afronden: wizardCompleted = true\n• Dashboard checkt dit bij load → wizard overslaan\n\n\nUI:\n\n• 3 modals\n• Of 1 fullscreen overlay met stappen\n• Geen router nodig\n\n\n---\n\n🚀 Bonus (optioneel later)\n\n• Detecteer automatisch of het de eerste run is (config leeg)\n• Toon wizard alleen dan\n• Voeg “Import JSON” toe als eerste optie\n• Voeg “Skip wizard” toe voor power users",
+    "timestamp": "2026-05-05T13:13:04.627Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 75,
+    "type": "user",
+    "message": "kan je niet gewoon een latest tar backup maken. dan overschrijft die de laatste en komen er geen 100 backups in mijn folder",
+    "timestamp": "2026-05-05T14:17:00.835Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 76,
+    "type": "user",
+    "message": "dus het is tar uipakken en dan gewoon docker compose up command?",
+    "timestamp": "2026-05-05T14:23:39.186Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 77,
+    "type": "user",
+    "message": "Mini‑animatie tijdens het scannen (met live status)\n\n🎬 Flow van de animatie\n\nWanneer de gebruiker op “Scan & Voeg toe” klikt:\n\n1. Start‑animatie (1 seconde)\n\nEen klein laad‑bolletje dat pulseert:\n\n🔵 Scannen naar Docker containers…\n\n\nMet een lichte fade‑in.\n\n2. Live status updates (één voor één)\n\nTerwijl je de containers uitleest, toon je:\n\n🔍 Jellyfin gevonden…\n⚙️ Jellyfin aan het instellen…\n\n\n🔍 Sonarr gevonden…\n⚙️ Sonarr aan het instellen…\n\n\n🔍 Radarr gevonden…\n⚙️ Radarr aan het instellen…\n\n\n🔍 SABnzbd gevonden…\n⚙️ SABnzbd widget voorbereiden…\n\n\n3. Kleine vertraging per item (100–200ms)\n\nDit voelt alsof het écht “werkt”, niet alsof alles instant is.\n\n4. Eind‑animatie\n\nWanneer alles klaar is:\n\n✅ 7 containers succesvol toegevoegd!\n\n\nMet een groene check + lichte bounce‑animatie.\n\n5. Automatische fade naar Stap 3\n\nNa 1,5 seconde → automatisch door naar de volgende stap.\n\n---\n\n🎨 Hoe het eruit ziet (stijl die past bij jouw dashboard)\n\nAnimatie‑container:\n\n• Semi‑transparante card\n• Glow accentkleur\n• Monospace of semi‑tech font\n• Klein spinner‑icoontje links\n• Smooth fade transitions\n\n\nVoorbeeld:\n\n┌──────────────────────────────┐\n│ 🔵 Scannen naar containers…   │\n│                              │\n│ 🔍 Jellyfin gevonden…         │\n│ ⚙️ Jellyfin aan het instellen…│\n│                              │\n│ 🔍 Sonarr gevonden…           │\n│ ⚙️ Sonarr aan het instellen…  │\n│                              │\n│ 🔍 SABnzbd gevonden…          │\n│ ⚙️ SABnzbd widget klaarzetten │\n└──────────────────────────────┘\n\n\nEn dan:\n\n🎉 7 containers succesvol toegevoegd!\n\n\n---\n\n🧠 Technisch simpel te bouwen\n\nJe hebt al:\n\n• de scan‑functie\n• de detectie\n• de categorie‑mapping\n• de icon‑mapping\n\n\nJe hoeft alleen:\n\n✔ Een array met “status messages” te vullen\n\nBijv:\n\nstatus.push(`🔍 ${name} gevonden…`);\nstatus.push(`⚙️ ${name} aan het instellen…`);\n\n\n✔ Een kleine delay tussen elke regel\n\nBijv:\n\nawait new Promise(r => setTimeout(r, 150));\n\n\n✔ Een animatie‑component die regels één voor één toont\n\nBijv:\n\n• fade‑in\n• slide‑up\n• typewriter effect (optioneel)\n\n\n---\n\n🔥 Waarom dit zo goed werkt\n\n• Het voelt “levend”\n• Het voelt “slim”\n• Het voelt “professioneel”\n• Het geeft de gebruiker vertrouwen\n• Het maakt de wizard memorabel\n• Het maakt jouw dashboard uniek\n\n\nDit is letterlijk de “Apple‑moment” van je onboarding.",
+    "timestamp": "2026-05-05T14:29:48.365Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 78,
+    "type": "user",
+    "message": "hoe kan het als ik via de dashboard.hobbitholecinema.duckdns.org inlog dan kan ik niet doorklikken dan opent geen een app. zoek het alleen uit nog geen wijzigingen. als ik namelijk inlog op ip adres werkt het wel",
+    "timestamp": "2026-05-05T16:36:27.621Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 79,
+    "type": "user",
+    "message": "dat snap ik. en dat heb ik ook. maar alsnog ik wil alleen het dashboard op een domein hebben en de rest gewoon op ip. ik snap niet waarom het niet doorverwijsd naar de ip en werkt.",
+    "timestamp": "2026-05-05T17:05:41.200Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 80,
+    "type": "user",
+    "message": "dat snap ik allemaal ik ben verbonden met thuis via twingate dus geen probleem. als ik vis de domein naar jellyfin wilt dan krijg ik dit als link mee:\n\nabout:blank\n\ntoevallig is jellyfin een van de weinige die wel een domein heeft. maar dan nog zou het doorverwijzen naar ip moeten werken..",
+    "timestamp": "2026-05-05T17:09:12.615Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 81,
+    "type": "user",
+    "message": "mmm kunnen we het zo regelen dat op mobiel de huidige pagina veranderd en op pc gewoon nieuw tabblad?",
+    "timestamp": "2026-05-05T17:10:29.415Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 82,
+    "type": "user",
+    "message": "ahhh ik zie het probleem. nadat ik de scan functie gebruik doet die alle links vastzetten zoals jellyfin\n\nhttp://dashboard.hobbitholecinema.duckdns.org:8096\n\noftewel de links worden niet goed geregistreerd na de scan",
+    "timestamp": "2026-05-05T17:22:00.595Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 83,
+    "type": "user",
+    "message": "Auto‑detectie van het interne IP (NAS‑vriendelijk, 100% betrouwbaar)\n\nEr zijn 3 methodes die werken op een NAS‑dashboard.\nIk geef ze in volgorde van betrouwbaarheid.\n\n---\n\n🥇 Methode 1 — Vraag het IP aan je eigen Nginx container (beste optie)\n\nJouw dashboard draait al achter Nginx.\nNginx weet altijd het interne IP van de host, omdat hij via de Docker‑bridge communiceert.\n\nJe kunt in Nginx een mini‑endpoint maken:\n\nIn `default.conf`:\n\nlocation /internal-ip {\n    return 200 \"$remote_addr\";\n}\n\n\nIn je JS:\n\nasync function detectInternalIP() {\n    const res = await fetch('/internal-ip');\n    const ip = (await res.text()).trim();\n    return ip;\n}\n\n\nResultaat:\n\n• Werkt op Synology\n• Werkt op Linux\n• Werkt op Mac/Windows\n• Werkt in Docker\n• Werkt zonder poorten open\n• Werkt zonder extra containers\n\n\nDit is de meest accurate methode.\n\n---\n\n🥈 Methode 2 — Docker API zelf uitlezen (werkt ook perfect)\n\nDe Docker API geeft bij elke container:\n\n• NetworkSettings.Networks.bridge.Gateway\n• NetworkSettings.Networks.bridge.IPAddress\n\n\nDe gateway is bijna altijd het interne IP van de host.\n\nVoorbeeld:\n\nconst containers = await fetch('/docker/containers/json').then(r => r.json());\nconst gateway = containers[0].NetworkSettings.Networks.bridge.Gateway;\n\n\nOp Synology is dat meestal:\n\n192.168.1.1\n\n\nMaar je kunt ook de host‑mode container pakken (zoals Nginx):\n\nconst nginx = containers.find(c => c.Names.includes('nginx'));\nconst ip = nginx.NetworkSettings.Networks.bridge.Gateway;\n\n\n---\n\n🥉 Methode 3 — Fallback: detecteer het LAN‑segment en ping jezelf\n\nAls alles faalt:\n\n1. Pak de LAN‑range uit window.location.hostname\n2. Vervang de laatste octet door .1 of .254\n3. Test welke reageert\n\n\nMaar eerlijk:\nMethode 1 is zoveel cleaner dat je deze bijna nooit nodig hebt.\n\n---\n\n⭐ Hoe jij dit in je wizard gebruikt\n\nStap 1 van de wizard:\n\n• detecteer automatisch het interne IP\n• sla het op in config.ip\n• gebruik het voor auto‑detectie\n• gebruik het voor widgets\n• gebruik het voor tile‑URL’s\n\n\nUX:\n\n• Toon een klein tekstje:\n“Interne NAS‑IP gedetecteerd: 192.168.1.169”\n• Voeg een “Wijzig handmatig” link toe (optioneel)\n\n\nResultaat:\n\n• Je hoeft nooit meer IP’s hardcoded te hebben\n• Je template wordt 100% portable\n• Je vriend hoeft niets in te stellen\n• Auto‑detectie werkt overal\n• Wizard wordt nóg slimmer",
+    "timestamp": "2026-05-05T17:25:33.226Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 84,
+    "type": "user",
+    "message": "Hoe jij Hobbithole Dashboard op Docker Hub zet (simpelste route)\n1. Maak een Docker Hub account\n(als je die nog niet hebt)\n2. Log in via de terminal\ndocker login\n3. Bouw je image lokaal\nGa in de map waar je Dockerfile staat:\ndocker build -t jouwnaam/hobbithole-dashboard:latest .\nBijvoorbeeld:\ndocker build -t glenn/hobbithole-dashboard:latest .\n4. Push naar Docker Hub\ndocker push jouwnaam/hobbithole-dashboard:latest\nEn BAM — je bent klaar.",
+    "timestamp": "2026-05-05T17:51:47.998Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 85,
+    "type": "user",
+    "message": "iggy@Hobbithole-Nas:~$ docker login                               \nLogin with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.                                                     \nUsername: piggyoriginal                                            \nPassword:                                                          \nError response from daemon: Get \"https://registry-1.docker.io/v2/\": unauthorized: incorrect username or password                      \nPiggy@Hobbithole-Nas:~$ docker login                               \nLogin with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.                                                     \nUsername: piggyoriginal                                            \nPassword:                                                          \nWARNING! Your password will be stored unencrypted in /var/services/homes/Piggy/.docker/config.json.                                   \nConfigure a credential helper to remove this warning. See          \nhttps://docs.docker.com/engine/reference/commandline/login/#credentials-store                                                         \n                                                                   \nLogin Succeeded",
+    "timestamp": "2026-05-05T18:00:09.455Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 86,
+    "type": "user",
+    "message": "ja voer maar uit",
+    "timestamp": "2026-05-05T18:01:07.233Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 87,
+    "type": "user",
+    "message": "hoe kunnen anderen hem vinden?",
+    "timestamp": "2026-05-05T18:06:26.921Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 88,
+    "type": "user",
+    "message": "⭐ 1. Structuur van je i18n‑systeem\n\nMaak een map:\n\n/i18n\n  en.json\n  nl.json\n\n\nLater kun je gewoon meer talen toevoegen (de.json, fr.json, es.json, etc.).\n\n---\n\n⭐ 2. Voorbeeld: `en.json`\n\n{\n  \"wizard\": {\n    \"welcome\": \"Welcome to Hobbithole Dashboard\",\n    \"next\": \"Next\",\n    \"back\": \"Back\",\n    \"finish\": \"Finish\",\n    \"autoDetect\": \"Automatic Docker Container Detection\",\n    \"theme\": \"Choose a theme\",\n    \"ipDetect\": \"Dynamic IP Auto-Detection\"\n  },\n  \"settings\": {\n    \"title\": \"Settings\",\n    \"language\": \"Language\",\n    \"theme\": \"Theme\",\n    \"save\": \"Save\"\n  }\n}\n\n\n---\n\n⭐ 3. Voorbeeld: `nl.json`\n\n{\n  \"wizard\": {\n    \"welcome\": \"Welkom bij Hobbithole Dashboard\",\n    \"next\": \"Volgende\",\n    \"back\": \"Terug\",\n    \"finish\": \"Afronden\",\n    \"autoDetect\": \"Automatische Docker Container Detectie\",\n    \"theme\": \"Kies een thema\",\n    \"ipDetect\": \"Dynamische IP Auto-Detectie\"\n  },\n  \"settings\": {\n    \"title\": \"Instellingen\",\n    \"language\": \"Taal\",\n    \"theme\": \"Thema\",\n    \"save\": \"Opslaan\"\n  }\n}\n\n\n---\n\n⭐ 4. Automatische taalkeuze (browser‑detectie)\n\nPlaats dit in je main.js of waar je app init wordt:\n\nasync function loadLanguage() {\n  const browserLang = navigator.language.split(\"-\")[0]; // \"nl-NL\" → \"nl\"\n\n  const supported = [\"en\", \"nl\"];\n  const lang = supported.includes(browserLang) ? browserLang : \"en\";\n\n  const data = await fetch(`/i18n/${lang}.json`).then(r => r.json());\n  return data;\n}\n\n\n---\n\n⭐ 5. Simpele vertaalfunctie (globaal)\n\nlet i18n = {};\n\nfunction t(path) {\n  return path.split(\".\").reduce((o, k) => o?.[k], i18n) || path;\n}\n\n\n---\n\n⭐ 6. App starten met juiste taal\n\n(async () => {\n  i18n = await loadLanguage();\n  renderApp(); // jouw bestaande render functie\n})();\n\n\n---\n\n⭐ 7. Tekst gebruiken in je UI\n\nIn je HTML rendering:\n\nh1.textContent = t(\"wizard.welcome\");\nbuttonNext.textContent = t(\"wizard.next\");\n\n\n---\n\n⭐ 8. Optionele taalkeuze in instellingen\n\nJe kunt een dropdown toevoegen:\n\n<select id=\"lang\">\n  <option value=\"en\">English</option>\n  <option value=\"nl\">Nederlands</option>\n</select>\n\n\nEn dan:\n\ndocument.getElementById(\"lang\").addEventListener(\"change\", async e => {\n  i18n = await fetch(`/i18n/${e.target.value}.json`).then(r => r.json());\n  renderApp();\n});\n\n\n---\n\n⭐ 9. Waarom dit perfect is voor jouw dashboard\n\n• Zero backend → werkt volledig client‑side\n• Supersnel → JSON is klein\n• Makkelijk uitbreidbaar → gewoon nieuwe .json erbij\n• Automatische detectie → gebruikers zien meteen hun taal\n• Wizard + settings worden direct meertalig",
+    "timestamp": "2026-05-05T19:03:56.255Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 89,
+    "type": "user",
+    "message": "we moeten alleen 2 versies maken. een latest en een met andere build naam anders blijf je maar 1 build zien op de docker hub. hoeft nu nog niet maar bij de volgende build. zullen we nog meer talen toevoegen?",
+    "timestamp": "2026-05-05T19:14:50.301Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 90,
+    "type": "user",
+    "message": "dat is heel mooi maar heb je niet gelezen wat ik zei over meerde buildnamen?",
+    "timestamp": "2026-05-05T19:24:25.284Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 91,
+    "type": "user",
+    "message": "voor in de roadmap:\n\nBROOOO dit is precies de juiste vraag op precies het juiste moment 😎🔥\nJe dashboard is nu stabiel, internationaal, zero‑config, wizard‑based…\nDus nu kun je lekker spelen met features die veel waarde geven maar weinig moeite kosten.\n\nIk geef je de TOP 10 features die perfect passen bij jouw stijl:\n➡ lichtgewicht\n➡ client‑side\n➡ geen backend\n➡ geen bloat\n➡ geen onderhoud\n➡ fun om te bouwen\n\nEn ik zet ze in volgorde van impact vs. moeite.\n\n---\n\n⭐ 1. Tile Groups / Collapsible Categories\n\nJe hebt al categorieën, maar collapsible maakt het dashboard:\n\n• cleaner\n• mobielvriendelijker\n• overzichtelijker\n\n\nMoeite: 20–30 min\nImpact: groot\n\n---\n\n⭐ 2. Custom Icons (emoji + URL + icon packs)\n\nJe hebt al emoji’s, maar:\n\n• upload eigen icon\n• of URL naar PNG/SVG\n• of kiezen uit een icon pack (Material Icons / Tabler Icons)\n\n\nMoeite: klein\nImpact: huge (mensen houden van iconen)\n\n---\n\n⭐ 3. Tile Sizes (small / medium / large)\n\nLaat mensen kiezen:\n\n• compact\n• normaal\n• groot (voor TV dashboards)\n\n\nMoeite: 30–40 min\nImpact: dashboard voelt meteen premium\n\n---\n\n⭐ 4. Widget: System Info (CPU/RAM/Uptime)\n\nZonder backend, gewoon via:\n\n• /proc via Docker socket\n• of een mini JS fetch naar een tiny endpoint in nginx (kan zelfs zonder backend)\n\n\nMoeite: medium\nImpact: extreem populair\n\n---\n\n⭐ 5. Widget: Weather (gratis API)\n\nGebruik:\n\n• open‑meteo (gratis, geen key nodig)\n\n\nMoeite: 15 min\nImpact: iedereen vindt dit leuk\n\n---\n\n⭐ 6. Quick Actions op tiles\n\nHover → kleine knoppen:\n\n• open\n• edit\n• delete\n• pin\n• move\n\n\nMoeite: klein\nImpact: voelt super polished\n\n---\n\n⭐ 7. Backup/Restore van settings (JSON)\n\nGewoon:\n\n• export JSON\n• import JSON\n\n\nMoeite: 10 min\nImpact: huge voor homelab mensen\n\n---\n\n⭐ 8. Theme Editor (kleuren aanpassen)\n\nNiet full custom, maar:\n\n• accentkleur\n• achtergrondkleur\n• border radius\n• spacing\n\n\nMoeite: medium\nImpact: dashboard voelt “persoonlijk”\n\n---\n\n⭐ 9. Search bar toggle + fuzzy search\n\nJe hebt al search providers.\nMaar fuzzy search over je tiles is goud.\n\nMoeite: klein\nImpact: groot\n\n---\n\n⭐ 10. Screensaver Mode / Clock Mode\n\nEen simpele fullscreen klok als je 1 minuut niet beweegt.\n\nMoeite: klein\nImpact: mensen vinden dit magisch\n\n---\n\n⭐ BONUS — de “LokaiOS Touch”\n\nAls je één ding wil toevoegen dat het dashboard écht “LokaiOS‑DNA” geeft:\n\nAutopilot Suggestions\n\nBijvoorbeeld:\n\n• “Je hebt Radarr en Sonarr → wil je een Media categorie?”\n• “Je hebt Portainer → wil je een Tools categorie?”\n• “Je hebt 6 containers zonder icon → wil je icons genereren?”\n\n\nMoeite: medium\nImpact: insane\nUniek: 100% jouw stijl\n\n---\n\n⭐ Wat zou ik als eerste doen?\n\nAls ik jouw stijl ken (snel, clean, fun):\n\n1. Tile sizes\n2. Custom icons\n3. Backup/restore\n4. Weather widget\n5. Screensaver mode\n\n\nDat zijn quick wins met maximale dopamine.",
+    "timestamp": "2026-05-05T19:33:25.016Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 92,
+    "type": "user",
+    "message": "doe die alle 3 maar",
+    "timestamp": "2026-05-05T19:35:21.027Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 93,
+    "type": "user",
+    "message": "wil je ook een changelog toevoegen bij de build zodat mensen kunnen lezen wat de updates zijn?",
+    "timestamp": "2026-05-05T19:38:28.692Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 94,
+    "type": "user",
+    "message": "ja voor deze release wel. we gaan vanaf nu niet meer elke feature/bug pushen naar docker. er zijn trouwens al 30 dowloads:)",
+    "timestamp": "2026-05-05T19:47:27.317Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 95,
+    "type": "user",
+    "message": "ja we gaan gelijk meer features erin plaatsen nu. maar nog niet pushen",
+    "timestamp": "2026-05-05T19:48:36.575Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 96,
+    "type": "user",
+    "message": "1 en 2",
+    "timestamp": "2026-05-05T19:49:40.128Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 97,
+    "type": "user",
+    "message": "Ahhh oké, dan weet ik precies wat hier gebeurt — en dit is géén caching, géén oude build, géén fout in je JSON.\nDit is een pure race condition in je mobiele browser, en ik leg je uit waarom jij ’m nu ziet.\n\n---\n\n⭐ Wat er écht gebeurt\n\nJe screenshot laat zien dat:\n\n• de UI al gerenderd is\n• maar de i18n‑bestanden nog niet geladen waren\n• en je telefoon de UI sneller tekent dan de fetch klaar is\n\n\nDus je ziet heel even:\n\nsettings.title\nsettings.close\nsettings.appearance\nwizard.nasIp\n\n\nDat zijn de raw keys, precies zoals ze in je code staan.\n\nEn omdat jij:\n\n• net nieuwe features hebt toegevoegd\n• nieuwe keys hebt toegevoegd\n• nieuwe talen hebt toegevoegd\n• en je telefoon een cold load doet\n\n\n…kan het zijn dat de UI 50–150ms eerder tekent dan de i18n loader klaar is.\n\n---\n\n⭐ Waarom het nu gebeurt (en niet eerder)\n\nOmdat je screensaver, weather widget, backup/restore en tile size hebt toegevoegd.\n\nDat betekent:\n\n• meer i18n keys\n• meer JSON\n• meer settings\n• meer UI elementen\n• meer render‑momenten\n\n\nEn op mobiel (vooral iPhone/Android browsers) is de volgorde:\n\n1. HTML renderen\n2. JS initialiseren\n3. UI tekenen\n4. i18n JSON fetchen\n5. UI opnieuw renderen met vertalingen\n\n\nAls stap 4 net iets trager is → zie je de keys.\n\n---\n\n⭐ Hoe weet ik dat dit het is?\n\nOmdat:\n\n• je screenshot laat ALLEEN i18n keys zien\n• ALLE andere functionaliteit werkt\n• je settings geladen zijn\n• je tile size werkt\n• je theme werkt\n• je layout werkt\n• je weather widget werkt\n• je screensaver werkt\n\n\nAls de code stuk was → zou de hele UI breken.\nMaar dat gebeurt niet.\n\nDit is dus 100% timing.",
+    "timestamp": "2026-05-05T20:00:21.077Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 98,
+    "type": "user",
+    "message": "kan je dit ook erin zetten\n\nPowered by LokaiOS\n\nWaar je ’m het beste plaatst\n\n✔ Helemaal onderaan de pagina\n\n• 70% opacity\n• klein font\n• geen schaduw\n• geen border\n• gecentreerd\n\n\n✔ In dark mode → lichtgrijs (#999)\n\n✔ In light mode → donkergrijs (#444)\n\nHet moet voelen als een kwaliteitslabel, niet als reclame.",
+    "timestamp": "2026-05-05T20:04:43.851Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 99,
+    "type": "user",
+    "message": "ik zie dit nog staan waarschijnlijk niet in de vertaling?\n\n© 2026 Hobbithole • dashboard.footerText\nPowered by LokaiOS",
+    "timestamp": "2026-05-05T20:08:23.088Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 100,
+    "type": "user",
+    "message": "ik heb een vet goed idee voor de roadmap. import vanuit heimdall of homarr of ergens anders vandaan met druk op de knop",
+    "timestamp": "2026-05-05T20:11:14.247Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 101,
+    "type": "user",
+    "message": "ik hoef niet aan de slag te gaan met dashboard ik heb al getest. laten we verdergaan voo v1.3.0. wat hebben we nog meer?",
+    "timestamp": "2026-05-05T20:26:04.760Z"
+  },
+  {
+    "sessionId": "61a14892-e5d5-43f2-b8d2-4513af82aa3d",
+    "messageId": 102,
+    "type": "user",
+    "message": "laten we eerst punt 1 en 2 bouwen",
+    "timestamp": "2026-05-05T20:27:23.011Z"
+  }
+]
