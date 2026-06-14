@@ -53,5 +53,5 @@ echo "✅ Done! Version $CLEAN_VERSION is now live on Docker Hub."
 
 # 4. Sync to GitHub (v1.9.2 update)
 echo "🌐 Syncing source code to GitHub..."
-cd ../../.. # Terug naar de root van de dashboard repo
+cd "$(dirname "$0")" # Terug naar de script directory
 ./github-push.sh
