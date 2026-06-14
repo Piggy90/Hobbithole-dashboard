@@ -50,3 +50,8 @@ docker buildx build --platform linux/amd64,linux/arm64 \
   -t $IMAGE_CONFIG:$CLEAN_VERSION --push .
 
 echo "✅ Done! Version $CLEAN_VERSION is now live on Docker Hub."
+
+# 4. Sync to GitHub (v1.9.2 update)
+echo "🌐 Syncing source code to GitHub..."
+cd ../../.. # Terug naar de root van de dashboard repo
+./github-push.sh

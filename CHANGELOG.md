@@ -2,6 +2,14 @@
 
 ## [v1.9.3-dev] - 2026-06-14
 ### In uitvoering (In Progress)
+- Nieuwe features voor de volgende release.
+
+## [v1.9.4-dev] - 2026-06-14
+### In uitvoering (In Progress)
+- Nieuwe features voor de volgende release.
+
+## [v1.9.3] - 2026-06-14
+### In uitvoering (In Progress)
 - Voorbereiding op v2.0 component architectuur.
 
 ## [v1.9.2] - 2026-06-14

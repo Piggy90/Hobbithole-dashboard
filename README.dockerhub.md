@@ -56,6 +56,8 @@ docker pull piggyoriginal/hobbithole-config-api
 
 ## ✨ Features
 
+- **⏏️ USB & External Storage Management** (v1.9.2) — Manage and safely unmount USB drives and external SSDs with real-time feedback and data integrity protection
+- **📊 Live p95 Resource Metrics** (v1.9.2) — Real-time CPU and RAM usage display for containers via on-demand benchmarking
 - **First‑Run Wizard** (zero setup)
 - **Smart Docker Detection** — auto‑detects containers via image name + dashboard‑icons CDN (1000+ apps), skips background services automatically
 - **Dynamic IP Auto‑Detection**
