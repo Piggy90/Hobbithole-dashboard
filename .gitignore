@@ -1,14 +1,23 @@
 # Hobbithole Dashboard Gitignore
 
-# Backups and built artifacts
-backups/
-template_index.html
-template_docker-compose.yml
-
 # Personal/Sensitive Data
 data/
 import/
 *.bak-*
+ROADMAP.md
+
+# Admin Scripts & Infrastructure
+pre-build.sh
+push.sh
+github-push.sh
+README_PIPELINE.md
+README.dockerhub.md
+README.dockerhub.config-api.md
+
+# Snapshots & Backups
+backups/
+template_index.html
+template_docker-compose.yml
 
 # Node.js
 node_modules/
