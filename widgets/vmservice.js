@@ -268,7 +268,7 @@ async function triggerAction(globalConfig, widgetConfig, action, targetVmId = nu
         // Proxmox actie mapping
         let pveAction = action;
         if (action === 'reboot') pveAction = 'reboot';
-        if (action === 'stop') pveAction = 'stop'; // of 'shutdown'
+        if (action === 'stop') pveAction = 'shutdown'; // Nette 'shutdown' i.p.v. harde 'stop' om corruptie te voorkomen
 
         const path = `/nodes/${node}/${type}/${vmId}/status/${pveAction}`;
         const actionRes = await proxmoxRequest(pveConfig, path, 'POST');
