@@ -1,5 +1,9 @@
 # Hobbithole Cinema Dashboard - Changelog
 
+## [v1.9.4-dev] - 2026-06-15
+### In uitvoering (In Progress)
+- Nieuwe features voor de volgende release.
+
 ## [v1.9.3] - 2026-06-14
 ### Toegevoegd (Added)
 - **🌍 Universele USB Eject Architectuur** — Ondersteuning voor meerdere eject-methoden via `USB_EJECT_METHOD`. 
