@@ -860,6 +860,256 @@
             text-align: right;
         }
 
+        /* ===== PROXMOX WIDGET (v1.9.4) ===== */
+        .proxmox-widget-body {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 0.85rem;
+            color: var(--text-color);
+        }
+        .proxmox-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        .proxmox-title-wrap {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            flex: 1;
+        }
+        .proxmox-title {
+            font-weight: var(--font-weight-bold);
+            font-size: 0.95rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .proxmox-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .proxmox-status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+            margin-left: 8px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .proxmox-status-dot.running {
+            background-color: #10b981; /* Green */
+            box-shadow: 0 0 8px #10b981;
+        }
+        .proxmox-status-dot.stopped {
+            background-color: #ef4444; /* Red */
+            box-shadow: 0 0 8px #ef4444;
+        }
+        .proxmox-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .proxmox-stat-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .proxmox-stat-label-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .proxmox-stat-bar-outer {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .proxmox-stat-bar-inner {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-color, #4f46e5), #818cf8);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .proxmox-stat-bar-inner.warning {
+            background: var(--warning-color, #fbbf24);
+        }
+        .proxmox-stat-bar-inner.danger {
+            background: var(--danger-color, #ef4444);
+        }
+        .proxmox-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+        .proxmox-uptime {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .proxmox-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .proxmox-btn {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-color);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+        .proxmox-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        .proxmox-btn:active:not(:disabled) {
+            transform: scale(0.97);
+        }
+        .proxmox-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* ===== VM & SERVICE CONTROL WIDGET (v2.0.0) ===== */
+        .vmservice-widget-body {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 0.85rem;
+            color: var(--text-color);
+        }
+        .vmservice-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        .vmservice-title-wrap {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            flex: 1;
+        }
+        .vmservice-title {
+            font-weight: var(--font-weight-bold);
+            font-size: 0.95rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .vmservice-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .vmservice-status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+            margin-left: 8px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .vmservice-status-dot.running {
+            background-color: #10b981; /* Green */
+            box-shadow: 0 0 8px #10b981;
+        }
+        .vmservice-status-dot.stopped {
+            background-color: #ef4444; /* Red */
+            box-shadow: 0 0 8px #ef4444;
+        }
+        .vmservice-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .vmservice-stat-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .vmservice-stat-label-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .vmservice-stat-bar-outer {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .vmservice-stat-bar-inner {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-color, #4f46e5), #818cf8);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .vmservice-stat-bar-inner.warning {
+            background: var(--warning-color, #fbbf24);
+        }
+        .vmservice-stat-bar-inner.danger {
+            background: var(--danger-color, #ef4444);
+        }
+        .vmservice-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+        .vmservice-uptime {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .vmservice-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .vmservice-btn {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-color);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+        .vmservice-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        .vmservice-btn:active:not(:disabled) {
+            transform: scale(0.97);
+        }
+        .vmservice-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
         /* ===== WATCHTOWER WIDGET (v1.8.4) ===== */
         .watchtower-widget-body {
             display: flex;
@@ -3829,7 +4079,67 @@
                 </div>
             </div>
 
-            <!-- Placeholder for future integrations (Prometheus, Grafana, ...) -->
+            <!-- Proxmox & SSH integration card -->
+            <div class="integration-card collapsed" id="integration-proxmox">
+                <div class="integration-card-header" onclick="toggleIntegrationCard(this)">
+                    <span class="integration-card-icon">🖥️</span>
+                    <div class="integration-card-title">
+                        <h4>VM & Service Control</h4>
+                        <p>Configureer Proxmox VE API en SSH Remote verbindingen voor VM en service beheer.</p>
+                    </div>
+                    <span class="integration-card-chevron">▾</span>
+                </div>
+                <div class="integration-card-body">
+                    <h5 style="margin-bottom: 10px; font-size: 0.9rem; color: var(--accent-color);">Proxmox VE API</h5>
+                    <div class="form-group">
+                        <label for="setting-proxmox-url">Proxmox URL</label>
+                        <input type="text" id="setting-proxmox-url" placeholder="https://192.168.1.135:8006" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="setting-proxmox-token">Token ID</label>
+                        <input type="text" id="setting-proxmox-token" placeholder="USER@REALM!TOKENID=SECRET" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="setting-proxmox-node">Node Name</label>
+                        <input type="text" id="setting-proxmox-node" placeholder="pve" value="pve" autocomplete="off">
+                    </div>
+                    <div class="form-group" style="flex-direction: row; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="setting-proxmox-insecure" style="width: auto; margin: 0;">
+                        <label for="setting-proxmox-insecure" style="margin: 0; font-weight: normal; cursor: pointer;">Insecure SSL certificaten toestaan (self-signed)</label>
+                    </div>
+                    <div class="integration-card-actions">
+                        <button class="btn btn-secondary btn-small" onclick="testProxmoxConnection()">🧪 Test Proxmox</button>
+                    </div>
+                    <p class="integration-feedback" id="proxmox-config-feedback"></p>
+
+                    <h5 style="margin-top: 20px; margin-bottom: 10px; font-size: 0.9rem; color: var(--accent-color); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">SSH Remote Connectie</h5>
+                    <div class="form-group">
+                        <label for="setting-ssh-host">SSH Host</label>
+                        <input type="text" id="setting-ssh-host" placeholder="192.168.1.50" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="setting-ssh-port">SSH Port</label>
+                        <input type="number" id="setting-ssh-port" placeholder="22" value="22" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="setting-ssh-user">SSH User</label>
+                        <input type="text" id="setting-ssh-user" placeholder="root" value="root" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="setting-ssh-key">SSH Private Key</label>
+                        <textarea id="setting-ssh-key" placeholder="-----BEGIN OPENSSH PRIVATE KEY-----&#10;..." rows="4" style="width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.15); color: var(--text-color); border-radius: 4px; padding: 8px; font-family: monospace; resize: vertical;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="setting-ssh-password">SSH Password (optioneel)</label>
+                        <input type="password" id="setting-ssh-password" placeholder="Wachtwoord (indien geen key gebruikt)" autocomplete="off">
+                    </div>
+                    <div class="integration-card-actions">
+                        <button class="btn btn-secondary btn-small" onclick="testSshConnection()">🧪 Test SSH</button>
+                        <button class="btn btn-action" onclick="saveVmServiceConfigs()">💾 Opslaan</button>
+                    </div>
+                    <p class="integration-feedback" id="ssh-config-feedback"></p>
+                </div>
+            </div>
         </div>
 
         <!-- v1.9.2: USB Management Section -->
@@ -6055,7 +6365,7 @@ closeBtn.onclick = () => {
 
 // v1.8.2: changelog modal — "What's New" with auto-detected NEW badge.
 // CHANGELOG.md is baked into the dashboard image (COPY in Dockerfile) at /CHANGELOG.md
-const APP_VERSION = '1.9.4-dev';
+const APP_VERSION = '1.9.6-dev';
 
 // ===== RELEASE ANNOUNCEMENTS (v1.8.5) =====
 // First-run pop-up shown ONCE per user, per announcement id. Use this for big feature
@@ -6372,13 +6682,43 @@ function loadIntegrationsValues() {
 
     const urlEl   = document.getElementById('setting-watchtower-url');
     const tokenEl = document.getElementById('setting-watchtower-token');
-    if (!urlEl || !tokenEl) return;
-    const wt = (serverConfig && serverConfig.watchtower) || {};
-    urlEl.value   = wt.url   || '';
-    tokenEl.value = wt.token || '';
-    // Clear any stale feedback on (re)open
-    const fb = document.getElementById('watchtower-config-feedback');
-    if (fb) { fb.textContent = ''; fb.className = 'integration-feedback'; }
+    if (urlEl && tokenEl) {
+        const wt = (serverConfig && serverConfig.watchtower) || {};
+        urlEl.value   = wt.url   || '';
+        tokenEl.value = wt.token || '';
+        const fb = document.getElementById('watchtower-config-feedback');
+        if (fb) { fb.textContent = ''; fb.className = 'integration-feedback'; }
+    }
+
+    const pUrlEl      = document.getElementById('setting-proxmox-url');
+    const pTokenEl    = document.getElementById('setting-proxmox-token');
+    const pNodeEl     = document.getElementById('setting-proxmox-node');
+    const pInsecureEl = document.getElementById('setting-proxmox-insecure');
+    if (pUrlEl && pTokenEl && pNodeEl && pInsecureEl) {
+        const pm = (serverConfig && serverConfig.proxmox) || {};
+        pUrlEl.value = pm.url || '';
+        pTokenEl.value = pm.token || '';
+        pNodeEl.value = pm.node || 'pve';
+        pInsecureEl.checked = !!pm.allowInsecure;
+        const pFb = document.getElementById('proxmox-config-feedback');
+        if (pFb) { pFb.textContent = ''; pFb.className = 'integration-feedback'; }
+    }
+
+    const sshHostEl     = document.getElementById('setting-ssh-host');
+    const sshPortEl     = document.getElementById('setting-ssh-port');
+    const sshUserEl     = document.getElementById('setting-ssh-user');
+    const sshKeyEl      = document.getElementById('setting-ssh-key');
+    const sshPasswordEl = document.getElementById('setting-ssh-password');
+    if (sshHostEl && sshPortEl && sshUserEl && sshKeyEl && sshPasswordEl) {
+        const ssh = (serverConfig && serverConfig.ssh) || {};
+        sshHostEl.value = ssh.host || '';
+        sshPortEl.value = ssh.port || '22';
+        sshUserEl.value = ssh.user || 'root';
+        sshKeyEl.value = ssh.key || '';
+        sshPasswordEl.value = ssh.password || '';
+        const sshFb = document.getElementById('ssh-config-feedback');
+        if (sshFb) { sshFb.textContent = ''; sshFb.className = 'integration-feedback'; }
+    }
 }
 
 async function saveWatchtowerConfig() {
@@ -6461,6 +6801,168 @@ async function testWatchtowerConnection() {
     } catch (e) {
         fb.className = 'integration-feedback error';
         fb.textContent = `⚠️ Niet bereikbaar: ${e.message}. Check URL, token en of Watchtower in dashboard_net zit.`;
+    }
+}
+
+async function saveVmServiceConfigs() {
+    const url = document.getElementById('setting-proxmox-url').value.trim();
+    const token = document.getElementById('setting-proxmox-token').value.trim();
+    const node = document.getElementById('setting-proxmox-node').value.trim();
+    const allowInsecure = document.getElementById('setting-proxmox-insecure').checked;
+    const pFb = document.getElementById('proxmox-config-feedback');
+
+    const sshHost = document.getElementById('setting-ssh-host').value.trim();
+    const sshPortVal = document.getElementById('setting-ssh-port').value.trim();
+    const sshPort = sshPortVal ? parseInt(sshPortVal, 10) : 22;
+    const sshUser = document.getElementById('setting-ssh-user').value.trim();
+    const sshKey = document.getElementById('setting-ssh-key').value.trim();
+    const sshPassword = document.getElementById('setting-ssh-password').value;
+    const sshFb = document.getElementById('ssh-config-feedback');
+
+    if (!serverConfig) {
+        pFb.className = 'integration-feedback error';
+        pFb.textContent = '⚠️ Server-config niet geladen. Probeer de pagina te verversen.';
+        return;
+    }
+
+    // Proxmox validation & saving
+    if (!url && !token) {
+        delete serverConfig.proxmox;
+    } else if (!url || !token) {
+        pFb.className = 'integration-feedback error';
+        pFb.textContent = '⚠️ Vul zowel URL als token in voor Proxmox.';
+        return;
+    } else {
+        serverConfig.proxmox = { url, token, node: node || 'pve', allowInsecure };
+    }
+
+    // SSH validation & saving
+    if (!sshHost && !sshUser && !sshKey && !sshPassword) {
+        delete serverConfig.ssh;
+    } else if (!sshHost || !sshUser) {
+        sshFb.className = 'integration-feedback error';
+        sshFb.textContent = '⚠️ Vul SSH Host en User in. Leeg laten = SSH uitschakelen.';
+        return;
+    } else {
+        serverConfig.ssh = { host: sshHost, port: sshPort, user: sshUser, key: sshKey, password: sshPassword };
+    }
+
+    const ok = await saveServerConfig();
+    if (ok) {
+        pFb.className = 'integration-feedback success';
+        pFb.textContent = serverConfig.proxmox ? '✓ Proxmox opgeslagen.' : '✓ Proxmox uitgeschakeld.';
+        sshFb.className = 'integration-feedback success';
+        sshFb.textContent = serverConfig.ssh ? '✓ SSH opgeslagen.' : '✓ SSH uitgeschakeld.';
+        showToast('VM & Service configuraties opgeslagen', 'success');
+    } else {
+        pFb.className = 'integration-feedback error';
+        pFb.textContent = '⚠️ Opslaan mislukt.';
+        sshFb.className = 'integration-feedback error';
+        sshFb.textContent = '⚠️ Opslaan mislukt.';
+    }
+}
+
+// Wrapper for backward compatibility if any
+async function saveProxmoxConfig() {
+    return saveVmServiceConfigs();
+}
+
+async function testProxmoxConnection() {
+    const fb = document.getElementById('proxmox-config-feedback');
+    fb.className = 'integration-feedback info';
+    fb.textContent = '🧪 Testen…';
+
+    const url = document.getElementById('setting-proxmox-url').value.trim();
+    const token = document.getElementById('setting-proxmox-token').value.trim();
+    const node = document.getElementById('setting-proxmox-node').value.trim();
+    const allowInsecure = document.getElementById('setting-proxmox-insecure').checked;
+
+    if (!url || !token) {
+        fb.className = 'integration-feedback error';
+        fb.textContent = '⚠️ Vul URL en token in voor je test.';
+        return;
+    }
+
+    if (!serverConfig) {
+        fb.className = 'integration-feedback error';
+        fb.textContent = '⚠️ Server-config niet geladen.';
+        return;
+    }
+
+    const previousPm = serverConfig.proxmox;
+    serverConfig.proxmox = { url, token, node: node || 'pve', allowInsecure };
+    const savedOk = await saveServerConfig();
+    if (!savedOk) {
+        serverConfig.proxmox = previousPm;
+        fb.className = 'integration-feedback error';
+        fb.textContent = '⚠️ Kon test-config niet pushen.';
+        return;
+    }
+
+    try {
+        const res = await fetch('/api/vmservice/test/proxmox', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url, token, node: node || 'pve', allowInsecure })
+        });
+        if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.message || `HTTP ${res.status}`);
+        }
+        const data = await res.json();
+        if (data && data.status === 'ok') {
+            const version = data.version && data.version.version ? `v${data.version.version}` : 'onbekende versie';
+            fb.className = 'integration-feedback success';
+            fb.textContent = `✓ Verbonden met Proxmox (${version}) op node "${node || 'pve'}".`;
+        } else {
+            fb.className = 'integration-feedback error';
+            fb.textContent = '⚠️ Connectie mislukt.';
+        }
+    } catch (e) {
+        fb.className = 'integration-feedback error';
+        fb.textContent = `⚠️ Niet bereikbaar: ${e.message}.`;
+    }
+}
+
+async function testSshConnection() {
+    const fb = document.getElementById('ssh-config-feedback');
+    fb.className = 'integration-feedback info';
+    fb.textContent = '🧪 Testen…';
+
+    const host = document.getElementById('setting-ssh-host').value.trim();
+    const portVal = document.getElementById('setting-ssh-port').value.trim();
+    const port = portVal ? parseInt(portVal, 10) : 22;
+    const user = document.getElementById('setting-ssh-user').value.trim();
+    const key = document.getElementById('setting-ssh-key').value.trim();
+    const password = document.getElementById('setting-ssh-password').value;
+
+    if (!host || !user) {
+        fb.className = 'integration-feedback error';
+        fb.textContent = '⚠️ Vul Host en User in voor de test.';
+        return;
+    }
+
+    try {
+        const res = await fetch('/api/vmservice/test/ssh', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ host, port, user, key, password })
+        });
+        if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.message || `HTTP ${res.status}`);
+        }
+        const data = await res.json();
+        if (data && data.status === 'ok') {
+            fb.className = 'integration-feedback success';
+            fb.textContent = `✓ Verbonden met SSH op "${host}:${port}" als "${user}".`;
+        } else {
+            fb.className = 'integration-feedback error';
+            fb.textContent = '⚠️ Connectie mislukt.';
+        }
+    } catch (e) {
+        fb.className = 'integration-feedback error';
+        fb.textContent = `⚠️ Niet bereikbaar: ${e.message}.`;
     }
 }
 
@@ -8118,6 +8620,16 @@ function openWidgetConfigModal(def, currentConfig, onSave) {
                 ${field.help ? `<p class="icon-helper">${escapeHtmlSafe(field.help)}</p>` : ''}
             </div>`;
         }
+        if (field.type === 'select') {
+            const options = field.options || [];
+            return `<div class="form-group">
+                <label>${escapeHtmlSafe(field.label)}${field.required ? ' *' : ''}</label>
+                <select id="wcfg-${field.key}">
+                    ${options.map(opt => `<option value="${escapeHtmlSafe(opt.value)}" ${opt.value === val ? 'selected' : ''}>${escapeHtmlSafe(opt.label || opt.value)}</option>`).join('')}
+                </select>
+                ${field.help ? `<p class="icon-helper">${escapeHtmlSafe(field.help)}</p>` : ''}
+            </div>`;
+        }
         return `<div class="form-group">
             <label>${escapeHtmlSafe(field.label)}${field.required ? ' *' : ''}</label>
             <input type="${field.type || 'text'}" id="wcfg-${field.key}" placeholder="${escapeHtmlSafe(field.placeholder || '')}" value="${escapeHtmlSafe(val)}">
@@ -8953,6 +9465,335 @@ function refreshWatchtowerWidget(blockId) {
     if (!block) return;
     body.innerHTML = '';
     standaloneWidgetRegistry['watchtower'].render(block, body);
+}
+
+// ===== VM & SERVICE CONTROL WIDGET (v2.0.0) =====
+registerStandaloneWidget('vmservice', {
+    label: '🖥️ VM & Service Control',
+    description: 'Beheer en status van Proxmox VM/LXC, Systemd of custom commandos.',
+    defaultConfig: () => ({ provider: 'proxmox', title: '', vmId: '', vmType: 'qemu', node: '', serviceName: '', useSsh: 'false', statusCmd: '', startCmd: '', stopCmd: '' }),
+    configSchema: [
+        {
+            key: 'provider',
+            label: 'Provider',
+            type: 'select',
+            required: true,
+            options: [
+                { value: 'proxmox', label: 'Proxmox VE API' },
+                { value: 'systemd', label: 'Systemd Service' },
+                { value: 'command', label: 'Custom Commando (Shell)' }
+            ],
+            help: 'Kies hoe de service of VM beheerd wordt.'
+        },
+        {
+            key: 'title',
+            label: 'Weergavenaam (optioneel)',
+            type: 'text',
+            required: false,
+            placeholder: 'bijv. Plex Server'
+        },
+        {
+            key: 'vmId',
+            label: 'Proxmox VM/LXC ID',
+            type: 'text',
+            required: false,
+            placeholder: 'bijv. 100'
+        },
+        {
+            key: 'vmType',
+            label: 'Proxmox Type',
+            type: 'select',
+            required: false,
+            options: [
+                { value: 'qemu', label: 'VM (Qemu)' },
+                { value: 'lxc', label: 'LXC Container' }
+            ]
+        },
+        {
+            key: 'node',
+            label: 'Proxmox Node (optioneel)',
+            type: 'text',
+            required: false,
+            placeholder: 'bijv. pve'
+        },
+        {
+            key: 'serviceName',
+            label: 'Systemd Service Naam',
+            type: 'text',
+            required: false,
+            placeholder: 'bijv. docker'
+        },
+        {
+            key: 'useSsh',
+            label: 'Verbindingsmethode',
+            type: 'select',
+            required: false,
+            options: [
+                { value: 'false', label: 'Lokaal (Host / LXC)' },
+                { value: 'true', label: 'Remote via SSH' }
+            ]
+        },
+        {
+            key: 'statusCmd',
+            label: 'Status Check Commando',
+            type: 'text',
+            required: false,
+            placeholder: 'bijv. ping -c 1 192.168.1.50'
+        },
+        {
+            key: 'startCmd',
+            label: 'Start Commando',
+            type: 'text',
+            required: false,
+            placeholder: 'bijv. systemctl start docker'
+        },
+        {
+            key: 'stopCmd',
+            label: 'Stop Commando',
+            type: 'text',
+            required: false,
+            placeholder: 'bijv. systemctl stop docker'
+        }
+    ],
+    render(block, container) {
+        const prior = _standaloneIntervals.get(block.id);
+        if (prior) { clearInterval(prior); _standaloneIntervals.delete(block.id); }
+
+        const wrap = document.createElement('div');
+        wrap.className = 'vmservice-widget-body';
+        wrap.innerHTML = '<div class="vmservice-loading" style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">Laden…</div>';
+        container.appendChild(wrap);
+
+        const refresh = async () => {
+            try {
+                const res = await fetch(`/api/vmservice/status/${block.id}`, { cache: 'no-store' });
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.message || `HTTP ${res.status}`);
+                }
+                const json = await res.json();
+                if (json && json.status === 'ok' && json.data) {
+                    renderVmServiceWidgetBody(wrap, block, json.data);
+                } else {
+                    throw new Error('Geen geldige status data ontvangen');
+                }
+            } catch (e) {
+                wrap.innerHTML = `<p class="vmservice-error" style="color: #ef4444; font-size: 0.85rem;">⚠️ Fout bij ophalen status: ${escapeHtmlSafe(e.message)}</p>`;
+            }
+        };
+
+        refresh();
+        const handle = setInterval(refresh, 15000);
+        _standaloneIntervals.set(block.id, handle);
+    },
+    refresh(block, container) {
+        container.innerHTML = '';
+        standaloneWidgetRegistry['vmservice'].render(block, container);
+    }
+});
+
+// Backward compatibility alias for old proxmox widgets
+registerStandaloneWidget('proxmox', {
+    label: '🖥️ Proxmox VM/LXC (Legacy)',
+    description: 'Legacy Proxmox widget (automatisch omgeleid naar VM & Service Control).',
+    defaultConfig: () => ({ provider: 'proxmox', vmId: '', vmType: 'qemu' }),
+    configSchema: [],
+    render(block, container) {
+        const mappedBlock = {
+            ...block,
+            type: 'vmservice',
+            config: {
+                provider: 'proxmox',
+                vmId: (block.config && block.config.vmId) || '',
+                vmType: (block.config && block.config.vmType) || 'qemu',
+                node: (block.config && block.config.node) || '',
+                useSsh: 'false'
+            }
+        };
+        standaloneWidgetRegistry['vmservice'].render(mappedBlock, container);
+    },
+    refresh(block, container) {
+        const mappedBlock = {
+            ...block,
+            type: 'vmservice',
+            config: {
+                provider: 'proxmox',
+                vmId: (block.config && block.config.vmId) || '',
+                vmType: (block.config && block.config.vmType) || 'qemu',
+                node: (block.config && block.config.node) || '',
+                useSsh: 'false'
+            }
+        };
+        standaloneWidgetRegistry['vmservice'].refresh(mappedBlock, container);
+    }
+});
+
+function renderVmServiceWidgetBody(wrap, block, data) {
+    const isRunning = data.status === 'running';
+    const displayName = data.name || (block.config && block.config.title) || 'Service';
+    
+    // Subtitle
+    let subtitle = '';
+    const config = block.config || {};
+    const provider = config.provider || 'proxmox';
+    if (provider === 'proxmox') {
+        const vmType = config.vmType || 'qemu';
+        subtitle = `PROXMOX (${vmType.toUpperCase()}) • ID: ${config.vmId || '—'}`;
+    } else if (provider === 'systemd') {
+        subtitle = `SYSTEMD • ${config.serviceName || '—'}`;
+    } else {
+        subtitle = `COMMAND`;
+    }
+    if (config.useSsh === 'true') {
+        subtitle += ' • Remote';
+    }
+
+    // Check for progress bars (Proxmox provider)
+    const cpu = data.cpu;
+    const memMax = data.memMax || data.maxmem;
+    const memUsed = data.mem || data.memUsed || 0;
+    
+    const showProgress = (provider === 'proxmox' && typeof cpu === 'number' && cpu > 0 && typeof memMax === 'number' && memMax > 0);
+
+    let statsHtml = '';
+    if (showProgress) {
+        let cpuPercent = cpu <= 1.0 ? cpu * 100 : cpu;
+        const cpuPercentStr = cpuPercent.toFixed(1);
+
+        let memUsedGB = 0;
+        let memMaxGB = 0;
+        let memPercent = 0;
+        if (memMax > 1024 * 1024) { // Bytes
+            memUsedGB = memUsed / (1024 * 1024 * 1024);
+            memMaxGB = memMax / (1024 * 1024 * 1024);
+        } else { // GB
+            memUsedGB = memUsed;
+            memMaxGB = memMax;
+        }
+        memPercent = memMaxGB > 0 ? (memUsedGB / memMaxGB) * 100 : 0;
+        const memUsedGBStr = memUsedGB.toFixed(2);
+        const memMaxGBStr = memMaxGB.toFixed(2);
+        const memPercentStr = memPercent.toFixed(1);
+
+        // CPU progress color class
+        let cpuClass = '';
+        if (cpuPercent >= 90) cpuClass = 'danger';
+        else if (cpuPercent >= 70) cpuClass = 'warning';
+
+        // Mem progress color class
+        let memClass = '';
+        if (memPercent >= 90) memClass = 'danger';
+        else if (memPercent >= 70) memClass = 'warning';
+
+        statsHtml = `
+            <div class="vmservice-stats">
+                <div class="vmservice-stat-row">
+                    <div class="vmservice-stat-label-row">
+                        <span>CPU</span>
+                        <span>${isRunning ? cpuPercentStr + '%' : '—'}</span>
+                    </div>
+                    <div class="vmservice-stat-bar-outer">
+                        <div class="vmservice-stat-bar-inner ${cpuClass}" style="width: ${isRunning ? cpuPercentStr : 0}%"></div>
+                    </div>
+                </div>
+                
+                <div class="vmservice-stat-row">
+                    <div class="vmservice-stat-label-row">
+                        <span>Geheugen</span>
+                        <span>${isRunning ? `${memUsedGBStr} / ${memMaxGBStr} GB` : '—'}</span>
+                    </div>
+                    <div class="vmservice-stat-bar-outer">
+                        <div class="vmservice-stat-bar-inner ${memClass}" style="width: ${isRunning ? memPercentStr : 0}%"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Uptime format
+    let uptimeStr = '';
+    if (isRunning && data.uptime) {
+        if (typeof data.uptime === 'number') {
+            uptimeStr = formatVmServiceUptime(data.uptime);
+        } else {
+            uptimeStr = String(data.uptime);
+        }
+    }
+
+    wrap.innerHTML = `
+        <div class="vmservice-header">
+            <div class="vmservice-title-wrap">
+                <span class="vmservice-title">${escapeHtmlSafe(displayName)}</span>
+                <span class="vmservice-subtitle">${escapeHtmlSafe(subtitle)}</span>
+            </div>
+            <span class="vmservice-status-dot ${isRunning ? 'running' : 'stopped'}" title="${escapeHtmlSafe(data.status || 'unknown')}"></span>
+        </div>
+        
+        ${statsHtml}
+        
+        <div class="vmservice-footer">
+            <span class="vmservice-uptime">
+                ${isRunning && uptimeStr ? `Uptime: ${escapeHtmlSafe(uptimeStr)}` : (isRunning ? 'Online' : 'Offline')}
+            </span>
+            <div class="vmservice-actions">
+                <button class="vmservice-btn" onclick="triggerVmServiceAction('${block.id}', 'start')" ${isRunning ? 'disabled' : ''}>
+                    ▶️ Start
+                </button>
+                <button class="vmservice-btn" onclick="triggerVmServiceAction('${block.id}', 'stop')" ${!isRunning ? 'disabled' : ''}>
+                    ⏹️ Stop
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function formatVmServiceUptime(seconds) {
+    if (!seconds || isNaN(seconds)) return '';
+    const d = Math.floor(seconds / 86400);
+    const h = Math.floor((seconds % 86400) / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const parts = [];
+    if (d > 0) parts.push(`${d}d`);
+    if (h > 0) parts.push(`${h}u`);
+    if (m > 0) parts.push(`${m}m`);
+    return parts.join(' ') || '0m';
+}
+
+async function triggerVmServiceAction(blockId, action) {
+    const actionLabel = action === 'start' ? 'starten' : 'stoppen';
+    showToast(`Verzoek om service te ${actionLabel} verzonden…`, 'info');
+    
+    try {
+        const res = await fetch(`/api/vmservice/action/${blockId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ action })
+        });
+        
+        if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.message || `HTTP ${res.status}`);
+        }
+        
+        const data = await res.json();
+        if (data && data.status === 'ok') {
+            showToast(`Service succesvol ${action === 'start' ? 'gestart' : 'gestopt'}.`, 'success');
+            const bodyEl = document.querySelector(`[data-block-id="${blockId}"] .standalone-block-body`);
+            if (bodyEl) {
+                const layout = getHomeLayout();
+                const block = (layout.blocks || []).find(b => b.id === blockId);
+                if (block) {
+                    standaloneWidgetRegistry['vmservice'].refresh(block, bodyEl);
+                }
+            }
+        } else {
+            throw new Error('Fout bij uitvoeren actie');
+        }
+    } catch (e) {
+        showToast(`Actie mislukt: ${e.message}`, 'error');
+    }
 }
 
 // ===== APP WIDGETS (server-fed live data shown under tiles) =====

@@ -282,6 +282,58 @@ app.get('/api/watchtower/metrics', async (req, res) => {
   }
 });
 
+// === VM & SERVICE INTEGRATIE (v1.9.4) ===
+const vmserviceAdapter = require('./widgets/vmservice');
+
+app.post('/api/vmservice/test/proxmox', async (req, res) => {
+  try {
+    const { url, token, node, allowInsecure } = req.body;
+    const testConfig = { url, token, node, allowInsecure };
+    const versionInfo = await vmserviceAdapter.testProxmox(testConfig);
+    res.json({ status: 'ok', version: versionInfo });
+  } catch (err) {
+    res.status(500).json({ error: 'test_failed', message: err.message });
+  }
+});
+
+app.post('/api/vmservice/test/ssh', async (req, res) => {
+  try {
+    const { host, port, user, key, password } = req.body;
+    const testConfig = { host, port, user, key, password };
+    const result = await vmserviceAdapter.testSsh(testConfig);
+    res.json({ status: 'ok', data: result });
+  } catch (err) {
+    res.status(500).json({ error: 'test_failed', message: err.message });
+  }
+});
+
+app.get('/api/vmservice/status/:blockId', async (req, res) => {
+  try {
+    const cfg = readConfig();
+    const block = (cfg.homeLayout && cfg.homeLayout.blocks || []).find(b => b.id === req.params.blockId);
+    if (!block) return res.status(404).json({ error: 'block_not_found' });
+    
+    const status = await vmserviceAdapter.getStatus(cfg, block.config || {});
+    res.json({ status: 'ok', data: status });
+  } catch (err) {
+    res.status(500).json({ error: 'status_failed', message: err.message });
+  }
+});
+
+app.post('/api/vmservice/action/:blockId', async (req, res) => {
+  try {
+    const cfg = readConfig();
+    const block = (cfg.homeLayout && cfg.homeLayout.blocks || []).find(b => b.id === req.params.blockId);
+    if (!block) return res.status(404).json({ error: 'block_not_found' });
+
+    const { action } = req.body;
+    const result = await vmserviceAdapter.triggerAction(cfg, block.config || {}, action);
+    res.json({ status: 'ok', data: result });
+  } catch (err) {
+    res.status(500).json({ error: 'action_failed', message: err.message });
+  }
+});
+
 // === THEMES (v1.9.0) ===
 const THEMES_DIR = path.join(__dirname, 'themes');
 if (!fs.existsSync(THEMES_DIR)) fs.mkdirSync(THEMES_DIR);
