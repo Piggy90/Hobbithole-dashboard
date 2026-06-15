@@ -1,24 +1,11 @@
 # Hobbithole Cinema Dashboard - Changelog
 
-## [v1.9.8-dev] - 2026-06-15
-### In uitvoering (In Progress)
-- Nieuwe features voor de volgende release.
+## [v1.9.4-dev] - 2026-06-15
+### Toegevoegd (Added)
+- **🖥️ VM & Service Control Widget** — Een volledig generieke widget ter vervanging van de oude Proxmox-widget. Ondersteunt nu Proxmox VE API, Systemd Services en Custom Commandos (zowel lokaal als remote via SSH).
+- **📋 Multi-VM & Container Lijst** — Ondersteuning voor het opgeven van meerdere Proxmox VM/LXC ID's (komma-gescheiden). Toont een compacte statuslijst met individuele Start/Stop knoppen, uptime en CPU/RAM statistieken per machine in één widget.
+- **🌐 Nginx API Proxying** — Routering toegevoegd voor de `/api/vmservice/` endpoints in de reverse proxy.
 
-## [v1.9.7] - 2026-06-15
-### In uitvoering (In Progress)
-- Nieuwe features voor de volgende release.
-
-## [v1.9.6] - 2026-06-15
-### In uitvoering (In Progress)
-- Nieuwe features voor de volgende release.
-
-## [v1.9.5] - 2026-06-15
-### In uitvoering (In Progress)
-- Nieuwe features voor de volgende release.
-
-## [v1.9.4] - 2026-06-15
-### In uitvoering (In Progress)
-- Nieuwe features voor de volgende release.
 
 ## [v1.9.3] - 2026-06-14
 ### Toegevoegd (Added)
