@@ -2,9 +2,9 @@
 
 A blazing fast, responsive, self‑configuring dashboard for your homelab. Smart Docker auto‑detection, a cinematic weather widget, and **cross‑device settings sync** via a tiny config API.
 
-> 🆕 **v1.9.2** — **⏏️ USB Beheer & Eject Flow**: Manage and safely unmount USB drives and external SSDs directly from your dashboard with real-time feedback. + **📊 Live p95 Resource Metrics**: Real-time CPU and RAM usage under each app tile via a 5-minute benchmarking system. + **📦 Node.js 18 Compatibility**: Reverted API to Node 18 for broad server support.
+> 🆕 **v1.9.3** — **🌍 Universal USB Eject**: Choice between `signal` (asynchronous host script) and `native` (privileged container `umount`) modes. + **🔄 Auto-Sync Version**: Footer is now automatically in sync with the codebase. + **🧹 Repo Cleanup**: Excluded private management scripts and roadmaps from the public repository.
 >
-> Previously in **v1.9.1**: Wallpaper Cross-Device Sync. **v1.9.0**: Theme Engine (4 built-in themes) + Canvas Mode GA. **v1.8.4**: Watchtower widget + External Services Settings section.
+> Previously in **v1.9.2**: USB Eject Widget + Live p95 Resource Metrics. **v1.9.1**: Wallpaper Cross-Device Sync. **v1.9.0**: Theme Engine + Canvas Mode GA.
 
 ## ⏏️ USB Eject Configuration
 
