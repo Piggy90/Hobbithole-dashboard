@@ -326,8 +326,8 @@ app.post('/api/vmservice/action/:blockId', async (req, res) => {
     const block = (cfg.homeLayout && cfg.homeLayout.blocks || []).find(b => b.id === req.params.blockId);
     if (!block) return res.status(404).json({ error: 'block_not_found' });
 
-    const { action } = req.body;
-    const result = await vmserviceAdapter.triggerAction(cfg, block.config || {}, action);
+    const { action, vmId } = req.body;
+    const result = await vmserviceAdapter.triggerAction(cfg, block.config || {}, action, vmId);
     res.json({ status: 'ok', data: result });
   } catch (err) {
     res.status(500).json({ error: 'action_failed', message: err.message });

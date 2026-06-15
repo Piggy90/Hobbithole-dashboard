@@ -140,29 +140,46 @@ async function proxmoxRequest(config, path, method = 'GET', body = null) {
 // === HOOFD DRIVERS & API EXPORTS ===
 
 async function getStatus(globalConfig, widgetConfig) {
-    const provider = widgetConfig.provider || 'proxmox'; // 'proxmox' | 'systemd' | 'command'
+    const provider = widgetConfig.provider || 'proxmox';
     
     if (provider === 'proxmox') {
         const pveConfig = globalConfig.proxmox;
-        const vmId = widgetConfig.vmId;
-        const type = widgetConfig.vmType || 'qemu'; // 'qemu' of 'lxc'
-        const node = widgetConfig.node || (pveConfig && pveConfig.node) || 'pve';
+        const vmIdInput = String(widgetConfig.vmId || '');
+        if (!vmIdInput) throw new Error('VM/LXC ID niet geconfigureerd in widget');
 
-        if (!vmId) throw new Error('VM/LXC ID niet geconfigureerd in widget');
+        const targetIds = vmIdInput.split(',').map(s => parseInt(s.trim(), 10)).filter(id => !isNaN(id));
+        if (targetIds.length === 0) throw new Error('Geen geldige VM/LXC IDs geconfigureerd');
 
-        const path = `/nodes/${node}/${type}/${vmId}/status/current`;
-        const res = await proxmoxRequest(pveConfig, path, 'GET');
-        const d = res && res.data;
-        if (!d) return { status: 'unknown', name: `VM ${vmId}` };
+        const res = await proxmoxRequest(pveConfig, '/cluster/resources', 'GET');
+        const resources = (res && res.data) || [];
 
-        // Normaliseer output naar een generiek formaat
+        const matched = resources.filter(r => targetIds.includes(r.vmid) && (r.type === 'qemu' || r.type === 'lxc'));
+
+        const items = targetIds.map(id => {
+            const r = matched.find(item => item.vmid === id);
+            if (!r) {
+                return { vmid: id, status: 'unknown', name: `VM ${id}`, cpu: 0, memUsed: 0, memMax: 0, uptime: 0 };
+            }
+            return {
+                vmid: r.vmid,
+                status: r.status,
+                type: r.type,
+                node: r.node,
+                name: r.name || `VM ${id}`,
+                cpu: r.cpu ? Math.round(r.cpu * 100) : 0,
+                memUsed: r.mem || 0,
+                memMax: r.maxmem || 0,
+                uptime: r.uptime || 0
+            };
+        });
+
+        if (items.length === 1) {
+            return items[0]; // Behoud achterwaartse compatibiliteit voor enkele widgets
+        }
+
         return {
-            status: d.status, // 'running', 'stopped'
-            name: d.name || `VM ${vmId}`,
-            cpu: d.cpu ? Math.round(d.cpu * 100) : 0,
-            memUsed: d.mem || 0,
-            memMax: d.maxmem || 0,
-            uptime: d.uptime || 0
+            isList: true,
+            items: items
         };
     } 
     
@@ -230,17 +247,23 @@ async function getStatus(globalConfig, widgetConfig) {
     throw new Error('Onbekende provider: ' + provider);
 }
 
-async function triggerAction(globalConfig, widgetConfig, action) {
+async function triggerAction(globalConfig, widgetConfig, action, targetVmId = null) {
     // action: 'start' | 'stop' | 'reboot'
     const provider = widgetConfig.provider || 'proxmox';
 
     if (provider === 'proxmox') {
         const pveConfig = globalConfig.proxmox;
-        const vmId = widgetConfig.vmId;
-        const type = widgetConfig.vmType || 'qemu';
-        const node = widgetConfig.node || (pveConfig && pveConfig.node) || 'pve';
+        const vmId = targetVmId ? parseInt(targetVmId, 10) : parseInt(widgetConfig.vmId, 10);
+        if (isNaN(vmId)) throw new Error('VM/LXC ID niet geconfigureerd');
 
-        if (!vmId) throw new Error('VM/LXC ID niet geconfigureerd');
+        // Bepaal node en type dynamisch via /cluster/resources
+        const res = await proxmoxRequest(pveConfig, '/cluster/resources', 'GET');
+        const resources = (res && res.data) || [];
+        const r = resources.find(item => item.vmid === vmId && (item.type === 'qemu' || item.type === 'lxc'));
+        if (!r) throw new Error(`VM/LXC met ID ${vmId} niet gevonden op Proxmox host`);
+
+        const node = r.node || 'pve';
+        const type = r.type || 'qemu';
 
         // Proxmox actie mapping
         let pveAction = action;
@@ -248,8 +271,8 @@ async function triggerAction(globalConfig, widgetConfig, action) {
         if (action === 'stop') pveAction = 'stop'; // of 'shutdown'
 
         const path = `/nodes/${node}/${type}/${vmId}/status/${pveAction}`;
-        const res = await proxmoxRequest(pveConfig, path, 'POST');
-        return res && res.data;
+        const actionRes = await proxmoxRequest(pveConfig, path, 'POST');
+        return actionRes && actionRes.data;
     }
 
     if (provider === 'systemd') {

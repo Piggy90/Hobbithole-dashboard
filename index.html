@@ -6365,7 +6365,7 @@ closeBtn.onclick = () => {
 
 // v1.8.2: changelog modal — "What's New" with auto-detected NEW badge.
 // CHANGELOG.md is baked into the dashboard image (COPY in Dockerfile) at /CHANGELOG.md
-const APP_VERSION = '1.9.7-dev';
+const APP_VERSION = '1.9.8-dev';
 
 // ===== RELEASE ANNOUNCEMENTS (v1.8.5) =====
 // First-run pop-up shown ONCE per user, per announcement id. Use this for big feature
@@ -9629,6 +9629,60 @@ registerStandaloneWidget('proxmox', {
 });
 
 function renderVmServiceWidgetBody(wrap, block, data) {
+    if (data.isList && Array.isArray(data.items)) {
+        let itemsHtml = data.items.map(item => {
+            const isRunning = item.status === 'running';
+            const uptimeStr = isRunning && item.uptime ? formatVmServiceUptime(item.uptime) : '';
+            
+            let statsHtml = '';
+            if (isRunning && typeof item.cpu === 'number' && item.memMax > 0) {
+                let cpuPercent = item.cpu;
+                let memUsedGB = item.memUsed / (1024 * 1024 * 1024);
+                let memMaxGB = item.memMax / (1024 * 1024 * 1024);
+                let memPercent = (memUsedGB / memMaxGB) * 100;
+                
+                statsHtml = `
+                    <div class="vmservice-list-item-stats" style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; display: flex; gap: 10px;">
+                        <span>CPU: ${cpuPercent.toFixed(0)}%</span>
+                        <span>RAM: ${memUsedGB.toFixed(1)} / ${memMaxGB.toFixed(1)} GB (${memPercent.toFixed(0)}%)</span>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="vmservice-list-item" style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; gap: 2px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
+                            <span class="vmservice-status-dot ${isRunning ? 'running' : 'stopped'}" style="margin: 0; width: 8px; height: 8px; flex-shrink: 0;" title="${escapeHtmlSafe(item.status || 'unknown')}"></span>
+                            <span class="vmservice-list-item-title" style="font-weight: 500; font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtmlSafe(item.name)}</span>
+                            <span style="font-size: 0.75rem; color: var(--text-muted); flex-shrink: 0;">(${item.vmid})</span>
+                        </div>
+                        <div class="vmservice-list-item-actions" style="display: flex; align-items: center; gap: 6px;">
+                            ${uptimeStr ? `<span style="font-size: 0.72rem; color: var(--text-muted); margin-right: 4px;">${escapeHtmlSafe(uptimeStr)}</span>` : ''}
+                            <button class="vmservice-btn" style="padding: 2px 6px; font-size: 0.72rem; border-radius: 4px;" onclick="triggerVmServiceAction('${block.id}', 'start', ${item.vmid})" ${isRunning ? 'disabled' : ''}>
+                                ▶️
+                            </button>
+                            <button class="vmservice-btn" style="padding: 2px 6px; font-size: 0.72rem; border-radius: 4px;" onclick="triggerVmServiceAction('${block.id}', 'stop', ${item.vmid})" ${!isRunning ? 'disabled' : ''}>
+                                ⏹️
+                            </button>
+                        </div>
+                    </div>
+                    ${statsHtml}
+                </div>
+            `;
+        }).join('');
+
+        wrap.innerHTML = `
+            <div class="vmservice-list-wrap" style="display: flex; flex-direction: column; max-height: 320px; overflow-y: auto; padding: 2px 0;">
+                ${itemsHtml}
+            </div>
+        `;
+        
+        const lastChild = wrap.querySelector('.vmservice-list-item:last-child');
+        if (lastChild) lastChild.style.borderBottom = 'none';
+        return;
+    }
+
     const isRunning = data.status === 'running';
     const displayName = data.name || (block.config && block.config.title) || 'Service';
     
@@ -9759,7 +9813,7 @@ function formatVmServiceUptime(seconds) {
     return parts.join(' ') || '0m';
 }
 
-async function triggerVmServiceAction(blockId, action) {
+async function triggerVmServiceAction(blockId, action, vmId = null) {
     const actionLabel = action === 'start' ? 'starten' : 'stoppen';
     showToast(`Verzoek om service te ${actionLabel} verzonden…`, 'info');
     
@@ -9769,7 +9823,7 @@ async function triggerVmServiceAction(blockId, action) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ action })
+            body: JSON.stringify({ action, vmId })
         });
         
         if (!res.ok) {
@@ -9795,6 +9849,7 @@ async function triggerVmServiceAction(blockId, action) {
         showToast(`Actie mislukt: ${e.message}`, 'error');
     }
 }
+
 
 // ===== APP WIDGETS (server-fed live data shown under tiles) =====
 let widgetCache = {}; // appId → widget result
