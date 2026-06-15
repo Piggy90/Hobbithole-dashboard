@@ -80,16 +80,21 @@ app.post('/api/benchmark/start', (req, res) => {
   }
 });
 
-// === USB BEHEER (v1.9.2) ===
+// === USB BEHEER (v1.9.2+) ===
 const USB_PATH = process.env.USB_PATH || '/usb';
+const USB_EJECT_METHOD = process.env.USB_EJECT_METHOD || 'signal'; // 'signal' of 'native'
 
 app.get('/api/usb/list', (req, res) => {
     try {
         if (!fs.existsSync(USB_PATH)) return res.json({ devices: [] });
         const items = fs.readdirSync(USB_PATH);
         const devices = items
-            .filter(item => !item.startsWith('.')) // Verberg systeemmappen en vlaggetjes
-            .filter(item => fs.statSync(path.join(USB_PATH, item)).isDirectory())
+            .filter(item => !item.startsWith('.')) 
+            .filter(item => {
+                try {
+                    return fs.statSync(path.join(USB_PATH, item)).isDirectory();
+                } catch (e) { return false; }
+            })
             .map(item => ({
                 id: item,
                 name: item,
@@ -97,9 +102,7 @@ app.get('/api/usb/list', (req, res) => {
                 ejecting: fs.existsSync(path.join(USB_PATH, item, '.eject_requested'))
             }));
         
-        // Check ook voor '.ejected_xxx' flags in de root van /usb (succes meldingen)
         const ejectedFlags = items.filter(f => f.startsWith('.ejected_')).map(f => f.replace('.ejected_', ''));
-        
         res.json({ devices, ejected: ejectedFlags });
     } catch (err) {
         res.status(500).json({ error: 'list_failed', message: err.message });
@@ -110,18 +113,33 @@ app.post('/api/usb/eject', (req, res) => {
     const { deviceId } = req.body;
     if (!deviceId) return res.status(400).json({ error: 'missing_deviceId' });
 
-    const signalFolder = path.join(USB_PATH, '.eject_signals', deviceId);
-
-    try {
-        // Maak de map aan. De host watcher pikt de wijziging in '.eject_signals' op.
-        if (!fs.existsSync(path.dirname(signalFolder))) {
-            fs.mkdirSync(path.dirname(signalFolder), { recursive: true });
-        }
-        fs.mkdirSync(signalFolder, { recursive: true });
+    if (USB_EJECT_METHOD === 'native') {
+        // Methode 2: Direct ontkoppelen vanuit de container (vereist privileged: true)
+        const mountPath = path.join(USB_PATH, deviceId);
+        console.log(`[USB] Native eject requested for ${mountPath}`);
         
-        res.json({ status: 'eject_requested', message: `Eject signal sent for ${deviceId}` });
-    } catch (err) {
-        res.status(500).json({ error: 'eject_failed', message: err.message });
+        exec(`sync && umount -l "${mountPath}"`, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`[USB] Native eject failed: ${stderr}`);
+                return res.status(500).json({ error: 'native_eject_failed', message: stderr });
+            }
+            // Maak een succes-vlaggetje aan voor de frontend
+            const flagFile = path.join(USB_PATH, `.ejected_${deviceId}`);
+            fs.writeFileSync(flagFile, Date.now().toString());
+            res.json({ status: 'success', message: `Device ${deviceId} unmounted natively.` });
+        });
+    } else {
+        // Methode 1: Signalering (Standaard Hobbithole flow via host watcher)
+        const signalFolder = path.join(USB_PATH, '.eject_signals', deviceId);
+        try {
+            if (!fs.existsSync(path.dirname(signalFolder))) {
+                fs.mkdirSync(path.dirname(signalFolder), { recursive: true });
+            }
+            fs.mkdirSync(signalFolder, { recursive: true });
+            res.json({ status: 'eject_requested', message: `Eject signal sent for ${deviceId}` });
+        } catch (err) {
+            res.status(500).json({ error: 'signal_failed', message: err.message });
+        }
     }
 });
 

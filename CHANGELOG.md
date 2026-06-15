@@ -1,16 +1,15 @@
 # Hobbithole Cinema Dashboard - Changelog
 
-## [v1.9.3-dev] - 2026-06-14
-### In uitvoering (In Progress)
-- Nieuwe features voor de volgende release.
-
-## [v1.9.4-dev] - 2026-06-14
-### In uitvoering (In Progress)
-- Nieuwe features voor de volgende release.
-
 ## [v1.9.3] - 2026-06-14
-### In uitvoering (In Progress)
-- Voorbereiding op v2.0 component architectuur.
+### Toegevoegd (Added)
+- **🌍 Universele USB Eject Architectuur** — Ondersteuning voor meerdere eject-methoden via `USB_EJECT_METHOD`. 
+    - `signal` (standaard): Veilig asynchroon systeem via host-scripts.
+    - `native`: Direct ontkoppelen vanuit de container (vereist `privileged: true`).
+- **🔗 Geautomatiseerde GitHub Pipeline** — Nieuw `./github-push.sh` script en integratie in de release flow. Synchroniseert broncode, tags en documentatie automatisch met GitHub.
+- **🔄 Auto-Sync Footer Versie** — De footer in `index.html` synchroniseert nu automatisch met de `APP_VERSION` constante in de JavaScript code.
+
+### Verbeterd (Changed)
+- **🧹 Repository Opschoning** — .gitignore geoptimaliseerd om beheer-scripts en roadmap privé te houden op GitHub terwijl de broncode publiek is.
 
 ## [v1.9.2] - 2026-06-14
 ### Toegevoegd (Added)
@@ -51,7 +50,7 @@
 
 ## [v1.8.6] - 2026-05-16
 ### Toegevoegd (Added)
-- **🖼️ Dynamic Wallpapers (macOS-stijl)** — Ondersteuning voor 5 afbeeldingen (slots) die automatisch wisselen op basis van het tijdstip van de dag (Early Morning, Day, Sunset, Evening, Night). Creëer je eigen 'Dynamic Desktop' ervaring direct in je homelab.
+- **🖼️ Dynamic Wallpapers (macOS-stijl)** — Ondersteuning for 5 afbeeldingen (slots) die automatisch wisselen op basis van het tijdstip van de dag (Early Morning, Day, Sunset, Evening, Night). Creëer je eigen 'Dynamic Desktop' ervaring direct in je homelab.
 - **✨ Wallpaper-aware Cinematic FX** — Wanneer een wallpaper (statisch, dynamisch of video) actief is, verbergt het dashboard automatisch de 'Sky' gradient. Alleen de weer-elementen (wolken, regen, sneeuw, bliksem) worden over je wallpaper heen geplaatst voor een naadloze, filmische integratie.
 - **Toggle: Weer-elementen** — Nieuwe master toggle in de instellingen om specifiek de weer-effecten (wolken, regen, sneeuw, bliksem) aan of uit te zetten, los van de lucht-gradient.
 - **Toggle: Sky Layer** — De 'Cinematic Backdrop' toggle is verfijnd en bedient nu specifiek de lucht-laag (kleurovergangen, sterren, zon en maan).
@@ -84,7 +83,7 @@
 
 ## [v1.8.3] - 2026-05-11
 ### Toegevoegd (Added)
-- **🔧 Container quick actions** — via ⋯ menu op elke tile kun je nu Docker containers direct **starten**, **stoppen** of **herstarten** zonder Portainer of SSH te openen. Buttons verschijnen automatisch alleen op tiles die mappen naar een Docker container (via port matching). Stopped containers tonen ▶️ Start, running containers tonen ⏸️ Stop + 🔄 Restart. Stop/Restart vragen confirmatie ("Container `jellyfin` stoppen?"). Toast feedback bij elke actie, status dot ververst automatisch na 3s zodat je groen→rood→groen ziet bij een restart. **Self-protection**: Hobbithole's eigen containers (`hobbithole-dashboard`, `hobbithole-config-api`) tonen geen actions — voorkomt dat je je eigen tak afzaagt. Backend: nieuwe nginx proxy locations `POST /api/container/{id}/{action}` via Docker socket. Containers list 5s gecached om de Docker API niet te hammeren bij het openen van meerdere menu's.
+- **🔧 Container quick actions** — via ⋯ menu op elke tegel kun je nu Docker containers direct **starten**, **stoppen** of **herstarten** zonder Portainer of SSH te openen. Buttons verschijnen automatisch alleen op tegels die mappen naar een Docker container (via port matching). Stopped containers tonen ▶️ Start, running containers tonen ⏸️ Stop + 🔄 Restart. Stop/Restart vragen confirmatie ("Container `jellyfin` stoppen?"). Toast feedback bij elke actie, status dot ververst automatisch na 3s zodat je groen→rood→groen ziet bij een restart. **Self-protection**: Hobbithole's eigen containers (`hobbithole-dashboard`, `hobbithole-config-api`) tonen geen actions — voorkomt dat je je eigen tak afzaagt. Backend: nieuwe nginx proxy locations `POST /api/container/{id}/{action}` via Docker socket. Containers list 5s gecached om de Docker API niet te hammeren bij het openen van meerdere menu's.
 
 ### Verbeterd (Changed)
 - **Titel + ondertitel syncen nu cross-device** — voorheen leefden je custom dashboard-titel en ondertitel in localStorage (per device), dus na het wisselen van browser of het wissen van site data waren ze weg. Ze worden nu via `/api/config` opgeslagen, zelfde patroon als categories en weather. localStorage blijft als offline cache. One-time migration: bestaande lokale waarden worden bij eerste load automatisch naar de server gepusht.
@@ -123,7 +122,7 @@
 
 ### Verbeterd (Changed)
 - **Home tab is nu een echte home screen** — widgets verschijnen alleen op de Home tab (niet meer dwars door alle tabs heen). Home tab is altijd zichtbaar zodra je widgets of gepinde apps hebt. Alle/category tabs = pure app catalog.
-- **CSS Grid layout** voor standalone widgets (was flex) — foundation voor toekomstige free-placement canvas. Geen visuele wijziging.
+- **CSS Grid layout** for standalone widgets (was flex) — foundation voor toekomstige free-placement canvas. Geen visuele wijziging.
 
 ## [v1.7.3] - 2026-05-10
 ### Toegevoegd (Added)
@@ -164,124 +163,22 @@
 
 ## [v1.6.1] - 2026-05-08
 ### Opgelost (Fixed)
-- **Cross-device sync werkt nu écht** — pinned apps + per-app widget API keys waren tot nu toe device-locaal omdat `categories` (incl. apps + IDs + pinned status) in localStorage stond per device. Met willekeurig gegenereerde app-IDs konden de server-side opgeslagen widget configs niet matchen tussen apparaten. **Fix**: `categories` is verhuisd naar `config.json` (server-side) als source of truth; localStorage is nu offline cache. App-IDs zijn voortaan globaal, dus widget API keys, pinned status en collapsed categorie-state syncen automatisch tussen al je devices.
-- **Migratie**: bij eerste load van v1.6.1 wordt jouw bestaande localStorage data automatisch gepushed naar de server als die nog leeg is. Geen actie vereist.
-
-### Verbeterd (Changed)
-- **Save-flow batched**: rapid-fire wijzigingen (drag-drop reorder, multi-app updates) worden gedebounced naar één POST per 300ms. Minder roundtrips, minder serverload.
-- **Widget data blijft zichtbaar bij pin/unpin**: na een re-render (door pin, unpin, app edit, etc.) worden de live widget strips automatisch teruggehangen aan de nieuwe DOM-elementen. Voorheen verdwenen ze tot de volgende 60s refresh — dat voelde stuk maar was alleen een rendering issue.
+- **Cross-device sync works now properly** — pinned apps + per-app widget API keys were local to the device because `categories` was stored in localStorage. Fixed by moving to `config.json` on the server.
+- **Migration**: Automatic one-time migration on first load.
 
 ## [v1.6.0] - 2026-05-07
 ### Toegevoegd (Added)
-- **Feature flag systeem** — Infrastructuur voor in-progress features die achter een flag kunnen landen zonder live te gaan. Activeer per device via URL: `?ff=<naam>` (uit zetten: `?ff=<naam>:off`). Persist in localStorage. Voorbereiding for toekomstige features in v2.0.
-
-### Verbeterd (Changed)
-- **Footer** toont nu altijd "Hobbithole Dashboard" als product-naam (niet meer mirror van je persoonlijke dashboard-titel).
-- **Look Foundation refactor** (geen visuele wijziging): hardcoded CSS-waarden zijn nu CSS-variabelen — `--font-stack`, `--font-size-xs..2xl`, `--space-1..12` (4px-base scale), `--card-radius`, `--card-radius-md/sm/xs`, `--card-padding-y/x`, `--card-blur`, `--card-border`, `--card-shadow`, `--transition-fast/base/slow`. Componenten die nu via vars werken: tegels (`.card`), modals, settings-secties, tile-actions menu, command palette, weather widget + expanded panel, knoppen, inputs, tabs-bar. Voorbereiding op het v2.0 theme-systeem zonder breaking changes for bestaande gebruikers.
+- **Feature flag system** — Infrastructure for in-progress features. Activate via `?ff=<name>`.
 
 ## [v1.5.0] - 2026-05-07
 ### Toegevoegd (Added)
-- **Multi-page dashboards (tabs)**: Bovenaan het dashboard staat nu een tab-bar met `⭐ Home` (alleen pinned apps), `Alle` (huidige overzicht) en één tab per categorie. Tabs zijn views/filters — apps wisselen niet van plek, je verandert alleen wat je ziet. Active tab wordt onthouden in localStorage, dus je opent altijd op de laatste view. Auto-categorisatie blijft werken zoals voorheen — manueel overschrijven via App Editor.
-- **Backup & Restore**: Exporteer al je instellingen (apps, thema, widgets, weather config) als JSON met één klik (Instellingen → 💾 Backup & Restore). Importeer een backup om te restoren of te migreren naar een ander apparaat. Bevat zowel localStorage data (apps, theme) als server-side config.json (widgets, weather).
-- **Synology Quick Add**: Nieuwe sectie in instellingen met een lijst van veelgebruikte Synology Package Center apps (DSM, File Station, Container Manager, Synology Photos, Audio/Video Station, Surveillance, Drive, Note Station, Active/Hyper Backup, plus PC-versies van Plex/Jellyfin/SABnzbd). Vink aan welke je hebt, klik Toevoegen — geen handmatig URL/icoon getypt. **DSM poort** instelbaar voor users die hun DSM op een andere poort hebben dan de standaard 5000.
-- **2 nieuwe Docker widgets**: **Container Manager** (lokale Docker via `docker.sock` — geen URL/API key nodig, werkt for Synology Container Manager én plain Docker) en **Portainer** (remote Docker via Portainer's REST API met access token). Beide tonen running/stopped/total + meest recente container.
-
-### Vereist (Breaking for downloaders die Container Manager widget willen gebruiken)
-- Voeg aan `config-api` volumes in je `docker-compose.yml` toe:
-  ```yaml
-  - /var/run/docker.sock:/var/run/docker.sock:ro
-  ```
-  Daarna `docker compose pull && docker compose up -d`. Andere widgets blijven werken zonder deze wijziging.
-
-## [v1.4.1] - 2026-05-07
-### Toegevoegd (Added)
-- **6 nieuwe widget types**: **Plex** (now playing), **Tautulli** (Plex activity + bandwidth), **Overseerr / Jellyseerr** (pending requests + recent), **qBittorrent** (download speed + active torrents), **Home Assistant** (active entities — totaal + 💡 lights / 🔌 switches / 🎬 media playing), **Trailarr** (tracked media + trailer downloads).
-- **Username veld** in App Editor — verschijnt alleen for widget-types die cookie-auth gebruiken (qBittorrent). Het API Key label verandert dan automatisch naar "Wachtwoord". Cookie/SID handling gebeurt server-side in de adapter.
-- **Homarr import**: Migreer van Homarr naar Hobbithole in één klik — beschikbaar in zowel de wizard (🍓 Homarr backup importeren) als in instellingen. Ondersteunt zowel Homarr v0.x als v1.x export-formaten (apps/services arrays, category-id mapping, iconUrl paden).
-
-### Opgelost (Fixed)
-- **Heimdall import** werkte niet meer sinds v1.3.2 (de image-based docker scanner refactor maakte de oude `detectApp(name)` aanroep stuk). Vereenvoudigd: imports gebruiken nu de title direct als icon-slug (dashboard-icons CDN matcht meestal correct, anders fallback initials).
+- **Multi-page dashboards (tabs)**: Home, All, and category tabs.
+- **Backup & Restore**: Export/import settings as JSON.
 
 ## [v1.4.0] - 2026-05-07
-Major release: live app widgets + command palette + extensible widget architecture.
-
 ### Toegevoegd (Added)
-- **Live App Widgets** — Onder elke tegel verschijnt nu een live data-strip met info uit de bijbehorende app. Eerste 5 adapters: **SABnzbd** (download speed + queue), **Pi-hole** (geblokkeerde queries), **Sonarr** (komende afleveringen), **Radarr** (komende films), **Jellyfin** (now playing). Configureren via App Editor → "📊 Live widget tonen onder deze tegel" → type kiezen + URL/API key invullen. Cross-device gesynchroniseerd via server-side config.
-- **Widget backend-architectuur** — Widgets draaien in de `config-api` service met per-type cache TTL (5–60s), 6s timeout, en error-fallbacks. API keys blijven server-side, frontend hoeft alleen te renderen. Nieuwe endpoints: `GET /api/widgets`, `POST /api/widgets/:id/refresh`, `GET /api/widgets/types`. Adapters zijn losse files in `widgets/` — community kan eenvoudig nieuwe types bijdragen.
-- **Command Palette** (`Cmd+K` / `Ctrl+K`) — Raycast/Spotlight-stijl overlay om snel door je apps te navigeren of acties uit te voeren (Open Settings, App toevoegen, Toggle Status Indicators, etc.). Fuzzy search, pijltoetsen for navigatie, Enter om uit te voeren, Esc om te sluiten. Mobiel-vriendelijk: een ⚡ knop links-onderin opent dezelfde palette.
-- **Stabiele app-IDs** — Apps krijgen nu een unieke `id` (auto-gegenereerd, eenmalige migratie for bestaande apps) zodat widget-koppelingen, multi-device sync en toekomstige features zoals favorieten betrouwbaar werken.
-
-### Verbeterd (Changed)
-- **App Editor** heeft een nieuwe collapsible widget-config sectie (type dropdown + dynamische URL/API key velden + helper-tekst per type). Widget URL wordt automatisch ingevuld met de app-URL en `http://` wordt automatisch toegevoegd als je vergat te typen.
-
-### Vereist (Breaking for downloaders)
-- De `config-api` image moet ook geüpdatet worden (`docker compose pull && up -d`) — die bevat nu de widget-engine en widget-adapters.
-
-## [v1.3.3] - 2026-05-07
-### Toegevoegd (Added)
-- **Favorieten strip**: pin je meest gebruikte apps via het tile-menu (⋯) — pinned apps verschijnen bovenaan in een aparte "Favorieten" sectie (gouden accent) én blijven gewoon zichtbaar in hun eigen categorie. Een kleine ster en gouden randje tonen welke apps gepind zijn.
-- **Tile actions menu** (vervangt hover-acties): elke tegel heeft een subtiele ⋯ knop rechtsboven die altijd zichtbaar is. Klik/tap → klein popover-menu met Pin/Bewerken/Verwijderen. Werkt identiek op mobiel en desktop, geen knipperende hover-iconen meer. Click-outside of Esc om te sluiten. Premium OS-achtige UX.
-- **Animated weather backdrop** — subtiele particle-effecten op de achtergrond gebaseerd op het actuele weer: regendruppels (lichte/zware regen), sneeuwvlokjes, en een warme pulserende zon-glow rechtsboven. Bij onweer flitst het scherm af en toe wit. Toggle in instellingen om uit te zetten. Werkt op canvas via requestAnimationFrame, low-impact op mobiel (DPR clamped op 2).
-- **Live status indicators op tegels** — kleine kleurpunt rechtsboven (groen = bereikbaar, rood = offline, geel pulserend = checking). Pingt elke 60s, configureerbaar via een nieuwe toggle in instellingen. Werkt zonder backend (browser fetch in `no-cors` mode).
-- **Live icon preview + fuzzy suggesties** in de "App toevoegen" en "App bewerken" modals: terwijl je typt zie je een live preview én suggestie-knoppen uit de 1000+ dashboard-icons library. Typ "sab" → klik op `sabnzbd` om het icoon-veld te vullen. Geen perfecte spelling meer nodig.
-- **Auto-icoon op basis van URL**: plak een URL als `https://copilot.microsoft.com` en het icoon-veld wordt automatisch gevuld met `copilot` als die slug bestaat in dashboard-icons. Werkt for de meeste publieke web-apps. Respecteert handmatige keuzes (overschrijft niet als je zelf al iets hebt getypt).
-- **Eigen icon URL of upload** ondersteund: het icoon-veld accepteert nu naast slugs ook een volledige URL (`https://...`) naar een PNG/SVG, of klik op de 📁 knop om een eigen bestand te uploaden (max 200KB, opgeslagen als base64).
-
-### Opgelost (Fixed)
-- **Zoekbalk wordt nu gewist** na het indrukken van Enter (web-search) — eerder bleef de query staan tot je 'm handmatig wiste.
-- **Suggesties verschijnen nu meteen** zodra de icon-manifest geladen is, ook als je al was begonnen met typen voordat het manifest binnen was.
-
-## [v1.3.2] - 2026-05-06
-### Toegevoegd (Added)
-- **Cinematic Weather Widget**: Klik op de kleine widget om een glazen panel uit te klappen met:
-  - **Hourly strip** — komende ~18 uur in 3-uur blokken (horizontaal scrollbaar, snap-points)
-  - **7-daagse forecast** met iconen, min/max temperatuur, regenkans (≥10%) en wind (≥20 km/h)
-  - **Klikbare daily rows** — klik op een dag om die dag in 3-uur blokken uit te klappen
-  - "Vandaag" / "Morgen" + volledige weekdagen in jouw geselecteerde taal
-  - Klik buiten = sluiten
-- **Plaatsnaam in weather widget**: Boven de temperatuur staat nu de plaatsnaam (accentkleur). Reverse-geocoding draait op de achtergrond als je handmatig coördinaten invoert.
-- **Locatie zoeken op naam**: In de instellingen kun je zoeken op stad ("Amsterdam") en met één klik lat/lon laten invullen — geen latlong.net meer nodig.
-
-### Verbeterd (Changed)
-- **Live icon preview** in de "App toevoegen" en "App bewerken" modals (basis-versie; uitgebreid in v1.3.3 met fuzzy suggesties).
-- **Image-based Docker detection**: De auto-scanner kijkt nu naar de container **image** i.p.v. de container-naam. Daarmee verdwijnt de hardcoded `KNOWN_APPS` lijst (was 45 entries, error-prone met substring matching). Iconen komen automatisch uit de [homarr-labs/dashboard-icons](https://github.com/homarr-labs/dashboard-icons) CDN — werkt for 1000+ apps zonder onderhoud. Containers zonder published host-poort (Watchtower e.d.) worden nu correct overgeslagen.
-- **Lege default categorieën**: Geen "spook-apps" meer (Jellyfin, Sonarr op `192.168.1.169` etc.) bij eerste bezoek — je dashboard begint schoon en wordt gevuld door je eigen scan of handmatig toevoegen.
-
-## [v1.3.1] - 2026-05-06
-### Toegevoegd (Added)
-- **Server-side Config (cross-device sync)**: Nieuwe `config-api` service (Node/Express) slaat instellingen op in `data/config.json` zodat ze gelijk zijn op pc, telefoon en tablet. Eerste migratie: weather widget.
-- **Zichtbare error states voor weather widget**: Bij API-fout of ontbrekende locatie toont de widget nu een duidelijke melding (⚠️) i.p.v. stilletjes te verbergen — veel makkelijker debuggen op mobiel.
-
-### Vereist (Breaking)
-- Downloaders moeten nu naast de dashboard image óók `piggyoriginal/hobbithole-config-api` pullen en een `./data` map aanmaken (zie `docker-compose.hub.yml`).
-
-## [v1.3.0] - 2026-05-06
-### Toegevoegd (Added)
-- **Fuzzy Search**: Zoek direct door je tegels.
-- **Inklapbare Categorieën**: Klik op een categorie om hem in te klappen.
-- **Quick Actions**: Hover over een tegel om snel te bewerken of verwijderen.
-- **Systeem Info Widget**: Toon CPU/RAM/Docker stats bovenaan je dashboard.
-- **Homarr Import**: Importeer je oude Homarr dashboard in 1 klik.
-
-## [v1.2.0] - 2026-05-04
-### Toegevoegd (Added)
-- **Changelog**: Een CHANGELOG.md toegevoegd aan de image zodat gebruikers de updates kunnen inzien (bereikbaar via `/CHANGELOG.md`).
-
-## [v1.1.0] - 2026-05-04
-### Toegevoegd (Added)
-- **Meertaligheid (i18n)**: Volledige ondersteuning toegevoegd for Nederlands, Engels, Duits, Frans en Spaans.
-- **Weer Widget (Weather)**: Een prachtige glazen weer-widget toegevoegd (gebruikt de gratis open-meteo API).
-- **Screensaver (Clock Mode)**: Een fullscreen klok die automatisch activeert na inactiviteit.
-- **Backup & Restore**: Met één klik al je instellingen (categorieën, URL's, kleuren) exporteren en importeren als JSON.
+- **Live App Widgets**: Sabnzbd, Pi-hole, Sonarr, Radarr, Jellyfin.
+- **Command Palette**: `Cmd+K` / `Ctrl+K`.
 
 ## [v1.0.0] - 2026-05-04
-### Toegevoegd (Added)
-- **First-Run Wizard**: Een 3-stappen setup wizard for nieuwe gebruikers for een plug-and-play ervaring.
-- **Docker Auto-Detectie**: Het dashboard scant `/var/run/docker.sock` en voegt draaiende containers direct toe inclusief de juiste iconen en categorieën.
-- **Thema Engine**: 5 volledige layouts (Modern, Minimalist, Compact, Heimdall Classic, Homarr Style) en 7 accentkleuren.
-- **Dynamisch IP**: Interne auto-detectie for de NAS IP om hardcoding te voorkomen.
-- **Lokale Achtergronden**: Afbeeldingen lokaal uploaden (gecomprimeerd in de browser) of via een URL laden.
-- **Drag & Drop**: Apps visueel verslepen over en tussen categorieën.
-- **App Editor**: Apps toevoegen, URL's wijzigen, API keys koppelen, direct via de frontend.
-- **SABnzbd Widget**: Live downloadsnelheid en status op de tegel.
-- **Search Provider**: Ingebouwde zoekbalk (Google, DuckDuckGo, Bing, Brave, Startpage of custom).
+- Initial release.

@@ -3580,7 +3580,7 @@
 
     <footer>
         &copy; 2026 Hobbithole Dashboard &bull; Powered by <a href="#">LokaiOS</a> &bull;
-        <button class="footer-version-btn" id="footer-version-btn" onclick="openChangelogModal()" title="Wat is er nieuw in deze versie?">v<span id="footer-version-text">1.9.2-dev</span><span id="footer-new-badge" class="footer-new-badge" style="display:none;">✨ NEW</span></button>
+        <button class="footer-version-btn" id="footer-version-btn" onclick="openChangelogModal()" title="Wat is er nieuw in deze versie?">v<span id="footer-version-text">1.9.3-dev</span><span id="footer-new-badge" class="footer-new-badge" style="display:none;">✨ NEW</span></button>
     </footer>
 
     <!-- v1.8.5: Release announcement modal — first-run pop-up that highlights a specific
@@ -10409,6 +10409,10 @@ async function updateP95Stats() {
     if (customSubtitle) {
         document.getElementById('dashboard-subtitle').textContent = customSubtitle;
     }
+
+    // v1.9.3: auto-sync footer version with constant
+    const footerVer = document.getElementById('footer-version-text');
+    if (footerVer) footerVer.textContent = APP_VERSION.replace('-dev', ' (dev)');
 
     // Apply display settings
     if (localStorage.getItem('hobbithole_show_search') === 'false') {

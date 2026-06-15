@@ -6,6 +6,15 @@ A blazing fast, responsive, self‑configuring dashboard for your homelab. Smart
 >
 > Previously in **v1.9.1**: Wallpaper Cross-Device Sync. **v1.9.0**: Theme Engine (4 built-in themes) + Canvas Mode GA. **v1.8.4**: Watchtower widget + External Services Settings section.
 
+## ⏏️ USB Eject Configuration
+
+The dashboard supports two methods for safely unmounting external drives:
+
+1.  **`SIGNAL` Mode (Default)**: The container writes a signal file. A simple script on your host (provided in the GitHub repo) monitors these signals and performs the actual `umount`. This is the safest method as it doesn't require extra Docker permissions.
+2.  **`NATIVE` Mode**: The dashboard performs the `umount` command directly from within the container.
+    *   **Requirement**: You must add `privileged: true` to the `config-api` service in your Docker Compose.
+    *   **Environment Variable**: Set `USB_EJECT_METHOD=native` on the `config-api` service.
+
 ## 🚀 Install via Docker Compose
 
 ```yaml
