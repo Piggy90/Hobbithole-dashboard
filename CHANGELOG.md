@@ -1,10 +1,24 @@
 # Hobbithole Cinema Dashboard - Changelog
 
-## [v1.9.4-dev] - 2026-06-15
+## [v1.9.5-dev] - 2026-06-17
+### In uitvoering (In Progress)
+- Nieuwe features voor de volgende release.
+
+## [v1.9.4] - 2026-06-16
 ### Toegevoegd (Added)
 - **🖥️ VM & Service Control Widget** — Een volledig generieke widget ter vervanging van de oude Proxmox-widget. Ondersteunt nu Proxmox VE API, Systemd Services en Custom Commandos (zowel lokaal als remote via SSH).
 - **📋 Multi-VM & Container Lijst** — Ondersteuning voor het opgeven van meerdere Proxmox VM/LXC ID's (komma-gescheiden). Toont een compacte statuslijst met individuele Start/Stop knoppen, uptime en CPU/RAM statistieken per machine in één widget.
 - **🌐 Nginx API Proxying** — Routering toegevoegd voor de `/api/vmservice/` endpoints in de reverse proxy.
+- **⚡ Command Palette Snelkoppelingen** — 'Home-indeling bewerken (Canvas mode)' en 'Home widgets beheren' toegevoegd aan het Command Palette (Cmd+K / Ctrl+K) voor betere vindbaarheid van edit-opties.
+- **🌍 Globale Taalswitcher** — Een handige, zwevende taalknop toegevoegd in de linkerbovenhoek van het dashboard. Hiermee kunnen gebruikers direct de taal wisselen (Nederlands, Engels, Duits, Frans, Spaans) zonder in de instellingen te hoeven duiken. De knop synchroniseert automatisch met de actieve taal.
+
+### Verbeterd (Changed)
+- **🌍 Dashboard-brede Internationalisering (i18n)** — Alle resterende hardcoded teksten in `index.html` (zoals app-kiezer, Docker-scanner, agenda, bookmarks, RSS-feed, VM-acties, USB-beheer en systeem-benchmarks) vervangen door dynamische `t()` vertaal-aanroepen.
+- **📚 Synchronisatie Vertaalbestanden** — Alle vertaalbestanden (`nl.json`, `en.json`, `de.json`, `fr.json`, `es.json`) volledig gesynchroniseerd en aangevuld met ontbrekende instellingen- en USB/Service-sleutels. Elk bestand bevat nu exact 308 vertaalsleutels.
+
+### Opgelost (Fixed)
+- **🎨 Dynamische Canvas Hoogte** — Probleem opgelost waarbij de widgets op de Home tab buiten de parent container overflowden en lagere elementen overlapten. De containerhoogte wordt nu dynamisch berekend en aangepast op basis van de widgetposities en -hoogtes (met behulp van een `ResizeObserver` en drag event listeners).
+- **🗣️ Home Widgets Vertaling** — De titel en omschrijving van de "Home Widgets" sectie in de instellingen waren hardcoded in het Nederlands (inclusief incorrecte meertaligheid). Deze zijn nu overgezet naar het i18n-systeem (`data-i18n`) en netjes vertaald naar alle ondersteunde talen (NL, EN, DE, FR, ES), inclusief een grammaticale verbetering ("gesynchroniseerd tussen al je apparaten").
 
 
 ## [v1.9.3] - 2026-06-14
