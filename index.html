@@ -3909,12 +3909,12 @@
             <h3 data-i18n="settings.customize">Vormgeving</h3>
             <!-- v1.9.0: Theme Engine (FF-gated) -->
             <div id="theme-engine-row" style="display: none; margin-bottom: 25px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid var(--border-color);">
-                <label style="font-weight: 600; display: block; margin-bottom: 10px;">🎨 Thema Experience</label>
+                <label style="font-weight: 600; display: block; margin-bottom: 10px;" data-i18n="settings.themeEngineTitle">🎨 Thema Experience</label>
                 <div id="theme-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px;">
                     <!-- Themes populated via JS -->
-                    <div class="theme-card loading" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">Laden...</div>
+                    <div class="theme-card loading" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.85rem;" data-i18n="settings.loading">Laden...</div>
                 </div>
-                <small style="color: var(--text-muted); display: block; margin-top: 10px;">Thema's overschrijven je huidige vormgeving met een curated experience.</small>
+                <small style="color: var(--text-muted); display: block; margin-top: 10px;" data-i18n="settings.themeEngineDesc">Thema's overschrijven je huidige vormgeving met een curated experience.</small>
             </div>
 
             <!-- Accent Color -->
@@ -3947,7 +3947,7 @@
                 <button class="btn btn-secondary btn-small" onclick="promptBackgroundUrl()" data-i18n="settings.useUrl">URL gebruiken</button>
                 <button class="btn btn-secondary btn-small" onclick="resetBackground()" data-i18n="settings.removeBackground">Verwijderen</button>
                 <!-- v1.8.3: warn user that background lives in localStorage (lost on site-data clear / different browser) -->
-                <div style="margin-top: 10px; padding: 10px 12px; background: rgba(56, 189, 248, 0.08); border-left: 3px solid var(--accent-color); border-radius: 6px; font-size: 0.85em; color: var(--text-muted); line-height: 1.5;">
+                <div style="margin-top: 10px; padding: 10px 12px; background: rgba(56, 189, 248, 0.08); border-left: 3px solid var(--accent-color); border-radius: 6px; font-size: 0.85em; color: var(--text-muted); line-height: 1.5;" data-i18n="settings.bgWarning">
                     ℹ️ De achtergrond wordt lokaal in je browser opgeslagen (te zwaar voor cross-device sync). Bij <em>browser data wissen</em> of een ander apparaat ben je 'm kwijt. Maak een <a href="#section-backup-restore" onclick="document.getElementById('section-backup-restore').scrollIntoView({behavior:'smooth'}); return false;" style="color: var(--accent-color);">backup</a> om dit te voorkomen. Cross-device achtergrond komt in een latere release.
                 </div>
             </div>
@@ -3956,11 +3956,11 @@
             <div class="form-group" id="dynamic-wallpaper-row">
                 <label style="display: flex; align-items: center; gap: 10px;">
                     <input type="checkbox" id="setting-dynamic-wallpaper-enabled" onchange="toggleDynamicWallpaper()">
-                    <span>🌅 Dynamische achtergrond (tijd-van-dag rotatie)</span>
+                    <span data-i18n="settings.dynamicWallpaper">🌅 Dynamische achtergrond (tijd-van-dag rotatie)</span>
                 </label>
-                <small style="color: var(--text-muted); display: block; margin-top: 4px; margin-left: 28px;">5 afbeeldingen wisselen automatisch met het tijdstip. Lege slots vallen terug op de vorige beschikbare slot. macOS Mojave-stijl.</small>
+                <small style="color: var(--text-muted); display: block; margin-top: 4px; margin-left: 28px;" data-i18n="settings.dynamicWallpaperDesc">5 afbeeldingen wisselen automatisch met het tijdstip. Lege slots vallen terug op de vorige beschikbare slot. macOS Mojave-stijl.</small>
                 <div id="dynamic-wallpaper-slots" class="dynamic-wallpaper-grid" style="margin-top: 12px;"></div>
-                <div style="margin-top: 10px; padding: 10px 12px; background: rgba(56, 189, 248, 0.08); border-left: 3px solid var(--accent-color); border-radius: 6px; font-size: 0.82em; color: var(--text-muted); line-height: 1.5;">
+                <div style="margin-top: 10px; padding: 10px 12px; background: rgba(56, 189, 248, 0.08); border-left: 3px solid var(--accent-color); border-radius: 6px; font-size: 0.82em; color: var(--text-muted); line-height: 1.5;" data-i18n="settings.dynamicWallpaperWarning">
                     ℹ️ Images worden automatisch gecomprimeerd naar 1920×1080 JPEG (~500KB per slot) zodat alle 5 samen onder de browser-quota passen. Upload mag tot 50MB groot zijn. Lokaal opgeslagen, zelfde caveat als statische achtergrond.
                 </div>
             </div>
@@ -3969,20 +3969,18 @@
             <div class="form-group" id="live-wallpaper-row" style="display: none;">
                 <label style="display: flex; align-items: center; gap: 10px;">
                     <input type="checkbox" id="setting-live-wallpaper-enabled" onchange="toggleLiveWallpaper()">
-                    <span>🎬 Live wallpaper <span style="color:var(--text-muted);font-weight:normal;font-size:0.78em;">(beta · alleen desktop)</span></span>
+                    <span data-i18n="settings.liveWallpaper">🎬 Live wallpaper (beta · alleen desktop)</span>
                 </label>
-                <div id="live-wallpaper-status" style="font-size:0.82rem;color:var(--text-muted);margin: 6px 0 8px 28px;">Geen video ingesteld</div>
+                <div id="live-wallpaper-status" style="font-size:0.82rem;color:var(--text-muted);margin: 6px 0 8px 28px;" data-i18n="settings.liveWallpaperStatusNone">Geen video ingesteld</div>
                 <div style="margin-left: 28px;">
                 <label class="upload-btn" for="live-wallpaper-upload">
-                    🎥 Video uploaden
+                    <span data-i18n="settings.liveWallpaperUpload">🎥 Video uploaden</span>
                 </label>
                 <input type="file" id="live-wallpaper-upload" accept="video/mp4,video/webm" onchange="uploadLiveWallpaper(this)">
-                <button class="btn btn-secondary btn-small" onclick="removeLiveWallpaper()">Verwijderen</button>
+                <button class="btn btn-secondary btn-small" onclick="removeLiveWallpaper()" data-i18n="settings.liveWallpaperDelete">Verwijderen</button>
                 </div>
-                <div style="margin-top: 10px; padding: 10px 12px; background: rgba(245, 158, 11, 0.08); border-left: 3px solid #f59e0b; border-radius: 6px; font-size: 0.82em; color: var(--text-muted); line-height: 1.5;">
-                    ⚠️ <strong>Heavy feature</strong>: video wordt als base64 in localStorage opgeslagen. Max praktisch ~8MB voor de meeste browsers.<br>
-                    <strong>Aanbevolen:</strong> MP4 / H.264, 720p of 1080p, 5-15s seamless loop, &lt;10MB.<br>
-                    <strong>ffmpeg op je Mac:</strong> <code style="font-family:ui-monospace,monospace;font-size:0.85em;background:rgba(0,0,0,0.3);padding:2px 5px;border-radius:3px;">ffmpeg -i input.mov -c:v libx264 -t 10 -vf scale=1920:-2 -b:v 4M wallpaper.mp4</code>
+                <div style="margin-top: 10px; padding: 10px 12px; background: rgba(245, 158, 11, 0.08); border-left: 3px solid #f59e0b; border-radius: 6px; font-size: 0.82em; color: var(--text-muted); line-height: 1.5;" data-i18n="settings.liveWallpaperWarning">
+                    ⚠️ Heavy feature: video wordt als base64 in localStorage opgeslagen. Max praktisch ~8MB voor de meeste browsers.
                 </div>
             </div>
 
@@ -3999,22 +3997,22 @@
 
         <!-- Docker Scanner Section -->
         <div class="setting-section">
-            <h3>🐳 Docker Scanner</h3>
-            <p style="color: var(--text-muted); margin-bottom: 15px;">Scan je server voor draaiende Docker containers en voeg ze automatisch toe aan je dashboard.</p>
+            <h3 data-i18n="settings.dockerScanner">🐳 Docker Scanner</h3>
+            <p style="color: var(--text-muted); margin-bottom: 15px;" data-i18n="settings.dockerScannerDesc">Scan je server voor draaiende Docker containers en voeg ze automatisch toe aan je dashboard.</p>
             <div class="form-group">
-                <label>Server IP-adres</label>
-                <input type="text" id="setting-docker-ip" placeholder="192.168.1.x">
+                <label data-i18n="settings.dockerScannerIp">Server IP-adres</label>
+                <input type="text" id="setting-docker-ip" data-i18n-placeholder="settings.dockerScannerPlaceholder" placeholder="192.168.1.x">
             </div>
             <div id="docker-scan-results" style="margin: 15px 0; max-height: 200px; overflow-y: auto;"></div>
-            <button class="btn btn-action" onclick="scanDockerContainers()">🔍 Scan Docker Containers</button>
+            <button class="btn btn-action" onclick="scanDockerContainers()" data-i18n="settings.dockerScannerBtn">🔍 Scan Docker Containers</button>
         </div>
 
         <!-- Heimdall Import Section -->
         <div class="setting-section collapsible" id="section-heimdall">
-            <h3 onclick="toggleSettingSection(this)">📦 Heimdall Import<span class="chevron">▾</span></h3>
-            <p style="color: var(--text-muted); margin-bottom: 15px;">Importeer je apps vanuit een Heimdall backup JSON bestand.</p>
+            <h3 onclick="toggleSettingSection(this)" data-i18n="settings.heimdallImport">📦 Heimdall Import<span class="chevron">▾</span></h3>
+            <p style="color: var(--text-muted); margin-bottom: 15px;" data-i18n="settings.heimdallImportDesc">Importeer je apps vanuit een Heimdall backup JSON bestand.</p>
             <label class="upload-btn" for="heimdall-import-file" style="display: inline-flex;">
-                📁 Selecteer Heimdall JSON
+                <span data-i18n="settings.heimdallSelect">📁 Selecteer Heimdall JSON</span>
             </label>
             <input type="file" id="heimdall-import-file" accept=".json" onchange="importHeimdallBackup(this)">
             <div id="heimdall-import-results" style="margin-top: 15px;"></div>
@@ -4022,10 +4020,10 @@
 
         <!-- Homarr Import Section -->
         <div class="setting-section collapsible" id="section-homarr">
-            <h3 onclick="toggleSettingSection(this)">🍓 Homarr Import<span class="chevron">▾</span></h3>
-            <p style="color: var(--text-muted); margin-bottom: 15px;">Migreer van Homarr — exporteer in Homarr (Settings → Configuration) en upload het JSON bestand hieronder.</p>
+            <h3 onclick="toggleSettingSection(this)" data-i18n="settings.homarrImport">🍓 Homarr Import<span class="chevron">▾</span></h3>
+            <p style="color: var(--text-muted); margin-bottom: 15px;" data-i18n="settings.homarrImportDesc">Migreer van Homarr — exporteer in Homarr (Settings → Configuration) en upload het JSON bestand hieronder.</p>
             <label class="upload-btn" for="homarr-import-file" style="display: inline-flex;">
-                📁 Selecteer Homarr JSON
+                <span data-i18n="settings.homarrSelect">📁 Selecteer Homarr JSON</span>
             </label>
             <input type="file" id="homarr-import-file" accept=".json" onchange="importHomarrBackup(this)">
             <div id="homarr-import-results" style="margin-top: 15px;"></div>
@@ -4033,23 +4031,23 @@
 
         <!-- Home Widgets Section -->
         <div class="setting-section">
-            <h3>🧩 Home Widgets</h3>
-            <p style="color: var(--text-muted); margin-bottom: 15px;">Voeg standalone widgets toe boven je categorieën. Klik op een kaart om toe te voegen. Cross-device gesynchroniseerd.</p>
+            <h3 data-i18n="settings.homeWidgets">🧩 Home Widgets</h3>
+            <p style="color: var(--text-muted); margin-bottom: 15px;" data-i18n="settings.homeWidgetsDesc">Voeg standalone widgets toe boven je categorieën. Klik op een kaart om toe te voegen. Cross-device gesynchroniseerd.</p>
             <div id="setting-canvas-toggle-row" style="display: none; margin-bottom: 15px;">
                 <label style="display: flex; align-items: center; gap: 10px;">
                     <input type="checkbox" id="setting-canvas-mode" onchange="toggleCanvasMode()">
-                    <span>🎨 Canvas mode (drag widgets vrij rond, met grid raster)</span>
+                    <span data-i18n="settings.canvasMode">🎨 Canvas mode (drag widgets vrij rond, met grid raster)</span>
                 </label>
             </div>
             <div id="setting-widget-picker" class="widget-picker-grid"></div>
-            <h4 style="margin-top: 24px; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Toegevoegd</h4>
+            <h4 style="margin-top: 24px; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="settings.added">Toegevoegd</h4>
             <div id="setting-widget-list" style="margin-top: 10px;"></div>
         </div>
 
         <!-- v1.8.4: Integraties (externe services voor widgets) -->
         <div class="setting-section collapsible collapsed" id="section-integrations">
-            <h3 onclick="toggleSettingSection(this)">🔌 Externe services<span class="chevron">▾</span></h3>
-            <p style="color: var(--text-muted); margin-bottom: 15px;">Configureer connecties met externe services. Cross-device gesynchroniseerd via config-api.</p>
+            <h3 onclick="toggleSettingSection(this)" data-i18n="settings.externalServices">🔌 Externe services<span class="chevron">▾</span></h3>
+            <p style="color: var(--text-muted); margin-bottom: 15px;" data-i18n="settings.externalServicesDesc">Configureer connecties met externe services. Cross-device gesynchroniseerd via config-api.</p>
 
             <!-- Watchtower integration card -->
             <div class="integration-card collapsed" id="integration-watchtower">
@@ -4057,7 +4055,7 @@
                     <span class="integration-card-icon">👁️</span>
                     <div class="integration-card-title">
                         <h4>Watchtower</h4>
-                        <p>Trigger updates handmatig vanuit het dashboard. Vereist HTTP API in je Watchtower compose — zie de widget body voor setup-stappen.</p>
+                        <p data-i18n="settings.watchtowerDesc">Trigger updates handmatig vanuit het dashboard. Vereist HTTP API in je Watchtower compose — zie de widget body voor setup-stappen.</p>
                     </div>
                     <span class="integration-card-chevron">▾</span>
                 </div>
@@ -4065,15 +4063,15 @@
                     <div class="form-group">
                         <label for="setting-watchtower-url">URL</label>
                         <input type="text" id="setting-watchtower-url" placeholder="http://watchtower:8080" autocomplete="off">
-                        <small style="color: var(--text-muted); display: block; margin-top: 4px;">Als Watchtower in <code>dashboard_net</code> zit: <code>http://watchtower:8080</code></small>
+                        <small style="color: var(--text-muted); display: block; margin-top: 4px;" data-i18n="settings.watchtowerUrlHelp">Als Watchtower in <code>dashboard_net</code> zit: <code>http://watchtower:8080</code></small>
                     </div>
                     <div class="form-group">
                         <label for="setting-watchtower-token">Token</label>
                         <input type="password" id="setting-watchtower-token" placeholder="hex string van openssl rand -hex 24" autocomplete="off">
                     </div>
                     <div class="integration-card-actions">
-                        <button class="btn btn-secondary btn-small" onclick="testWatchtowerConnection()">🧪 Test verbinding</button>
-                        <button class="btn btn-action" onclick="saveWatchtowerConfig()">💾 Opslaan</button>
+                        <button class="btn btn-secondary btn-small" onclick="testWatchtowerConnection()" data-i18n="settings.watchtowerTestBtn">🧪 Test verbinding</button>
+                        <button class="btn btn-action" onclick="saveWatchtowerConfig()" data-i18n="settings.saveIntegrationBtn">💾 Opslaan</button>
                     </div>
                     <div class="integration-feedback" id="watchtower-config-feedback"></div>
                 </div>
@@ -4084,58 +4082,58 @@
                 <div class="integration-card-header" onclick="toggleIntegrationCard(this)">
                     <span class="integration-card-icon">🖥️</span>
                     <div class="integration-card-title">
-                        <h4>VM & Service Control</h4>
-                        <p>Configureer Proxmox VE API en SSH Remote verbindingen voor VM en service beheer.</p>
+                        <h4 data-i18n="settings.vmServiceTitle">VM & Service Control</h4>
+                        <p data-i18n="settings.vmServiceDesc">Configureer Proxmox VE API en SSH Remote verbindingen voor VM en service beheer.</p>
                     </div>
                     <span class="integration-card-chevron">▾</span>
                 </div>
                 <div class="integration-card-body">
-                    <h5 style="margin-bottom: 10px; font-size: 0.9rem; color: var(--accent-color);">Proxmox VE API</h5>
+                    <h5 style="margin-bottom: 10px; font-size: 0.9rem; color: var(--accent-color);" data-i18n="settings.proxmoxApiTitle">Proxmox VE API</h5>
                     <div class="form-group">
-                        <label for="setting-proxmox-url">Proxmox URL</label>
+                        <label for="setting-proxmox-url" data-i18n="settings.proxmoxUrl">Proxmox URL</label>
                         <input type="text" id="setting-proxmox-url" placeholder="https://192.168.1.135:8006" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="setting-proxmox-token">Token ID</label>
+                        <label for="setting-proxmox-token" data-i18n="settings.proxmoxToken">Token ID</label>
                         <input type="text" id="setting-proxmox-token" placeholder="USER@REALM!TOKENID=SECRET" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="setting-proxmox-node">Node Name</label>
+                        <label for="setting-proxmox-node" data-i18n="settings.proxmoxNode">Node Name</label>
                         <input type="text" id="setting-proxmox-node" placeholder="pve" value="pve" autocomplete="off">
                     </div>
                     <div class="form-group" style="flex-direction: row; align-items: center; gap: 8px;">
                         <input type="checkbox" id="setting-proxmox-insecure" style="width: auto; margin: 0;">
-                        <label for="setting-proxmox-insecure" style="margin: 0; font-weight: normal; cursor: pointer;">Insecure SSL certificaten toestaan (self-signed)</label>
+                        <label for="setting-proxmox-insecure" style="margin: 0; font-weight: normal; cursor: pointer;" data-i18n="settings.proxmoxInsecure">Insecure SSL certificaten toestaan (self-signed)</label>
                     </div>
                     <div class="integration-card-actions">
-                        <button class="btn btn-secondary btn-small" onclick="testProxmoxConnection()">🧪 Test Proxmox</button>
+                        <button class="btn btn-secondary btn-small" onclick="testProxmoxConnection()" data-i18n="settings.proxmoxTestBtn">🧪 Test Proxmox</button>
                     </div>
                     <p class="integration-feedback" id="proxmox-config-feedback"></p>
 
-                    <h5 style="margin-top: 20px; margin-bottom: 10px; font-size: 0.9rem; color: var(--accent-color); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">SSH Remote Connectie</h5>
+                    <h5 style="margin-top: 20px; margin-bottom: 10px; font-size: 0.9rem; color: var(--accent-color); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;" data-i18n="settings.sshTitle">SSH Remote Connectie</h5>
                     <div class="form-group">
-                        <label for="setting-ssh-host">SSH Host</label>
+                        <label for="setting-ssh-host" data-i18n="settings.sshHost">SSH Host</label>
                         <input type="text" id="setting-ssh-host" placeholder="192.168.1.50" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="setting-ssh-port">SSH Port</label>
+                        <label for="setting-ssh-port" data-i18n="settings.sshPort">SSH Port</label>
                         <input type="number" id="setting-ssh-port" placeholder="22" value="22" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="setting-ssh-user">SSH User</label>
+                        <label for="setting-ssh-user" data-i18n="settings.sshUser">SSH User</label>
                         <input type="text" id="setting-ssh-user" placeholder="root" value="root" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="setting-ssh-key">SSH Private Key</label>
+                        <label for="setting-ssh-key" data-i18n="settings.sshKey">SSH Private Key</label>
                         <textarea id="setting-ssh-key" placeholder="-----BEGIN OPENSSH PRIVATE KEY-----&#10;..." rows="4" style="width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.15); color: var(--text-color); border-radius: 4px; padding: 8px; font-family: monospace; resize: vertical;"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="setting-ssh-password">SSH Password (optioneel)</label>
-                        <input type="password" id="setting-ssh-password" placeholder="Wachtwoord (indien geen key gebruikt)" autocomplete="off">
+                        <label for="setting-ssh-password" data-i18n="settings.sshPassword">SSH Password (optioneel)</label>
+                        <input type="password" id="setting-ssh-password" data-i18n-placeholder="settings.sshPasswordPlaceholder" placeholder="Wachtwoord (indien geen key gebruikt)" autocomplete="off">
                     </div>
                     <div class="integration-card-actions">
-                        <button class="btn btn-secondary btn-small" onclick="testSshConnection()">🧪 Test SSH</button>
-                        <button class="btn btn-action" onclick="saveVmServiceConfigs()">💾 Opslaan</button>
+                        <button class="btn btn-secondary btn-small" onclick="testSshConnection()" data-i18n="settings.sshTestBtn">🧪 Test SSH</button>
+                        <button class="btn btn-action" onclick="saveVmServiceConfigs()" data-i18n="settings.saveIntegrationBtn">💾 Opslaan</button>
                     </div>
                     <p class="integration-feedback" id="ssh-config-feedback"></p>
                 </div>
@@ -4144,21 +4142,21 @@
 
         <!-- v1.9.2: USB Management Section -->
         <div class="setting-section collapsible" id="section-usb" style="display: none;">
-            <h3 onclick="toggleSettingSection(this)">⏏️ USB & Externe Opslag<span class="chevron">▾</span></h3>
-            <p style="color: var(--text-muted); margin-bottom: 15px;">Beheer aangesloten USB-sticks en externe SSD's. Veilig ontkoppelen flusht alle data naar de schijf voordat de stroom eraf gaat.</p>
+            <h3 onclick="toggleSettingSection(this)" data-i18n="settings.usbTitle">⏏️ USB & Externe Opslag<span class="chevron">▾</span></h3>
+            <p style="color: var(--text-muted); margin-bottom: 15px;" data-i18n="settings.usbDesc">Beheer aangesloten USB-sticks en externe SSD's. Veilig ontkoppelen flusht alle data naar de schijf voordat de stroom eraf gaat.</p>
             <div id="setting-usb-list" style="margin-top: 10px;"></div>
-            <button class="btn btn-secondary btn-small" onclick="refreshSettingsUsbUI()" style="margin-top: 10px;">🔄 Vernieuwen</button>
+            <button class="btn btn-secondary btn-small" onclick="refreshSettingsUsbUI()" style="margin-top: 10px;" data-i18n="settings.usbRefresh">🔄 Vernieuwen</button>
         </div>
 
         <!-- Benchmark Section -->
         <div class="setting-section" id="section-benchmark" style="display: none;">
-            <h3>📊 Systeem Benchmark (p95)</h3>
-            <p style="color: var(--text-muted); margin-bottom: 15px;">
+            <h3 data-i18n="settings.benchmarkTitle">📊 Systeem Benchmark (p95)</h3>
+            <p style="color: var(--text-muted); margin-bottom: 15px;" data-i18n="settings.benchmarkDesc">
                 Start een 5-minuten meting om het werkelijke verbruik van al je containers te bepalen. 
                 Dit kost tijdelijk CPU capaciteit, maar daarna blijven de resultaten statisch zichtbaar zonder belasting.
             </p>
             <div style="display: flex; align-items: center; gap: 15px;">
-                <button class="btn btn-action" id="start-benchmark-btn" onclick="startBenchmark()">🚀 Start Benchmark (5 min)</button>
+                <button class="btn btn-action" id="start-benchmark-btn" onclick="startBenchmark()" data-i18n="settings.benchmarkStart">🚀 Start Benchmark (5 min)</button>
                 <div id="benchmark-status" style="font-size: 0.9rem; color: var(--accent-color); font-weight: 500;"></div>
             </div>
             <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 10px;">
@@ -4169,11 +4167,11 @@
 
         <!-- Backup & Restore Section -->
         <div class="setting-section" id="section-backup-restore">
-            <h3>💾 Backup & Restore</h3>
-            <p style="color: var(--text-muted); margin-bottom: 15px;">Exporteer al je instellingen (apps, thema, widgets, weather config) als JSON. Importeer een backup om te restoren of te migreren naar een ander apparaat.</p>
-            <button class="btn btn-action" onclick="exportBackup()">📥 Exporteer backup</button>
+            <h3 data-i18n="settings.backupTitle">💾 Backup & Restore</h3>
+            <p style="color: var(--text-muted); margin-bottom: 15px;" data-i18n="settings.backupDesc">Exporteer al je instellingen (apps, thema, widgets, weather config) als JSON. Importeer een backup om te restoren of te migreren naar een ander apparaat.</p>
+            <button class="btn btn-action" onclick="exportBackup()" data-i18n="settings.backupExport">📥 Exporteer backup</button>
             <label class="upload-btn" for="backup-import-file" style="display: inline-flex; margin-left: 10px;">
-                📤 Importeer backup
+                <span data-i18n="settings.backupImport">📤 Importeer backup</span>
             </label>
             <input type="file" id="backup-import-file" accept=".json" onchange="importBackup(this)">
             <div id="backup-results" style="margin-top: 15px;"></div>
@@ -4181,27 +4179,27 @@
 
         <!-- Synology Quick Add Section -->
         <div class="setting-section collapsible" id="section-synology">
-            <h3 onclick="toggleSettingSection(this)">🟦 Synology Apps<span class="chevron">▾</span></h3>
-            <p style="color: var(--text-muted); margin-bottom: 15px;">Voeg native Synology Package Center apps toe (die niet via Docker draaien). Selecteer welke je hebt en klik Toevoegen.</p>
+            <h3 onclick="toggleSettingSection(this)" data-i18n="settings.synologyTitle">🟦 Synology Apps<span class="chevron">▾</span></h3>
+            <p style="color: var(--text-muted); margin-bottom: 15px;" data-i18n="settings.synologyDesc">Voeg native Synology Package Center apps toe (die niet via Docker draaien). Selecteer welke je hebt en klik Toevoegen.</p>
             <div class="form-row">
                 <div class="form-group">
-                    <label>NAS IP</label>
+                    <label data-i18n="settings.synologyIp">NAS IP</label>
                     <input type="text" id="setting-synology-ip" placeholder="192.168.1.x">
                 </div>
                 <div class="form-group">
-                    <label>DSM poort</label>
-                    <input type="text" id="setting-synology-dsm-port" placeholder="5000" value="5000">
+                    <label data-i18n="settings.synologyDsmPort">DSM poort</label>
+                    <input type="text" id="setting-synology-dsm-port" data-i18n-placeholder="settings.synologyDsmPortPlaceholder" placeholder="5000" value="5000">
                 </div>
             </div>
-            <p class="icon-helper">DSM poort heeft alleen effect op apps die DSM gebruiken (port 5000 in de lijst). Plex (32400), Jellyfin (8096), SABnzbd (8080) houden hun eigen poort.</p>
+            <p class="icon-helper" data-i18n="settings.synologyHelper">DSM poort heeft alleen effect op apps die DSM gebruiken (port 5000 in de lijst). Plex (32400), Jellyfin (8096), SABnzbd (8080) houden hun eigen poort.</p>
             <div id="synology-apps-grid" style="margin-top: 15px;"></div>
-            <button class="btn btn-action" onclick="addSelectedSynologyApps()" style="margin-top: 15px;">Geselecteerde apps toevoegen</button>
+            <button class="btn btn-action" onclick="addSelectedSynologyApps()" style="margin-top: 15px;" data-i18n="settings.synologyAddBtn">Geselecteerde apps toevoegen</button>
             <div id="synology-add-results" style="margin-top: 15px;"></div>
         </div>
 
         <!-- Search Engine Section -->
         <div class="setting-section" id="search-engine-section" style="border: 2px solid var(--accent-color); background: rgba(56, 189, 248, 0.1);">
-            <h3>🔍 Zoekmachine / Web Search</h3>
+            <h3 data-i18n="settings.searchEngineSection">🔍 Zoekmachine / Web Search</h3>
             <div class="form-group">
                 <label>
                     <input type="checkbox" id="setting-show-search" checked onchange="toggleSearchBar()">
@@ -4209,7 +4207,7 @@
                 </label>
             </div>
             <div class="form-group">
-                <label>Zoekmachine</label>
+                <label data-i18n="settings.searchEngineLabel">Zoekmachine</label>
                 <select id="setting-search-engine" onchange="saveSearchEngine()">
                     <option value="none">Alleen apps filteren (geen web search)</option>
                     <option value="google">Google</option>
@@ -4224,10 +4222,10 @@
                 </select>
             </div>
             <div class="form-group" id="custom-search-group" style="display: none;">
-                <label>Custom Search URL (gebruik %s voor zoekterm)</label>
-                <input type="text" id="setting-custom-search" placeholder="https://example.com/search?q=%s" onchange="saveSearchEngine()">
+                <label data-i18n="settings.customSearchLabel">Custom Search URL (gebruik %s voor zoekterm)</label>
+                <input type="text" id="setting-custom-search" data-i18n-placeholder="settings.customSearchPlaceholder" placeholder="https://example.com/search?q=%s" onchange="saveSearchEngine()">
             </div>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;" data-i18n="settings.searchTip">
                 Tip: Druk Enter in de zoekbalk om te zoeken op het web, of typ om apps te filteren.
             </p>
         </div>
@@ -4244,70 +4242,70 @@
             <div class="form-group">
                 <label>
                     <input type="checkbox" id="setting-status-dots" checked onchange="toggleStatusDots()">
-                    <span>Live status indicator op tegels (groene/rode dot)</span>
+                    <span data-i18n="settings.liveStatusDots">Live status indicator op tegels (groene/rode dot)</span>
                 </label>
             </div>
             <div class="form-group">
                 <label>
                     <input type="checkbox" id="setting-weather-fx" checked onchange="toggleWeatherFx()">
-                    <span>Weer-animaties (wolken, regen, sneeuw, bliksem)</span>
+                    <span data-i18n="settings.weatherFx">Weer-animaties (wolken, regen, sneeuw, bliksem)</span>
                 </label>
-                <small style="color: var(--text-muted); display: block; margin-top: 4px; margin-left: 24px;">Realistische wolken die met het echte weer meebewegen. Regen/sneeuw-deeltjes bij bewolking/neerslag. Bliksem bij onweer.</small>
+                <small style="color: var(--text-muted); display: block; margin-top: 4px; margin-left: 24px;" data-i18n="settings.weatherFxDesc">Realistische wolken die met het echte weer meebewegen. Regen/sneeuw-deeltjes bij bewolking/neerslag. Bliksem bij onweer.</small>
             </div>
             <div class="form-group">
                 <label>
                     <input type="checkbox" id="setting-weather-backdrop" checked onchange="toggleWeatherBackdrop()">
-                    <span>Sky-laag (kleur, sterren, zon/maan)</span>
+                    <span data-i18n="settings.weatherBackdrop">Sky-laag (kleur, sterren, zon/maan)</span>
                 </label>
-                <small style="color: var(--text-muted); display: block; margin-top: 4px; margin-left: 24px;">Day/night gradient als sky-achtergrond, sterren bij heldere nacht, zon/maan flare. <strong>Automatisch verborgen als je een wallpaper hebt</strong> (jouw image/video wordt dan de sky). Cross-device gesynchroniseerd.</small>
+                <small style="color: var(--text-muted); display: block; margin-top: 4px; margin-left: 24px;" data-i18n="settings.weatherBackdropDesc">Day/night gradient als sky-achtergrond, sterren bij heldere nacht, zon/maan flare. <strong>Automatisch verborgen als je een wallpaper hebt</strong> (jouw image/video wordt dan de sky). Cross-device gesynchroniseerd.</small>
             </div>
         </div>
 
         <!-- Weather Widget Section -->
         <div class="setting-section">
-            <h3>🌤️ Weather Widget</h3>
+            <h3 data-i18n="settings.weatherTitle">🌤️ Weather Widget</h3>
             <div class="form-group">
                 <label>
                     <input type="checkbox" id="setting-weather-enabled" onchange="toggleWeatherWidget()">
-                    <span>Weather Widget inschakelen</span>
+                    <span data-i18n="settings.weatherEnable">Weather Widget inschakelen</span>
                 </label>
             </div>
             <div class="form-group">
-                <label>Zoek op plaatsnaam</label>
+                <label data-i18n="settings.weatherSearchLabel">Zoek op plaatsnaam</label>
                 <div style="display: flex; gap: 8px;">
-                    <input type="text" id="setting-weather-search" placeholder="bv. Amsterdam" onkeydown="if(event.key==='Enter'){event.preventDefault();searchWeatherLocation();}">
-                    <button class="btn btn-action" type="button" onclick="searchWeatherLocation()" style="white-space: nowrap;">Zoek</button>
+                    <input type="text" id="setting-weather-search" data-i18n-placeholder="settings.weatherSearchPlaceholder" placeholder="bv. Amsterdam" onkeydown="if(event.key==='Enter'){event.preventDefault();searchWeatherLocation();}">
+                    <button class="btn btn-action" type="button" onclick="searchWeatherLocation()" style="white-space: nowrap;" data-i18n="settings.weatherSearchBtn">Zoek</button>
                 </div>
                 <div id="weather-search-results" style="margin-top: 10px;"></div>
             </div>
             <div class="form-group">
-                <label>Latitude</label>
+                <label data-i18n="settings.weatherLat">Latitude</label>
                 <input type="text" id="setting-weather-lat" placeholder="52.3676" pattern="-?[0-9]*\.?[0-9]+">
             </div>
             <div class="form-group">
-                <label>Longitude</label>
+                <label data-i18n="settings.weatherLon">Longitude</label>
                 <input type="text" id="setting-weather-lon" placeholder="4.9041" pattern="-?[0-9]*\.?[0-9]+">
             </div>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;" data-i18n="settings.weatherTip">
                 Tip: gebruik de zoekbalk hierboven, of vul handmatig coördinaten in via <a href="https://www.latlong.net/" target="_blank" style="color: var(--accent-color);">latlong.net</a>
             </p>
-            <button class="btn btn-action" onclick="saveWeatherSettings()">Opslaan</button>
+            <button class="btn btn-action" onclick="saveWeatherSettings()" data-i18n="settings.save">Opslaan</button>
         </div>
 
         <!-- v1.8.2: Feedback Section — invites bug reports + idea submissions on GitHub -->
         <div class="setting-section" style="border: 1px solid rgba(56, 189, 248, 0.25);">
-            <h3>💬 Feedback & Suggesties</h3>
-            <p style="color: var(--text-muted); margin-bottom: 18px;">
+            <h3 data-i18n="settings.feedbackTitle">💬 Feedback & Suggesties</h3>
+            <p style="color: var(--text-muted); margin-bottom: 18px;" data-i18n="settings.feedbackDesc">
                 Bug gevonden? Idee voor een nieuwe widget of theme? Help mee Hobbithole beter te maken — alle feedback komt op GitHub binnen waar het besproken en geplanned wordt.
             </p>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="https://github.com/Piggy90/Hobbithole-dashboard/issues/new?labels=bug&template=" target="_blank" rel="noopener noreferrer" class="btn btn-action" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                <a href="https://github.com/Piggy90/Hobbithole-dashboard/issues/new?labels=bug&template=" target="_blank" rel="noopener noreferrer" class="btn btn-action" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;" data-i18n="settings.feedbackBugBtn">
                     🐛 Bug rapporteren
                 </a>
-                <a href="https://github.com/Piggy90/Hobbithole-dashboard/issues/new?labels=enhancement&template=" target="_blank" rel="noopener noreferrer" class="btn btn-action" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                <a href="https://github.com/Piggy90/Hobbithole-dashboard/issues/new?labels=enhancement&template=" target="_blank" rel="noopener noreferrer" class="btn btn-action" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;" data-i18n="settings.feedbackIdeaBtn">
                     💡 Idee insturen
                 </a>
-                <a href="https://github.com/Piggy90/Hobbithole-dashboard/issues" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                <a href="https://github.com/Piggy90/Hobbithole-dashboard/issues" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;" data-i18n="settings.feedbackAllIssuesBtn">
                     📋 Alle issues bekijken
                 </a>
             </div>
@@ -4515,7 +4513,7 @@ function applyTranslations() {
         const key = el.getAttribute('data-i18n');
         const translated = t(key);
         if (translated !== key) {
-            el.textContent = translated;
+            el.innerHTML = translated;
         }
     });
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
@@ -6330,7 +6328,7 @@ async function searchWeatherLocation() {
             };
         });
     } catch (e) {
-        resultsEl.innerHTML = `<div style="color: var(--danger-color, #ef4444); font-size: 0.85rem;">Fout bij zoeken: ${e.message}</div>`;
+        resultsEl.innerHTML = `<div style="color: var(--danger-color, #ef4444); font-size: 0.85rem;">${t('ui.errorLabel', 'Fout')}: ${e.message}</div>`;
     }
 }
 
@@ -6470,7 +6468,7 @@ async function openChangelogModal() {
     const modal = document.getElementById('changelog-modal');
     const body = document.getElementById('changelog-modal-body');
     modal.style.display = 'flex';
-    body.innerHTML = '<div class="changelog-loading">Laden…</div>';
+    body.innerHTML = `<div class="changelog-loading">${t('ui.loading', 'Laden…')}</div>`;
     try {
         const res = await fetch('/CHANGELOG.md', { cache: 'no-store' });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -8398,7 +8396,7 @@ function refreshSettingsWidgetUI() {
         });
 
         if (types.length === 0) {
-            picker.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1;">Geen widget types beschikbaar.</p>';
+            picker.innerHTML = `<p style="color: var(--text-muted); grid-column: 1/-1;">${t('ui.noWidgetTypesAvailable', 'Geen widget types beschikbaar.')}</p>`;
         } else {
             picker.innerHTML = types.map(t => {
                 const def = standaloneWidgetRegistry[t];
@@ -8422,7 +8420,7 @@ function refreshSettingsWidgetUI() {
     if (!list) return;
     const blocks = (serverConfig && serverConfig.homeLayout && serverConfig.homeLayout.blocks) || [];
     if (blocks.length === 0) {
-        list.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">Nog geen widgets toegevoegd.</p>';
+        list.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">${t('ui.noWidgetsAdded', 'Nog geen widgets toegevoegd.')}</p>`;
         return;
     }
     list.innerHTML = blocks.map((b, i) => {
@@ -8487,10 +8485,10 @@ function openAppPickerForCanvas() {
     }
 
     const modal = document.getElementById('widget-config-modal');
-    document.getElementById('widget-config-title').textContent = '📌 Kies een app';
+    document.getElementById('widget-config-title').textContent = t('ui.chooseApp', '📌 Kies een app');
     const fieldsEl = document.getElementById('widget-config-fields');
     if (apps.length === 0) {
-        fieldsEl.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">Geen apps met widget configuratie gevonden. Configureer eerst een widget op een app via ⋯ → ✏️ Bewerken.</p>';
+        fieldsEl.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem;">${t('ui.noAppsWithWidget', 'Geen apps met widget configuratie gevonden. Configureer eerst een widget op een app via ⋯ → ✏️ Bewerken.')}</p>`;
     } else {
         fieldsEl.innerHTML = '<div class="widget-picker-grid">' + apps.map(({ app, cat }) => `
             <button type="button" class="widget-picker-card" onclick="addAppWidgetBlock('${app.id}')">
@@ -8733,7 +8731,7 @@ function renderBookmarks(block, container) {
     const list = document.createElement('div');
     list.className = 'bookmarks-list';
     if (items.length === 0) {
-        list.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">Nog geen bookmarks. Klik + om er één toe te voegen.</p>';
+        list.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">${t('ui.noBookmarks', 'Nog geen bookmarks. Klik + om er één toe te voegen.')}</p>`;
     } else {
         list.innerHTML = items.map((item, idx) => `
             <div class="bookmark-item">
@@ -8741,7 +8739,7 @@ function renderBookmarks(block, container) {
                     <span class="bookmark-icon">${escapeHtmlSafe(item.icon || '🔗')}</span>
                     <span class="bookmark-name">${escapeHtmlSafe(item.name)}</span>
                 </a>
-                <button class="bookmark-remove" title="Verwijderen" onclick="removeBookmark('${block.id}', ${idx})">✕</button>
+                <button class="bookmark-remove" title="${t('ui.deleteLabel', 'Verwijderen')}" onclick="removeBookmark('${block.id}', ${idx})">✕</button>
             </div>
         `).join('');
     }
@@ -8749,7 +8747,7 @@ function renderBookmarks(block, container) {
 
     const addBtn = document.createElement('button');
     addBtn.className = 'bookmark-add-btn';
-    addBtn.innerHTML = '+ Toevoegen';
+    addBtn.innerHTML = t('ui.addButton', '+ Toevoegen');
     addBtn.onclick = () => showBookmarkAddForm(block, container);
     container.appendChild(addBtn);
 }
@@ -8815,10 +8813,10 @@ function removeBookmark(blockId, idx) {
 
 // ===== RSS WIDGET (v1.8.0) =====
 async function fetchAndRenderRss(block, container, bypassCache) {
-    container.innerHTML = '<div class="rss-loading">Laden…</div>';
+    container.innerHTML = `<div class="rss-loading">${t('ui.loading', 'Laden…')}</div>`;
     const url = block.config && block.config.feedUrl;
     if (!url) {
-        container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">Geen feed URL ingesteld.</p>';
+        container.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem;">${t('ui.noFeedUrl', 'Geen feed URL ingesteld.')}</p>`;
         return;
     }
     try {
@@ -8828,7 +8826,7 @@ async function fetchAndRenderRss(block, container, bypassCache) {
         const data = await res.json();
         renderRssItems(container, data);
     } catch (e) {
-        container.innerHTML = `<p style="color: #ef4444; font-size: 0.85rem;">⚠️ ${escapeHtmlSafe(e.message || 'Feed niet bereikbaar')}</p>`;
+        container.innerHTML = `<p style="color: #ef4444; font-size: 0.85rem;">⚠️ ${escapeHtmlSafe(e.message || t('ui.feedNotReachable', 'Feed niet bereikbaar'))}</p>`;
     }
 }
 
@@ -9136,10 +9134,10 @@ function renderSysInfoStats(container, data) {
 
 // ===== CALENDAR WIDGET (v1.8.0) =====
 async function fetchAndRenderCalendar(block, container, bypassCache) {
-    container.innerHTML = '<div class="calendar-loading">Laden…</div>';
+    container.innerHTML = `<div class="calendar-loading">${t('ui.loading', 'Laden…')}</div>`;
     const url = block.config && block.config.icsUrl;
     if (!url) {
-        container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">Geen ICS feed ingesteld. Verwijder en voeg opnieuw toe om een URL in te stellen.</p>';
+        container.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem;">${t('ui.noIcsFeed', 'Geen ICS feed ingesteld. Verwijder en voeg opnieuw toe om een URL in te stellen.')}</p>`;
         return;
     }
     try {
@@ -9149,7 +9147,7 @@ async function fetchAndRenderCalendar(block, container, bypassCache) {
         const data = await res.json();
         renderCalendarEvents(container, data);
     } catch (e) {
-        container.innerHTML = `<p style="color: #ef4444; font-size: 0.85rem;">⚠️ ${escapeHtmlSafe(e.message || 'Feed niet bereikbaar')}</p>`;
+        container.innerHTML = `<p style="color: #ef4444; font-size: 0.85rem;">⚠️ ${escapeHtmlSafe(e.message || t('ui.feedNotReachable', 'Feed niet bereikbaar'))}</p>`;
     }
 }
 
@@ -9164,7 +9162,7 @@ registerStandaloneWidget('calendar', {
             type: 'url',
             required: true,
             placeholder: 'https://calendar.google.com/calendar/ical/.../basic.ics',
-            help: 'Werkt met Google Calendar, iCloud, Outlook, Synology Calendar, Nextcloud. Klik ⟳ in widget header om nu te verversen.'
+            help: t('widgetConfig.calendarIcsHelp', 'Werkt met Google Calendar, iCloud, Outlook, Synology Calendar, Nextcloud. Klik ⟳ in widget header om nu te verversen.')
         }
     ],
     render(block, container) {
@@ -9180,7 +9178,7 @@ registerStandaloneWidget('calendar', {
 function renderCalendarEvents(container, data) {
     const events = (data && data.events) || [];
     if (events.length === 0) {
-        container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">Geen komende events.</p>';
+        container.innerHTML = `<p style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">${t('ui.noUpcomingEvents', 'Geen komende events.')}</p>`;
         return;
     }
     const lang = (typeof currentLang === 'string' ? currentLang : 'nl').slice(0, 2);
@@ -9192,8 +9190,8 @@ function renderCalendarEvents(container, data) {
         const start = new Date(ev.start);
         const startDay = new Date(start.getFullYear(), start.getMonth(), start.getDate()).getTime();
         let dateLabel;
-        if (startDay === today) dateLabel = lang === 'nl' ? 'Vandaag' : 'Today';
-        else if (startDay === tomorrow) dateLabel = lang === 'nl' ? 'Morgen' : 'Tomorrow';
+        if (startDay === today) dateLabel = t('ui.today', 'Vandaag');
+        else if (startDay === tomorrow) dateLabel = t('ui.tomorrow', 'Morgen');
         else dateLabel = start.toLocaleDateString(lang, { weekday: 'short', day: 'numeric', month: 'short' });
         const timeLabel = ev.allDay ? '' : start.toLocaleTimeString(lang, { hour: '2-digit', minute: '2-digit', hour12: false });
         const meta = ev.allDay ? dateLabel : `${dateLabel} · ${timeLabel}`;
@@ -9391,10 +9389,10 @@ async function triggerWatchtowerScan(blockId) {
     if (!btn) return;
     const originalLabel = btn.innerHTML;
     btn.disabled = true;
-    btn.innerHTML = '⏳ Scanning…';
+    btn.innerHTML = t('ui.scanning', '⏳ Scanning…');
     if (feedback) {
         feedback.className = 'watchtower-feedback';
-        feedback.textContent = 'Scan gestart. Watchtower checkt al je images bij Docker Hub — dit kan 30–120 sec duren.';
+        feedback.textContent = t('feedback.scanStartedDetail', 'Scan gestart. Watchtower checkt al je images bij Docker Hub — dit kan 30–120 sec duren.');
     }
 
     // Record current scans_total so we can detect when Watchtower bumps it.
@@ -9408,7 +9406,7 @@ async function triggerWatchtowerScan(blockId) {
             const err = await res.json().catch(() => ({}));
             throw new Error(err.message || `HTTP ${res.status}`);
         }
-        showToast('Scan gestart', 'info');
+        showToast(t('feedback.scanStarted', 'Scan gestart'), 'info');
     } catch (e) {
         btn.disabled = false;
         btn.innerHTML = originalLabel;
@@ -9416,7 +9414,7 @@ async function triggerWatchtowerScan(blockId) {
             feedback.className = 'watchtower-feedback error';
             feedback.textContent = `⚠️ ${e.message}`;
         }
-        showToast(`Scan faalde: ${e.message}`, 'error');
+        showToast(t('feedback.scanFailed', 'Scan faalde: ${message}').replace('${message}', e.message), 'error');
         return;
     }
 
@@ -9430,18 +9428,18 @@ async function triggerWatchtowerScan(blockId) {
             if (btn) { btn.disabled = false; btn.innerHTML = originalLabel; }
             if (feedback) {
                 feedback.className = 'watchtower-feedback success';
-                feedback.textContent = '✓ Scan voltooid. Stats hieronder zijn bijgewerkt.';
+                feedback.textContent = t('feedback.scanCompleted', '✓ Scan voltooid. Stats hieronder zijn bijgewerkt.');
                 setTimeout(() => { if (feedback) feedback.textContent = ''; }, 4000);
             }
             // Re-render widget to show fresh stats
             refreshWatchtowerWidget(blockId);
-            showToast('✓ Watchtower scan voltooid', 'success');
+            showToast(t('feedback.scanCompletedToast', '✓ Watchtower scan voltooid'), 'success');
         } else if (attempts >= 36) {
             clearInterval(pollHandle);
             if (btn) { btn.disabled = false; btn.innerHTML = originalLabel; }
             if (feedback) {
                 feedback.className = 'watchtower-feedback';
-                feedback.textContent = 'Scan duurt langer dan 3 min. Check Watchtower logs als je twijfelt.';
+                feedback.textContent = t('feedback.scanTimeout', 'Scan duurt langer dan 3 min. Check Watchtower logs als je twijfelt.');
             }
         }
     }, 5000);
@@ -9483,11 +9481,11 @@ registerStandaloneWidget('vmservice', {
                 { value: 'systemd', label: 'Systemd Service' },
                 { value: 'command', label: 'Custom Commando (Shell)' }
             ],
-            help: 'Kies hoe de service of VM beheerd wordt.'
+            help: t('widgetConfig.vmserviceProviderHelp', 'Kies hoe de service of VM beheerd wordt.')
         },
         {
             key: 'title',
-            label: 'Weergavenaam (optioneel)',
+            label: t('widgetConfig.vmserviceDisplayName', 'Weergavenaam (optioneel)'),
             type: 'text',
             required: false,
             placeholder: 'bijv. Plex Server'
@@ -9561,7 +9559,7 @@ registerStandaloneWidget('vmservice', {
 
         const wrap = document.createElement('div');
         wrap.className = 'vmservice-widget-body';
-        wrap.innerHTML = '<div class="vmservice-loading" style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">Laden…</div>';
+        wrap.innerHTML = `<div class="vmservice-loading" style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">${t('ui.loading', 'Laden…')}</div>`;
         container.appendChild(wrap);
 
         const refresh = async () => {
@@ -9575,10 +9573,10 @@ registerStandaloneWidget('vmservice', {
                 if (json && json.status === 'ok' && json.data) {
                     renderVmServiceWidgetBody(wrap, block, json.data);
                 } else {
-                    throw new Error('Geen geldige status data ontvangen');
+                    throw new Error(t('feedback.noValidStatusData', 'Geen geldige status data ontvangen'));
                 }
             } catch (e) {
-                wrap.innerHTML = `<p class="vmservice-error" style="color: #ef4444; font-size: 0.85rem;">⚠️ Fout bij ophalen status: ${escapeHtmlSafe(e.message)}</p>`;
+                wrap.innerHTML = `<p class="vmservice-error" style="color: #ef4444; font-size: 0.85rem;">⚠️ ${t('ui.statusFetchError', 'Fout bij ophalen status: ${message}').replace('${message}', escapeHtmlSafe(e.message))}</p>`;
             }
         };
 
@@ -9833,7 +9831,7 @@ async function triggerVmServiceAction(blockId, action, vmId = null) {
         
         const data = await res.json();
         if (data && data.status === 'ok') {
-            showToast(`Service succesvol ${action === 'start' ? 'gestart' : 'gestopt'}.`, 'success');
+            showToast(action === 'start' ? t('feedback.serviceStarted', 'Service succesvol gestart.') : t('feedback.serviceStopped', 'Service succesvol gestopt.'), 'success');
             const bodyEl = document.querySelector(`[data-block-id="${blockId}"] .standalone-block-body`);
             if (bodyEl) {
                 const layout = getHomeLayout();
@@ -9843,10 +9841,10 @@ async function triggerVmServiceAction(blockId, action, vmId = null) {
                 }
             }
         } else {
-            throw new Error('Fout bij uitvoeren actie');
+            throw new Error(t('feedback.actionError', 'Fout bij uitvoeren actie'));
         }
     } catch (e) {
-        showToast(`Actie mislukt: ${e.message}`, 'error');
+        showToast(`${t('feedback.actionError', 'Fout bij uitvoeren actie')}: ${e.message}`, 'error');
     }
 }
 
@@ -9932,7 +9930,7 @@ async function renderUsbWidget(block, container) {
         html += '</div>';
         container.innerHTML = html;
     } catch (err) {
-        container.innerHTML = `<div style="padding:10px;color:var(--danger-color);font-size:0.85rem;">⚠ Fout bij ophalen USB data</div>`;
+        container.innerHTML = `<div style="padding:10px;color:var(--danger-color);font-size:0.85rem;">⚠ ${t('feedback.usbError', 'Fout bij ophalen USB data')}</div>`;
     }
 }
 
@@ -9945,9 +9943,9 @@ async function handleUsbEject(deviceId, btn) {
             body: JSON.stringify({ deviceId })
         });
         if (!res.ok) throw new Error('EJECT_FAILED');
-        showToast(`Ontkoppelen van ${deviceId} gestart...`, 'warning');
+        showToast(`${t('feedback.usbEjectStarted', 'Ontkoppelen gestart...')}: ${deviceId}`, 'warning');
     } catch (err) {
-        showToast('Fout bij ontkoppelen', 'error');
+        showToast(t('feedback.ejectError', 'Fout bij ontkoppelen'), 'error');
         if (btn) { btn.disabled = false; btn.textContent = '⏏️'; }
     }
 }
@@ -9977,7 +9975,7 @@ async function refreshSettingsUsbUI() {
         
         let html = '';
         if (data.devices.length === 0 && data.ejected.length === 0) {
-            html = '<p style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">Geen USB apparaten gedetecteerd.</p>';
+            html = `<p style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">${t('feedback.noUsbDetected', 'Geen USB apparaten gedetecteerd.')}</p>`;
         } else {
             // Re-use the same HTML structure but without the 💾 icon for a cleaner settings look if preferred
             data.devices.forEach(dev => {
@@ -9986,7 +9984,7 @@ async function refreshSettingsUsbUI() {
                         <div class="usb-device-info">
                             <span class="usb-device-name">💾 ${escapeHtmlSafe(dev.name)}</span>
                             <span class="usb-device-status ${dev.ejecting ? 'ejecting' : ''}">
-                                ${dev.ejecting ? '⏳ Bezig met ontkoppelen...' : '✅ Gekoppeld'}
+                                ${dev.ejecting ? '⏳ ' + t('feedback.usbEjecting', 'Bezig met ontkoppelen...') : '✅ ' + t('feedback.usbMounted', 'Gekoppeld')}
                             </span>
                         </div>
                         <button class="btn btn-secondary btn-small" ${dev.ejecting ? 'disabled' : ''} onclick="handleUsbEject('${dev.id}', this).then(() => setTimeout(refreshSettingsUsbUI, 2000))">
@@ -10000,7 +9998,7 @@ async function refreshSettingsUsbUI() {
                     <div class="usb-device" style="margin-bottom: 8px; border-color: var(--success-color);">
                         <div class="usb-device-info">
                             <span class="usb-device-name" style="text-decoration: line-through; opacity: 0.5;">💾 ${escapeHtmlSafe(devId)}</span>
-                            <span class="usb-ejected-badge">Veilig verwijderd</span>
+                            <span class="usb-ejected-badge">${t('feedback.usbEjectedSafe', 'Veilig verwijderd')}</span>
                         </div>
                         <button class="btn btn-secondary btn-small" onclick="handleUsbClearEjected('${devId}', this).then(() => refreshSettingsUsbUI())">✕</button>
                     </div>`;
@@ -10008,7 +10006,7 @@ async function refreshSettingsUsbUI() {
         }
         list.innerHTML = html;
     } catch (err) {
-        list.innerHTML = `<p style="color: var(--danger-color); font-size: 0.85rem;">⚠ Fout bij ophalen USB data.</p>`;
+        list.innerHTML = `<p style="color: var(--danger-color); font-size: 0.85rem;">⚠ ${t('feedback.usbError', 'Fout bij ophalen USB data')}</p>`;
     }
 }
 
@@ -10436,7 +10434,7 @@ function onEditWidgetTypeChange() {
     // Show/hide username field for widgets that use cookie auth (e.g. qBittorrent)
     const needsUser = WIDGET_REQUIRES_USERNAME.has(type);
     document.getElementById('edit-app-widget-username-group').style.display = needsUser ? '' : 'none';
-    document.getElementById('edit-app-widget-apikey-label').textContent = needsUser ? 'Wachtwoord' : 'API Key';
+    document.getElementById('edit-app-widget-apikey-label').textContent = needsUser ? t('ui.passwordLabel', 'Wachtwoord') : t('ui.apiKeyLabel', 'API Key');
 
     // Hide URL + API key for widgets that need no auth (e.g. local Container Manager)
     const noAuth = WIDGET_NO_AUTH.has(type);
@@ -10666,12 +10664,12 @@ async function wizScanDocker() {
     if (ip) localStorage.setItem('hobbithole_nas_ip', ip);
 
     btn.disabled = true;
-    btn.textContent = '⏳ Scannen...';
-    statusEl.innerHTML = '<p style="color: var(--accent-color);">🔍 Zoeken naar Docker containers...</p>';
+    btn.textContent = t('ui.scanning', '⏳ Scannen...');
+    statusEl.innerHTML = `<p style="color: var(--accent-color);">${t('scanner.searchingContainers', '🔍 Zoeken naar Docker containers...')}</p>`;
 
     try {
         const response = await fetch('/api/containers');
-        if (!response.ok) throw new Error('Docker API niet bereikbaar');
+        if (!response.ok) throw new Error(t('scanner.dockerNotReachable', 'Docker API niet bereikbaar'));
 
         const containers = await response.json();
         const foundApps = [];
@@ -10691,21 +10689,21 @@ async function wizScanDocker() {
         if (foundApps.length > 0) {
             // Add apps to categories
             addScannedApps(foundApps);
-            statusEl.innerHTML = `<p style="color: var(--success-color);">✅ ${foundApps.length} apps gevonden en toegevoegd!</p>
+            statusEl.innerHTML = `<p style="color: var(--success-color);">${t('scanner.appsFound', '✅ ${count} apps gevonden:').replace('${count}', foundApps.length)}</p>
                 <ul style="text-align: left; margin-top: 10px;">${foundApps.map(a => `<li>${a.name}</li>`).join('')}</ul>`;
-            btn.textContent = '✅ Voltooid';
+            btn.textContent = t('ui.completed', '✅ Voltooid');
             setTimeout(() => wizNext(5), 2000);
         } else {
-            statusEl.innerHTML = '<p style="color: var(--warning-color);">⚠️ Geen bekende apps gevonden. Je kunt handmatig apps toevoegen.</p>';
+            statusEl.innerHTML = `<p style="color: var(--warning-color);">${t('scanner.noAppsFoundManual', '⚠️ Geen bekende apps gevonden. Je kunt handmatig apps toevoegen.')}</p>`;
             btn.disabled = false;
-            btn.textContent = '🔍 Opnieuw scannen';
+            btn.textContent = t('ui.rescan', '🔍 Opnieuw scannen');
         }
     } catch (error) {
         console.error('Docker scan error:', error);
-        statusEl.innerHTML = `<p style="color: var(--danger-color);">❌ Kan Docker niet bereiken. Zorg dat de Docker socket gemount is.</p>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">Tip: Mount /var/run/docker.sock in je container</p>`;
+        statusEl.innerHTML = `<p style="color: var(--danger-color);">${t('scanner.dockerCannotReach', '❌ Kan Docker niet bereiken. Zorg dat de Docker socket gemount is.')}</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">${t('scanner.dockerSocketTip', 'Tip: Mount /var/run/docker.sock in je container')}</p>`;
         btn.disabled = false;
-        btn.textContent = '🔍 Opnieuw proberen';
+        btn.textContent = t('ui.retry', '🔍 Opnieuw proberen');
     }
 }
 
@@ -10713,11 +10711,11 @@ async function scanDockerContainers() {
     const ip = document.getElementById('setting-docker-ip').value.trim() || localStorage.getItem('hobbithole_nas_ip') || window.location.hostname;
     const resultsEl = document.getElementById('docker-scan-results');
 
-    resultsEl.innerHTML = '<p style="color: var(--accent-color);">🔍 Scannen naar Docker containers...</p>';
+    resultsEl.innerHTML = `<p style="color: var(--accent-color);">${t('scanner.scanningContainers', '🔍 Scannen naar Docker containers...')}</p>`;
 
     try {
         const response = await fetch('/api/containers');
-        if (!response.ok) throw new Error('Docker API niet bereikbaar - is de socket gemount?');
+        if (!response.ok) throw new Error(t('scanner.dockerNotReachableSocket', 'Docker API niet bereikbaar - is de socket gemount?'));
 
         const containers = await response.json();
         const foundApps = [];
@@ -10737,37 +10735,37 @@ async function scanDockerContainers() {
 
         if (foundApps.length > 0) {
             resultsEl.innerHTML = `
-                <p style="color: var(--success-color); margin-bottom: 10px;">✅ ${foundApps.length} apps gevonden:</p>
+                <p style="color: var(--success-color); margin-bottom: 10px;">${t('scanner.appsFound', '✅ ${count} apps gevonden:').replace('${count}', foundApps.length)}</p>
                 ${foundApps.map((app, i) => `
                     <div class="app-item" style="margin-bottom: 8px;">
                         <div class="app-item-info">
                             <img src="${resolveIconSrc(app.icon)}" class="app-item-icon" onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed=${app.name}'">
                             <span>${app.name} (${app.category})</span>
                         </div>
-                        <button class="btn btn-secondary btn-small" onclick="addSingleScannedApp(${JSON.stringify(app).replace(/"/g, '&quot;')})">+ Toevoegen</button>
+                        <button class="btn btn-secondary btn-small" onclick="addSingleScannedApp(${JSON.stringify(app).replace(/"/g, '&quot;')})">${t('scanner.addSingle', '+ Toevoegen')}</button>
                     </div>
                 `).join('')}
-                <button class="btn btn-action" onclick="addAllScannedApps()" style="margin-top: 15px;">Alle ${foundApps.length} apps toevoegen</button>
+                <button class="btn btn-action" onclick="addAllScannedApps()" style="margin-top: 15px;">${t('scanner.addAll', 'Alle ${count} apps toevoegen').replace('${count}', foundApps.length)}</button>
             `;
             window._scannedApps = foundApps;
         } else {
-            resultsEl.innerHTML = '<p style="color: var(--warning-color);">⚠️ Geen bekende apps gevonden.</p>';
+            resultsEl.innerHTML = `<p style="color: var(--warning-color);">${t('scanner.noAppsFound', '⚠️ Geen bekende apps gevonden.')}</p>`;
         }
     } catch (error) {
-        resultsEl.innerHTML = `<p style="color: var(--danger-color);">❌ Fout: ${error.message}</p>`;
+        resultsEl.innerHTML = `<p style="color: var(--danger-color);">${t('ui.errorLabel', 'Fout')}: ${error.message}</p>`;
     }
 }
 
 function addSingleScannedApp(app) {
     addScannedApps([app]);
-    showToast(`${app.name} toegevoegd!`, 'success');
+    showToast(`${app.name} ${t('settings.added', 'toegevoegd!')}`, 'success');
 }
 
 function addAllScannedApps() {
     if (window._scannedApps) {
         addScannedApps(window._scannedApps);
-        showToast(`${window._scannedApps.length} apps toegevoegd!`, 'success');
-        document.getElementById('docker-scan-results').innerHTML = '<p style="color: var(--success-color);">✅ Alle apps toegevoegd!</p>';
+        showToast(`${window._scannedApps.length} apps ${t('settings.added', 'toegevoegd!')}`, 'success');
+        document.getElementById('docker-scan-results').innerHTML = `<p style="color: var(--success-color);">${t('scanner.allAppsAdded', '✅ Alle apps toegevoegd!')}</p>`;
     }
 }
 
@@ -10819,7 +10817,7 @@ function wizImportHeimdall(input) {
     if (!file) return;
 
     const statusEl = document.getElementById('wiz-heimdall-status');
-    statusEl.innerHTML = '<p style="color: var(--accent-color);">📂 Bestand laden...</p>';
+    statusEl.innerHTML = `<p style="color: var(--accent-color);">${t('scanner.loadingFile', '📂 Bestand laden...')}</p>`;
 
     const reader = new FileReader();
     reader.onload = function(e) {
@@ -10829,13 +10827,13 @@ function wizImportHeimdall(input) {
 
             if (apps.length > 0) {
                 addScannedApps(apps);
-                statusEl.innerHTML = `<p style="color: var(--success-color);">✅ ${apps.length} apps geïmporteerd!</p>`;
+                statusEl.innerHTML = `<p style="color: var(--success-color);">${t('scanner.appsImported', '✅ ${count} apps geïmporteerd!').replace('${count}', apps.length)}</p>`;
                 setTimeout(() => wizNext(5), 2000);
             } else {
-                statusEl.innerHTML = '<p style="color: var(--warning-color);">⚠️ Geen apps gevonden in dit bestand.</p>';
+                statusEl.innerHTML = `<p style="color: var(--warning-color);">${t('scanner.noAppsInFile', '⚠️ Geen apps gevonden in dit bestand.')}</p>`;
             }
         } catch (error) {
-            statusEl.innerHTML = '<p style="color: var(--danger-color);">❌ Ongeldig bestand formaat.</p>';
+            statusEl.innerHTML = `<p style="color: var(--danger-color);">${t('scanner.invalidFileFormat', '❌ Ongeldig bestand formaat.')}</p>`;
         }
     };
     reader.readAsText(file);
@@ -10853,20 +10851,20 @@ function wizImportHomarr(input) {
     const file = input.files[0];
     if (!file) return;
     const statusEl = document.getElementById('wiz-homarr-status');
-    statusEl.innerHTML = '<p style="color: var(--accent-color);">📂 Bestand laden...</p>';
+    statusEl.innerHTML = `<p style="color: var(--accent-color);">${t('scanner.loadingFile', '📂 Bestand laden...')}</p>`;
     const reader = new FileReader();
     reader.onload = function(e) {
         try {
             const apps = parseHomarrData(JSON.parse(e.target.result));
             if (apps.length > 0) {
                 addScannedApps(apps);
-                statusEl.innerHTML = `<p style="color: var(--success-color);">✅ ${apps.length} apps geïmporteerd!</p>`;
+                statusEl.innerHTML = `<p style="color: var(--success-color);">${t('scanner.appsImported', '✅ ${count} apps geïmporteerd!').replace('${count}', apps.length)}</p>`;
                 setTimeout(() => wizNext(5), 2000);
             } else {
-                statusEl.innerHTML = '<p style="color: var(--warning-color);">⚠️ Geen apps gevonden in dit bestand.</p>';
+                statusEl.innerHTML = `<p style="color: var(--warning-color);">${t('scanner.noAppsInFile', '⚠️ Geen apps gevonden in dit bestand.')}</p>`;
             }
         } catch (error) {
-            statusEl.innerHTML = `<p style="color: var(--danger-color);">❌ ${error.message || 'Ongeldig bestand'}</p>`;
+            statusEl.innerHTML = `<p style="color: var(--danger-color);">${t('ui.errorLabel', 'Fout')}: ${error.message || 'Ongeldig bestand'}</p>`;
         }
     };
     reader.readAsText(file);
@@ -10877,20 +10875,20 @@ function runJsonImport(input, resultsElId, parser, sourceName) {
     const file = input.files[0];
     if (!file) return;
     const resultsEl = document.getElementById(resultsElId);
-    resultsEl.innerHTML = '<p style="color: var(--accent-color);">📂 Bestand laden...</p>';
+    resultsEl.innerHTML = `<p style="color: var(--accent-color);">${t('scanner.loadingFile', '📂 Bestand laden...')}</p>`;
     const reader = new FileReader();
     reader.onload = function(e) {
         try {
             const apps = parser(JSON.parse(e.target.result));
             if (apps.length > 0) {
                 addScannedApps(apps);
-                resultsEl.innerHTML = `<p style="color: var(--success-color);">✅ ${apps.length} apps geïmporteerd uit ${sourceName}!</p>`;
-                showToast(`${apps.length} apps geïmporteerd van ${sourceName}!`, 'success');
+                resultsEl.innerHTML = `<p style="color: var(--success-color);">${t('scanner.appsImported', '✅ ${count} apps geïmporteerd!').replace('${count}', apps.length)}</p>`;
+                showToast(t('scanner.appsImported', '✅ ${count} apps geïmporteerd!').replace('${count}', apps.length), 'success');
             } else {
-                resultsEl.innerHTML = `<p style="color: var(--warning-color);">⚠️ Geen apps gevonden in dit ${sourceName} bestand.</p>`;
+                resultsEl.innerHTML = `<p style="color: var(--warning-color);">${t('scanner.noAppsInFile', '⚠️ Geen apps gevonden in dit bestand.')}</p>`;
             }
         } catch (error) {
-            resultsEl.innerHTML = `<p style="color: var(--danger-color);">❌ Ongeldig ${sourceName} bestand: ${error.message || 'parse error'}</p>`;
+            resultsEl.innerHTML = `<p style="color: var(--danger-color);">${t('scanner.invalidFileFormat', '❌ Ongeldig bestand formaat.')}: ${error.message || 'parse error'}</p>`;
         }
     };
     reader.readAsText(file);
@@ -10959,10 +10957,10 @@ async function importBackup(input) {
     const file = input.files && input.files[0];
     if (!file) return;
     const resultsEl = document.getElementById('backup-results');
-    const proceed = confirm('Backup importeren overschrijft AL je huidige instellingen (apps, thema, widgets). Doorgaan?');
+    const proceed = confirm(t('scanner.backupOverwriteConfirm', 'Backup importeren overschrijft AL je huidige instellingen (apps, thema, widgets). Doorgaan?'));
     if (!proceed) { input.value = ''; return; }
 
-    resultsEl.innerHTML = '<p style="color: var(--accent-color);">📂 Bestand laden...</p>';
+    resultsEl.innerHTML = `<p style="color: var(--accent-color);">${t('scanner.loadingFile', '📂 Bestand laden...')}</p>`;
     try {
         const text = await file.text();
         const backup = JSON.parse(text);
@@ -11249,7 +11247,7 @@ async function startBenchmark() {
                 updateP95Stats();
                 btn.disabled = false;
                 btn.innerText = '🚀 Start Benchmark (5 min)';
-                status.innerText = 'Benchmark voltooid!';
+                status.innerText = t('ui.benchmarkCompleted', 'Benchmark voltooid!');
             }, 305000);
         } else {
             throw new Error('Start failed');
@@ -11257,8 +11255,8 @@ async function startBenchmark() {
     } catch (e) {
         btn.disabled = false;
         btn.innerText = '🚀 Start Benchmark (5 min)';
-        status.innerText = 'Fout bij starten.';
-        showToast('Kon benchmark niet starten.', 'error');
+        status.innerText = t('feedback.benchmarkStartError', 'Fout bij starten.');
+        showToast(t('feedback.benchmarkStartToastError', 'Kon benchmark niet starten.'), 'error');
     }
 }
 
