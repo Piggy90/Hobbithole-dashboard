@@ -22,3 +22,7 @@ template_docker-compose.yml
 # Node.js
 node_modules/
 npm-debug.log
+
+# Raw/Source media (not for public repo)
+images/Bron/
+images/Scherm*

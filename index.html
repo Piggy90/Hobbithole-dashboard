@@ -5727,7 +5727,7 @@ function getPinnedApps() {
 }
 
 // ===== TABS (multi-page filtering) =====
-let activeTab = localStorage.getItem('hobbithole_active_tab') || 'all';
+let activeTab = localStorage.getItem('hobbithole_active_tab') || 'home';
 
 function renderTabs() {
     const bar = document.getElementById('tabs-bar');
@@ -6363,7 +6363,7 @@ closeBtn.onclick = () => {
 
 // v1.8.2: changelog modal — "What's New" with auto-detected NEW badge.
 // CHANGELOG.md is baked into the dashboard image (COPY in Dockerfile) at /CHANGELOG.md
-const APP_VERSION = '1.9.7-dev';
+const APP_VERSION = '1.9.8-dev';
 
 // ===== RELEASE ANNOUNCEMENTS (v1.8.5) =====
 // First-run pop-up shown ONCE per user, per announcement id. Use this for big feature

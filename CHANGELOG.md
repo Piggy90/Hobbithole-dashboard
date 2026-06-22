@@ -1,6 +1,10 @@
 # Hobbithole Cinema Dashboard - Changelog
 
-## [v1.9.7-dev] - 2026-06-22
+## [v1.9.8-dev] - 2026-06-22
+### In uitvoering (In Progress)
+- Nieuwe features voor de volgende release.
+
+## [v1.9.7] - 2026-06-22
 ### In uitvoering (In Progress)
 - Nieuwe features voor de volgende release.
 
