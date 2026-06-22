@@ -1,5 +1,7 @@
 # Hobbithole Dashboard — Zero‑Config Homelab Dashboard
 
+![Hobbithole Dashboard Showcase](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/master/images/dashboard-showcase.gif)
+
 A blazing fast, responsive, self‑configuring dashboard for your homelab. Smart Docker auto‑detection, a cinematic weather widget, and **cross‑device settings sync** via a tiny config API.
 
 > 🆕 **v1.9.4** — **🖥️ VM & Service Control**: Brand new generic control widget supporting Proxmox VE API, Systemd services, and Custom SSH/local commands. + **🌍 Global Language Switcher**: Floating button in the top-left to instantly switch languages.
@@ -95,6 +97,12 @@ docker pull piggyoriginal/hobbithole-config-api
 - **Backup & Restore** settings as JSON
 - **Screensaver Mode** — fullscreen clock when idle
 - **Multi‑language** (NL / EN / DE / FR / ES)
+
+## 📸 Screenshots
+
+| Main Dashboard | Weather Widget | Theme: Nordic Frost |
+| :---: | :---: | :---: |
+| ![Main Dashboard](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/master/images/dashboard-home.png) | ![Weather Widget](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/master/images/weather-widget.png) | ![Nordic Frost Theme](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/master/images/theme-nordic-frost.png) |
 
 ## 🏡 Perfect for
 
