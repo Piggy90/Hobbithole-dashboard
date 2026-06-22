@@ -100,9 +100,9 @@ docker pull piggyoriginal/hobbithole-config-api
 
 ## 📸 Screenshots
 
-| Main Dashboard | Weather Widget | Theme: Nordic Frost |
+| Main Dashboard | Weather Widget | Dynamic Wallpaper |
 | :---: | :---: | :---: |
-| ![Main Dashboard](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/master/images/dashboard-home.png) | ![Weather Widget](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/master/images/weather-widget.png) | ![Nordic Frost Theme](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/master/images/theme-nordic-frost.png) |
+| ![Main Dashboard](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/master/images/dashboard-home.png) | ![Weather Widget](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/master/images/weather-widget.png) | ![Dynamic Wallpaper](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/master/images/theme-nordic-frost.png) |
 
 ## 🏡 Perfect for
 
