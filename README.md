@@ -2,9 +2,9 @@
 
 A blazing fast, responsive, self‑configuring dashboard for your homelab. Smart Docker auto‑detection, a cinematic weather widget, and **cross‑device settings sync** via a tiny config API.
 
-> 🆕 **v1.9.3** — **🌍 Universal USB Eject**: Choice between `signal` (asynchronous host script) and `native` (privileged container `umount`) modes. + **🔄 Auto-Sync Version**: Footer is now automatically in sync with the codebase. + **🧹 Repo Cleanup**: Excluded private management scripts and roadmaps from the public repository.
+> 🆕 **v1.9.4** — **🖥️ VM & Service Control**: Brand new generic control widget supporting Proxmox VE API, Systemd services, and Custom SSH/local commands. + **🌍 Global Language Switcher**: Floating button in the top-left to instantly switch languages.
 >
-> Previously in **v1.9.2**: USB Eject Widget + Live p95 Resource Metrics. **v1.9.1**: Wallpaper Cross-Device Sync. **v1.9.0**: Theme Engine + Canvas Mode GA.
+> Previously in **v1.9.3**: Universal USB Eject & version auto-sync. **v1.9.2**: USB Eject Widget & p95 Resource Metrics.
 
 ## ⏏️ USB Eject Configuration
 

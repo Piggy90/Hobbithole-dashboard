@@ -3,7 +3,6 @@
 ## [v1.9.5-dev] - 2026-06-17
 ### In uitvoering (In Progress)
 - Nieuwe features voor de volgende release.
-
 ## [v1.9.4] - 2026-06-16
 ### Toegevoegd (Added)
 - **🖥️ VM & Service Control Widget** — Een volledig generieke widget ter vervanging van de oude Proxmox-widget. Ondersteunt nu Proxmox VE API, Systemd Services en Custom Commandos (zowel lokaal als remote via SSH).
