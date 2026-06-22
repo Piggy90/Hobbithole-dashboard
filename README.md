@@ -4,9 +4,9 @@
 
 A blazing fast, responsive, self‑configuring dashboard for your homelab. Smart Docker auto‑detection, a cinematic weather widget, and **cross‑device settings sync** via a tiny config API.
 
-> 🆕 **v1.9.4** — **🖥️ VM & Service Control**: Brand new generic control widget supporting Proxmox VE API, Systemd services, and Custom SSH/local commands. + **🌍 Global Language Switcher**: Floating button in the top-left to instantly switch languages.
+> 🆕 **v1.9.5** — **📹 High-Quality Media Showcase**: Added a high-quality animated dashboard showcase GIF and detailed screenshots (Home, Weather, Themes) generated via the new automated Playwright & FFmpeg pipeline in Webtop.
 >
-> Previously in **v1.9.3**: Universal USB Eject & version auto-sync. **v1.9.2**: USB Eject Widget & p95 Resource Metrics.
+> Previously in **v1.9.4**: VM & Service Control and floating language switcher. **v1.9.3**: Universal USB Eject & version auto-sync.
 
 ## ⏏️ USB Eject Configuration
 
