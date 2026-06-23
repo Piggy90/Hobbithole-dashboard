@@ -109,3 +109,7 @@ docker pull piggyoriginal/hobbithole-config-api
 NAS systems, homelabs, Docker users, and anyone who wants a clean, self‑configuring dashboard without hassle.
 
 Made using LokaiOS — the AI‑native operating system.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
