@@ -1,6 +1,6 @@
 # Hobbithole Dashboard — Zero‑Config Homelab Dashboard
 
-![Hobbithole Dashboard Showcase](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/master/images/dashboard-showcase.gif)
+![Hobbithole Dashboard Showcase](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/main/images/dashboard-showcase.gif)
 
 A blazing fast, responsive, self‑configuring dashboard for your homelab. Smart Docker auto‑detection, a cinematic weather widget, and **cross‑device settings sync** via a tiny config API.
 
@@ -102,7 +102,7 @@ docker pull piggyoriginal/hobbithole-config-api
 
 | Main Dashboard | Weather Widget | Dynamic Wallpaper |
 | :---: | :---: | :---: |
-| ![Main Dashboard](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/master/images/dashboard-home.png) | ![Weather Widget](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/master/images/weather-widget.png) | ![Dynamic Wallpaper](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/master/images/theme-nordic-frost.png) |
+| ![Main Dashboard](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/main/images/dashboard-home.png) | ![Weather Widget](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/main/images/weather-widget.png) | ![Dynamic Wallpaper](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/main/images/theme-nordic-frost.png) |
 
 ## 🏡 Perfect for
 
