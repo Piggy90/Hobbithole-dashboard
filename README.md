@@ -1,14 +1,14 @@
-# Hobbithole Dashboard — Zero‑Config Homelab Dashboard
+# Hobbithole Dashboard - Zero-Config Homelab Dashboard
 
 ![Hobbithole Dashboard Showcase](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/main/images/dashboard-showcase.gif)
 
 A blazing fast, responsive, self‑configuring dashboard for your homelab. Smart Docker auto‑detection, a cinematic weather widget, and **cross‑device settings sync** via a tiny config API.
 
-> 🆕 **v1.9.5** — **📹 High-Quality Media Showcase**: Added a high-quality animated dashboard showcase GIF and detailed screenshots (Home, Weather, Themes) generated via the new automated Playwright & FFmpeg pipeline in Webtop.
+> **v1.9.5** — **High-Quality Media Showcase**: Added a high-quality animated dashboard showcase GIF and detailed screenshots (Home, Weather, Themes) generated via the new automated Playwright & FFmpeg pipeline in Webtop.
 >
 > Previously in **v1.9.4**: VM & Service Control and floating language switcher. **v1.9.3**: Universal USB Eject & version auto-sync.
 
-## ⏏️ USB Eject Configuration
+## USB Eject Configuration
 
 The dashboard supports two methods for safely unmounting external drives:
 
@@ -17,7 +17,7 @@ The dashboard supports two methods for safely unmounting external drives:
     *   **Requirement**: You must add `privileged: true` to the `config-api` service in your Docker Compose.
     *   **Environment Variable**: Set `USB_EJECT_METHOD=native` on the `config-api` service.
 
-## 🚀 Install via Docker Compose
+## Install via Docker Compose
 
 ```yaml
 services:
@@ -58,17 +58,17 @@ networks:
 mkdir -p data && chmod 777 data
 ```
 
-## 📦 Pull the images directly
+## Pull the images directly
 
 ```
 docker pull piggyoriginal/hobbithole-dashboard
 docker pull piggyoriginal/hobbithole-config-api
 ```
 
-## ✨ Features
+## Features
 
-- **⏏️ USB & External Storage Management** (v1.9.2) — Manage and safely unmount USB drives and external SSDs with real-time feedback and data integrity protection
-- **📊 Live p95 Resource Metrics** (v1.9.2) — Real-time CPU and RAM usage display for containers via on-demand benchmarking
+- **USB & External Storage Management** (v1.9.2) — Manage and safely unmount USB drives and external SSDs with real-time feedback and data integrity protection
+- **Live p95 Resource Metrics** (v1.9.2) — Real-time CPU and RAM usage display for containers via on-demand benchmarking
 - **First‑Run Wizard** (zero setup)
 - **Smart Docker Detection** — auto‑detects containers via image name + dashboard‑icons CDN (1000+ apps), skips background services automatically
 - **Dynamic IP Auto‑Detection**
@@ -98,14 +98,14 @@ docker pull piggyoriginal/hobbithole-config-api
 - **Screensaver Mode** — fullscreen clock when idle
 - **Multi‑language** (NL / EN / DE / FR / ES)
 
-## 📸 Screenshots
+## Screenshots
 
 | Main Dashboard | Weather Widget | Dynamic Wallpaper |
 | :---: | :---: | :---: |
 | ![Main Dashboard](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/main/images/dashboard-home.png) | ![Weather Widget](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/main/images/weather-widget.png) | ![Dynamic Wallpaper](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/main/images/theme-nordic-frost.png) |
 
-## 🏡 Perfect for
+## Perfect for
 
 NAS systems, homelabs, Docker users, and anyone who wants a clean, self‑configuring dashboard without hassle.
 
-Made with ❤️ using LokaiOS — the AI‑native operating system.
+Made using LokaiOS — the AI‑native operating system.
