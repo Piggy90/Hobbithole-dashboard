@@ -1,20 +1,18 @@
 # Hobbithole Cinema Dashboard - Changelog
 
-## [v1.9.8-dev] - 2026-06-22
-### In uitvoering (In Progress)
-- Nieuwe features voor de volgende release.
-
-## [v1.9.7] - 2026-06-22
-### In uitvoering (In Progress)
-- Nieuwe features voor de volgende release.
-
-## [v1.9.6] - 2026-06-22
+## [v1.9.6-dev] - 2026-06-22
 ### In uitvoering (In Progress)
 - Nieuwe features voor de volgende release.
 
 ## [v1.9.5] - 2026-06-17
-### In uitvoering (In Progress)
-- Nieuwe features voor de volgende release.
+### Toegevoegd (Added)
+- **🖼️ Showcase Media & Documentatie** — Volledig bijgewerkte documentatie met GIFs en screenshots van de cinematic weather effects, bliksem en widgets.
+- **⚡ Command-mapping** — Stop-actie voor Proxmox VM's/containers gemapt aan graceful shutdown.
+
+### Verbeterd (Changed)
+- **🌍 i18n Synchronisatie** — Verdere plooiing en synchronisatie van alle i18n-vertaalbestanden.
+- **💓 Healthcheck** — API container-healthcheck poort-mapping gecorrigeerd naar poort 3000.
+
 ## [v1.9.4] - 2026-06-16
 ### Toegevoegd (Added)
 - **🖥️ VM & Service Control Widget** — Een volledig generieke widget ter vervanging van de oude Proxmox-widget. Ondersteunt nu Proxmox VE API, Systemd Services en Custom Commandos (zowel lokaal als remote via SSH).
