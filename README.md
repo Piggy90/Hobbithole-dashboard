@@ -17,6 +17,8 @@ The dashboard supports two methods for safely unmounting external drives:
     *   **Requirement**: You must add `privileged: true` to the `config-api` service in your Docker Compose.
     *   **Environment Variable**: Set `USB_EJECT_METHOD=native` on the `config-api` service.
 
+For detailed host setup guides for different platforms (including systemd for Debian/Ubuntu/Proxmox, and Task Scheduler for Synology DSM), see the [USB Eject Host Configuration Guide](docs/USB_EJECT.md).
+
 ## Install via Docker Compose
 
 ```yaml

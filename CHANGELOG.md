@@ -1,8 +1,9 @@
 # Hobbithole Cinema Dashboard - Changelog
 
-## [v1.9.6-dev] - 2026-06-22
-### In uitvoering (In Progress)
-- Nieuwe features voor de volgende release.
+## [v1.9.6-dev] - 2026-06-30
+
+### Toegevoegd (Added)
+- **USB Eject Host-documentatie** — Een gedetailleerde handleiding toegevoegd (`docs/USB_EJECT.md`) voor het configureren van de host-side watcher in SIGNAL-modus op verschillende platformen (Debian/Ubuntu/Proxmox met Systemd, en Synology DSM met de Task Scheduler). Tevens is de hoofd-README.md bijgewerkt met een directe link.
 
 ## [v1.9.5] - 2026-06-17
 ### Toegevoegd (Added)
