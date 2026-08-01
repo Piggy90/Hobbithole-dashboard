@@ -120,7 +120,7 @@
     "homarrImportDesc": "Migreer van Homarr — exporteer in Homarr (Settings → Configuration) en upload het JSON bestand hieronder.",
     "homarrSelect": "📁 Selecteer Homarr JSON",
     "added": "Toegevoegd",
-    "canvasMode": "🎨 Canvas mode (drag widgets vrij rond, met grid raster)",
+    "canvasMode": "Canvas mode (widgets vrij slepen op een grid)",
     "externalServices": "🔌 Externe services",
     "externalServicesDesc": "Configureer connecties met externe services. Cross-device gesynchroniseerd via config-api.",
     "usbTitle": "⏏️ USB & Externe Opslag",
@@ -133,7 +133,7 @@
     "backupDesc": "Exporteer al je instellingen (apps, thema, widgets, weather config) als JSON. Importeer een backup om te restoren of te migreren naar een ander apparaat.",
     "backupExport": "📥 Exporteer backup",
     "backupImport": "📤 Importeer backup",
-    "whatsNew": "📋 Wat is er nieuw",
+    "whatsNew": "Wat is er nieuw",
     "loading": "Laden…",
     "closeTitle": "Sluiten",
     "themeEngineTitle": "🎨 Thema Experience",
@@ -188,7 +188,8 @@
     "watchtowerDesc": "Trigger updates handmatig vanuit het dashboard. Vereist HTTP API in je Watchtower compose — zie de widget body voor setup-stappen.",
     "watchtowerUrlHelp": "Als Watchtower in dashboard_net zit: http://watchtower:8080",
     "watchtowerTestBtn": "🧪 Test verbinding",
-    "saveIntegrationBtn": "💾 Opslaan"
+    "saveIntegrationBtn": "💾 Opslaan",
+    "canvasModeDesc": "Vrije plaatsing vs gestapelde grid. Gesynchroniseerd over apparaten (domein, IP, browsers) via server-config — net als je widgets."
   },
   "modal": {
     "addApp": "App toevoegen",
@@ -305,7 +306,7 @@
     "noForecastData": "Geen forecast data",
     "configureLocation": "Configureer eerst een locatie in de instellingen.",
     "loading": "Laden…",
-    "changelogLoadError": "⚠️ Kon CHANGELOG niet laden: ${message}",
+    "changelogLoadError": "Kon CHANGELOG niet laden: ${message}",
     "chooseApp": "📌 Kies een app",
     "noWidgetTypesAvailable": "Geen widget types beschikbaar.",
     "noWidgetsAdded": "Nog geen widgets toegevoegd.",
@@ -336,7 +337,9 @@
     "feedNotReachable": "Feed niet bereikbaar",
     "statusFetchError": "⚠️ Fout bij ophalen status: ${message}",
     "deleteLabel": "Verwijderen",
-    "benchmarkCompleted": "Benchmark voltooid!"
+    "benchmarkCompleted": "Benchmark voltooid!",
+    "canvasModeOn": "Canvas mode aan (gesynchroniseerd)",
+    "canvasModeOff": "Canvas mode uit (gesynchroniseerd)"
   },
   "scanner": {
     "searchingContainers": "🔍 Zoeken naar Docker containers...",

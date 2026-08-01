@@ -120,7 +120,7 @@
     "homarrImportDesc": "Migrate from Homarr — export in Homarr (Settings → Configuration) and upload the JSON file below.",
     "homarrSelect": "📁 Select Homarr JSON",
     "added": "Added",
-    "canvasMode": "🎨 Canvas mode (drag widgets freely, with grid snapping)",
+    "canvasMode": "Mode canvas (glisser les widgets librement sur une grille)",
     "externalServices": "🔌 External services",
     "externalServicesDesc": "Configure connections to external services. Cross-device synchronized via config-api.",
     "usbTitle": "⏏️ USB & External Storage",
@@ -133,7 +133,7 @@
     "backupDesc": "Export all your settings (apps, theme, widgets, weather config) as JSON. Import a backup to restore or migrate to another device.",
     "backupExport": "📥 Export backup",
     "backupImport": "📤 Import backup",
-    "whatsNew": "📋 What's New",
+    "whatsNew": "Quoi de neuf",
     "loading": "Loading…",
     "closeTitle": "Close",
     "themeEngineTitle": "🎨 Theme Experience",
@@ -188,7 +188,8 @@
     "watchtowerDesc": "Déclenchez les mises à jour manuellement depuis le tableau de bord. Requiert l'API HTTP dans votre compose Watchtower — voir le corps du widget pour les étapes d'installation.",
     "watchtowerUrlHelp": "Si Watchtower est dans dashboard_net : http://watchtower:8080",
     "watchtowerTestBtn": "🧪 Tester la connexion",
-    "saveIntegrationBtn": "💾 Enregistrer"
+    "saveIntegrationBtn": "💾 Enregistrer",
+    "canvasModeDesc": "Placement libre vs grille empilée. Synchronisé entre appareils (domaine, IP, navigateurs) via la config serveur."
   },
   "modal": {
     "addApp": "Ajouter une app",
@@ -305,7 +306,7 @@
     "noForecastData": "Pas de données de prévision",
     "configureLocation": "Configurez d'abord un emplacement dans les paramètres.",
     "loading": "Chargement…",
-    "changelogLoadError": "⚠️ Impossible de charger le CHANGELOG : ${message}",
+    "changelogLoadError": "Impossible de charger le CHANGELOG : ${message}",
     "chooseApp": "📌 Choisir une application",
     "noWidgetTypesAvailable": "Aucun type de widget disponible.",
     "noWidgetsAdded": "Aucun widget ajouté.",
@@ -336,7 +337,9 @@
     "feedNotReachable": "Flux inaccessible",
     "statusFetchError": "⚠️ Erreur lors de la récupération du statut : ${message}",
     "deleteLabel": "Supprimer",
-    "benchmarkCompleted": "Benchmark terminé !"
+    "benchmarkCompleted": "Benchmark terminé !",
+    "canvasModeOn": "Mode canvas activé (synchronisé)",
+    "canvasModeOff": "Mode canvas désactivé (synchronisé)"
   },
   "scanner": {
     "searchingContainers": "🔍 Recherche de conteneurs Docker...",

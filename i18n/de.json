@@ -120,7 +120,7 @@
     "homarrImportDesc": "Migrate from Homarr — export in Homarr (Settings → Configuration) and upload the JSON file below.",
     "homarrSelect": "📁 Select Homarr JSON",
     "added": "Added",
-    "canvasMode": "🎨 Canvas mode (drag widgets freely, with grid snapping)",
+    "canvasMode": "Canvas-Modus (Widgets frei auf Raster ziehen)",
     "externalServices": "🔌 External services",
     "externalServicesDesc": "Configure connections to external services. Cross-device synchronized via config-api.",
     "usbTitle": "⏏️ USB & External Storage",
@@ -133,7 +133,7 @@
     "backupDesc": "Export all your settings (apps, theme, widgets, weather config) as JSON. Import a backup to restore or migrate to another device.",
     "backupExport": "📥 Export backup",
     "backupImport": "📤 Import backup",
-    "whatsNew": "📋 What's New",
+    "whatsNew": "Was ist neu",
     "loading": "Loading…",
     "closeTitle": "Close",
     "themeEngineTitle": "🎨 Theme Experience",
@@ -188,7 +188,8 @@
     "watchtowerDesc": "Updates manuell über das Dashboard auslösen. Erfordert HTTP-API in Ihrem Watchtower-Compose – Setup-Schritte siehe Widget-Body.",
     "watchtowerUrlHelp": "Wenn sich Watchtower in dashboard_net befindet: http://watchtower:8080",
     "watchtowerTestBtn": "🧪 Verbindung testen",
-    "saveIntegrationBtn": "💾 Speichern"
+    "saveIntegrationBtn": "💾 Speichern",
+    "canvasModeDesc": "Freie Platzierung vs. gestapeltes Raster. Geräteübergreifend synchronisiert (Domain, IP, Browser) über die Server-Config."
   },
   "modal": {
     "addApp": "App hinzufügen",
@@ -305,7 +306,7 @@
     "noForecastData": "Keine Vorhersagedaten",
     "configureLocation": "Konfiguriere zuerst einen Standort in den Einstellungen.",
     "loading": "Laden…",
-    "changelogLoadError": "⚠️ CHANGELOG konnte nicht geladen werden: ${message}",
+    "changelogLoadError": "CHANGELOG konnte nicht geladen werden: ${message}",
     "chooseApp": "📌 Wähle eine App",
     "noWidgetTypesAvailable": "Keine Widget-Typen verfügbar.",
     "noWidgetsAdded": "Noch keine Widgets hinzugefügt.",
@@ -336,7 +337,9 @@
     "feedNotReachable": "Feed nicht erreichbar",
     "statusFetchError": "⚠️ Fehler beim Abrufen des Status: ${message}",
     "deleteLabel": "Löschen",
-    "benchmarkCompleted": "Benchmark abgeschlossen!"
+    "benchmarkCompleted": "Benchmark abgeschlossen!",
+    "canvasModeOn": "Canvas-Modus an (synchronisiert)",
+    "canvasModeOff": "Canvas-Modus aus (synchronisiert)"
   },
   "scanner": {
     "searchingContainers": "🔍 Suche nach Docker-Containern...",

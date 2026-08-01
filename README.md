@@ -17,8 +17,6 @@ The dashboard supports two methods for safely unmounting external drives:
     *   **Requirement**: You must add `privileged: true` to the `config-api` service in your Docker Compose.
     *   **Environment Variable**: Set `USB_EJECT_METHOD=native` on the `config-api` service.
 
-For detailed host setup guides for different platforms (including systemd for Debian/Ubuntu/Proxmox, and Task Scheduler for Synology DSM), see the [USB Eject Host Configuration Guide](docs/USB_EJECT.md).
-
 ## Install via Docker Compose
 
 ```yaml
@@ -80,7 +78,7 @@ docker pull piggyoriginal/hobbithole-config-api
 - **Cross‑device settings sync** via lightweight config API
 - **Cinematic Weather Widget**
   - Click to expand — hourly forecast (3‑hour blocks) + 7‑day outlook
-  - Click any day → see that day's hourly breakdown
+  - Click any day see that day's hourly breakdown
   - Search location by city name (no coordinates needed)
   - Wind, rain probability, min/max temp shown when relevant
   - Animated backdrop: rain, snow, sun (toggle in settings)
@@ -111,7 +109,3 @@ docker pull piggyoriginal/hobbithole-config-api
 NAS systems, homelabs, Docker users, and anyone who wants a clean, self‑configuring dashboard without hassle.
 
 Made using LokaiOS — the AI‑native operating system.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

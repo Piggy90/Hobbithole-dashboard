@@ -2,10 +2,10 @@
   "id": "midnight-neon",
   "name": "Midnight Neon",
   "author": "PiggyOriginal",
-  "version": "1.0.0",
-  "description": "Donker met roze accent en scherpe randen.",
+  "version": "1.1.0",
+  "description": "Donker met roze accent en scherpe randen. Metrics-first control room voor wie het systeem in de gaten wil houden.",
   "screenshot": null,
-  "tags": ["dark", "neon", "sharp"],
+  "tags": ["dark", "neon", "sharp", "monitoring"],
   "visuals": {
     "--bg-color": "#020617",
     "--accent-color": "#f472b6",
@@ -15,10 +15,48 @@
     "--border-color": "rgba(244, 114, 182, 0.2)"
   },
   "config": {
-    "weatherBackdrop": "standard",
+    "weatherBackdrop": "subtle",
     "statusDots": true
   },
-  "homeLayout": null,
+  "homeLayout": {
+    "blocks": [
+      {
+        "id": "theme-neon-sysinfo",
+        "type": "system-info",
+        "size": "l",
+        "title": "System Info",
+        "config": {}
+      },
+      {
+        "id": "theme-neon-watchtower",
+        "type": "watchtower",
+        "size": "m",
+        "title": "Watchtower",
+        "config": {}
+      },
+      {
+        "id": "theme-neon-stat1",
+        "type": "quickstat",
+        "size": "s",
+        "title": "CPU Temp",
+        "config": { "url": "", "label": "CPU Temp", "jsonPath": "value", "unit": "°C" }
+      },
+      {
+        "id": "theme-neon-stat2",
+        "type": "quickstat",
+        "size": "s",
+        "title": "Uptime",
+        "config": { "url": "", "label": "Uptime", "jsonPath": "value", "unit": "d" }
+      },
+      {
+        "id": "theme-neon-clock",
+        "type": "clock",
+        "size": "s",
+        "title": "Klok",
+        "config": {}
+      }
+    ]
+  },
   "liveWallpaper": null,
   "widgetVariants": null
 }

@@ -17,7 +17,7 @@ Themes live in `themes/<id>.json` in the dashboard project. First-party themes s
 | `tags` | string[] | recommended | Categorisation for filtering (e.g. `["dark", "media", "dense"]`). Used by the picker when v1.9.2 filter UI lands. |
 | `visuals` | object | yes | Map of CSS custom property name → value. Applied as an overlay on `<html>`. See [Visuals](#visuals). |
 | `config` | object | optional | Per-theme dashboard setting overrides. See [Config](#config). |
-| `homeLayout` | object \| null | optional | **Reserved for v2.0.A** — pre-populated Home canvas widget layout. Set to `null` until v2.0. |
+| `homeLayout` | object \| null | optional | Pre-populated Home canvas widget layout. When a user selects a theme with a `homeLayout`, they are prompted to adopt the layout (their own layout is backed up and restored when switching to "Mijn eigen stijl"). See [Home Layout](#home-layout). |
 | `liveWallpaper` | object \| null | optional | **Reserved for v2.0.B** — bundled looping video/dynamic wallpaper. Set to `null` until then. |
 | `widgetVariants` | object \| null | optional | **Reserved for v2.0.B** — visual variants for widgets (glass / minimal / info-dense). Set to `null` until then. |
 
@@ -52,6 +52,47 @@ Optional dashboard setting overrides. The theme expresses *what fits its vibe*; 
 | `statusDots` | boolean | Whether live status dots on tiles are visible by default. |
 
 > **Note:** `weatherBackdrop` must be a string. The legacy boolean form (`true` / `false`) is not supported and will be rejected by future validators.
+
+## Home Layout
+
+Optional pre-populated widget layout for the Home tab. When a user selects a theme that includes a `homeLayout`, they are prompted to adopt it. Their own layout is backed up automatically and restored when they switch back to "Mijn eigen stijl" (custom).
+
+### Structure
+
+```json
+{
+  "homeLayout": {
+    "blocks": [
+      {
+        "id": "theme-myid-clock",
+        "type": "clock",
+        "size": "m",
+        "title": "Klok",
+        "config": {}
+      }
+    ]
+  }
+}
+```
+
+### Block fields
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `id` | string | yes | Unique block identifier. Use the pattern `theme-<themeId>-<purpose>` to avoid collisions with user-created blocks. |
+| `type` | string | yes | Widget type. Must match a registered standalone widget (e.g. `clock`, `bookmarks`, `notes`, `system-info`, `watchtower`, `quickstat`, `calendar`, `rss`, `vmservice`, `proxmox`, `usb`, `image`, `iframe`, `app-widget`). |
+| `size` | string | optional | Grid size: `s`, `m`, or `l`. Defaults to `m`. Controls width in grid mode and initial dimensions in canvas mode. |
+| `title` | string | optional | Custom display title for the widget header. Falls back to the widget's registered label if omitted. |
+| `config` | object | yes | Widget-specific configuration. Use the widget's `defaultConfig()` output as a starting point. Can be left as `{}` for widgets with no required config (e.g. `clock`, `system-info`). |
+
+### Design guidance
+
+Each theme should express a distinct home experience through its widget selection:
+
+- **Monitoring-heavy** (e.g. Midnight Neon): `system-info`, `watchtower`, `quickstat` blocks, compact sizes.
+- **Living room** (e.g. Glass Ocean): Large `clock`, `calendar`, `bookmarks`, generous sizes.
+- **Minimal** (e.g. Nordic Frost): Few widgets, large sizes, calm layout.
+- **Balanced** (e.g. Classic Tiles): Mix of productivity and system widgets.
 
 ## Example: minimal theme
 
@@ -101,5 +142,6 @@ The `/api/themes` list endpoint silently skips malformed files (logged as a warn
 
 - Required fields (`id`, `name`, `author`, `version`, `visuals`) are stable — they will not break in future Hobbithole versions.
 - Recommended fields (`description`, `screenshot`, `tags`) may gain semantics; existing values stay valid.
-- Reserved fields (`homeLayout`, `liveWallpaper`, `widgetVariants`) get their shape defined in v2.0. Keep them `null` until then.
+- Reserved fields (`liveWallpaper`, `widgetVariants`) get their shape defined in v2.0. Keep them `null` until then.
+- `homeLayout` is live as of v1.9.6 — see [Home Layout](#home-layout).
 - Unknown fields are ignored — safe to forward-add metadata.

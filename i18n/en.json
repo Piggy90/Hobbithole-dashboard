@@ -120,7 +120,7 @@
     "homarrImportDesc": "Migrate from Homarr — export in Homarr (Settings → Configuration) and upload the JSON file below.",
     "homarrSelect": "📁 Select Homarr JSON",
     "added": "Added",
-    "canvasMode": "🎨 Canvas mode (drag widgets freely, with grid snapping)",
+    "canvasMode": "Canvas mode (drag widgets freely on a grid)",
     "externalServices": "🔌 External services",
     "externalServicesDesc": "Configure connections to external services. Cross-device synchronized via config-api.",
     "usbTitle": "⏏️ USB & External Storage",
@@ -133,7 +133,7 @@
     "backupDesc": "Export all your settings (apps, theme, widgets, weather config) as JSON. Import a backup to restore or migrate to another device.",
     "backupExport": "📥 Export backup",
     "backupImport": "📤 Import backup",
-    "whatsNew": "📋 What's New",
+    "whatsNew": "What's new",
     "loading": "Loading…",
     "closeTitle": "Close",
     "themeEngineTitle": "🎨 Theme Experience",
@@ -188,7 +188,8 @@
     "watchtowerDesc": "Trigger updates manually from the dashboard. Requires HTTP API in your Watchtower compose — see the widget body for setup steps.",
     "watchtowerUrlHelp": "If Watchtower is in dashboard_net: http://watchtower:8080",
     "watchtowerTestBtn": "🧪 Test connection",
-    "saveIntegrationBtn": "💾 Save"
+    "saveIntegrationBtn": "💾 Save",
+    "canvasModeDesc": "Free placement vs stacked grid. Synced across devices (domain, IP, browsers) via server config — same as your widgets."
   },
   "modal": {
     "addApp": "Add app",
@@ -305,7 +306,7 @@
     "noForecastData": "No forecast data",
     "configureLocation": "Configure a location in settings first.",
     "loading": "Loading…",
-    "changelogLoadError": "⚠️ Could not load CHANGELOG: ${message}",
+    "changelogLoadError": "Could not load CHANGELOG: ${message}",
     "chooseApp": "📌 Choose an app",
     "noWidgetTypesAvailable": "No widget types available.",
     "noWidgetsAdded": "No widgets added yet.",
@@ -336,7 +337,9 @@
     "feedNotReachable": "Feed not reachable",
     "statusFetchError": "⚠️ Error fetching status: ${message}",
     "deleteLabel": "Delete",
-    "benchmarkCompleted": "Benchmark completed!"
+    "benchmarkCompleted": "Benchmark completed!",
+    "canvasModeOn": "Canvas mode on (synced)",
+    "canvasModeOff": "Canvas mode off (synced)"
   },
   "scanner": {
     "searchingContainers": "🔍 Searching for Docker containers...",

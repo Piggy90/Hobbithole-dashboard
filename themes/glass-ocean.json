@@ -2,10 +2,10 @@
   "id": "glass-ocean",
   "name": "Glass Ocean",
   "author": "PiggyOriginal",
-  "version": "1.0.0",
-  "description": "Diepblauwe glass-look met veel blur en ronde hoeken.",
+  "version": "1.1.0",
+  "description": "Diepblauwe glass-look met veel blur en ronde hoeken. Een relaxte living room ervaring met focus op je agenda en bookmarks.",
   "screenshot": null,
-  "tags": ["glass", "blue", "rounded"],
+  "tags": ["glass", "blue", "rounded", "relaxed"],
   "visuals": {
     "--bg-color": "#082f49",
     "--accent-color": "#38bdf8",
@@ -14,10 +14,41 @@
     "--blur-amount": "24px"
   },
   "config": {
-    "weatherBackdrop": "standard",
+    "weatherBackdrop": "immersive",
     "statusDots": true
   },
-  "homeLayout": null,
+  "homeLayout": {
+    "blocks": [
+      {
+        "id": "theme-ocean-clock",
+        "type": "clock",
+        "size": "l",
+        "title": "Klok",
+        "config": {}
+      },
+      {
+        "id": "theme-ocean-calendar",
+        "type": "calendar",
+        "size": "l",
+        "title": "Agenda",
+        "config": { "icsUrl": "" }
+      },
+      {
+        "id": "theme-ocean-bookmarks",
+        "type": "bookmarks",
+        "size": "m",
+        "title": "Bookmarks",
+        "config": { "items": [] }
+      },
+      {
+        "id": "theme-ocean-notes",
+        "type": "notes",
+        "size": "m",
+        "title": "Notities",
+        "config": { "text": "" }
+      }
+    ]
+  },
   "liveWallpaper": null,
   "widgetVariants": null
 }

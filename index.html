@@ -403,12 +403,17 @@
         #standalone-widgets.canvas-mode {
             display: block;
             position: relative;
-            min-height: 600px;
+            /* Height is set dynamically (updateStandaloneCanvasHeight) so absolute
+               widgets expand the page and the footer stays below the canvas. */
+            min-height: 400px;
+            height: auto;
+            overflow: visible;
             background-image: none;
             background-size: 40px 40px;
             border-radius: var(--card-radius);
             padding: var(--space-2);
-            transition: background-image 0.2s ease;
+            margin-bottom: 32px;
+            transition: background-image 0.2s ease, min-height 0.15s ease;
         }
         /* Grid raster appears only during an active drag — visual aid that fades out on drop */
         #standalone-widgets.canvas-mode.canvas-dragging-active {
@@ -3130,6 +3135,302 @@
             margin-top: 2px;
         }
 
+        /* ===== WEATHER EXPANDED TABS & BUIENRADAR / WEERENRADAR EXTENSIONS ===== */
+        .weather-tab-buttons {
+            display: flex;
+            gap: 4px;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 3px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .weather-tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            padding: 5px 6px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .weather-tab-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .weather-tab-btn.active {
+            color: #fff;
+            background: var(--accent-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Live radar: layer chips + zoom (geen .btn-action — die is width:100% voor forms) */
+        #radar-layer-toggle {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 56px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            z-index: 10;
+            background: rgba(15, 23, 42, 0.92);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            pointer-events: auto;
+            max-width: calc(100% - 64px);
+        }
+
+        #radar-layer-toggle .radar-layer-btn {
+            background: transparent;
+            border: none;
+            color: #cbd5e1;
+            font-size: 0.68rem;
+            padding: 4px 7px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+            line-height: 1.2;
+            font-family: inherit;
+        }
+
+        #radar-layer-toggle .radar-layer-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        #radar-layer-toggle .radar-layer-btn.active {
+            color: #0f172a;
+            background: var(--accent-color);
+        }
+
+        #radar-controls {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            z-index: 10;
+            pointer-events: auto;
+        }
+
+        #radar-controls .radar-zoom-btn {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            padding: 0;
+            margin: 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.92);
+            color: #e2e8f0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1;
+            cursor: pointer;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+        }
+
+        #radar-controls .radar-zoom-btn:hover {
+            background: var(--accent-color);
+            color: #0f172a;
+            border-color: transparent;
+        }
+
+        #radar-controls .radar-zoom-level {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            background: rgba(15, 23, 42, 0.85);
+            padding: 2px 6px;
+            border-radius: 4px;
+            min-width: 28px;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Home widget: weather-radar */
+        .weather-radar-widget {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            min-height: 0;
+        }
+        .weather-radar-widget-map {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .weather-radar-widget-map canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        .weather-radar-widget-loading {
+            position: absolute;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 23, 42, 0.75);
+            font-size: 0.85rem;
+            color: #94a3b8;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .weather-radar-widget-layers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .weather-radar-widget-layers .radar-layer-btn {
+            background: rgba(15, 23, 42, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+            font-size: 0.68rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: inherit;
+        }
+        .weather-radar-widget-layers .radar-layer-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .weather-radar-widget-layers .radar-layer-btn.active {
+            color: #0f172a;
+            background: var(--accent-color);
+            border-color: transparent;
+        }
+        .weather-radar-widget-zoom {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            z-index: 10;
+        }
+        .weather-radar-widget-zoom .radar-zoom-btn {
+            width: 30px;
+            height: 30px;
+            min-width: 30px;
+            padding: 0;
+            margin: 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.92);
+            color: #e2e8f0;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .weather-radar-widget-zoom .radar-zoom-btn:hover {
+            background: var(--accent-color);
+            color: #0f172a;
+            border-color: transparent;
+        }
+        .weather-radar-widget-zoom .radar-zoom-level {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            background: rgba(15, 23, 42, 0.85);
+            padding: 2px 6px;
+            border-radius: 4px;
+            min-width: 26px;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+        .standalone-block.size-s .weather-radar-widget-map { height: 200px; }
+        .standalone-block.size-l .weather-radar-widget-map { height: 360px; }
+
+        /* 2-Hour Rain Bar Graph */
+        .rain-graph-container {
+            padding: 8px 0 4px 0;
+        }
+
+        .rain-summary {
+            font-size: 0.82rem;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 8px 12px;
+            border-radius: 8px;
+            line-height: 1.3;
+        }
+
+        .rain-graph-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 120px;
+            padding: 10px 6px 4px 6px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto;
+        }
+
+        .rain-bar-wrapper {
+            flex: 1;
+            min-width: 6px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            position: relative;
+        }
+
+        .rain-bar {
+            width: 100%;
+            border-radius: 3px 3px 0 0;
+            background: linear-gradient(180deg, #38bdf8 0%, #3b82f6 100%);
+            transition: height 0.3s ease;
+            min-height: 2px;
+        }
+
+        .rain-bar.heavy {
+            background: linear-gradient(180deg, #a855f7 0%, #6366f1 100%);
+        }
+
+        .rain-bar-time {
+            font-size: 0.62rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
         @media (max-width: 768px) {
             #weather-expanded {
                 top: 80px;
@@ -3201,6 +3502,9 @@
             font-size: 0.85rem;
             text-align: center;
             width: 100%;
+            position: relative;
+            z-index: 5; /* above overflowing canvas widgets if height lags one frame */
+            flex-shrink: 0;
         }
 
         footer a {
@@ -3672,12 +3976,38 @@
     </div>
 </div>
 
-<!-- ===== WEATHER EXPANDED (7-DAY FORECAST) ===== -->
+<!-- ===== WEATHER EXPANDED (7-DAY FORECAST, 2-HOUR RAIN & LIVE RADAR) ===== -->
 <div id="weather-expanded">
-    <div class="forecast-header">
-        <span id="forecast-title">7-daagse forecast</span>
+    <div class="forecast-header" style="margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span id="forecast-title" style="font-size: 0.85rem; font-weight: 600; color: var(--accent-color); letter-spacing: 0.5px; text-transform: uppercase;">🌤️ Weer & Radar</span>
+        </div>
+        <div class="weather-tab-buttons" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; width: 100%;">
+            <button class="weather-tab-btn active" id="wtab-forecast" type="button" onclick="switchWeatherTab('forecast')">7-Daagse</button>
+            <button class="weather-tab-btn" id="wtab-rain" type="button" onclick="switchWeatherTab('rain')">2u Neerslag</button>
+            <button class="weather-tab-btn" id="wtab-radar" type="button" onclick="switchWeatherTab('radar')">Live Radar</button>
+        </div>
     </div>
     <div id="weather-forecast"></div>
+    <div id="weather-rain-graph" style="display: none;"></div>
+    <div id="weather-radar-container" style="display: none; position: relative; width: 100%; height: 300px; border-radius: 12px; overflow: hidden; background: #0f172a; border: 1px solid rgba(255,255,255,0.08); margin-top: 8px;">
+        <canvas id="radar-canvas" width="300" height="300" style="width: 100%; height: 100%; display: block;"></canvas>
+        <div id="radar-loading" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(15, 23, 42, 0.75); font-size: 0.85rem; color: #94a3b8; z-index: 3; pointer-events: none;">Kaart laden…</div>
+        <!-- Overlays zoals weerenradar.nl (snippet layergroups) -->
+        <div id="radar-layer-toggle" role="toolbar" aria-label="Kaartlagen">
+            <button class="radar-layer-btn active" id="rlayer-radar" type="button" onclick="setRadarLayerMode('radar')" title="Neerslagradar">🌧️ Regen</button>
+            <button class="radar-layer-btn" id="rlayer-clouds" type="button" onclick="setRadarLayerMode('clouds')" title="Bewolking / satelliet">☁️ Wolken</button>
+            <button class="radar-layer-btn" id="rlayer-temp" type="button" onclick="setRadarLayerMode('temp')" title="Temperatuur">🌡️ Temp</button>
+            <button class="radar-layer-btn" id="rlayer-gust" type="button" onclick="setRadarLayerMode('gust')" title="Windstoten">💨 Wind</button>
+            <button class="radar-layer-btn" id="rlayer-lightning" type="button" onclick="setRadarLayerMode('lightning')" title="Bliksem">⚡ Bliksem</button>
+            <button class="radar-layer-btn" id="rlayer-weather" type="button" onclick="setRadarLayerMode('weather')" title="Weerradar (combi)">📡 Weer</button>
+        </div>
+        <div id="radar-controls">
+            <button class="radar-zoom-btn" type="button" onclick="zoomRadar(1)" title="Inzoomen" aria-label="Inzoomen">+</button>
+            <span class="radar-zoom-level" id="radar-zoom-level" title="Zoomniveau">7</span>
+            <button class="radar-zoom-btn" type="button" onclick="zoomRadar(-1)" title="Uitzoomen" aria-label="Uitzoomen">−</button>
+        </div>
+    </div>
 </div>
 
 <!-- ===== WIZARD OVERLAY ===== -->
@@ -3857,7 +4187,7 @@
     <div class="modal-overlay" id="changelog-modal">
         <div class="changelog-modal-content">
             <div class="changelog-modal-header">
-                <h2>📋 Wat is er nieuw</h2>
+                <h2 data-i18n="settings.whatsNew">What's new</h2>
                 <button class="standalone-block-action" onclick="closeChangelogModal()" title="Sluiten">✕</button>
             </div>
             <div class="changelog-modal-body" id="changelog-modal-body">
@@ -4036,8 +4366,9 @@
             <div id="setting-canvas-toggle-row" style="display: none; margin-bottom: 15px;">
                 <label style="display: flex; align-items: center; gap: 10px;">
                     <input type="checkbox" id="setting-canvas-mode" onchange="toggleCanvasMode()">
-                    <span data-i18n="settings.canvasMode">🎨 Canvas mode (drag widgets vrij rond, met grid raster)</span>
+                    <span data-i18n="settings.canvasMode">Canvas mode (drag widgets freely on a grid)</span>
                 </label>
+                <small style="color: var(--text-muted); display: block; margin-top: 4px; margin-left: 24px;" data-i18n="settings.canvasModeDesc">Free placement vs stacked grid. Synced across devices (domain, IP, browsers) via server config — same as your widgets.</small>
             </div>
             <div id="setting-widget-picker" class="widget-picker-grid"></div>
             <h4 style="margin-top: 24px; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="settings.added">Toegevoegd</h4>
@@ -4269,6 +4600,15 @@
                     <input type="checkbox" id="setting-weather-enabled" onchange="toggleWeatherWidget()">
                     <span data-i18n="settings.weatherEnable">Weather Widget inschakelen</span>
                 </label>
+            </div>
+            <div class="form-group">
+                <label data-i18n="settings.weatherProvider">Weerdata Provider</label>
+                <select id="setting-weather-provider" class="form-control" style="width: 100%; padding: 8px 12px; border-radius: 8px; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-color); color: var(--text-color); font-size: 0.9rem; margin-top: 4px;">
+                    <option value="auto">⚡ Automatisch (Buienradar voor NL + Open-Meteo fallback)</option>
+                    <option value="buienradar">🌧️ Buienradar JSON (Lokale NL Meetstations)</option>
+                    <option value="open-meteo">🌐 Open-Meteo API (Wereldwijd)</option>
+                </select>
+                <small style="color: var(--text-muted); display: block; margin-top: 4px;">Kies jouw voorkeursbron voor temperatuur, icoon en neerslag-analyse.</small>
             </div>
             <div class="form-group">
                 <label data-i18n="settings.weatherSearchLabel">Zoek op plaatsnaam</label>
@@ -4614,8 +4954,14 @@ async function selectTheme(themeId) {
         // Repaint accent/transparency from user's own localStorage values.
         applyTheme();
         if (serverConfig) {
+            // Restore user's own layout if we backed it up.
+            if (serverConfig._userHomeLayoutBackup) {
+                serverConfig.homeLayout = serverConfig._userHomeLayoutBackup;
+                delete serverConfig._userHomeLayoutBackup;
+            }
             serverConfig.themeId = null;
             await saveServerConfig();
+            renderStandaloneWidgets();
         }
         markActiveThemeCard('custom');
         showToast('Terug naar je eigen stijl', 'success');
@@ -4626,6 +4972,32 @@ async function selectTheme(themeId) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const theme = await res.json();
         applyThemeOverlay(theme);
+
+        // Apply the theme's home layout if it has one.
+        if (serverConfig && theme.homeLayout && Array.isArray(theme.homeLayout.blocks) && theme.homeLayout.blocks.length > 0) {
+            const currentBlocks = (serverConfig.homeLayout && serverConfig.homeLayout.blocks) || [];
+            const hasOwnWidgets = currentBlocks.length > 0;
+            let applyLayout = true;
+
+            if (hasOwnWidgets) {
+                applyLayout = confirm(
+                    'Dit thema heeft een eigen widget-indeling.\n\n' +
+                    'Wil je de indeling van het thema overnemen?\n' +
+                    '(Je huidige indeling wordt bewaard en komt terug als je naar "Mijn eigen stijl" schakelt.)'
+                );
+            }
+
+            if (applyLayout) {
+                // Back up the user's own layout (only if not already backed up from a previous theme).
+                if (!serverConfig._userHomeLayoutBackup) {
+                    serverConfig._userHomeLayoutBackup = JSON.parse(JSON.stringify(serverConfig.homeLayout || { blocks: [] }));
+                }
+                // Deep-clone the theme layout so runtime mutations don't leak back into the theme file.
+                serverConfig.homeLayout = JSON.parse(JSON.stringify(theme.homeLayout));
+                renderStandaloneWidgets();
+            }
+        }
+
         if (serverConfig) {
             serverConfig.themeId = themeId;
             await saveServerConfig();
@@ -4638,6 +5010,8 @@ async function selectTheme(themeId) {
 }
 
 // Re-applies the active theme overlay from serverConfig.themeId at page load.
+// Also re-applies the theme's homeLayout if one exists (user already approved
+// the layout swap when they first selected the theme).
 async function applyActiveThemeFromServer() {
     if (!serverConfig || !serverConfig.themeId) return;
     try {
@@ -4645,6 +5019,13 @@ async function applyActiveThemeFromServer() {
         if (!res.ok) return;
         const theme = await res.json();
         applyThemeOverlay(theme);
+
+        // Re-apply theme layout on load if user had approved it (backup exists).
+        if (theme.homeLayout && Array.isArray(theme.homeLayout.blocks) && theme.homeLayout.blocks.length > 0) {
+            if (serverConfig._userHomeLayoutBackup) {
+                serverConfig.homeLayout = JSON.parse(JSON.stringify(theme.homeLayout));
+            }
+        }
     } catch (e) {
         console.log('Theme overlay load failed:', e.message);
     }
@@ -5925,7 +6306,45 @@ async function loadServerConfig() {
     }
     if (!serverConfig.weather) serverConfig.weather = { enabled: false, lat: null, lon: null, name: null };
     if (serverConfig.weather.name === undefined) serverConfig.weather.name = null;
+    // One-time migrate canvas mode from per-origin localStorage → server (cross domain/IP/device)
+    migrateCanvasModeFromLocalStorage();
     return serverConfig;
+}
+
+/**
+ * Canvas mode was localStorage-only (per origin). Domain vs IP (or phone vs desktop)
+ * therefore disagreed even though homeLayout blocks live on the server.
+ * Prefer serverConfig.canvasMode; migrate local true → server once.
+ */
+function isCanvasModeEnabled() {
+    if (serverConfig && typeof serverConfig.canvasMode === 'boolean') {
+        return serverConfig.canvasMode;
+    }
+    return localStorage.getItem('hobbithole_canvas_mode') === 'true';
+}
+
+function migrateCanvasModeFromLocalStorage() {
+    if (!serverConfig) return;
+    if (typeof serverConfig.canvasMode === 'boolean') {
+        try { localStorage.setItem('hobbithole_canvas_mode', serverConfig.canvasMode ? 'true' : 'false'); } catch (_) {}
+        return;
+    }
+    // No server value yet: adopt local preference (if any) and persist once
+    const localOn = localStorage.getItem('hobbithole_canvas_mode') === 'true';
+    serverConfig.canvasMode = localOn;
+    if (localOn) {
+        // Fire-and-forget so both origins pick it up next load
+        saveServerConfig();
+    }
+}
+
+async function setCanvasModeEnabled(enabled) {
+    const on = !!enabled;
+    try { localStorage.setItem('hobbithole_canvas_mode', on ? 'true' : 'false'); } catch (_) {}
+    if (serverConfig) {
+        serverConfig.canvasMode = on;
+        await saveServerConfig();
+    }
 }
 
 async function saveServerConfig() {
@@ -5957,9 +6376,81 @@ async function reverseGeocode(lat, lon) {
     }
 }
 
+// ===== BUIENRADAR & WEERENRADAR HYBRID ENGINE =====
+async function fetchBuienradarStation(lat, lon) {
+    const latNum = parseFloat(lat);
+    const lonNum = parseFloat(lon);
+
+    const res = await fetch('https://data.buienradar.nl/2.0/feed/json');
+    if (!res.ok) throw new Error(`Buienradar HTTP ${res.status}`);
+    const data = await res.json();
+
+    const stations = data?.actual?.stationmeasurements;
+    if (!stations || !stations.length) throw new Error('Geen meetstations in feed');
+
+    function getDist(lat1, lon1, lat2, lon2) {
+        const R = 6371;
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                  Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    let closest = null;
+    let minDist = Infinity;
+    for (const s of stations) {
+        if (!s.lat || !s.lon) continue;
+        const dist = getDist(latNum, lonNum, s.lat, s.lon);
+        if (dist < minDist) {
+            minDist = dist;
+            closest = s;
+        }
+    }
+
+    if (!closest) throw new Error('Geen dichtstbijzijnd meetstation gevonden');
+    return { station: closest, distanceKm: minDist };
+}
+
+function mapBuienradarToWmoCode(station) {
+    const desc = (station.weatherdescription || '').toLowerCase();
+    const iconUrl = station.iconurl || station.fullIconUrl || '';
+
+    if (desc.includes('onweer') || desc.includes('bliksem')) return 95;
+    if (desc.includes('sneeuw')) return 71;
+    if (desc.includes('hagel')) return 89;
+    if (desc.includes('zware regen') || desc.includes('wolkbreuk')) return 65;
+    if (desc.includes('regen') || desc.includes('bui')) return 61;
+    if (desc.includes('motregen')) return 51;
+    if (desc.includes('mist') || desc.includes('nevel')) return 45;
+    if (desc.includes('zwaar bewolkt')) return 3;
+    if (desc.includes('bewolkt')) return 3;
+    if (desc.includes('half bewolkt') || desc.includes('opklaringen')) return 2;
+    if (desc.includes('licht bewolkt')) return 1;
+    if (desc.includes('zonnig') || desc.includes('helder')) return 0;
+
+    const match = iconUrl.match(/\/([a-z])\.png/i);
+    if (match) {
+        const letter = match[1].toLowerCase();
+        switch(letter) {
+            case 'a': case 'n': return 0;
+            case 'b': case 'd': return 2;
+            case 'c': case 'o': return 3;
+            case 'f': case 'm': case 'q': case 'r': return 61;
+            case 'g': return 80;
+            case 'h': return 89;
+            case 'i': case 'k': case 't': case 'w': return 71;
+            case 'l': case 'p': return 45;
+            case 's': case 'v': return 95;
+        }
+    }
+    return 0;
+}
+
 async function fetchWeather() {
     if (!serverConfig) await loadServerConfig();
-    const { enabled, lat, lon } = serverConfig.weather;
+    const { enabled, lat, lon, provider } = serverConfig.weather;
     const widget = document.getElementById('weather-widget');
     const iconEl = document.getElementById('weather-icon');
     const locEl = document.getElementById('weather-location');
@@ -5981,13 +6472,10 @@ async function fetchWeather() {
         return;
     }
 
-    // Render the location IMMEDIATELY from cached config (no flash)
-    // Never overwrite a non-empty value with empty — only update when we have something better.
     if (serverConfig.weather.name) {
         locEl.textContent = serverConfig.weather.name;
     }
 
-    // Background reverse-geocode if name missing; widget keeps current temp/desc meanwhile
     if (!serverConfig.weather.name) {
         reverseGeocode(lat, lon).then(name => {
             if (name) {
@@ -5998,29 +6486,58 @@ async function fetchWeather() {
         });
     }
 
-    try {
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
+    const activeProvider = provider || 'auto';
+    let fetched = false;
 
-        const temp = Math.round(data.current_weather.temperature);
-        const code = data.current_weather.weathercode;
-        const weather = WEATHER_CODES[code] || { icon: '🌡️', desc: 'Onbekend' };
+    // Try Buienradar JSON if provider is 'buienradar' or 'auto'
+    if (activeProvider === 'buienradar' || activeProvider === 'auto') {
+        try {
+            const buienradarData = await fetchBuienradarStation(lat, lon);
+            if (buienradarData && buienradarData.station) {
+                const st = buienradarData.station;
+                const temp = Math.round(st.temperature || st.feeltemperature || 0);
+                const code = mapBuienradarToWmoCode(st);
+                const weather = WEATHER_CODES[code] || { icon: '🌡️', desc: st.weatherdescription || 'Onbekend' };
 
-        iconEl.textContent = weather.icon;
-        tempEl.textContent = `${temp}°C`;
-        descEl.textContent = weather.desc;
+                iconEl.textContent = weather.icon;
+                tempEl.textContent = `${temp}°C`;
+                descEl.textContent = st.weatherdescription || weather.desc;
 
-        // Drive the animated backdrop based on the current weather code
-        lastWeatherCode = code;
-        setWeatherFxMode(fxModeForWeatherCode(code));
-        applyCinematicBackdrop(code);
-    } catch(e) {
-        console.log('Weather fetch error:', e.message);
-        iconEl.textContent = '⚠️';
-        tempEl.textContent = 'API';
-        descEl.textContent = `Fout: ${e.message}`;
+                lastWeatherCode = code;
+                setWeatherFxMode(fxModeForWeatherCode(code));
+                applyCinematicBackdrop(code);
+                fetched = true;
+            }
+        } catch (e) {
+            console.log('Buienradar fetch skipped/failed, falling back to Open-Meteo:', e.message);
+        }
+    }
+
+    // Fallback to Open-Meteo if not fetched yet
+    if (!fetched) {
+        try {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+
+            const temp = Math.round(data.current_weather.temperature);
+            const code = data.current_weather.weathercode;
+            const weather = WEATHER_CODES[code] || { icon: '🌡️', desc: 'Onbekend' };
+
+            iconEl.textContent = weather.icon;
+            tempEl.textContent = `${temp}°C`;
+            descEl.textContent = weather.desc;
+
+            lastWeatherCode = code;
+            setWeatherFxMode(fxModeForWeatherCode(code));
+            applyCinematicBackdrop(code);
+        } catch(e) {
+            console.log('Weather fetch error:', e.message);
+            iconEl.textContent = '⚠️';
+            tempEl.textContent = 'API';
+            descEl.textContent = `Fout: ${e.message}`;
+        }
     }
 }
 
@@ -6039,6 +6556,8 @@ async function toggleWeatherWidget() {
 async function saveWeatherSettings() {
     const lat = document.getElementById('setting-weather-lat').value.trim();
     const lon = document.getElementById('setting-weather-lon').value.trim();
+    const providerEl = document.getElementById('setting-weather-provider');
+    const provider = providerEl ? providerEl.value : 'auto';
 
     const latNum = parseFloat(lat);
     const lonNum = parseFloat(lon);
@@ -6054,10 +6573,9 @@ async function saveWeatherSettings() {
 
     if (!serverConfig) await loadServerConfig();
     const previous = serverConfig.weather || {};
-    // Pendingname (set by selectWeatherLocation) wins; else keep cached name if coords unchanged; else clear so reverse-geocode runs
     const sameCoords = previous.lat === lat && previous.lon === lon;
     const name = previous.pendingName || (sameCoords ? (previous.name || null) : null);
-    serverConfig.weather = { enabled: true, lat, lon, name };
+    serverConfig.weather = { enabled: true, lat, lon, name, provider };
     const ok = await saveServerConfig();
 
     document.getElementById('setting-weather-enabled').checked = true;
@@ -6067,10 +6585,14 @@ async function saveWeatherSettings() {
 
 async function loadWeatherSettings() {
     if (!serverConfig) await loadServerConfig();
-    const { enabled, lat, lon } = serverConfig.weather;
+    const { enabled, lat, lon, provider } = serverConfig.weather;
     document.getElementById('setting-weather-enabled').checked = !!enabled;
     document.getElementById('setting-weather-lat').value = lat || '';
     document.getElementById('setting-weather-lon').value = lon || '';
+    const providerEl = document.getElementById('setting-weather-provider');
+    if (providerEl) {
+        providerEl.value = provider || 'auto';
+    }
 }
 
 // ===== 7-DAY FORECAST =====
@@ -6247,6 +6769,732 @@ function renderDaily(daily) {
     }).join('');
 }
 
+let activeWeatherTab = 'forecast';
+let radarZoom = 7; // ~weerenradar default (URL zoom≈7.5)
+
+function switchWeatherTab(tabName) {
+    activeWeatherTab = tabName;
+    const forecastEl = document.getElementById('weather-forecast');
+    const rainEl = document.getElementById('weather-rain-graph');
+    const radarEl = document.getElementById('weather-radar-container');
+
+    // Alleen de top-tab knoppen (niet de Neerslag/Bewolking layer toggles op de kaart)
+    document.querySelectorAll('.weather-tab-buttons .weather-tab-btn').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.getElementById(`wtab-${tabName}`);
+    if (activeBtn) activeBtn.classList.add('active');
+
+    if (forecastEl) forecastEl.style.display = tabName === 'forecast' ? 'block' : 'none';
+    if (rainEl) rainEl.style.display = tabName === 'rain' ? 'block' : 'none';
+    if (radarEl) radarEl.style.display = tabName === 'radar' ? 'block' : 'none';
+
+    // Herstel actieve state van de radar layer-toggle wanneer we naar de kaart gaan
+    if (tabName === 'radar') {
+        document.querySelectorAll('#radar-layer-toggle .radar-layer-btn').forEach(btn => btn.classList.remove('active'));
+        const layerBtn = document.getElementById(`rlayer-${radarLayerMode}`);
+        if (layerBtn) layerBtn.classList.add('active');
+        updateRadarZoomLabel();
+    }
+
+    if (!serverConfig || !serverConfig.weather) return;
+    const { lat, lon } = serverConfig.weather;
+
+    if (tabName === 'rain') {
+        fetchRainForecast(lat, lon);
+    } else if (tabName === 'radar') {
+        setTimeout(() => renderRadarCanvas(), 50);
+    }
+}
+
+async function fetchRainForecast(lat, lon) {
+    const rainContainer = document.getElementById('weather-rain-graph');
+    if (!rainContainer) return;
+    rainContainer.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 20px;">Neerslagdata laden…</div>';
+
+    try {
+        const url = `https://gps.buienradar.nl/getrr.php?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const text = await res.text();
+
+        const lines = text.trim().split('\n').filter(l => l.includes('|'));
+        if (!lines.length) {
+            rainContainer.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 15px;">Geen neerslagdata beschikbaar voor deze locatie.</div>';
+            return;
+        }
+
+        let totalMm = 0;
+        let maxMm = 0;
+        const dataPoints = lines.map(line => {
+            const [valStr, timeStr] = line.split('|');
+            const val = parseInt(valStr, 10);
+            let mm = 0;
+            if (val > 0) {
+                mm = Math.pow(10, (val - 109) / 32);
+            }
+            if (isNaN(mm) || mm < 0) mm = 0;
+            totalMm += mm;
+            if (mm > maxMm) maxMm = mm;
+            return { val, mm, time: timeStr ? timeStr.trim() : '' };
+        });
+
+        let summaryText = '☀️ Geen neerslag verwacht komende 2 uur';
+        let summaryIcon = '☀️';
+        if (maxMm > 0.05 && maxMm < 1.0) {
+            summaryText = `🌧️ Lichte neerslag verwacht (max ${maxMm.toFixed(1)} mm/u)`;
+            summaryIcon = '🌦️';
+        } else if (maxMm >= 1.0 && maxMm < 5.0) {
+            summaryText = `🌧️ Matige neerslag verwacht (max ${maxMm.toFixed(1)} mm/u)`;
+            summaryIcon = '🌧️';
+        } else if (maxMm >= 5.0) {
+            summaryText = `⛈️ Zware neerslag/buien verwacht (max ${maxMm.toFixed(1)} mm/u)`;
+            summaryIcon = '⛈️';
+        }
+
+        const maxScale = Math.max(2.0, maxMm * 1.2);
+
+        const barsHtml = dataPoints.map((dp, idx) => {
+            const heightPercent = Math.min(100, Math.max(3, (dp.mm / maxScale) * 100));
+            const showTime = (idx % 3 === 0) ? dp.time : '';
+            const isHeavy = dp.mm >= 2.5;
+            const tooltip = `${dp.time}: ${dp.mm.toFixed(2)} mm/u`;
+
+            return `<div class="rain-bar-wrapper" title="${tooltip}">
+                <div class="rain-bar ${isHeavy ? 'heavy' : ''}" style="height: ${heightPercent}%;"></div>
+                <div class="rain-bar-time">${showTime}</div>
+            </div>`;
+        }).join('');
+
+        rainContainer.innerHTML = `
+            <div class="rain-graph-container">
+                <div class="rain-summary">
+                    <span>${summaryIcon}</span>
+                    <span>${summaryText}</span>
+                </div>
+                <div class="rain-graph-bars">${barsHtml}</div>
+            </div>
+        `;
+    } catch(e) {
+        console.error('Buienradar rain error:', e);
+        rainContainer.innerHTML = `<div style="color: var(--text-muted); text-align: center; padding: 15px;">Kan neerslag-feed niet opvragen (${e.message})</div>`;
+    }
+}
+
+function lon2tile(lon, zoom) {
+    return Math.floor((lon + 180) / 360 * Math.pow(2, zoom));
+}
+function lat2tile(lat, zoom) {
+    return Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom));
+}
+function tile2lon(x, z) {
+    return (x / Math.pow(2, z) * 360 - 180);
+}
+function tile2lat(y, z) {
+    const n = Math.PI - 2 * Math.PI * y / Math.pow(2, z);
+    return (180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n))));
+}
+
+// ===== Weerenradar overlays (zelfde layergroups als weerenradar.nl) =====
+// API: https://tiles.wo-cloud.com/snippet-tiles?layergroup=...
+const RADAR_LAYERS = {
+    radar:     { group: 'RegenRadar',   label: 'Regen',    loading: 'Neerslagradar laden…', global: true },
+    clouds:    { group: 'CloudRadar',   label: 'Wolken',   loading: 'Bewolkingslaag laden…', global: false },
+    temp:      { group: 'Temperature',  label: 'Temp',     loading: 'Temperatuurkaart laden…', global: false },
+    gust:      { group: 'Gust',         label: 'Wind',     loading: 'Windstoten laden…', global: false },
+    lightning: { group: 'Lightning',    label: 'Bliksem',  loading: 'Bliksemkaart laden…', global: false },
+    weather:   { group: 'WetterRadar',  label: 'Weer',     loading: 'Weerradar laden…', global: false }
+};
+
+let radarLayerMode = 'radar';
+let radarLayerSourceLabel = '';
+let radarRenderSeq = 0;
+let cachedWeerenradarSnippet = null;
+let cachedWeerenradarSnippetKey = '';
+let cachedWeerenradarSnippetAt = 0;
+let cachedBuienradarSatUrl = null;
+let cachedBuienradarSatAt = 0;
+let cachedRainViewerMaps = null;
+let cachedRainViewerMapsAt = 0;
+
+const RADAR_ZOOM_MIN = 5;
+const RADAR_ZOOM_MAX = 11;
+
+/** Weerenradar/WetterOnline coverage is Europe-focused; RainViewer is global. */
+function isEuropeRadarCoverage(lat, lon) {
+    return lat >= 34 && lat <= 72 && lon >= -25 && lon <= 45;
+}
+
+function preferWeerenradarEngine(lat, lon) {
+    return isEuropeRadarCoverage(lat, lon);
+}
+
+function loadRadarImage(url) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+        img.src = url;
+    });
+}
+
+function loadImageFromBlob(blob) {
+    return new Promise((resolve) => {
+        const url = URL.createObjectURL(blob);
+        const img = new Image();
+        img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+        img.onerror = () => { URL.revokeObjectURL(url); resolve(null); };
+        img.src = url;
+    });
+}
+
+/**
+ * Weerenradar composite tiles: image bytes + optionele trailing JSON via X-Custom-Body
+ * (bijv. temperature:51:json → laatste 51 bytes = {"WRC01347":22.95,...})
+ */
+async function loadWeerenradarCompositeTile(url) {
+    try {
+        const res = await fetch(url, { mode: 'cors' });
+        if (!res.ok) return { img: null, meta: {} };
+        const buf = await res.arrayBuffer();
+        const customBody = res.headers.get('X-Custom-Body') || res.headers.get('x-custom-body') || '';
+        let imgBuf = buf;
+        const meta = { temperature: {}, windvalues: {} };
+
+        if (customBody) {
+            const specs = customBody.split(',').map((part) => {
+                const m = part.trim().match(/^([^:]+):(\d+):(\w+)$/);
+                return m ? { name: m[1], size: parseInt(m[2], 10), type: m[3] } : null;
+            }).filter(Boolean);
+            const total = specs.reduce((s, sp) => s + sp.size, 0);
+            if (total > 0 && total < buf.byteLength) {
+                imgBuf = buf.slice(0, buf.byteLength - total);
+                let cursor = buf.byteLength - total;
+                const bytes = new Uint8Array(buf);
+                const dec = new TextDecoder();
+                for (const sp of specs) {
+                    const chunk = bytes.subarray(cursor, cursor + sp.size);
+                    cursor += sp.size;
+                    if (sp.type !== 'json') continue;
+                    try {
+                        const j = JSON.parse(dec.decode(chunk));
+                        if (sp.name === 'temperature' && j && typeof j === 'object') {
+                            Object.assign(meta.temperature, j);
+                        } else if (sp.name === 'windvalues' && j && typeof j === 'object') {
+                            Object.assign(meta.windvalues, j);
+                        } else {
+                            meta[sp.name] = j;
+                        }
+                    } catch (_) { /* ignore */ }
+                }
+            }
+        }
+
+        const ctype = res.headers.get('content-type') || 'image/jpeg';
+        const img = await loadImageFromBlob(new Blob([imgBuf], { type: ctype }));
+        return { img, meta };
+    } catch (e) {
+        console.warn('Composite tile load failed:', e);
+        return { img: null, meta: {} };
+    }
+}
+
+function updateRadarZoomLabel() {
+    const el = document.getElementById('radar-zoom-level');
+    if (el) el.textContent = String(radarZoom);
+}
+
+/** Weerenradar (WetterOnline) snippet-tiles API — zelfde engine als weerenradar.nl */
+async function fetchWeerenradarSnippet(layergroup, lat, lon, zoom, width, height) {
+    const z = Math.min(RADAR_ZOOM_MAX, Math.max(RADAR_ZOOM_MIN, Math.round(zoom)));
+    const key = `${layergroup}|${lat.toFixed(3)}|${lon.toFixed(3)}|${z}|${width}x${height}`;
+    if (cachedWeerenradarSnippet && cachedWeerenradarSnippetKey === key && (Date.now() - cachedWeerenradarSnippetAt < 90000)) {
+        return cachedWeerenradarSnippet;
+    }
+    const params = new URLSearchParams({
+        layergroup,
+        latitude: String(lat),
+        longitude: String(lon),
+        zoom: String(z),
+        width: String(Math.max(20, Math.round(width))),
+        height: String(Math.max(20, Math.round(height))),
+        highres: 'true',
+        locale: 'default'
+    });
+    const res = await fetch(`https://tiles.wo-cloud.com/snippet-tiles?${params.toString()}`);
+    if (!res.ok) throw new Error(`Weerenradar snippet HTTP ${res.status}`);
+    const data = await res.json();
+    cachedWeerenradarSnippet = data;
+    cachedWeerenradarSnippetKey = key;
+    cachedWeerenradarSnippetAt = Date.now();
+    return data;
+}
+
+/** Temperatuurkleur (≈ weerenradar schaal, °C) */
+function radarTempColor(celsius) {
+    const t = Number(celsius);
+    if (!Number.isFinite(t)) return '#e6e6e6';
+    if (t <= -10) return '#7c3aed';
+    if (t <= 0) return '#38bdf8';
+    if (t <= 10) return '#4ade80';
+    if (t <= 18) return '#a3e635';
+    if (t <= 24) return '#facc15';
+    if (t <= 30) return '#fb923c';
+    return '#ef4444';
+}
+
+function drawRadarOutlinedText(ctx, text, x, y, fontSize, fill, stroke) {
+    ctx.save();
+    ctx.font = `600 ${fontSize}px system-ui, -apple-system, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.lineJoin = 'round';
+    ctx.miterLimit = 2;
+    ctx.lineWidth = Math.max(2, fontSize * 0.18);
+    ctx.strokeStyle = stroke || 'rgba(15, 23, 42, 0.9)';
+    ctx.strokeText(text, x, y);
+    ctx.fillStyle = fill || '#e6e6e6';
+    ctx.fillText(text, x, y);
+    ctx.restore();
+}
+
+/**
+ * Stadslabels + temperatuur op de kaart (zoals weerenradar.nl "Weer"-overlay).
+ * Posities komen uit snippet `cities[]`; °C uit composite X-Custom-Body metadata.
+ */
+function drawRadarCityAnnotations(ctx, canvas, cities, temps, layerMode) {
+    if (!cities || !cities.length) return;
+    const showTemp = layerMode === 'weather' || layerMode === 'temp';
+    const showName = true;
+
+    for (const city of cities) {
+        const cx = city.center && city.center.x;
+        const cy = city.center && city.center.y;
+        // Alleen labels die (deels) in het viewport vallen
+        const nc = city.nameCenter || city.center;
+        if (nc && (nc.x < -40 || nc.y < -20 || nc.x > canvas.width + 40 || nc.y > canvas.height + 20)) {
+            continue;
+        }
+
+        if (Number.isFinite(cx) && Number.isFinite(cy)) {
+            ctx.save();
+            ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = '#0f172a';
+            ctx.lineWidth = 1;
+            ctx.fillRect(cx - 2, cy - 2, 4, 4);
+            ctx.strokeRect(cx - 2, cy - 2, 4, 4);
+            ctx.restore();
+        }
+
+        const fontSize = Math.max(10, Math.min(16, city.fontSize || 12));
+        if (showName && city.name && city.nameCenter) {
+            drawRadarOutlinedText(
+                ctx,
+                city.name,
+                city.nameCenter.x,
+                city.nameCenter.y,
+                fontSize,
+                '#e6e6e6',
+                '#1e1e1e'
+            );
+        }
+
+        if (showTemp && city.temperatureCenter && temps && temps[city.id] != null) {
+            const tVal = Math.round(Number(temps[city.id]));
+            if (Number.isFinite(tVal)) {
+                const tc = city.temperatureCenter;
+                const fill = layerMode === 'weather' ? radarTempColor(tVal) : '#e6e6e6';
+                drawRadarOutlinedText(
+                    ctx,
+                    `${tVal}°`,
+                    tc.x,
+                    tc.y,
+                    fontSize + (layerMode === 'weather' ? 1 : 2),
+                    fill,
+                    '#1e1e1e'
+                );
+            }
+        }
+    }
+}
+
+async function drawWeerenradarSnippetLayer(ctx, canvas, layergroup, lat, lon, zoom, layerMode) {
+    const data = await fetchWeerenradarSnippet(layergroup, lat, lon, zoom, canvas.width, canvas.height);
+    const stepIdx = Number.isInteger(data.defaultTimeStep) ? data.defaultTimeStep : 0;
+    const step = (data.timeSteps && data.timeSteps[stepIdx]) || (data.timeSteps && data.timeSteps[0]);
+    const positions = data.tiles || [];
+    const urls = (step && step.tiles) || [];
+    if (!positions.length || !urls.length) throw new Error('Geen Weerenradar tiles in response');
+
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const jobs = positions.map((pos, i) => ({
+        x: pos.x || 0,
+        y: pos.y || 0,
+        size: pos.size || 512,
+        url: urls[i] && urls[i].url
+    })).filter(j => j.url);
+
+    // Composite-fetch (met temp-metadata) i.p.v. kale Image-load
+    const results = await Promise.all(jobs.map(async (j) => {
+        const { img, meta } = await loadWeerenradarCompositeTile(j.url);
+        return { j, img, meta };
+    }));
+
+    let drawn = 0;
+    const temps = {};
+    for (const { j, img, meta } of results) {
+        if (img) {
+            ctx.drawImage(img, j.x, j.y, j.size, j.size);
+            drawn++;
+        }
+        if (meta && meta.temperature) Object.assign(temps, meta.temperature);
+    }
+    if (!drawn) throw new Error('Weerenradar tiles konden niet geladen worden');
+
+    // Steden + °C op Weer / Temp (zelfde posities als weerenradar.nl)
+    if (layerMode === 'weather' || layerMode === 'temp') {
+        drawRadarCityAnnotations(ctx, canvas, data.cities || [], temps, layerMode);
+    }
+
+    radarLayerSourceLabel = 'Weer & Radar';
+    return { temps, cities: data.cities || [] };
+}
+
+/** Buienradar satelliet NL — fallback alleen voor wolken */
+async function getBuienradarSatelliteUrl() {
+    if (cachedBuienradarSatUrl && (Date.now() - cachedBuienradarSatAt < 300000)) {
+        return cachedBuienradarSatUrl;
+    }
+    const now = Date.now();
+    for (let i = 2; i < 24; i++) {
+        const d = new Date(now - i * 10 * 60 * 1000);
+        const mins = Math.floor(d.getUTCMinutes() / 10) * 10;
+        d.setUTCMinutes(mins, 0, 0);
+        const y = d.getUTCFullYear();
+        const m = String(d.getUTCMonth() + 1).padStart(2, '0');
+        const day = String(d.getUTCDate()).padStart(2, '0');
+        const h = String(d.getUTCHours()).padStart(2, '0');
+        const mi = String(d.getUTCMinutes()).padStart(2, '0');
+        const url = `https://processing-cdn.buienradar.nl/processing/world/satellite/europe/combined/NL/${y}${m}${day}${h}${mi}.jpg`;
+        try {
+            const res = await fetch(url, { method: 'HEAD', mode: 'cors' });
+            if (res.ok) {
+                cachedBuienradarSatUrl = url;
+                cachedBuienradarSatAt = Date.now();
+                return url;
+            }
+        } catch (_) {
+            const img = await loadRadarImage(url);
+            if (img) {
+                cachedBuienradarSatUrl = url;
+                cachedBuienradarSatAt = Date.now();
+                return url;
+            }
+        }
+    }
+    throw new Error('Geen Buienradar satellietbeeld gevonden');
+}
+
+async function drawBuienradarSatelliteFallback(ctx, canvas) {
+    const url = await getBuienradarSatelliteUrl();
+    const img = await loadRadarImage(url);
+    if (!img) throw new Error('Buienradar satelliet laden mislukt');
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+    const dw = img.width * scale;
+    const dh = img.height * scale;
+    const dx = (canvas.width - dw) / 2;
+    const dy = (canvas.height - dh) / 2;
+    ctx.drawImage(img, dx, dy, dw, dh);
+    radarLayerSourceLabel = 'Buienradar';
+    return true;
+}
+
+/** XYZ basemap + radar overlay helper (shared by Weerenradar XYZ + RainViewer). */
+async function drawXyzRadarStack(ctx, canvas, lat, lon, zoom, radarUrlFn) {
+    const z = Math.min(RADAR_ZOOM_MAX, Math.max(3, Math.round(zoom)));
+    const centerTileX = lon2tile(lon, z);
+    const centerTileY = lat2tile(lat, z);
+    const nwLat = tile2lat(centerTileY, z);
+    const nwLon = tile2lon(centerTileX, z);
+    const seLat = tile2lat(centerTileY + 1, z);
+    const seLon = tile2lon(centerTileX + 1, z);
+    const tilePxX = ((lon - nwLon) / (seLon - nwLon)) * 256;
+    const tilePxY = ((lat - nwLat) / (seLat - nwLat)) * 256;
+    const offsetX = (canvas.width / 2) - tilePxX;
+    const offsetY = (canvas.height / 2) - tilePxY;
+
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const rangeX = Math.max(1, Math.ceil(canvas.width / 256 / 2) + 1);
+    const rangeY = Math.max(1, Math.ceil(canvas.height / 256 / 2) + 1);
+    const tilesToDraw = [];
+    for (let dx = -rangeX; dx <= rangeX; dx++) {
+        for (let dy = -rangeY; dy <= rangeY; dy++) {
+            const tx = centerTileX + dx;
+            const ty = centerTileY + dy;
+            tilesToDraw.push({
+                drawX: Math.round(offsetX + dx * 256),
+                drawY: Math.round(offsetY + dy * 256),
+                baseMapUrl: `https://basemaps.cartocdn.com/dark_all/${z}/${tx}/${ty}.png`,
+                radarUrl: radarUrlFn(z, tx, ty)
+            });
+        }
+    }
+
+    let drawn = 0;
+    for (let i = 0; i < tilesToDraw.length; i += 6) {
+        const batch = tilesToDraw.slice(i, i + 6);
+        const results = await Promise.all(batch.map(async (t) => {
+            const [baseImg, radarImg] = await Promise.all([loadRadarImage(t.baseMapUrl), loadRadarImage(t.radarUrl)]);
+            return { t, baseImg, radarImg };
+        }));
+        for (const { t, baseImg, radarImg } of results) {
+            if (baseImg) ctx.drawImage(baseImg, t.drawX, t.drawY, 256, 256);
+            if (radarImg) {
+                ctx.drawImage(radarImg, t.drawX, t.drawY, 256, 256);
+                drawn++;
+            }
+        }
+    }
+    return drawn;
+}
+
+/** XYZ fallback voor neerslag (Weerenradar CDN) als snippet faalt */
+async function drawWeerenradarXyzRain(ctx, canvas, lat, lon, zoom) {
+    const drawn = await drawXyzRadarStack(ctx, canvas, lat, lon, zoom, (z, tx, ty) =>
+        `https://cdn.weerenradar.nl/radar/tiles/periodCurrentHighRes/${z}/${tx}/${ty}.png`
+    );
+    if (!drawn) throw new Error('Weerenradar XYZ tiles empty');
+    radarLayerSourceLabel = 'Weer & Radar';
+}
+
+/** Global precipitation radar via RainViewer (works worldwide — US, Asia, AU, …). */
+async function getRainViewerRadarFrame() {
+    if (cachedRainViewerMaps && (Date.now() - cachedRainViewerMapsAt < 120000)) {
+        const past = (cachedRainViewerMaps.radar && cachedRainViewerMaps.radar.past) || [];
+        if (past.length) {
+            return {
+                host: cachedRainViewerMaps.host || 'https://tilecache.rainviewer.com',
+                path: past[past.length - 1].path,
+                time: past[past.length - 1].time
+            };
+        }
+    }
+    const res = await fetch('https://api.rainviewer.com/public/weather-maps.json');
+    if (!res.ok) throw new Error(`RainViewer API HTTP ${res.status}`);
+    const data = await res.json();
+    cachedRainViewerMaps = data;
+    cachedRainViewerMapsAt = Date.now();
+    const past = (data.radar && data.radar.past) || [];
+    if (!past.length) throw new Error('No RainViewer radar frames');
+    return {
+        host: data.host || 'https://tilecache.rainviewer.com',
+        path: past[past.length - 1].path,
+        time: past[past.length - 1].time
+    };
+}
+
+async function drawRainViewerRadar(ctx, canvas, lat, lon, zoom) {
+    const frame = await getRainViewerRadarFrame();
+    // color=2 (universal blue-yellow-red), options 1_1 = smooth + snow
+    const drawn = await drawXyzRadarStack(ctx, canvas, lat, lon, zoom, (z, tx, ty) =>
+        `${frame.host}${frame.path}/256/${z}/${tx}/${ty}/2/1_1.png`
+    );
+    if (!drawn) throw new Error('RainViewer tiles empty');
+    radarLayerSourceLabel = 'RainViewer';
+}
+
+function drawRadarLocationPin(ctx, canvas) {
+    const pinX = canvas.width / 2;
+    const pinY = canvas.height / 2;
+
+    ctx.beginPath();
+    ctx.arc(pinX, pinY, 12, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.3)';
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(pinX, pinY, 6, 0, Math.PI * 2);
+    ctx.fillStyle = '#38bdf8';
+    ctx.shadowColor = '#38bdf8';
+    ctx.shadowBlur = 10;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    ctx.beginPath();
+    ctx.arc(pinX, pinY, 2, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+}
+
+function drawRadarAttribution(ctx, canvas, label) {
+    if (!label) return;
+    ctx.save();
+    ctx.font = '600 10px system-ui, sans-serif';
+    const text = label;
+    const padX = 6, padY = 3;
+    const tw = ctx.measureText(text).width;
+    const x = 8, y = canvas.height - 8;
+    const boxH = 12 + padY * 2;
+    const boxW = tw + padX * 2;
+    const boxY = y - boxH;
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+    ctx.fillRect(x, boxY, boxW, boxH);
+    ctx.fillStyle = 'rgba(226, 232, 240, 0.9)';
+    ctx.fillText(text, x + padX, y - padY - 1);
+    ctx.restore();
+}
+
+function setRadarLayerMode(mode) {
+    if (!RADAR_LAYERS[mode]) mode = 'radar';
+    radarLayerMode = mode;
+    document.querySelectorAll('#radar-layer-toggle .radar-layer-btn').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.getElementById(`rlayer-${mode}`);
+    if (activeBtn) activeBtn.classList.add('active');
+    renderRadarCanvas();
+}
+
+/**
+ * Generieke radar-paint (expanded panel + home widget).
+ * opts: { canvas, loadingEl, layerMode, zoom, width, height, isStale?: () => bool, onZoomLabel?: fn }
+ */
+async function paintRadarView(opts) {
+    const canvas = opts && opts.canvas;
+    if (!canvas) return;
+    const layerMode = (opts.layerMode && RADAR_LAYERS[opts.layerMode]) ? opts.layerMode : 'radar';
+    const layerCfg = RADAR_LAYERS[layerMode];
+    const zoom = Math.min(RADAR_ZOOM_MAX, Math.max(RADAR_ZOOM_MIN, Math.round(opts.zoom || 7)));
+    const loadingEl = opts.loadingEl || null;
+    const isStale = typeof opts.isStale === 'function' ? opts.isStale : () => false;
+
+    if (!serverConfig) await loadServerConfig();
+    if (isStale()) return;
+
+    const weatherCfg = (serverConfig && serverConfig.weather) || {};
+    const latNum = parseFloat(weatherCfg.lat) || 52.3676;
+    const lonNum = parseFloat(weatherCfg.lon) || 4.9041;
+    const ctx = canvas.getContext('2d');
+
+    if (loadingEl) {
+        loadingEl.style.display = 'flex';
+        loadingEl.style.pointerEvents = 'none';
+        loadingEl.textContent = layerCfg.loading || 'Kaart laden…';
+    }
+    if (typeof opts.onZoomLabel === 'function') opts.onZoomLabel(zoom);
+
+    try {
+        const w = opts.width || canvas.clientWidth || 300;
+        const h = opts.height || canvas.clientHeight || 300;
+        canvas.width = w;
+        canvas.height = h;
+
+        radarLayerSourceLabel = '';
+        const europe = preferWeerenradarEngine(latNum, lonNum);
+        // Outside Europe: RainViewer first for precipitation (Weerenradar is EU-focused).
+        // Inside Europe: Weerenradar first, RainViewer as global fallback.
+        const wantPrecip = layerMode === 'radar' || layerMode === 'weather';
+
+        if (!europe && wantPrecip) {
+            try {
+                await drawRainViewerRadar(ctx, canvas, latNum, lonNum, zoom);
+            } catch (eRv) {
+                console.warn('RainViewer failed, trying Weerenradar:', eRv.message || eRv);
+                try {
+                    await drawWeerenradarSnippetLayer(ctx, canvas, layerCfg.group, latNum, lonNum, zoom, layerMode);
+                } catch (eWr) {
+                    await drawWeerenradarXyzRain(ctx, canvas, latNum, lonNum, zoom);
+                }
+            }
+        } else {
+            try {
+                await drawWeerenradarSnippetLayer(ctx, canvas, layerCfg.group, latNum, lonNum, zoom, layerMode);
+            } catch (e1) {
+                console.warn(`Weerenradar ${layerCfg.group} failed:`, e1.message || e1);
+                if (layerMode === 'clouds') {
+                    try {
+                        await drawBuienradarSatelliteFallback(ctx, canvas);
+                    } catch (eCloud) {
+                        // Global fallback: show precipitation so the map is still useful
+                        await drawRainViewerRadar(ctx, canvas, latNum, lonNum, zoom);
+                    }
+                } else if (layerMode === 'radar' || layerMode === 'weather') {
+                    try {
+                        await drawWeerenradarXyzRain(ctx, canvas, latNum, lonNum, zoom);
+                    } catch (eXyz) {
+                        await drawRainViewerRadar(ctx, canvas, latNum, lonNum, zoom);
+                    }
+                } else {
+                    // Temp / wind / lightning outside coverage → still show global rain map
+                    try {
+                        await drawRainViewerRadar(ctx, canvas, latNum, lonNum, zoom);
+                    } catch (eRv2) {
+                        throw e1;
+                    }
+                }
+            }
+        }
+
+        if (isStale()) return;
+
+        drawRadarLocationPin(ctx, canvas);
+        drawRadarAttribution(ctx, canvas, radarLayerSourceLabel);
+    } catch (e) {
+        if (isStale()) return;
+        console.error('Radar canvas render failed:', e);
+        if (loadingEl) loadingEl.textContent = (e && e.message) ? e.message : 'Kaart laden mislukt';
+    } finally {
+        if (isStale()) return;
+        if (loadingEl) {
+            const isError = loadingEl.textContent &&
+                !loadingEl.textContent.endsWith('laden…') &&
+                loadingEl.textContent !== 'Kaart laden…';
+            if (isError) {
+                setTimeout(() => {
+                    if (!isStale()) {
+                        loadingEl.style.display = 'none';
+                        loadingEl.textContent = 'Kaart laden…';
+                    }
+                }, 2200);
+            } else {
+                loadingEl.style.display = 'none';
+            }
+        }
+    }
+}
+
+async function renderRadarCanvas() {
+    const seq = ++radarRenderSeq;
+    const canvas = document.getElementById('radar-canvas');
+    if (!canvas) return;
+    const container = document.getElementById('weather-radar-container');
+    updateRadarZoomLabel();
+    await paintRadarView({
+        canvas,
+        loadingEl: document.getElementById('radar-loading'),
+        layerMode: radarLayerMode,
+        zoom: radarZoom,
+        width: container ? (container.clientWidth || 300) : 300,
+        height: container ? (container.clientHeight || 300) : 300,
+        isStale: () => seq !== radarRenderSeq,
+        onZoomLabel: () => updateRadarZoomLabel()
+    });
+}
+
+function zoomRadar(delta) {
+    const next = Math.min(RADAR_ZOOM_MAX, Math.max(RADAR_ZOOM_MIN, radarZoom + delta));
+    if (next === radarZoom) {
+        updateRadarZoomLabel();
+        return;
+    }
+    radarZoom = next;
+    updateRadarZoomLabel();
+    renderRadarCanvas();
+}
+
 async function toggleExpandedWeather() {
     const exp = document.getElementById('weather-expanded');
     const isOpen = exp.classList.contains('open');
@@ -6266,6 +7514,8 @@ async function toggleExpandedWeather() {
 
     container.innerHTML = '<div style="color: var(--text-muted); padding: 20px; text-align: center;">Laden…</div>';
     exp.classList.add('open');
+
+    switchWeatherTab(activeWeatherTab || 'forecast');
 
     try {
         const forecast = await fetchForecast(lat, lon);
@@ -6363,7 +7613,7 @@ closeBtn.onclick = () => {
 
 // v1.8.2: changelog modal — "What's New" with auto-detected NEW badge.
 // CHANGELOG.md is baked into the dashboard image (COPY in Dockerfile) at /CHANGELOG.md
-const APP_VERSION = '1.9.6-dev';
+const APP_VERSION = '1.9.10-dev';
 
 // ===== RELEASE ANNOUNCEMENTS (v1.8.5) =====
 // First-run pop-up shown ONCE per user, per announcement id. Use this for big feature
@@ -6464,22 +7714,52 @@ function checkChangelogBadge() {
     badge.style.display = (lastSeen !== APP_VERSION) ? '' : 'none';
 }
 
+/** Changelog path for current UI language. NL = CHANGELOG.md; EN = CHANGELOG.en.md; others fall back EN → NL. */
+function changelogPathsForLang() {
+    const lang = (typeof currentLang === 'string' ? currentLang : 'nl').slice(0, 2).toLowerCase();
+    if (lang === 'nl') return ['/CHANGELOG.md'];
+    if (lang === 'en') return ['/CHANGELOG.en.md', '/CHANGELOG.md'];
+    // de/fr/es: English first until dedicated translations exist
+    return ['/CHANGELOG.en.md', '/CHANGELOG.md'];
+}
+
+async function fetchChangelogMarkdown() {
+    const paths = changelogPathsForLang();
+    let lastErr = null;
+    for (const path of paths) {
+        try {
+            const res = await fetch(path, { cache: 'no-store' });
+            if (!res.ok) {
+                lastErr = new Error(`HTTP ${res.status} (${path})`);
+                continue;
+            }
+            return await res.text();
+        } catch (e) {
+            lastErr = e;
+        }
+    }
+    throw lastErr || new Error('No changelog available');
+}
+
 async function openChangelogModal() {
     const modal = document.getElementById('changelog-modal');
     const body = document.getElementById('changelog-modal-body');
     modal.style.display = 'flex';
-    body.innerHTML = `<div class="changelog-loading">${t('ui.loading', 'Laden…')}</div>`;
+    // Keep modal chrome in sync with current language
+    const titleEl = modal.querySelector('[data-i18n="settings.whatsNew"]');
+    if (titleEl) titleEl.textContent = t('settings.whatsNew', "What's new");
+    body.innerHTML = `<div class="changelog-loading">${t('ui.loading', 'Loading…')}</div>`;
     try {
-        const res = await fetch('/CHANGELOG.md', { cache: 'no-store' });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const text = await res.text();
+        const text = await fetchChangelogMarkdown();
         body.innerHTML = renderChangelogMarkdown(text);
         body.scrollTop = 0;
         // Only mark as seen if the user actually got to read the changelog
         localStorage.setItem('hobbithole_last_seen_version', APP_VERSION);
         checkChangelogBadge();
     } catch (e) {
-        body.innerHTML = `<p style="color:#ef4444;text-align:center;">⚠️ Kon CHANGELOG niet laden: ${escapeHtmlSafe(e.message)}</p>`;
+        const msg = t('ui.changelogLoadError', 'Could not load CHANGELOG: ${message}')
+            .replace('${message}', escapeHtmlSafe(e.message || String(e)));
+        body.innerHTML = `<p style="color:#ef4444;text-align:center;">${msg}</p>`;
     }
 }
 
@@ -8056,9 +9336,8 @@ function renderStandaloneWidgets() {
     clearStandaloneIntervals();
     container.innerHTML = '';
 
-    // Canvas mode requires user toggle ON + desktop viewport.
-    const canvasOn = localStorage.getItem('hobbithole_canvas_mode') === 'true'
-        && window.innerWidth > 768;
+    // Canvas mode: serverConfig.canvasMode (cross-device) + desktop viewport.
+    const canvasOn = isCanvasModeEnabled() && window.innerWidth > 768;
     container.classList.toggle('canvas-mode', canvasOn);
 
     if (canvasOn) {
@@ -8142,6 +9421,47 @@ function renderStandaloneWidgets() {
             div.querySelector('.standalone-block-body').textContent = `Fout: ${e.message}`;
         }
     });
+
+    // Canvas: absolute children don't stretch the container — grow height so footer stays visible
+    if (canvasOn) {
+        updateStandaloneCanvasHeight();
+        // After async widget content (radar, rss, …) settles, remeasure once more
+        requestAnimationFrame(() => updateStandaloneCanvasHeight());
+        setTimeout(() => updateStandaloneCanvasHeight(), 400);
+    } else {
+        container.style.minHeight = '';
+        container.style.height = '';
+    }
+}
+
+/** Expand #standalone-widgets in canvas mode to fit the lowest absolute widget. */
+function updateStandaloneCanvasHeight() {
+    const container = document.getElementById('standalone-widgets');
+    if (!container) return;
+    if (!container.classList.contains('canvas-mode')) {
+        container.style.minHeight = '';
+        container.style.height = '';
+        return;
+    }
+
+    let maxBottom = 360; // base empty canvas
+    const layout = getHomeLayout();
+    for (const b of (layout.blocks || [])) {
+        if (typeof b.y !== 'number') continue;
+        const h = (typeof b.h === 'number' && b.h > 0) ? b.h : defaultHeightFor(b.type);
+        maxBottom = Math.max(maxBottom, b.y + h);
+    }
+    // Prefer live DOM (actual rendered height may exceed stored h)
+    container.querySelectorAll('.standalone-block').forEach(el => {
+        const top = parseFloat(el.style.top) || 0;
+        const h = el.offsetHeight || 0;
+        if (h > 0) maxBottom = Math.max(maxBottom, top + h);
+    });
+
+    const pad = 48;
+    const next = Math.ceil((maxBottom + pad) / CANVAS_GRID) * CANVAS_GRID;
+    container.style.minHeight = next + 'px';
+    container.style.height = next + 'px';
 }
 
 async function addStandaloneBlock(type) {
@@ -8187,7 +9507,8 @@ const CANVAS_TYPE_H = {
     calendar:    280,
     iframe:      320,
     rss:         320,
-    'app-widget': 240
+    'app-widget': 240,
+    'weather-radar': 360
 };
 
 function defaultHeightFor(type) {
@@ -8301,6 +9622,7 @@ function attachCanvasDrag(blockEl, blockId) {
         if (isNaN(block.x)) block.x = 0;
         if (isNaN(block.y)) block.y = 0;
         saveHomeLayout();
+        updateStandaloneCanvasHeight();
     };
 
     const onPointerDown = (e) => {
@@ -8357,6 +9679,7 @@ function setStandaloneBlockSize(blockId, size) {
         block.h = Math.round(baseH * mult);
         el.style.width = block.w + 'px';
         el.style.height = block.h + 'px';
+        updateStandaloneCanvasHeight();
     }
 
     saveHomeLayout();
@@ -8375,13 +9698,12 @@ function updateStandaloneBlockConfig(blockId, partial) {
 
 // Settings UI: visual grid picker (replaces the dropdown — scales to many widget types)
 function refreshSettingsWidgetUI() {
-    // 0. Canvas-mode toggle — only visible when the feature flag is active (dev-gated)
-    // Canvas Mode is GA since v1.9.0 — toggle is always visible.
+    // 0. Canvas-mode toggle — GA since v1.9.0; preference synced via serverConfig.canvasMode
     const canvasRow = document.getElementById('setting-canvas-toggle-row');
     if (canvasRow) {
         canvasRow.style.display = 'block';
         const cb = document.getElementById('setting-canvas-mode');
-        if (cb) cb.checked = localStorage.getItem('hobbithole_canvas_mode') === 'true';
+        if (cb) cb.checked = isCanvasModeEnabled();
     }
 
     // 1. Render the picker grid — one card per registered widget type
@@ -8436,12 +9758,15 @@ function refreshSettingsWidgetUI() {
     }).join('');
 }
 
-// Toggle canvas mode on/off via settings (only effective when flag is enabled)
-function toggleCanvasMode() {
+// Toggle canvas mode on/off via settings — synced cross-device (domain, IP, browsers)
+async function toggleCanvasMode() {
     const cb = document.getElementById('setting-canvas-mode');
     if (!cb) return;
-    localStorage.setItem('hobbithole_canvas_mode', cb.checked ? 'true' : 'false');
+    await setCanvasModeEnabled(cb.checked);
     renderStandaloneWidgets();
+    showToast(cb.checked
+        ? t('ui.canvasModeOn', 'Canvas mode on (synced)')
+        : t('ui.canvasModeOff', 'Canvas mode off (synced)'), 'success');
 }
 
 async function addWidgetFromSettings(type) {
@@ -8711,6 +10036,182 @@ registerStandaloneWidget('clock', {
         tick();
         const handle = setInterval(tick, 1000);
         _standaloneIntervals.set(block.id, handle);
+    }
+});
+
+// ===== WEATHER RADAR WIDGET (v1.9.9) =====
+// Hergebruikt paintRadarView / Weerenradar overlays — zelfde engine als Live Radar in de weer-kaart.
+const _weatherRadarWidgetState = new Map(); // blockId → { layerMode, zoom, seq }
+
+function getWeatherRadarWidgetState(block) {
+    const cfg = (block && block.config) || {};
+    let st = _weatherRadarWidgetState.get(block.id);
+    if (!st) {
+        st = {
+            layerMode: RADAR_LAYERS[cfg.layer] ? cfg.layer : 'radar',
+            zoom: Math.min(RADAR_ZOOM_MAX, Math.max(RADAR_ZOOM_MIN, parseInt(cfg.zoom, 10) || 7)),
+            seq: 0
+        };
+        _weatherRadarWidgetState.set(block.id, st);
+    }
+    return st;
+}
+
+async function paintWeatherRadarWidget(block, root) {
+    if (!root || !block) return;
+    const st = getWeatherRadarWidgetState(block);
+    const seq = ++st.seq;
+    const canvas = root.querySelector('canvas');
+    const loadingEl = root.querySelector('.weather-radar-widget-loading');
+    const mapEl = root.querySelector('.weather-radar-widget-map');
+    const zoomLabel = root.querySelector('.radar-zoom-level');
+    if (!canvas || !mapEl) return;
+
+    // Sync layer chips
+    root.querySelectorAll('.weather-radar-widget-layers .radar-layer-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.layer === st.layerMode);
+    });
+    if (zoomLabel) zoomLabel.textContent = String(st.zoom);
+
+    await paintRadarView({
+        canvas,
+        loadingEl,
+        layerMode: st.layerMode,
+        zoom: st.zoom,
+        width: mapEl.clientWidth || 320,
+        height: mapEl.clientHeight || 280,
+        isStale: () => seq !== st.seq,
+        onZoomLabel: (z) => { if (zoomLabel) zoomLabel.textContent = String(z); }
+    });
+}
+
+function weatherRadarWidgetSetLayer(blockId, layer) {
+    const layout = getHomeLayout();
+    const block = (layout.blocks || []).find(b => b.id === blockId);
+    if (!block || !RADAR_LAYERS[layer]) return;
+    const root = document.querySelector(`.weather-radar-widget[data-wr-block="${blockId}"]`);
+    const st = getWeatherRadarWidgetState(block);
+    st.layerMode = layer;
+    block.config = Object.assign({}, block.config || {}, { layer });
+    // Persist layer choice (debounced-ish: fire and forget)
+    saveHomeLayout();
+    if (root) paintWeatherRadarWidget(block, root);
+}
+
+function weatherRadarWidgetZoom(blockId, delta) {
+    const layout = getHomeLayout();
+    const block = (layout.blocks || []).find(b => b.id === blockId);
+    if (!block) return;
+    const root = document.querySelector(`.weather-radar-widget[data-wr-block="${blockId}"]`);
+    const st = getWeatherRadarWidgetState(block);
+    const next = Math.min(RADAR_ZOOM_MAX, Math.max(RADAR_ZOOM_MIN, st.zoom + delta));
+    if (next === st.zoom) return;
+    st.zoom = next;
+    block.config = Object.assign({}, block.config || {}, { zoom: String(next) });
+    saveHomeLayout();
+    if (root) paintWeatherRadarWidget(block, root);
+}
+
+function renderWeatherRadarWidget(block, container) {
+    const st = getWeatherRadarWidgetState(block);
+    const cfg = block.config || {};
+    const mapH = parseInt(cfg.height, 10) || 280;
+
+    const layerBtns = [
+        { id: 'radar', label: '🌧️ Regen' },
+        { id: 'clouds', label: '☁️ Wolken' },
+        { id: 'temp', label: '🌡️ Temp' },
+        { id: 'gust', label: '💨 Wind' },
+        { id: 'lightning', label: '⚡ Bliksem' },
+        { id: 'weather', label: '📡 Weer' }
+    ].map(l => `<button type="button" class="radar-layer-btn${st.layerMode === l.id ? ' active' : ''}" data-layer="${l.id}" title="${l.label}">${l.label}</button>`).join('');
+
+    container.innerHTML = `
+        <div class="weather-radar-widget" data-wr-block="${escapeHtmlSafe(block.id)}">
+            <div class="weather-radar-widget-layers" role="toolbar" aria-label="Kaartlagen">${layerBtns}</div>
+            <div class="weather-radar-widget-map" style="height:${mapH}px">
+                <canvas></canvas>
+                <div class="weather-radar-widget-loading">Kaart laden…</div>
+                <div class="weather-radar-widget-zoom">
+                    <button type="button" class="radar-zoom-btn" data-zoom="1" title="Inzoomen" aria-label="Inzoomen">+</button>
+                    <span class="radar-zoom-level">${st.zoom}</span>
+                    <button type="button" class="radar-zoom-btn" data-zoom="-1" title="Uitzoomen" aria-label="Uitzoomen">−</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    const root = container.querySelector('.weather-radar-widget');
+    root.querySelectorAll('.weather-radar-widget-layers .radar-layer-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            weatherRadarWidgetSetLayer(block.id, btn.dataset.layer);
+        });
+    });
+    root.querySelectorAll('.weather-radar-widget-zoom .radar-zoom-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            weatherRadarWidgetZoom(block.id, parseInt(btn.dataset.zoom, 10) || 0);
+        });
+    });
+
+    // Initial paint + auto-refresh (radar frames ~ elke 5–15 min)
+    paintWeatherRadarWidget(block, root);
+    const handle = setInterval(() => {
+        const layout = getHomeLayout();
+        const b = (layout.blocks || []).find(x => x.id === block.id);
+        const r = document.querySelector(`.weather-radar-widget[data-wr-block="${block.id}"]`);
+        if (b && r) paintWeatherRadarWidget(b, r);
+    }, 5 * 60 * 1000);
+    _standaloneIntervals.set(block.id, handle);
+}
+
+registerStandaloneWidget('weather-radar', {
+    label: '📡 Weer Radar',
+    description: 'Live Weerenradar-kaart (regen, wolken, temp, wind, bliksem) op Home',
+    defaultH: 360,
+    defaultConfig: () => ({ layer: 'radar', zoom: '7', height: '280' }),
+    configSchema: [
+        {
+            key: 'layer',
+            label: 'Standaard laag',
+            type: 'select',
+            options: [
+                { value: 'radar', label: '🌧️ Regen' },
+                { value: 'clouds', label: '☁️ Wolken' },
+                { value: 'temp', label: '🌡️ Temperatuur' },
+                { value: 'gust', label: '💨 Windstoten' },
+                { value: 'lightning', label: '⚡ Bliksem' },
+                { value: 'weather', label: '📡 Weer (combi + °C)' }
+            ],
+            help: 'Startlaag bij openen. In de widget kun je altijd wisselen.'
+        },
+        {
+            key: 'zoom',
+            label: 'Standaard zoom (5–10)',
+            type: 'text',
+            placeholder: '7',
+            help: 'Zelfde schaal als weerenradar.nl (≈7.5 is regionaal NL).'
+        },
+        {
+            key: 'height',
+            label: 'Kaarthoogte (px)',
+            type: 'text',
+            placeholder: '280',
+            help: 'Hoogte van de kaart in de widget. Size S/L past ook iets aan via CSS.'
+        }
+    ],
+    render(block, container) {
+        // Reset instance state from saved config when re-rendering
+        _weatherRadarWidgetState.delete(block.id);
+        renderWeatherRadarWidget(block, container);
+    },
+    refresh(block, container) {
+        const root = container.querySelector('.weather-radar-widget');
+        if (root) return paintWeatherRadarWidget(block, root);
+        return renderWeatherRadarWidget(block, container);
     }
 });
 

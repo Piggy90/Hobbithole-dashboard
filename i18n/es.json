@@ -136,7 +136,7 @@
     "benchmarkStart": "Iniciar prueba de rendimiento",
     "whatsNew": "Novedades",
     "closeTitle": "Cerrar",
-    "canvasMode": "Modo Canvas",
+    "canvasMode": "Modo canvas (arrastra widgets libremente en una rejilla)",
     "added": "Agregado",
     "loading": "Cargando...",
     "liveStatusDots": "Indicador de estado en vivo en las tarjetas (punto verde/rojo)",
@@ -188,7 +188,8 @@
     "watchtowerDesc": "Active las actualizaciones manualmente desde el panel de control. Requiere API HTTP en su compose de Watchtower; consulte el cuerpo del widget para conocer los pasos de configuración.",
     "watchtowerUrlHelp": "Si Watchtower está en dashboard_net: http://watchtower:8080",
     "watchtowerTestBtn": "🧪 Probar conexión",
-    "saveIntegrationBtn": "💾 Guardar"
+    "saveIntegrationBtn": "💾 Guardar",
+    "canvasModeDesc": "Colocación libre vs rejilla apilada. Sincronizado entre dispositivos (dominio, IP, navegadores) vía config del servidor."
   },
   "modal": {
     "addApp": "Agregar app",
@@ -305,7 +306,7 @@
     "noForecastData": "Sin datos de pronóstico",
     "configureLocation": "Configura primero una ubicación en los ajustes.",
     "loading": "Cargando…",
-    "changelogLoadError": "⚠️ No se pudo cargar el CHANGELOG: ${message}",
+    "changelogLoadError": "No se pudo cargar el CHANGELOG: ${message}",
     "chooseApp": "📌 Elige una aplicación",
     "noWidgetTypesAvailable": "No hay tipos de widget disponibles.",
     "noWidgetsAdded": "Aún no se han agregado widgets.",
@@ -336,7 +337,9 @@
     "feedNotReachable": "Feed no accesible",
     "statusFetchError": "⚠️ Error al obtener el estado: ${message}",
     "deleteLabel": "Eliminar",
-    "benchmarkCompleted": "¡Benchmark completado!"
+    "benchmarkCompleted": "¡Benchmark completado!",
+    "canvasModeOn": "Modo canvas activado (sincronizado)",
+    "canvasModeOff": "Modo canvas desactivado (sincronizado)"
   },
   "scanner": {
     "searchingContainers": "🔍 Buscando contenedores Docker...",

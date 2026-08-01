@@ -9,6 +9,7 @@ services:
       - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/index.html:/usr/share/nginx/html/index.html:ro
       - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/croc-help.html:/usr/share/nginx/html/croc-help.html:ro
       - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/CHANGELOG.md:/usr/share/nginx/html/CHANGELOG.md:ro
+      - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/CHANGELOG.en.md:/usr/share/nginx/html/CHANGELOG.en.md:ro
       - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/images:/usr/share/nginx/html/images:ro
       - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/i18n:/usr/share/nginx/html/i18n:ro
       - /root/docker/core/hobbithole-dashboard/hobbithole-dashboard/nginx.conf:/etc/nginx/nginx.conf:ro

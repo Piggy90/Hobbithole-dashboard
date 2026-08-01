@@ -2,10 +2,10 @@
   "id": "nordic-frost",
   "name": "Nordic Frost",
   "author": "PiggyOriginal",
-  "version": "1.0.0",
-  "description": "Minimalistisch grijs-blauw met extra grote ronde hoeken.",
+  "version": "1.1.0",
+  "description": "Minimalistisch grijs-blauw met extra grote ronde hoeken. Rustig en overzichtelijk met alleen de essentie.",
   "screenshot": null,
-  "tags": ["minimal", "nordic", "rounded"],
+  "tags": ["minimal", "nordic", "rounded", "calm"],
   "visuals": {
     "--bg-color": "#2e3440",
     "--accent-color": "#88c0d0",
@@ -16,9 +16,33 @@
   },
   "config": {
     "weatherBackdrop": "standard",
-    "statusDots": true
+    "statusDots": false
   },
-  "homeLayout": null,
+  "homeLayout": {
+    "blocks": [
+      {
+        "id": "theme-nordic-clock",
+        "type": "clock",
+        "size": "l",
+        "title": "Klok",
+        "config": {}
+      },
+      {
+        "id": "theme-nordic-bookmarks",
+        "type": "bookmarks",
+        "size": "l",
+        "title": "Bookmarks",
+        "config": { "items": [] }
+      },
+      {
+        "id": "theme-nordic-calendar",
+        "type": "calendar",
+        "size": "m",
+        "title": "Agenda",
+        "config": { "icsUrl": "" }
+      }
+    ]
+  },
   "liveWallpaper": null,
   "widgetVariants": null
 }
