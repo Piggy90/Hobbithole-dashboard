@@ -1,8 +1,30 @@
 # Hobbithole Cinema Dashboard — Changelog
 
-## [v1.9.10-dev] - 2026-08-01
+## [v1.9.11-dev] - 2026-08-06
 ### In progress
 - New features for the next release.
+
+## [v1.9.10] - 2026-08-06
+
+### Added
+- **Backgrounds via config-api (cross-device)** — Static, dynamic (5 slots) and live wallpaper stored as **files** under `/app/data/wallpapers/` via `POST /api/wallpapers/:slot`. `config.json` keeps only light URL refs. Domain/IP/browsers share the same look. Migration: existing localStorage data-URLs are uploaded once.
+- **Wallpaper sync status** in Settings — “synced” vs “this device only” when config-api is offline.
+- **Config-api release popup** — Announcement `config-api-required-1.9.10` for early installs missing the API (once max).
+- **Live wallpaper GA** — Flag on by default; video max ~20MB on the server (no more base64 in localStorage).
+
+### Fixed
+- **Container buttons missing on many tiles** — Start/Stop/Restart only appeared when the host port from the tile URL showed up in Docker's port list. Second step: match on container name or compose service label (works while stopped / host network / domain tiles).
+- **Weather-radar widget: CSS stretch on size change** — `ResizeObserver` + `onResize` → full re-paint.
+- **Release popup kept reappearing** — (from 1.9.9-build-1) important updates at most once.
+
+### Changed
+- **Weather-radar widget layout (large)** — Map fills body, overlay layer chips, tighter zoom; S emoji-only.
+- **Config POST guard** — Large `data:` URLs in config.json rejected (413); use `/api/wallpapers`.
+
+## [v1.9.9-build-1] - 2026-08-01
+
+### Fixed
+- **Release popup kept reappearing** — The weather-backdrop announcement (v1.8.5) kept showing for some users. That is over: important updates/fixes now appear **at most once**, are marked seen immediately, and will not return (also after refresh, another device, or domain vs IP).
 
 ## [v1.9.9] - 2026-08-01
 
@@ -72,7 +94,6 @@
 ### Fixed
 - **Dynamic canvas height** — Fixed widgets on the Home tab overflowing the parent container and overlapping lower elements. Container height is now computed dynamically from widget positions and heights (via `ResizeObserver` and drag listeners).
 - **Home widgets translation** — Title and description of the Home Widgets section in Settings were hardcoded Dutch (with broken multi-language). Moved to the i18n system (`data-i18n`) and translated for all supported languages (NL, EN, DE, FR, ES), including a grammar fix ("synced across all your devices").
-
 
 ## [v1.9.3] - 2026-06-14
 ### Added

@@ -3264,27 +3264,33 @@
             font-variant-numeric: tabular-nums;
         }
 
-        /* Home widget: weather-radar */
+        /* Home widget: weather-radar — map vult body; lagen als overlay chips */
         .weather-radar-widget {
             display: flex;
             flex-direction: column;
-            gap: 8px;
             width: 100%;
+            height: 100%;
             min-height: 0;
+            flex: 1 1 auto;
         }
         .weather-radar-widget-map {
             position: relative;
             width: 100%;
+            flex: 1 1 auto;
             height: 280px;
-            border-radius: 12px;
+            min-height: 200px;
+            border-radius: 14px;
             overflow: hidden;
-            background: #0f172a;
+            background: #0b1220;
             border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
         }
         .weather-radar-widget-map canvas {
             width: 100%;
             height: 100%;
             display: block;
+            /* voorkom CSS-stretch blur: canvas pixels worden opnieuw gezet bij paint */
+            image-rendering: auto;
         }
         .weather-radar-widget-loading {
             position: absolute;
@@ -3292,41 +3298,62 @@
             display: none;
             align-items: center;
             justify-content: center;
-            background: rgba(15, 23, 42, 0.75);
+            background: rgba(11, 18, 32, 0.78);
             font-size: 0.85rem;
             color: #94a3b8;
-            z-index: 3;
+            z-index: 4;
             pointer-events: none;
+            backdrop-filter: blur(2px);
         }
+        /* Layer chips over de kaart — meer map-ruimte, strakker large layout */
         .weather-radar-widget-layers {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 48px;
             display: flex;
             flex-wrap: wrap;
             gap: 4px;
+            z-index: 6;
+            pointer-events: none;
         }
         .weather-radar-widget-layers .radar-layer-btn {
-            background: rgba(15, 23, 42, 0.55);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            pointer-events: auto;
+            background: rgba(15, 23, 42, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             color: #cbd5e1;
             font-size: 0.68rem;
-            padding: 4px 8px;
-            border-radius: 6px;
+            padding: 5px 9px;
+            border-radius: 999px;
             cursor: pointer;
             font-weight: 600;
             font-family: inherit;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+            transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+            line-height: 1.2;
+            white-space: nowrap;
         }
         .weather-radar-widget-layers .radar-layer-btn:hover {
             color: #fff;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(30, 41, 59, 0.95);
+            border-color: rgba(255, 255, 255, 0.22);
         }
         .weather-radar-widget-layers .radar-layer-btn.active {
             color: #0f172a;
             background: var(--accent-color);
             border-color: transparent;
+            box-shadow: 0 2px 10px color-mix(in srgb, var(--accent-color) 45%, transparent);
+        }
+        .weather-radar-widget-layers .radar-layer-btn .rl-emoji {
+            margin-right: 3px;
+            opacity: 0.95;
         }
         .weather-radar-widget-zoom {
             position: absolute;
-            bottom: 8px;
-            right: 8px;
+            bottom: 10px;
+            right: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -3334,22 +3361,26 @@
             z-index: 10;
         }
         .weather-radar-widget-zoom .radar-zoom-btn {
-            width: 30px;
-            height: 30px;
-            min-width: 30px;
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
             padding: 0;
             margin: 0;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            background: rgba(15, 23, 42, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 10px;
+            background: rgba(15, 23, 42, 0.9);
             color: #e2e8f0;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
             font-family: inherit;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: background 0.15s ease, color 0.15s ease;
         }
         .weather-radar-widget-zoom .radar-zoom-btn:hover {
             background: var(--accent-color);
@@ -3358,16 +3389,41 @@
         }
         .weather-radar-widget-zoom .radar-zoom-level {
             font-size: 0.65rem;
-            color: #94a3b8;
-            background: rgba(15, 23, 42, 0.85);
-            padding: 2px 6px;
-            border-radius: 4px;
-            min-width: 26px;
+            color: #e2e8f0;
+            background: rgba(15, 23, 42, 0.88);
+            padding: 3px 7px;
+            border-radius: 6px;
+            min-width: 28px;
             text-align: center;
             font-variant-numeric: tabular-nums;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
         }
-        .standalone-block.size-s .weather-radar-widget-map { height: 200px; }
-        .standalone-block.size-l .weather-radar-widget-map { height: 360px; }
+        /* Grid mode: vaste map-hoogtes per size (body heeft geen vaste height) */
+        .standalone-block.size-s .weather-radar-widget-map { height: 200px; min-height: 180px; }
+        .standalone-block.size-m .weather-radar-widget-map { height: 280px; min-height: 240px; }
+        .standalone-block.size-l .weather-radar-widget-map { height: 440px; min-height: 360px; }
+        /* Canvas mode: map vult de rest van de widget-body (geen lege dode zone) */
+        #standalone-widgets.canvas-mode .standalone-block[data-block-type="weather-radar"] .standalone-block-body {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        #standalone-widgets.canvas-mode .standalone-block[data-block-type="weather-radar"] .weather-radar-widget-map {
+            height: auto;
+            flex: 1 1 auto;
+            min-height: 160px;
+        }
+        /* Compact: op small alleen emoji/korte labels */
+        .standalone-block.size-s .weather-radar-widget-layers .radar-layer-btn .rl-label {
+            display: none;
+        }
+        .standalone-block.size-s .weather-radar-widget-layers .radar-layer-btn .rl-emoji {
+            margin-right: 0;
+        }
+        .standalone-block.size-s .weather-radar-widget-layers {
+            right: 8px;
+        }
 
         /* 2-Hour Rain Bar Graph */
         .rain-graph-container {
@@ -4160,7 +4216,7 @@
 
     <footer>
         &copy; 2026 Hobbithole Dashboard &bull; Powered by <a href="#">LokaiOS</a> &bull;
-        <button class="footer-version-btn" id="footer-version-btn" onclick="openChangelogModal()" title="Wat is er nieuw in deze versie?">v<span id="footer-version-text">1.9.3-dev</span><span id="footer-new-badge" class="footer-new-badge" style="display:none;">✨ NEW</span></button>
+        <button class="footer-version-btn" id="footer-version-btn" onclick="openChangelogModal()" title="Wat is er nieuw in deze versie?">v<span id="footer-version-text">1.9.10-dev</span><span id="footer-new-badge" class="footer-new-badge" style="display:none;">✨ NEW</span></button>
     </footer>
 
     <!-- v1.8.5: Release announcement modal — first-run pop-up that highlights a specific
@@ -4266,7 +4322,7 @@
                 </div>
             </div>
 
-            <!-- Background Image -->
+            <!-- Background Image (v1.9.10: cross-device via config-api + /api/wallpapers files) -->
             <div class="form-group">
                 <label data-i18n="settings.backgroundImage">Achtergrond</label>
                 <div class="background-preview" id="bg-preview" data-i18n="settings.noBackground">Geen achtergrond</div>
@@ -4276,9 +4332,9 @@
                 <input type="file" id="bg-upload" accept="image/*" onchange="uploadBackground(this)">
                 <button class="btn btn-secondary btn-small" onclick="promptBackgroundUrl()" data-i18n="settings.useUrl">URL gebruiken</button>
                 <button class="btn btn-secondary btn-small" onclick="resetBackground()" data-i18n="settings.removeBackground">Verwijderen</button>
-                <!-- v1.8.3: warn user that background lives in localStorage (lost on site-data clear / different browser) -->
-                <div style="margin-top: 10px; padding: 10px 12px; background: rgba(56, 189, 248, 0.08); border-left: 3px solid var(--accent-color); border-radius: 6px; font-size: 0.85em; color: var(--text-muted); line-height: 1.5;" data-i18n="settings.bgWarning">
-                    ℹ️ De achtergrond wordt lokaal in je browser opgeslagen (te zwaar voor cross-device sync). Bij <em>browser data wissen</em> of een ander apparaat ben je 'm kwijt. Maak een <a href="#section-backup-restore" onclick="document.getElementById('section-backup-restore').scrollIntoView({behavior:'smooth'}); return false;" style="color: var(--accent-color);">backup</a> om dit te voorkomen. Cross-device achtergrond komt in een latere release.
+                <div id="wallpaper-sync-status" style="margin-top: 8px; font-size: 0.82em; color: var(--text-muted);"></div>
+                <div id="bg-warning-box" style="margin-top: 10px; padding: 10px 12px; background: rgba(56, 189, 248, 0.08); border-left: 3px solid var(--accent-color); border-radius: 6px; font-size: 0.85em; color: var(--text-muted); line-height: 1.5;" data-i18n="settings.bgWarning">
+                    ✅ Achtergronden (statisch, dynamisch, live) worden via de config-api gesynchroniseerd. Uploads gaan als bestand naar de server (niet in de browser). Zonder config-api blijft alles alleen op dit apparaat.
                 </div>
             </div>
 
@@ -4291,15 +4347,15 @@
                 <small style="color: var(--text-muted); display: block; margin-top: 4px; margin-left: 28px;" data-i18n="settings.dynamicWallpaperDesc">5 afbeeldingen wisselen automatisch met het tijdstip. Lege slots vallen terug op de vorige beschikbare slot. macOS Mojave-stijl.</small>
                 <div id="dynamic-wallpaper-slots" class="dynamic-wallpaper-grid" style="margin-top: 12px;"></div>
                 <div style="margin-top: 10px; padding: 10px 12px; background: rgba(56, 189, 248, 0.08); border-left: 3px solid var(--accent-color); border-radius: 6px; font-size: 0.82em; color: var(--text-muted); line-height: 1.5;" data-i18n="settings.dynamicWallpaperWarning">
-                    ℹ️ Images worden automatisch gecomprimeerd naar 1920×1080 JPEG (~500KB per slot) zodat alle 5 samen onder de browser-quota passen. Upload mag tot 50MB groot zijn. Lokaal opgeslagen, zelfde caveat als statische achtergrond.
+                    ℹ️ Images worden gecomprimeerd naar 1920×1080 JPEG en opgeslagen op de server (cross-device). Upload mag tot 50MB; na compressie typisch &lt;1MB per slot.
                 </div>
             </div>
 
-            <!-- v1.8.4: Live wallpaper (FF-gated, desktop only) -->
+            <!-- v1.8.4 / v1.9.10 GA: Live wallpaper (desktop only; video on server) -->
             <div class="form-group" id="live-wallpaper-row" style="display: none;">
                 <label style="display: flex; align-items: center; gap: 10px;">
                     <input type="checkbox" id="setting-live-wallpaper-enabled" onchange="toggleLiveWallpaper()">
-                    <span data-i18n="settings.liveWallpaper">🎬 Live wallpaper (beta · alleen desktop)</span>
+                    <span data-i18n="settings.liveWallpaper">🎬 Live wallpaper (alleen desktop)</span>
                 </label>
                 <div id="live-wallpaper-status" style="font-size:0.82rem;color:var(--text-muted);margin: 6px 0 8px 28px;" data-i18n="settings.liveWallpaperStatusNone">Geen video ingesteld</div>
                 <div style="margin-left: 28px;">
@@ -4310,7 +4366,7 @@
                 <button class="btn btn-secondary btn-small" onclick="removeLiveWallpaper()" data-i18n="settings.liveWallpaperDelete">Verwijderen</button>
                 </div>
                 <div style="margin-top: 10px; padding: 10px 12px; background: rgba(245, 158, 11, 0.08); border-left: 3px solid #f59e0b; border-radius: 6px; font-size: 0.82em; color: var(--text-muted); line-height: 1.5;" data-i18n="settings.liveWallpaperWarning">
-                    ⚠️ Heavy feature: video wordt als base64 in localStorage opgeslagen. Max praktisch ~8MB voor de meeste browsers.
+                    ⚠️ Video wordt op de server opgeslagen (max ~20MB). Aanbevolen: MP4/H.264, 720p–1080p, 5–15s loop. Op mobiel uitgeschakeld (batterij).
                 </div>
             </div>
 
@@ -5035,31 +5091,47 @@ async function applyActiveThemeFromServer() {
 function applyTheme() {
     const accentColor = localStorage.getItem('hobbithole_accent') || '#38bdf8';
     const transparency = localStorage.getItem('hobbithole_transparency') || '70';
-    // v1.9.1: wallpaper now cross-device synced via serverConfig.wallpaper (config-api)
-    const bgImage = (serverConfig && serverConfig.wallpaper) || localStorage.getItem('hobbithole_bg');
-    if (serverConfig && serverConfig.wallpaper) {
-        try { localStorage.setItem('hobbithole_bg', serverConfig.wallpaper); } catch (e) { /* quota — too big for localStorage but serverConfig has it */ }
+    // v1.9.10: static wallpaper = server URL ref (preferred) or local cache/URL
+    const bgImage = getStaticWallpaperUrl();
+    // Only cache light refs/URLs in localStorage — never multi-MB data: URLs
+    if (bgImage && !bgImage.startsWith('data:') && bgImage.length < 2048) {
+        try { localStorage.setItem('hobbithole_bg', bgImage); } catch (e) { /* quota */ }
     }
 
     document.documentElement.style.setProperty('--accent-color', accentColor);
     document.documentElement.style.setProperty('--card-transparency', transparency / 100);
 
-    // v1.8.6: dynamic wallpaper wins over static if enabled and has at least one image
-    const dynamicApplied = applyDynamicWallpaper();
-    if (!dynamicApplied) {
-        if (bgImage) {
-            document.body.style.backgroundImage = `url('${bgImage}')`;
-        } else {
-            document.body.style.backgroundImage = 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)';
+    // Live video wins; then dynamic slots; then static image
+    if (ff('liveWallpaper') && liveWallpaperEnabled() && getLiveWallpaperUrl() && !isMobile()) {
+        // video layer handles wallpaper-active; keep body gradient/static under it
+        document.body.style.backgroundImage = bgImage
+            ? `url('${bgImage}')`
+            : 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)';
+    } else {
+        const dynamicApplied = applyDynamicWallpaper();
+        if (!dynamicApplied) {
+            if (bgImage) {
+                document.body.style.backgroundImage = `url('${bgImage}')`;
+            } else {
+                document.body.style.backgroundImage = 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)';
+                if (!anyWallpaperActive()) document.body.classList.remove('wallpaper-active');
+            }
         }
     }
     // bg-preview in Settings always shows the static image as reference
-    if (bgImage) {
-        document.getElementById('bg-preview').style.backgroundImage = `url('${bgImage}')`;
-        document.getElementById('bg-preview').textContent = '';
+    const bgPreview = document.getElementById('bg-preview');
+    if (bgPreview) {
+        if (bgImage) {
+            bgPreview.style.backgroundImage = `url('${bgImage}')`;
+            bgPreview.textContent = '';
+        } else {
+            bgPreview.style.backgroundImage = '';
+            bgPreview.textContent = t('settings.noBackground', 'Geen achtergrond');
+        }
     }
     // Kick off the per-minute slot-rotation watcher (idempotent)
     startDynamicWallpaperLoop();
+    updateWallpaperSyncStatus();
 
     // Update accent preview
     const accentPreview = document.getElementById('accent-preview');
@@ -5074,6 +5146,70 @@ function applyTheme() {
     const transpValue = document.getElementById('transparency-value');
     if (transpSlider) transpSlider.value = transparency;
     if (transpValue) transpValue.textContent = transparency + '%';
+}
+
+/** True when config-api answered (even if empty). False = offline/fallback defaults only. */
+function hasConfigApi() {
+    return !!(serverConfig && typeof serverConfig === 'object' && !serverConfig._offline);
+}
+
+function getStaticWallpaperUrl() {
+    if (serverConfig && typeof serverConfig.wallpaper === 'string' && serverConfig.wallpaper
+        && !serverConfig.wallpaper.startsWith('data:')) {
+        return serverConfig.wallpaper;
+    }
+    // legacy local (may be data: — still show on this device)
+    return localStorage.getItem('hobbithole_bg') || null;
+}
+
+function updateWallpaperSyncStatus() {
+    const el = document.getElementById('wallpaper-sync-status');
+    if (!el) return;
+    if (hasConfigApi()) {
+        el.textContent = t('settings.wallpaperSynced', '✅ Gesynchroniseerd via config-api (alle apparaten)');
+        el.style.color = 'var(--accent-color)';
+    } else {
+        el.textContent = t('settings.wallpaperLocalOnly', '⚠️ Alleen dit apparaat — config-api offline of niet bereikbaar');
+        el.style.color = '#f59e0b';
+    }
+}
+
+/** dataURL → Blob for binary upload to /api/wallpapers */
+function dataUrlToBlob(dataUrl) {
+    const parts = String(dataUrl).split(',');
+    if (parts.length < 2) throw new Error('invalid data URL');
+    const mime = (parts[0].match(/:(.*?);/) || [])[1] || 'application/octet-stream';
+    const bin = atob(parts[1]);
+    const arr = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+    return new Blob([arr], { type: mime });
+}
+
+/**
+ * Upload binary media to config-api. slot: static | live | dynamic-0..4
+ * Returns public URL e.g. /api/wallpapers/static.jpg?v=…
+ */
+async function uploadWallpaperBlob(slot, blob, contentType) {
+    const mime = contentType || blob.type || 'application/octet-stream';
+    const res = await fetch('/api/wallpapers/' + encodeURIComponent(slot), {
+        method: 'POST',
+        headers: { 'Content-Type': mime },
+        body: blob
+    });
+    let data = null;
+    try { data = await res.json(); } catch (_) {}
+    if (!res.ok) {
+        const msg = (data && (data.message || data.error)) || `HTTP ${res.status}`;
+        throw new Error(msg);
+    }
+    if (!data || !data.url) throw new Error('upload_no_url');
+    return data.url;
+}
+
+async function deleteWallpaperSlot(slot) {
+    try {
+        await fetch('/api/wallpapers/' + encodeURIComponent(slot), { method: 'DELETE' });
+    } catch (_) { /* best-effort */ }
 }
 
 function previewAccentColor(color) {
@@ -5092,50 +5228,97 @@ function previewTransparency(value) {
     document.getElementById('transparency-value').textContent = value + '%';
 }
 
-function uploadBackground(input) {
+async function uploadBackground(input) {
     const file = input.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const dataUrl = e.target.result;
-            document.body.style.backgroundImage = `url('${dataUrl}')`;
-            document.getElementById('bg-preview').style.backgroundImage = `url('${dataUrl}')`;
-            document.getElementById('bg-preview').textContent = '';
-            localStorage.setItem('hobbithole_bg', dataUrl);
-            if (serverConfig) { serverConfig.wallpaper = dataUrl; saveServerConfig(); }
-            showToast(t('toast.backgroundUploaded', 'Achtergrond geüpload'), 'success');
-        };
-        reader.readAsDataURL(file);
+    if (!file) return;
+    const sizeMB = file.size / (1024 * 1024);
+    if (sizeMB > 50) {
+        showToast(`Image is ${sizeMB.toFixed(1)}MB — te groot. Resize eerst handmatig.`, 'error');
+        input.value = '';
+        return;
     }
+    showToast(t('toast.compressing', 'Comprimeren…'), 'info');
+    try {
+        const { dataUrl, width, height } = await compressImageForWallpaper(file);
+        const blob = dataUrlToBlob(dataUrl);
+        let url = null;
+        if (hasConfigApi()) {
+            url = await uploadWallpaperBlob('static', blob, 'image/jpeg');
+            serverConfig.wallpaper = url;
+            await saveServerConfig();
+            try { localStorage.setItem('hobbithole_bg', url); } catch (_) {}
+        } else {
+            // Offline fallback: local only (legacy)
+            url = dataUrl;
+            try { localStorage.setItem('hobbithole_bg', dataUrl); } catch (e) {
+                showToast(`Opslaan mislukt: ${e.message}`, 'error');
+                input.value = '';
+                return;
+            }
+        }
+        if (!dynamicWallpaperEnabled() && !(ff('liveWallpaper') && liveWallpaperEnabled() && getLiveWallpaperUrl() && !isMobile())) {
+            document.body.style.backgroundImage = `url('${url}')`;
+        }
+        const bgPreview = document.getElementById('bg-preview');
+        if (bgPreview) {
+            bgPreview.style.backgroundImage = `url('${url}')`;
+            bgPreview.textContent = '';
+        }
+        updateWallpaperSyncStatus();
+        showToast(`${t('toast.backgroundUploaded', 'Achtergrond geüpload')} (${width}×${height})`, 'success');
+    } catch (e) {
+        showToast(`Upload mislukt: ${e.message}`, 'error');
+    }
+    input.value = '';
 }
 
-function promptBackgroundUrl() {
+async function promptBackgroundUrl() {
     const url = prompt(t('settings.enterBackgroundUrl', 'Voer de URL van de achtergrondafbeelding in:'));
-    if (url) {
-        document.body.style.backgroundImage = `url('${url}')`;
-        document.getElementById('bg-preview').style.backgroundImage = `url('${url}')`;
-        document.getElementById('bg-preview').textContent = '';
-        localStorage.setItem('hobbithole_bg', url);
-        if (serverConfig) { serverConfig.wallpaper = url; saveServerConfig(); }
-        showToast(t('toast.backgroundSet', 'Achtergrond ingesteld'), 'success');
+    if (!url) return;
+    try { localStorage.setItem('hobbithole_bg', url); } catch (_) {}
+    if (serverConfig) {
+        serverConfig.wallpaper = url;
+        await saveServerConfig();
     }
+    if (!dynamicWallpaperEnabled()) {
+        document.body.style.backgroundImage = `url('${url}')`;
+    }
+    const bgPreview = document.getElementById('bg-preview');
+    if (bgPreview) {
+        bgPreview.style.backgroundImage = `url('${url}')`;
+        bgPreview.textContent = '';
+    }
+    updateWallpaperSyncStatus();
+    showToast(t('toast.backgroundSet', 'Achtergrond ingesteld'), 'success');
 }
 
-function resetBackground() {
+async function resetBackground() {
     localStorage.removeItem('hobbithole_bg');
-    if (serverConfig) { serverConfig.wallpaper = null; saveServerConfig(); }
-    document.body.style.backgroundImage = 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)';
-    document.getElementById('bg-preview').style.backgroundImage = '';
-    document.getElementById('bg-preview').textContent = t('settings.noBackground', 'Geen achtergrond');
+    if (hasConfigApi()) {
+        await deleteWallpaperSlot('static');
+        if (serverConfig) {
+            serverConfig.wallpaper = null;
+            await saveServerConfig();
+        }
+    } else if (serverConfig) {
+        serverConfig.wallpaper = null;
+        await saveServerConfig();
+    }
+    if (!dynamicWallpaperEnabled() && !(ff('liveWallpaper') && liveWallpaperEnabled() && getLiveWallpaperUrl())) {
+        document.body.style.backgroundImage = 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)';
+    }
+    const bgPreview = document.getElementById('bg-preview');
+    if (bgPreview) {
+        bgPreview.style.backgroundImage = '';
+        bgPreview.textContent = t('settings.noBackground', 'Geen achtergrond');
+    }
     showToast(t('toast.backgroundRemoved', 'Achtergrond verwijderd'), 'success');
 }
 
-// ===== v1.8.6: DYNAMIC WALLPAPER (macOS Dynamic Desktop style) =====
-// 5 time slots, each holding an image (base64 dataURL in localStorage). Active slot
-// is picked from the current hour; if that slot is empty, falls back to nearest non-empty.
-// Storage:
-//   hobbithole_bg_dynamic_enabled = 'true'/'false'
-//   hobbithole_bg_dynamic_slots   = JSON array of 5 strings (dataURL or null)
+// ===== v1.8.6 / v1.9.10: DYNAMIC WALLPAPER (macOS Dynamic Desktop style) =====
+// 5 time slots. Server source of truth: serverConfig.dynamicWallpaper = { enabled, slots[5] }
+// slots hold light URLs (/api/wallpapers/dynamic-N.jpg) — never multi-MB base64 in config.json.
+// Fallback: localStorage (legacy data URLs) when config-api offline.
 const DYNAMIC_WALLPAPER_SLOTS = [
     { key: 'sunrise', emoji: '🌅', label: 'Sunrise', startHour: 5,  endHour: 9  },
     { key: 'day',     emoji: '☀️', label: 'Day',     startHour: 9,  endHour: 17 },
@@ -5147,28 +5330,80 @@ const DYNAMIC_SLOTS_KEY    = 'hobbithole_bg_dynamic_slots';
 const DYNAMIC_ENABLED_KEY  = 'hobbithole_bg_dynamic_enabled';
 const DYNAMIC_SLOT_QUOTA_MB = 1.5; // per-slot soft cap (warning above this)
 
+function ensureDynamicWallpaperConfig() {
+    if (!serverConfig) return null;
+    if (!serverConfig.dynamicWallpaper || typeof serverConfig.dynamicWallpaper !== 'object') {
+        serverConfig.dynamicWallpaper = { enabled: false, slots: [null, null, null, null, null] };
+    }
+    if (!Array.isArray(serverConfig.dynamicWallpaper.slots)) {
+        serverConfig.dynamicWallpaper.slots = [null, null, null, null, null];
+    }
+    while (serverConfig.dynamicWallpaper.slots.length < 5) serverConfig.dynamicWallpaper.slots.push(null);
+    return serverConfig.dynamicWallpaper;
+}
+
 function getDynamicSlots() {
+    // Prefer server URLs (and ignore legacy server-side data: blobs)
+    if (serverConfig && serverConfig.dynamicWallpaper && Array.isArray(serverConfig.dynamicWallpaper.slots)) {
+        const serverSlots = [0, 1, 2, 3, 4].map(i => {
+            const v = serverConfig.dynamicWallpaper.slots[i];
+            if (typeof v === 'string' && v && !v.startsWith('data:')) return v;
+            return null;
+        });
+        if (serverSlots.some(Boolean)) return serverSlots;
+        // server present but empty — fall through to local only if no server refs yet
+        if (serverSlots.every(s => s === null) && hasConfigApi()) {
+            // still allow local fallback during migration window
+        }
+    }
     try {
         const raw = localStorage.getItem(DYNAMIC_SLOTS_KEY);
         if (!raw) return [null, null, null, null, null];
         const arr = JSON.parse(raw);
         if (!Array.isArray(arr)) return [null, null, null, null, null];
-        // Pad/truncate to 5 entries
         return [0, 1, 2, 3, 4].map(i => arr[i] || null);
     } catch { return [null, null, null, null, null]; }
 }
 
-function setDynamicSlot(index, dataUrl) {
-    const slots = getDynamicSlots();
-    slots[index] = dataUrl;
-    try {
-        localStorage.setItem(DYNAMIC_SLOTS_KEY, JSON.stringify(slots));
-        return true;
-    } catch (e) {
-        // Quota — try to free room or fail loud
-        showToast(`Opslaan mislukt: ${e.message}. Probeer een kleinere image of verwijder een andere slot.`, 'error');
+/** Persist light slot URL refs on server + optional local cache of URLs only. */
+async function setDynamicSlot(index, urlOrNull) {
+    if (urlOrNull && String(urlOrNull).startsWith('data:')) {
+        // Never write multi-MB base64 into config.json
+        showToast('Interne fout: data-URL mag niet in server-config. Upload opnieuw.', 'error');
         return false;
     }
+    const slots = getDynamicSlots().map((s, i) => (i === index ? urlOrNull : s));
+    // Prefer server slots as base when present
+    if (serverConfig && serverConfig.dynamicWallpaper && Array.isArray(serverConfig.dynamicWallpaper.slots)) {
+        for (let i = 0; i < 5; i++) {
+            if (i === index) continue;
+            const v = serverConfig.dynamicWallpaper.slots[i];
+            if (typeof v === 'string' && v && !v.startsWith('data:')) slots[i] = v;
+        }
+        slots[index] = urlOrNull;
+    }
+    try {
+        const light = slots.map(s => (s && !String(s).startsWith('data:') && String(s).length < 2048) ? s : null);
+        localStorage.setItem(DYNAMIC_SLOTS_KEY, JSON.stringify(light));
+    } catch (_) { /* quota — server is source of truth */ }
+    if (serverConfig) {
+        const dyn = ensureDynamicWallpaperConfig();
+        dyn.slots = lightSlotsOrNulls(slots);
+        const ok = await saveServerConfig();
+        if (!ok) {
+            showToast('Opslaan op server mislukt', 'error');
+            return false;
+        }
+    }
+    return true;
+}
+
+function lightSlotsOrNulls(slots) {
+    return [0, 1, 2, 3, 4].map(i => {
+        const s = slots[i];
+        if (typeof s === 'string' && s && !s.startsWith('data:') && s.length < 2048) return s;
+        return null;
+    });
 }
 
 function getCurrentTimeSlotIndex() {
@@ -5200,16 +5435,20 @@ function pickDynamicWallpaperImage() {
 }
 
 function dynamicWallpaperEnabled() {
+    if (serverConfig && serverConfig.dynamicWallpaper && typeof serverConfig.dynamicWallpaper.enabled === 'boolean') {
+        return serverConfig.dynamicWallpaper.enabled;
+    }
     return localStorage.getItem(DYNAMIC_ENABLED_KEY) === 'true';
 }
 
 function applyDynamicWallpaper() {
     if (!dynamicWallpaperEnabled()) return false;
+    // Live video takes visual priority when active
+    if (ff('liveWallpaper') && liveWallpaperEnabled() && getLiveWallpaperUrl() && !isMobile()) return false;
     const img = pickDynamicWallpaperImage();
     if (!img) return false;
     document.body.style.backgroundImage = `url('${img}')`;
     // Suppress the cinematic day/night gradient so only weather particles composite over the image.
-    // Same mechanism the live wallpaper uses (#weather-cinematic gets display:none via this class).
     document.body.classList.add('wallpaper-active');
     return true;
 }
@@ -5217,16 +5456,22 @@ function applyDynamicWallpaper() {
 // Helper: is *any* wallpaper layer currently showing? Used to decide whether to
 // drop the wallpaper-active class (which suppresses the cinematic gradient).
 function anyWallpaperActive() {
-    const liveOn = ff('liveWallpaper') && liveWallpaperEnabled() && !isMobile() && localStorage.getItem(LIVE_WALLPAPER_KEY);
+    // Only layers that take over the sky (suppress cinematic gradient)
+    const liveOn = ff('liveWallpaper') && liveWallpaperEnabled() && !isMobile() && getLiveWallpaperUrl();
     const dynOn = dynamicWallpaperEnabled() && pickDynamicWallpaperImage();
     return !!(liveOn || dynOn);
 }
 
-function toggleDynamicWallpaper() {
+async function toggleDynamicWallpaper() {
     const cb = document.getElementById('setting-dynamic-wallpaper-enabled');
     if (!cb) return;
     const enabled = cb.checked;
-    localStorage.setItem(DYNAMIC_ENABLED_KEY, enabled ? 'true' : 'false');
+    try { localStorage.setItem(DYNAMIC_ENABLED_KEY, enabled ? 'true' : 'false'); } catch (_) {}
+    if (serverConfig) {
+        const dyn = ensureDynamicWallpaperConfig();
+        dyn.enabled = enabled;
+        await saveServerConfig();
+    }
     if (enabled) {
         const applied = applyDynamicWallpaper();
         if (!applied) {
@@ -5236,13 +5481,17 @@ function toggleDynamicWallpaper() {
         }
     } else {
         // Restore static bg if user has one
-        const staticBg = localStorage.getItem('hobbithole_bg');
+        const staticBg = getStaticWallpaperUrl();
         document.body.style.backgroundImage = staticBg ? `url('${staticBg}')` : 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)';
-        // Only drop wallpaper-active if NO other wallpaper layer is on (e.g. live video)
-        if (!anyWallpaperActive()) document.body.classList.remove('wallpaper-active');
+        if (!anyWallpaperActive() || !staticBg) {
+            if (!(ff('liveWallpaper') && liveWallpaperEnabled() && getLiveWallpaperUrl() && !isMobile())) {
+                if (!staticBg) document.body.classList.remove('wallpaper-active');
+            }
+        }
         showToast('Dynamische achtergrond uitgeschakeld', 'success');
     }
     renderDynamicWallpaperSlots();
+    updateWallpaperSyncStatus();
 }
 
 function renderDynamicWallpaperSlots() {
@@ -5305,43 +5554,76 @@ async function uploadDynamicSlot(index, input) {
     const file = input.files[0];
     if (!file) return;
     const sizeMB = file.size / (1024 * 1024);
-    // Hard upper bound — prevent loading insane images that might OOM the decoder
     if (sizeMB > 50) {
         showToast(`Image is ${sizeMB.toFixed(1)}MB — veel te groot. Resize eerst handmatig.`, 'error');
         input.value = '';
         return;
     }
-    const statusEl = document.getElementById('dynamic-wallpaper-slots');
-    showToast(`Comprimeren… ${sizeMB.toFixed(1)}MB → optimaliseren naar JPEG`, 'info');
+    showToast(`Comprimeren… ${sizeMB.toFixed(1)}MB → JPEG`, 'info');
     try {
         const { dataUrl, width, height } = await compressImageForWallpaper(file);
-        const finalMB = (dataUrl.length / 1024 / 1024);
-        const ok = setDynamicSlot(index, dataUrl);
+        const blob = dataUrlToBlob(dataUrl);
+        const finalMB = blob.size / (1024 * 1024);
+        let url;
+        if (hasConfigApi()) {
+            url = await uploadWallpaperBlob(`dynamic-${index}`, blob, 'image/jpeg');
+        } else {
+            // Offline: keep compressed dataURL locally only
+            url = dataUrl;
+            try {
+                const slots = getDynamicSlots();
+                slots[index] = dataUrl;
+                localStorage.setItem(DYNAMIC_SLOTS_KEY, JSON.stringify(slots));
+            } catch (e) {
+                showToast(`Opslaan mislukt: ${e.message}`, 'error');
+                input.value = '';
+                return;
+            }
+        }
+        const ok = hasConfigApi() ? await setDynamicSlot(index, url) : true;
         if (!ok) {
-            // setDynamicSlot already toasted the storage error
             input.value = '';
             return;
         }
+        if (!hasConfigApi()) {
+            // already saved local above
+        }
         renderDynamicWallpaperSlots();
         if (dynamicWallpaperEnabled()) applyDynamicWallpaper();
+        updateWallpaperSyncStatus();
         showToast(`${DYNAMIC_WALLPAPER_SLOTS[index].emoji} ${DYNAMIC_WALLPAPER_SLOTS[index].label} ingesteld (${width}×${height}, ${finalMB.toFixed(2)}MB)`, 'success');
     } catch (e) {
-        showToast(`Compressie mislukt: ${e.message}`, 'error');
+        showToast(`Upload mislukt: ${e.message}`, 'error');
     }
     input.value = '';
 }
 
-function removeDynamicSlot(index) {
+async function removeDynamicSlot(index) {
     if (!confirm(`${DYNAMIC_WALLPAPER_SLOTS[index].label} slot leegmaken?`)) return;
-    setDynamicSlot(index, null);
+    if (hasConfigApi()) await deleteWallpaperSlot(`dynamic-${index}`);
+    await setDynamicSlot(index, null);
+    // Also clear legacy local data for that index
+    try {
+        const slots = getDynamicSlots();
+        // getDynamicSlots may re-read server; force local array clear
+        const raw = localStorage.getItem(DYNAMIC_SLOTS_KEY);
+        if (raw) {
+            const arr = JSON.parse(raw);
+            if (Array.isArray(arr)) {
+                arr[index] = null;
+                localStorage.setItem(DYNAMIC_SLOTS_KEY, JSON.stringify(arr));
+            }
+        }
+    } catch (_) {}
     renderDynamicWallpaperSlots();
     if (dynamicWallpaperEnabled()) {
         const applied = applyDynamicWallpaper();
         if (!applied) {
-            // No images left — fall back to static
-            const staticBg = localStorage.getItem('hobbithole_bg');
+            const staticBg = getStaticWallpaperUrl();
             document.body.style.backgroundImage = staticBg ? `url('${staticBg}')` : 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)';
-            if (!anyWallpaperActive()) document.body.classList.remove('wallpaper-active');
+            if (!(ff('liveWallpaper') && liveWallpaperEnabled() && getLiveWallpaperUrl() && !isMobile()) && !staticBg) {
+                document.body.classList.remove('wallpaper-active');
+            }
         }
     }
 }
@@ -5362,80 +5644,131 @@ function startDynamicWallpaperLoop() {
     }, 60 * 1000); // every minute
 }
 
-// v1.8.4: live wallpaper upload/remove handlers (FF-gated, desktop only)
-function uploadLiveWallpaper(input) {
+// v1.8.4 / v1.9.10: live wallpaper — server file + light URL in config (GA, desktop only)
+async function uploadLiveWallpaper(input) {
     const file = input.files[0];
     if (!file) return;
-    // Browser quota guard — base64 is ~33% larger than raw. localStorage typically caps at 5–10MB.
-    const QUOTA_WARN_MB = 8;
-    const QUOTA_BLOCK_MB = 12;
+    const SERVER_MAX_MB = 20;
     const sizeMB = file.size / (1024 * 1024);
-    if (sizeMB > QUOTA_BLOCK_MB) {
-        showToast(`Video is ${sizeMB.toFixed(1)}MB — te groot voor localStorage. Re-encode tot <10MB.`, 'error');
+    if (sizeMB > SERVER_MAX_MB) {
+        showToast(`Video is ${sizeMB.toFixed(1)}MB — max ${SERVER_MAX_MB}MB. Re-encode korter/kleiner.`, 'error');
         input.value = '';
         return;
     }
-    if (sizeMB > QUOTA_WARN_MB && !confirm(`Video is ${sizeMB.toFixed(1)}MB — kan tegen browser-quota aanlopen. Doorgaan?`)) {
+    if (sizeMB > 12 && !confirm(`Video is ${sizeMB.toFixed(1)}MB — groot bestand. Doorgaan?`)) {
         input.value = '';
         return;
     }
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        try {
-            localStorage.setItem(LIVE_WALLPAPER_KEY, e.target.result);
-        } catch (err) {
-            showToast(`Upload mislukt: ${err.message}. Probeer een kleinere video.`, 'error');
-            return;
+    const mime = file.type || (file.name.endsWith('.webm') ? 'video/webm' : 'video/mp4');
+    showToast(`Video uploaden… ${sizeMB.toFixed(1)}MB`, 'info');
+    try {
+        let url;
+        if (hasConfigApi()) {
+            url = await uploadWallpaperBlob('live', file, mime);
+            if (!serverConfig.liveWallpaper || typeof serverConfig.liveWallpaper !== 'object') {
+                serverConfig.liveWallpaper = { enabled: true, url: null };
+            }
+            serverConfig.liveWallpaper.url = url;
+            serverConfig.liveWallpaper.enabled = true;
+            await saveServerConfig();
+            try { localStorage.setItem(LIVE_WALLPAPER_KEY, url); } catch (_) {}
+            try { localStorage.setItem(LIVE_WALLPAPER_ENABLED_KEY, 'true'); } catch (_) {}
+        } else {
+            // Offline fallback: base64 localStorage (legacy)
+            if (sizeMB > 12) {
+                showToast('Config-api offline — video te groot voor browser-opslag. Start config-api.', 'error');
+                input.value = '';
+                return;
+            }
+            url = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = () => reject(new Error('read failed'));
+                reader.readAsDataURL(file);
+            });
+            try { localStorage.setItem(LIVE_WALLPAPER_KEY, url); } catch (err) {
+                showToast(`Upload mislukt: ${err.message}`, 'error');
+                input.value = '';
+                return;
+            }
+            try { localStorage.setItem(LIVE_WALLPAPER_ENABLED_KEY, 'true'); } catch (_) {}
         }
         const statusEl = document.getElementById('live-wallpaper-status');
         if (statusEl) statusEl.textContent = `Video geladen (${sizeMB.toFixed(1)}MB) · ${file.name}`;
+        const cb = document.getElementById('setting-live-wallpaper-enabled');
+        if (cb) cb.checked = true;
         applyLiveWallpaper();
-        showToast('Live wallpaper geladen', 'success');
-    };
-    reader.readAsDataURL(file);
+        updateWallpaperSyncStatus();
+        showToast(t('toast.liveWallpaperLoaded', 'Live wallpaper geladen'), 'success');
+    } catch (e) {
+        showToast(`Upload mislukt: ${e.message}`, 'error');
+    }
+    input.value = '';
 }
 
-function removeLiveWallpaper() {
+async function removeLiveWallpaper() {
     localStorage.removeItem(LIVE_WALLPAPER_KEY);
+    if (hasConfigApi()) {
+        await deleteWallpaperSlot('live');
+        if (serverConfig) {
+            if (!serverConfig.liveWallpaper) serverConfig.liveWallpaper = { enabled: false, url: null };
+            serverConfig.liveWallpaper.url = null;
+            await saveServerConfig();
+        }
+    }
     const statusEl = document.getElementById('live-wallpaper-status');
-    if (statusEl) statusEl.textContent = 'Geen video ingesteld';
+    if (statusEl) statusEl.textContent = t('settings.liveWallpaperStatusNone', 'Geen video ingesteld');
     applyLiveWallpaper();
-    showToast('Live wallpaper verwijderd', 'success');
+    applyTheme();
+    showToast(t('toast.liveWallpaperRemoved', 'Live wallpaper verwijderd'), 'success');
 }
 
-// v1.8.6: enable/disable toggle without deleting the uploaded video
-function toggleLiveWallpaper() {
+async function toggleLiveWallpaper() {
     const cb = document.getElementById('setting-live-wallpaper-enabled');
     if (!cb) return;
-    localStorage.setItem(LIVE_WALLPAPER_ENABLED_KEY, cb.checked ? 'true' : 'false');
+    try { localStorage.setItem(LIVE_WALLPAPER_ENABLED_KEY, cb.checked ? 'true' : 'false'); } catch (_) {}
+    if (serverConfig) {
+        if (!serverConfig.liveWallpaper || typeof serverConfig.liveWallpaper !== 'object') {
+            serverConfig.liveWallpaper = { enabled: cb.checked, url: null };
+        } else {
+            serverConfig.liveWallpaper.enabled = cb.checked;
+        }
+        await saveServerConfig();
+    }
     applyLiveWallpaper();
+    if (!cb.checked) applyTheme(); // restore static/dynamic under video
     updateLiveWallpaperRow();
-    showToast(cb.checked ? 'Live wallpaper ingeschakeld' : 'Live wallpaper uitgeschakeld', 'success');
+    showToast(cb.checked
+        ? t('toast.liveWallpaperEnabled', 'Live wallpaper ingeschakeld')
+        : t('toast.liveWallpaperDisabled', 'Live wallpaper uitgeschakeld'), 'success');
 }
 
 function updateLiveWallpaperRow() {
-    // Hide entire row unless FF active. Don't hide it on mobile though — user may have
-    // configured it on desktop and we want them to know it's a thing.
+    // GA in v1.9.10 (liveWallpaper flag default true). Hide only if FF off.
     const row = document.getElementById('live-wallpaper-row');
     if (!row) return;
     row.style.display = ff('liveWallpaper') ? '' : 'none';
-    const stored = localStorage.getItem(LIVE_WALLPAPER_KEY);
+    const stored = getLiveWallpaperUrl();
     const enabled = liveWallpaperEnabled();
-    // Sync checkbox
     const cb = document.getElementById('setting-live-wallpaper-enabled');
     if (cb) cb.checked = enabled;
     const statusEl = document.getElementById('live-wallpaper-status');
     if (statusEl) {
         if (!stored) {
-            statusEl.textContent = 'Geen video ingesteld';
+            statusEl.textContent = t('settings.liveWallpaperStatusNone', 'Geen video ingesteld');
         } else if (isMobile()) {
             statusEl.textContent = 'Video geladen (uitgeschakeld op mobiel — alleen op desktop zichtbaar)';
         } else if (!enabled) {
             statusEl.textContent = 'Video geladen, uitgeschakeld';
         } else {
-            statusEl.textContent = 'Video actief';
+            statusEl.textContent = hasConfigApi()
+                ? 'Video actief · gesynchroniseerd'
+                : 'Video actief · alleen dit apparaat';
         }
     }
+    // Sync dynamic checkbox from server
+    const dynCb = document.getElementById('setting-dynamic-wallpaper-enabled');
+    if (dynCb) dynCb.checked = dynamicWallpaperEnabled();
 }
 
 function saveCustomizeSettings() {
@@ -5853,22 +6186,52 @@ function isSelfContainer(name) {
     return SELF_CONTAINERS.includes(clean);
 }
 
-// Match a tile to a running/stopped container by URL port.
+// Normalise a tile- or container-name for comparison: lowercase, drop separators.
+// "Copyparty" / "copy-party" / "copy_party" all become "copyparty".
+function normaliseContainerName(s) {
+    return String(s || '').toLowerCase().replace(/[\s._-]/g, '');
+}
+
+function containerDisplayName(c) {
+    return (c.Names && c.Names[0]) ? c.Names[0].replace(/^\//, '') : c.Id.slice(0, 12);
+}
+
+// Match a tile to a running/stopped container: first by URL port, then by name.
 // Returns { id, name, state } or null if no clear match.
 async function detectContainerForApp(app) {
-    if (!app || !app.url) return null;
-    const portMatch = String(app.url).match(/:(\d+)(?:\/|$)/);
-    if (!portMatch) return null;
-    const port = parseInt(portMatch[1], 10);
+    if (!app) return null;
     const containers = await fetchContainersAll();
     if (!containers || !Array.isArray(containers)) return null;
+
+    // 1. Poort-match — precies, en het enige dat twee tegels op dezelfde host uit elkaar houdt.
+    const portMatch = String(app.url || '').match(/:(\d+)(?:\/|$)/);
+    if (portMatch) {
+        const port = parseInt(portMatch[1], 10);
+        for (const c of containers) {
+            const hit = (c.Ports || []).find(p => p.PublicPort === port);
+            if (!hit) continue;
+            const name = containerDisplayName(c);
+            if (isSelfContainer(name)) return null; // safety: hide actions for self
+            return { id: c.Id, name, state: c.State /* running / exited / paused */ };
+        }
+    }
+
+    // 2. Naam-fallback. Nodig omdat stap 1 twee blinde vlekken heeft:
+    //    - Een GESTOPTE container heeft geen poortbindingen: Docker geeft `Ports: []` zodra hij
+    //      niet draait. Juist bij on-demand diensten (`restart: "no"`) verdween de start-knop dus
+    //      precies wanneer je hem nodig had. Gevonden 2026-08-05 met copyparty.
+    //    - Een tegel die via een domein gaat (NPM) heeft helemaal geen poort in de URL.
+    //    Match op containernaam óf op het compose-servicelabel; die staan allebei ook in de lijst
+    //    als de container uit staat. Vergelijking is exact na normalisatie, dus een tegel "Media"
+    //    pikt niet zomaar een willekeurige container op.
+    const want = normaliseContainerName(app.name);
+    if (!want) return null;
     for (const c of containers) {
-        const ports = c.Ports || [];
-        const hit = ports.find(p => p.PublicPort === port);
-        if (!hit) continue;
-        const name = (c.Names && c.Names[0]) ? c.Names[0].replace(/^\//, '') : c.Id.slice(0, 12);
-        if (isSelfContainer(name)) return null; // safety: hide actions for self
-        return { id: c.Id, name, state: c.State /* running / exited / paused */ };
+        const name = containerDisplayName(c);
+        const svc = (c.Labels && c.Labels['com.docker.compose.service']) || '';
+        if (normaliseContainerName(name) !== want && normaliseContainerName(svc) !== want) continue;
+        if (isSelfContainer(name)) return null;
+        return { id: c.Id, name, state: c.State };
     }
     return null;
 }
@@ -6300,15 +6663,152 @@ async function loadServerConfig() {
         const res = await fetch('/api/config', { cache: 'no-store' });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         serverConfig = await res.json();
+        delete serverConfig._offline;
     } catch (e) {
         console.log('Config load failed, using defaults:', e.message);
-        serverConfig = { weather: { enabled: false, lat: null, lon: null, name: null } };
+        serverConfig = { weather: { enabled: false, lat: null, lon: null, name: null }, _offline: true };
     }
     if (!serverConfig.weather) serverConfig.weather = { enabled: false, lat: null, lon: null, name: null };
     if (serverConfig.weather.name === undefined) serverConfig.weather.name = null;
     // One-time migrate canvas mode from per-origin localStorage → server (cross domain/IP/device)
     migrateCanvasModeFromLocalStorage();
+    // v1.9.10: migrate local wallpapers (data URLs / legacy) → server files + light refs
+    if (hasConfigApi()) {
+        try { await migrateWallpapersToServer(); } catch (e) {
+            console.log('Wallpaper migrate skipped:', e.message);
+        }
+    }
     return serverConfig;
+}
+
+/**
+ * One-shot: push localStorage wallpapers to /api/wallpapers when server has no media yet.
+ * Never stores multi-MB base64 in config.json.
+ */
+async function migrateWallpapersToServer() {
+    if (!hasConfigApi()) return;
+    let dirty = false;
+
+    // Static
+    const localBg = localStorage.getItem('hobbithole_bg');
+    const serverBg = serverConfig.wallpaper;
+    if ((!serverBg || String(serverBg).startsWith('data:')) && localBg) {
+        if (localBg.startsWith('data:')) {
+            try {
+                const blob = dataUrlToBlob(localBg);
+                // re-compress large legacy blobs via canvas if image
+                let uploadBlob = blob;
+                if (blob.type.startsWith('image/') && blob.size > 800 * 1024) {
+                    const file = new File([blob], 'bg.jpg', { type: blob.type });
+                    const { dataUrl } = await compressImageForWallpaper(file);
+                    uploadBlob = dataUrlToBlob(dataUrl);
+                }
+                const url = await uploadWallpaperBlob('static', uploadBlob, uploadBlob.type || 'image/jpeg');
+                serverConfig.wallpaper = url;
+                try { localStorage.setItem('hobbithole_bg', url); } catch (_) {}
+                dirty = true;
+            } catch (e) {
+                console.log('static wallpaper migrate failed:', e.message);
+            }
+        } else if (!serverBg) {
+            serverConfig.wallpaper = localBg;
+            dirty = true;
+        }
+    } else if (serverBg && String(serverBg).startsWith('data:')) {
+        // Server wrongly has data URL — try re-upload and replace
+        try {
+            const blob = dataUrlToBlob(serverBg);
+            const url = await uploadWallpaperBlob('static', blob, blob.type || 'image/jpeg');
+            serverConfig.wallpaper = url;
+            dirty = true;
+        } catch (e) {
+            serverConfig.wallpaper = null; // drop unusable payload
+            dirty = true;
+        }
+    }
+
+    // Dynamic slots
+    ensureDynamicWallpaperConfig();
+    let localSlots = [null, null, null, null, null];
+    try {
+        const raw = localStorage.getItem(DYNAMIC_SLOTS_KEY);
+        if (raw) {
+            const arr = JSON.parse(raw);
+            if (Array.isArray(arr)) localSlots = [0, 1, 2, 3, 4].map(i => arr[i] || null);
+        }
+    } catch (_) {}
+    const localDynOn = localStorage.getItem(DYNAMIC_ENABLED_KEY) === 'true';
+    if (typeof serverConfig.dynamicWallpaper.enabled !== 'boolean') {
+        serverConfig.dynamicWallpaper.enabled = localDynOn;
+        dirty = true;
+    }
+    for (let i = 0; i < 5; i++) {
+        const cur = serverConfig.dynamicWallpaper.slots[i];
+        const loc = localSlots[i];
+        if (cur && String(cur).startsWith('data:')) {
+            try {
+                const blob = dataUrlToBlob(cur);
+                const url = await uploadWallpaperBlob(`dynamic-${i}`, blob, 'image/jpeg');
+                serverConfig.dynamicWallpaper.slots[i] = url;
+                dirty = true;
+            } catch (_) {
+                serverConfig.dynamicWallpaper.slots[i] = null;
+                dirty = true;
+            }
+        } else if (!cur && loc) {
+            if (String(loc).startsWith('data:')) {
+                try {
+                    const blob = dataUrlToBlob(loc);
+                    const url = await uploadWallpaperBlob(`dynamic-${i}`, blob, blob.type || 'image/jpeg');
+                    serverConfig.dynamicWallpaper.slots[i] = url;
+                    dirty = true;
+                } catch (e) {
+                    console.log(`dynamic-${i} migrate failed:`, e.message);
+                }
+            } else {
+                serverConfig.dynamicWallpaper.slots[i] = loc;
+                dirty = true;
+            }
+        }
+    }
+    // Cache light server URLs locally
+    try {
+        localStorage.setItem(DYNAMIC_SLOTS_KEY, JSON.stringify(serverConfig.dynamicWallpaper.slots.map(s =>
+            (s && !String(s).startsWith('data:')) ? s : null
+        )));
+        localStorage.setItem(DYNAMIC_ENABLED_KEY, serverConfig.dynamicWallpaper.enabled ? 'true' : 'false');
+    } catch (_) {}
+
+    // Live video
+    if (!serverConfig.liveWallpaper || typeof serverConfig.liveWallpaper !== 'object') {
+        serverConfig.liveWallpaper = { enabled: true, url: null };
+    }
+    const localLive = localStorage.getItem(LIVE_WALLPAPER_KEY);
+    const localLiveOn = localStorage.getItem(LIVE_WALLPAPER_ENABLED_KEY);
+    if (typeof serverConfig.liveWallpaper.enabled !== 'boolean' && localLiveOn !== null) {
+        serverConfig.liveWallpaper.enabled = localLiveOn !== 'false';
+        dirty = true;
+    }
+    if (!serverConfig.liveWallpaper.url && localLive) {
+        if (localLive.startsWith('data:')) {
+            try {
+                const blob = dataUrlToBlob(localLive);
+                if (blob.size <= 20 * 1024 * 1024) {
+                    const url = await uploadWallpaperBlob('live', blob, blob.type || 'video/mp4');
+                    serverConfig.liveWallpaper.url = url;
+                    try { localStorage.setItem(LIVE_WALLPAPER_KEY, url); } catch (_) {}
+                    dirty = true;
+                }
+            } catch (e) {
+                console.log('live wallpaper migrate failed:', e.message);
+            }
+        } else {
+            serverConfig.liveWallpaper.url = localLive;
+            dirty = true;
+        }
+    }
+
+    if (dirty) await saveServerConfig();
 }
 
 /**
@@ -7613,52 +8113,147 @@ closeBtn.onclick = () => {
 
 // v1.8.2: changelog modal — "What's New" with auto-detected NEW badge.
 // CHANGELOG.md is baked into the dashboard image (COPY in Dockerfile) at /CHANGELOG.md
-const APP_VERSION = '1.9.10-dev';
+const APP_VERSION = '1.9.11-dev';
 
-// ===== RELEASE ANNOUNCEMENTS (v1.8.5) =====
-// First-run pop-up shown ONCE per user, per announcement id. Use this for big feature
-// reveals where a passive "✨ NEW" badge isn't enough (e.g. "Canvas mode is now generally
-// available — toggle in Settings"). Each entry has a stable `id` (never reuse) and gets
-// recorded in localStorage `hobbithole_dismissed_announcements` after dismissal.
+// ===== RELEASE ANNOUNCEMENTS (v1.8.5, hardened v1.9.10) =====
+// Big-feature popup — must show AT MOST ONCE. Past bug (weather backdrop): entry stayed
+// forever in the active list, only localStorage dismiss, no version expiry → kept returning
+// after cache clear / other origin / new browser. Rules now:
+//   • stable unique `id` (never reuse)
+//   • mark SEEN as soon as the modal is shown (not only on "Begrepen")
+//   • dismissed list: localStorage + serverConfig.dismissedAnnouncements (cross-device)
+//   • `expireAfter`: auto-dismiss without showing once app version >= this
+//   • max one popup per page session
+//   • retired entries stay in RETIRED_ANNOUNCEMENT_IDS so they never reappear
 //
-// Adding a new announcement: append a new object with a fresh `id`. Users who haven't
-// seen it yet will get the popup on next page load. Existing users who already passed
-// the version won't be retroactively bothered with old entries.
-//
-// Currently empty — the canvas mode FF-removal in v1.9.0 will be the first real entry.
-// To test the mechanism without an entry, append a temporary one and reload.
+// Enable a new one: append to RELEASE_ANNOUNCEMENTS with fresh id + expireAfter a few minors later.
 const RELEASE_ANNOUNCEMENTS = [
+    // v1.9.10: early Docker Hub installs sometimes lack config-api (~900 API vs ~1.8k dashboard pulls)
     {
-        id: 'cinematic-weather-ga-1.8.5',
-        version: '1.8.5',
-        icon: '☁️',
-        title: 'Animated weather backdrop is nu standaard aan',
-        body: 'Je dashboard heeft nu een Apple Weather-achtige achtergrond — sky kleur die meeloopt met het tijdstip, wolken die drijven, sterren \'s nachts. Past zich live aan aan het echte weer. <br><br>Niet je smaak? Uit te zetten via <strong>Settings → Customize → Cinematic backdrop</strong>.',
-        cta: { label: 'Open Settings', action: 'openSettings' }
+        id: 'config-api-required-1.9.10',
+        version: '1.9.10',
+        expireAfter: '1.9.14',
+        icon: '🔌',
+        title: 'Config API update required',
+        body:
+            'This dashboard release needs <strong>hobbithole-config-api</strong> on the same version as the dashboard.<br><br>' +
+            'Early installs sometimes only ran the dashboard image. Without the config API you lose cross-device sync, home widgets, themes, wallpapers and weather settings.<br><br>' +
+            '<code>docker pull piggyoriginal/hobbithole-config-api:latest</code><br>' +
+            'Then recreate/restart the <code>config-api</code> service (see compose on Docker Hub / GitHub).',
+        cta: { label: 'Open changelog', action: 'openChangelog' }
     },
 ];
 
-let _activeAnnouncement = null;
+// Never show these again (legacy noise). Still auto-marked dismissed on load.
+const RETIRED_ANNOUNCEMENT_IDS = [
+    'cinematic-weather-ga-1.8.5' // caused repeat popups; feature is GA and optional in Settings
+];
 
-function getDismissedAnnouncements() {
-    try { return JSON.parse(localStorage.getItem('hobbithole_dismissed_announcements') || '[]'); }
-    catch { return []; }
+let _activeAnnouncement = null;
+let _announcementShownThisSession = false;
+
+function cleanAppVersion() {
+    return String(typeof APP_VERSION === 'string' ? APP_VERSION : '0')
+        .replace(/-dev.*$/i, '')
+        .replace(/^v/i, '');
 }
 
-function markAnnouncementDismissed(id) {
+/** Compare dotted versions: -1 if a<b, 0 if equal, 1 if a>b */
+function compareSemver(a, b) {
+    const pa = String(a || '0').replace(/^v/i, '').split('.').map(n => parseInt(n, 10) || 0);
+    const pb = String(b || '0').replace(/^v/i, '').split('.').map(n => parseInt(n, 10) || 0);
+    const len = Math.max(pa.length, pb.length);
+    for (let i = 0; i < len; i++) {
+        const da = pa[i] || 0;
+        const db = pb[i] || 0;
+        if (da < db) return -1;
+        if (da > db) return 1;
+    }
+    return 0;
+}
+
+function getDismissedAnnouncements() {
+    let local = [];
+    try { local = JSON.parse(localStorage.getItem('hobbithole_dismissed_announcements') || '[]'); }
+    catch { local = []; }
+    if (!Array.isArray(local)) local = [];
+    const server = (serverConfig && Array.isArray(serverConfig.dismissedAnnouncements))
+        ? serverConfig.dismissedAnnouncements
+        : [];
+    return Array.from(new Set([...local, ...server].filter(Boolean)));
+}
+
+function markAnnouncementDismissed(id, { persistServer = true } = {}) {
+    if (!id) return;
     const seen = getDismissedAnnouncements();
     if (!seen.includes(id)) seen.push(id);
-    localStorage.setItem('hobbithole_dismissed_announcements', JSON.stringify(seen));
+    try { localStorage.setItem('hobbithole_dismissed_announcements', JSON.stringify(seen)); }
+    catch (_) { /* private mode / quota */ }
+    if (persistServer && serverConfig) {
+        serverConfig.dismissedAnnouncements = seen;
+        // fire-and-forget; local already set so reload won't re-show
+        if (typeof saveServerConfig === 'function') {
+            saveServerConfig().catch(() => {});
+        }
+    }
+}
+
+/** Silently retire old ids so they never pop again (cross-device when config saves). */
+function retireStaleAnnouncements() {
+    const appV = cleanAppVersion();
+    let changed = false;
+    for (const id of RETIRED_ANNOUNCEMENT_IDS) {
+        if (!getDismissedAnnouncements().includes(id)) {
+            markAnnouncementDismissed(id, { persistServer: false });
+            changed = true;
+        }
+    }
+    for (const a of RELEASE_ANNOUNCEMENTS) {
+        if (!a || !a.id) continue;
+        // Expired by version: user is past the window → never show
+        if (a.expireAfter && compareSemver(appV, a.expireAfter) >= 0) {
+            if (!getDismissedAnnouncements().includes(a.id)) {
+                markAnnouncementDismissed(a.id, { persistServer: false });
+                changed = true;
+            }
+        }
+    }
+    if (changed && serverConfig) {
+        serverConfig.dismissedAnnouncements = getDismissedAnnouncements();
+        if (typeof saveServerConfig === 'function') saveServerConfig().catch(() => {});
+    }
+}
+
+function isAnnouncementEligible(a, dismissed) {
+    if (!a || !a.id) return false;
+    if (RETIRED_ANNOUNCEMENT_IDS.includes(a.id)) return false;
+    if (dismissed.includes(a.id)) return false;
+    const appV = cleanAppVersion();
+    // Don't show before the release that introduced it
+    if (a.version && compareSemver(appV, a.version) < 0) return false;
+    // Don't show after expire window
+    if (a.expireAfter && compareSemver(appV, a.expireAfter) >= 0) return false;
+    return true;
 }
 
 function checkReleaseAnnouncements() {
+    if (_announcementShownThisSession) return;
+    if (_activeAnnouncement) return;
+    retireStaleAnnouncements();
     const dismissed = getDismissedAnnouncements();
-    const next = RELEASE_ANNOUNCEMENTS.find(a => a && a.id && !dismissed.includes(a.id));
+    const next = RELEASE_ANNOUNCEMENTS.find(a => isAnnouncementEligible(a, dismissed));
     if (next) showReleaseAnnouncement(next);
 }
 
 function showReleaseAnnouncement(announcement) {
+    if (_announcementShownThisSession) return;
     _activeAnnouncement = announcement;
+    _announcementShownThisSession = true;
+
+    // Critical: mark SEEN immediately so a refresh / crash / other origin race
+    // cannot re-queue the same popup. "Begrepen" only closes the UI.
+    markAnnouncementDismissed(announcement.id);
+
     const modal   = document.getElementById('release-announcement-modal');
     const verEl   = document.getElementById('release-announcement-version');
     const iconEl  = document.getElementById('release-announcement-icon');
@@ -7668,20 +8263,22 @@ function showReleaseAnnouncement(announcement) {
     if (!modal || !verEl || !titleEl || !bodyEl) return;
 
     verEl.textContent   = announcement.version ? `v${announcement.version}` : '';
-    iconEl.textContent  = announcement.icon || '✨';
+    if (iconEl) iconEl.textContent = announcement.icon || '';
     titleEl.textContent = announcement.title || '';
     bodyEl.innerHTML    = announcement.body || '';
 
-    if (announcement.cta && announcement.cta.label) {
-        ctaEl.style.display = '';
-        ctaEl.textContent = announcement.cta.label;
-        ctaEl.onclick = () => {
-            runAnnouncementAction(announcement.cta.action);
-            dismissReleaseAnnouncement();
-        };
-    } else {
-        ctaEl.style.display = 'none';
-        ctaEl.onclick = null;
+    if (ctaEl) {
+        if (announcement.cta && announcement.cta.label) {
+            ctaEl.style.display = '';
+            ctaEl.textContent = announcement.cta.label;
+            ctaEl.onclick = () => {
+                runAnnouncementAction(announcement.cta.action);
+                dismissReleaseAnnouncement();
+            };
+        } else {
+            ctaEl.style.display = 'none';
+            ctaEl.onclick = null;
+        }
     }
 
     modal.style.display = 'flex';
@@ -7691,11 +8288,11 @@ function dismissReleaseAnnouncement() {
     const modal = document.getElementById('release-announcement-modal');
     if (modal) modal.style.display = 'none';
     if (_activeAnnouncement && _activeAnnouncement.id) {
+        // Already marked on show; ensure local+server still have it
         markAnnouncementDismissed(_activeAnnouncement.id);
     }
     _activeAnnouncement = null;
-    // If there's another unseen announcement queued, show it next tick
-    setTimeout(checkReleaseAnnouncements, 250);
+    // Do NOT chain more popups in the same session — one is enough
 }
 
 // Known CTA actions — kept narrow on purpose (no arbitrary JS in announcements)
@@ -7703,8 +8300,12 @@ function runAnnouncementAction(action) {
     if (action === 'openSettings') {
         const trigger = document.getElementById('settings-trigger');
         if (trigger && typeof trigger.click === 'function') trigger.click();
+        return;
     }
-    // Future actions: 'openSettings-canvas', 'openChangelog', etc.
+    if (action === 'openChangelog') {
+        if (typeof openChangelogModal === 'function') openChangelogModal();
+        return;
+    }
 }
 
 function checkChangelogBadge() {
@@ -8466,10 +9067,9 @@ function startCinematicPhaseLoop() {
     }, 15 * 60 * 1000);
 }
 
-// ===== LIVE WALLPAPER (v1.8.4, behind feature flag) =====
-// Looped video as bottom-layer background. Stored as base64 dataURL in localStorage
-// (per-device, same constraint as image bg — see hobbithole_workflow memory).
-// Desktop only — auto-disabled on mobile to save battery/data.
+// ===== LIVE WALLPAPER (v1.8.4 local → v1.9.10 server files, GA) =====
+// Looped video as bottom-layer background. Server: /api/wallpapers/live.mp4 +
+// serverConfig.liveWallpaper = { enabled, url }. Desktop only (battery/data).
 const LIVE_WALLPAPER_KEY = 'hobbithole_live_wallpaper';
 const LIVE_WALLPAPER_ENABLED_KEY = 'hobbithole_live_wallpaper_enabled';
 const MOBILE_BREAKPOINT = 768;
@@ -8478,12 +9078,22 @@ function isMobile() {
     return window.innerWidth <= MOBILE_BREAKPOINT;
 }
 
+function getLiveWallpaperUrl() {
+    if (serverConfig && serverConfig.liveWallpaper && typeof serverConfig.liveWallpaper.url === 'string'
+        && serverConfig.liveWallpaper.url && !serverConfig.liveWallpaper.url.startsWith('data:')) {
+        return serverConfig.liveWallpaper.url;
+    }
+    return localStorage.getItem(LIVE_WALLPAPER_KEY) || null;
+}
+
 function liveWallpaperEnabled() {
-    // Default to TRUE if a video is uploaded (back-compat with v1.8.4 — users who
-    // uploaded already expect it to play). Explicit false in localStorage = off.
+    if (serverConfig && serverConfig.liveWallpaper && typeof serverConfig.liveWallpaper.enabled === 'boolean') {
+        return serverConfig.liveWallpaper.enabled;
+    }
+    // Default to TRUE if a video is uploaded (back-compat with v1.8.4)
     const flag = localStorage.getItem(LIVE_WALLPAPER_ENABLED_KEY);
     if (flag === 'false') return false;
-    return true; // 'true' or null both mean ON
+    return true; // 'true' or null both mean ON when a video exists
 }
 
 function applyLiveWallpaper() {
@@ -8493,26 +9103,30 @@ function applyLiveWallpaper() {
         el.classList.remove('active');
         el.removeAttribute('src');
         try { el.load(); } catch {}
-        document.body.classList.remove('wallpaper-active');
+        // Don't strip wallpaper-active if dynamic/static still need it
+        if (!dynamicWallpaperEnabled() || !pickDynamicWallpaperImage()) {
+            if (!getStaticWallpaperUrl()) document.body.classList.remove('wallpaper-active');
+        }
     };
     if (!ff('liveWallpaper') || isMobile() || !liveWallpaperEnabled()) {
         deactivate();
         return;
     }
-    const src = localStorage.getItem(LIVE_WALLPAPER_KEY);
+    const src = getLiveWallpaperUrl();
     if (!src) {
         deactivate();
         return;
     }
-    if (el.src !== src) {
-        el.src = src;
+    // Absolute path for relative /api/… URLs
+    const abs = src.startsWith('http') || src.startsWith('data:') || src.startsWith('blob:')
+        ? src
+        : new URL(src, window.location.origin).href;
+    if (el.src !== abs) {
+        el.src = abs;
         el.load();
-        // Some browsers reject autoplay on a src swap; nudge it
-        el.play().catch(() => { /* ignored — autoplay may be blocked, video still appears as a poster */ });
+        el.play().catch(() => { /* autoplay may be blocked */ });
     }
     el.classList.add('active');
-    // Tell the cinematic FX layer to skip its day/night gradient + sun/moon/stars
-    // so only the weather particles (clouds, rain, snow, lightning) composite over the video.
     document.body.classList.add('wallpaper-active');
 }
 
@@ -9508,7 +10122,7 @@ const CANVAS_TYPE_H = {
     iframe:      320,
     rss:         320,
     'app-widget': 240,
-    'weather-radar': 360
+    'weather-radar': 420
 };
 
 function defaultHeightFor(type) {
@@ -9655,6 +10269,7 @@ function attachCanvasDrag(blockEl, blockId) {
 // v1.8.0: change a block's size (s/m/l/xl/xxl) without re-rendering its body —
 // keeps Notes textarea focus, scroll positions, etc. intact.
 // v1.8.2: also updates inline width in canvas mode (was only updating CSS class which is overridden by absolute positioning).
+// v1.9.10: na size-wissel optionele def.onResize (radar canvas opnieuw painten i.p.v. CSS-stretch).
 function setStandaloneBlockSize(blockId, size) {
     if (!SIZE_VALUES.includes(size)) return;
     const layout = getHomeLayout();
@@ -9683,6 +10298,21 @@ function setStandaloneBlockSize(blockId, size) {
     }
 
     saveHomeLayout();
+
+    // Layout moet eerst settelen (nieuwe w/h) vóór canvas re-paint
+    const def = standaloneWidgetRegistry[block.type];
+    if (def && typeof def.onResize === 'function') {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                const body = el.querySelector('.standalone-block-body');
+                if (body) {
+                    try { def.onResize(block, body); } catch (e) {
+                        console.warn('[standalone onResize]', e);
+                    }
+                }
+            });
+        });
+    }
 }
 
 // Helper for widgets to persist their config back to the server (debounced)
@@ -10039,9 +10669,9 @@ registerStandaloneWidget('clock', {
     }
 });
 
-// ===== WEATHER RADAR WIDGET (v1.9.9) =====
+// ===== WEATHER RADAR WIDGET (v1.9.9, polish v1.9.10) =====
 // Hergebruikt paintRadarView / Weerenradar overlays — zelfde engine als Live Radar in de weer-kaart.
-const _weatherRadarWidgetState = new Map(); // blockId → { layerMode, zoom, seq }
+const _weatherRadarWidgetState = new Map(); // blockId → { layerMode, zoom, seq, lastW, lastH, ro, resizeTimer }
 
 function getWeatherRadarWidgetState(block) {
     const cfg = (block && block.config) || {};
@@ -10050,22 +10680,51 @@ function getWeatherRadarWidgetState(block) {
         st = {
             layerMode: RADAR_LAYERS[cfg.layer] ? cfg.layer : 'radar',
             zoom: Math.min(RADAR_ZOOM_MAX, Math.max(RADAR_ZOOM_MIN, parseInt(cfg.zoom, 10) || 7)),
-            seq: 0
+            seq: 0,
+            lastW: 0,
+            lastH: 0,
+            ro: null,
+            resizeTimer: null
         };
         _weatherRadarWidgetState.set(block.id, st);
     }
     return st;
 }
 
-async function paintWeatherRadarWidget(block, root) {
+function disconnectWeatherRadarResize(blockId) {
+    const st = _weatherRadarWidgetState.get(blockId);
+    if (!st) return;
+    if (st.resizeTimer) {
+        clearTimeout(st.resizeTimer);
+        st.resizeTimer = null;
+    }
+    if (st.ro) {
+        try { st.ro.disconnect(); } catch (_) {}
+        st.ro = null;
+    }
+}
+
+async function paintWeatherRadarWidget(block, root, opts) {
     if (!root || !block) return;
     const st = getWeatherRadarWidgetState(block);
-    const seq = ++st.seq;
+    const force = !!(opts && opts.force);
     const canvas = root.querySelector('canvas');
     const loadingEl = root.querySelector('.weather-radar-widget-loading');
     const mapEl = root.querySelector('.weather-radar-widget-map');
     const zoomLabel = root.querySelector('.radar-zoom-level');
     if (!canvas || !mapEl) return;
+
+    const w = Math.round(mapEl.clientWidth || 0);
+    const h = Math.round(mapEl.clientHeight || 0);
+    // Nog niet in layout (0×0) — wacht op ResizeObserver
+    if (w < 40 || h < 40) return;
+
+    // Skip redundant resize-paints (zelfde pixels + zelfde laag/zoom)
+    if (!force && st.lastW === w && st.lastH === h && st.lastLayer === st.layerMode && st.lastZoom === st.zoom) {
+        return;
+    }
+
+    const seq = ++st.seq;
 
     // Sync layer chips
     root.querySelectorAll('.weather-radar-widget-layers .radar-layer-btn').forEach(btn => {
@@ -10078,11 +10737,18 @@ async function paintWeatherRadarWidget(block, root) {
         loadingEl,
         layerMode: st.layerMode,
         zoom: st.zoom,
-        width: mapEl.clientWidth || 320,
-        height: mapEl.clientHeight || 280,
+        width: w,
+        height: h,
         isStale: () => seq !== st.seq,
         onZoomLabel: (z) => { if (zoomLabel) zoomLabel.textContent = String(z); }
     });
+
+    if (seq === st.seq) {
+        st.lastW = w;
+        st.lastH = h;
+        st.lastLayer = st.layerMode;
+        st.lastZoom = st.zoom;
+    }
 }
 
 function weatherRadarWidgetSetLayer(blockId, layer) {
@@ -10095,7 +10761,7 @@ function weatherRadarWidgetSetLayer(blockId, layer) {
     block.config = Object.assign({}, block.config || {}, { layer });
     // Persist layer choice (debounced-ish: fire and forget)
     saveHomeLayout();
-    if (root) paintWeatherRadarWidget(block, root);
+    if (root) paintWeatherRadarWidget(block, root, { force: true });
 }
 
 function weatherRadarWidgetZoom(blockId, delta) {
@@ -10109,29 +10775,40 @@ function weatherRadarWidgetZoom(blockId, delta) {
     st.zoom = next;
     block.config = Object.assign({}, block.config || {}, { zoom: String(next) });
     saveHomeLayout();
-    if (root) paintWeatherRadarWidget(block, root);
+    if (root) paintWeatherRadarWidget(block, root, { force: true });
 }
 
 function renderWeatherRadarWidget(block, container) {
+    // Oude ResizeObserver loskoppelen bij re-render
+    disconnectWeatherRadarResize(block.id);
+
     const st = getWeatherRadarWidgetState(block);
     const cfg = block.config || {};
-    const mapH = parseInt(cfg.height, 10) || 280;
+    const mapH = parseInt(cfg.height, 10);
+    // Alleen min-height uit config (canvas mode vult body; grid mode gebruikt size-CSS)
+    const mapStyle = (Number.isFinite(mapH) && mapH >= 120)
+        ? `min-height:${mapH}px`
+        : '';
 
     const layerBtns = [
-        { id: 'radar', label: '🌧️ Regen' },
-        { id: 'clouds', label: '☁️ Wolken' },
-        { id: 'temp', label: '🌡️ Temp' },
-        { id: 'gust', label: '💨 Wind' },
-        { id: 'lightning', label: '⚡ Bliksem' },
-        { id: 'weather', label: '📡 Weer' }
-    ].map(l => `<button type="button" class="radar-layer-btn${st.layerMode === l.id ? ' active' : ''}" data-layer="${l.id}" title="${l.label}">${l.label}</button>`).join('');
+        { id: 'radar', emoji: '🌧️', label: 'Regen' },
+        { id: 'clouds', emoji: '☁️', label: 'Wolken' },
+        { id: 'temp', emoji: '🌡️', label: 'Temp' },
+        { id: 'gust', emoji: '💨', label: 'Wind' },
+        { id: 'lightning', emoji: '⚡', label: 'Bliksem' },
+        { id: 'weather', emoji: '📡', label: 'Weer' }
+    ].map(l => {
+        const active = st.layerMode === l.id ? ' active' : '';
+        const title = `${l.emoji} ${l.label}`;
+        return `<button type="button" class="radar-layer-btn${active}" data-layer="${l.id}" title="${title}" aria-label="${title}"><span class="rl-emoji" aria-hidden="true">${l.emoji}</span><span class="rl-label">${l.label}</span></button>`;
+    }).join('');
 
     container.innerHTML = `
         <div class="weather-radar-widget" data-wr-block="${escapeHtmlSafe(block.id)}">
-            <div class="weather-radar-widget-layers" role="toolbar" aria-label="Kaartlagen">${layerBtns}</div>
-            <div class="weather-radar-widget-map" style="height:${mapH}px">
+            <div class="weather-radar-widget-map" style="${mapStyle}">
                 <canvas></canvas>
                 <div class="weather-radar-widget-loading">Kaart laden…</div>
+                <div class="weather-radar-widget-layers" role="toolbar" aria-label="Kaartlagen">${layerBtns}</div>
                 <div class="weather-radar-widget-zoom">
                     <button type="button" class="radar-zoom-btn" data-zoom="1" title="Inzoomen" aria-label="Inzoomen">+</button>
                     <span class="radar-zoom-level">${st.zoom}</span>
@@ -10142,6 +10819,7 @@ function renderWeatherRadarWidget(block, container) {
     `;
 
     const root = container.querySelector('.weather-radar-widget');
+    const mapEl = root.querySelector('.weather-radar-widget-map');
     root.querySelectorAll('.weather-radar-widget-layers .radar-layer-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -10157,13 +10835,29 @@ function renderWeatherRadarWidget(block, container) {
         });
     });
 
-    // Initial paint + auto-refresh (radar frames ~ elke 5–15 min)
-    paintWeatherRadarWidget(block, root);
+    // ResizeObserver: bij S/M/L of container-resize opnieuw painten (geen CSS-stretch)
+    if (typeof ResizeObserver !== 'undefined' && mapEl) {
+        st.ro = new ResizeObserver(() => {
+            if (st.resizeTimer) clearTimeout(st.resizeTimer);
+            st.resizeTimer = setTimeout(() => {
+                const layout = getHomeLayout();
+                const b = (layout.blocks || []).find(x => x.id === block.id);
+                const r = document.querySelector(`.weather-radar-widget[data-wr-block="${block.id}"]`);
+                if (b && r) paintWeatherRadarWidget(b, r);
+            }, 160);
+        });
+        st.ro.observe(mapEl);
+    }
+
+    // Initial paint na layout (dubbele rAF), plus auto-refresh ~5 min
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => paintWeatherRadarWidget(block, root, { force: true }));
+    });
     const handle = setInterval(() => {
         const layout = getHomeLayout();
         const b = (layout.blocks || []).find(x => x.id === block.id);
         const r = document.querySelector(`.weather-radar-widget[data-wr-block="${block.id}"]`);
-        if (b && r) paintWeatherRadarWidget(b, r);
+        if (b && r) paintWeatherRadarWidget(b, r, { force: true });
     }, 5 * 60 * 1000);
     _standaloneIntervals.set(block.id, handle);
 }
@@ -10171,8 +10865,8 @@ function renderWeatherRadarWidget(block, container) {
 registerStandaloneWidget('weather-radar', {
     label: '📡 Weer Radar',
     description: 'Live Weerenradar-kaart (regen, wolken, temp, wind, bliksem) op Home',
-    defaultH: 360,
-    defaultConfig: () => ({ layer: 'radar', zoom: '7', height: '280' }),
+    defaultH: 420,
+    defaultConfig: () => ({ layer: 'radar', zoom: '7', height: '' }),
     configSchema: [
         {
             key: 'layer',
@@ -10197,21 +10891,26 @@ registerStandaloneWidget('weather-radar', {
         },
         {
             key: 'height',
-            label: 'Kaarthoogte (px)',
+            label: 'Min. kaarthoogte (px, optioneel)',
             type: 'text',
-            placeholder: '280',
-            help: 'Hoogte van de kaart in de widget. Size S/L past ook iets aan via CSS.'
+            placeholder: 'auto',
+            help: 'Leeg = vult de widget (aanbevolen). Size S/M/L en canvas-hoogte bepalen de map. Vul alleen in als je een vaste minimumhoogte wilt.'
         }
     ],
     render(block, container) {
         // Reset instance state from saved config when re-rendering
+        disconnectWeatherRadarResize(block.id);
         _weatherRadarWidgetState.delete(block.id);
         renderWeatherRadarWidget(block, container);
     },
     refresh(block, container) {
         const root = container.querySelector('.weather-radar-widget');
-        if (root) return paintWeatherRadarWidget(block, root);
+        if (root) return paintWeatherRadarWidget(block, root, { force: true });
         return renderWeatherRadarWidget(block, container);
+    },
+    onResize(block, container) {
+        const root = container.querySelector('.weather-radar-widget');
+        if (root) return paintWeatherRadarWidget(block, root, { force: true });
     }
 });
 
@@ -12692,7 +13391,7 @@ function resetToDefaults() {
 // State persists in localStorage as `hobbithole_ff_<name>`.
 const FEATURE_FLAGS = {
     // cinematicWeather promoted to GA in v1.8.5 — toggled via Settings now, no FF needed
-    liveWallpaper:    false,  // v1.8.4 — video background under cinematic weather
+    liveWallpaper:    true,   // v1.9.10 GA — video background via config-api files
     themeEngine:      true,   // v1.9.0 — dynamic theme loading from server
     metricsP95:       true,   // v1.9.2 — p95 resource metrics benchmark
     usbManagement:    true    // v1.9.2 — USB & SSD management (eject flow)
@@ -12806,6 +13505,8 @@ async function updateP95Stats() {
     }
 
     // v1.9.3: auto-sync footer version with constant
+    // Lokaal: "1.9.10 (dev)" zodat je ziet waar je in werkt.
+    // Release: pre-build/push strippen -dev → APP_VERSION is schoon → users zien "1.9.10".
     const footerVer = document.getElementById('footer-version-text');
     if (footerVer) footerVer.textContent = APP_VERSION.replace('-dev', ' (dev)');
 
@@ -12816,6 +13517,11 @@ async function updateP95Stats() {
     // v1.8.1: smart wizard skip — load server config first so cross-browser visits
     // don't re-trigger onboarding when the user already has a populated dashboard server-side.
     if (!serverConfig) await loadServerConfig();
+    // v1.9.10: re-apply theme after server wallpaper refs + migration
+    applyTheme();
+    renderDynamicWallpaperSlots();
+    updateLiveWallpaperRow();
+    applyLiveWallpaper();
     // v1.9.0: Theme Engine initialization — runs AFTER loadServerConfig so the
     // active theme (serverConfig.themeId) can be applied cross-device, and the
     // picker shows the right active card.
@@ -12918,14 +13624,17 @@ async function updateP95Stats() {
         localStorage.removeItem('hobbithole_last_seen_version');
         history.replaceState(null, '', location.pathname); // strip hash so subsequent reloads don't keep resetting
     }
-    // v1.8.5: dev/test hack — visit #reset-announcements to clear seen-list so all popups re-fire
+    // Dev/test: #reset-announcements clears local + server seen-list (use sparingly)
     if (location.hash === '#reset-announcements') {
         localStorage.removeItem('hobbithole_dismissed_announcements');
+        if (serverConfig) {
+            serverConfig.dismissedAnnouncements = [];
+            if (typeof saveServerConfig === 'function') saveServerConfig().catch(() => {});
+        }
         history.replaceState(null, '', location.pathname);
     }
-    // v1.8.2: show NEW badge if user hasn't opened changelog for current version yet
     checkChangelogBadge();
-    // v1.8.5: first-run pop-up for feature announcements (canvas mode etc.) — shows once per id
+    // Hardened: at most one popup/session; mark seen on show; retire legacy ids (no more backdrop spam)
     checkReleaseAnnouncements();
     if (FEATURE_FLAGS.metricsP95) updateP95Stats();
 })();

@@ -1,8 +1,30 @@
 # Hobbithole Cinema Dashboard - Changelog
 
-## [v1.9.10-dev] - 2026-08-01
+## [v1.9.11-dev] - 2026-08-06
 ### In uitvoering (In Progress)
 - Nieuwe features voor de volgende release.
+
+## [v1.9.10] - 2026-08-06
+
+### Toegevoegd (Added)
+- **Achtergronden via config-api (cross-device)** — Statisch, dynamisch (5 slots) en live wallpaper worden als **bestanden** opgeslagen onder `/app/data/wallpapers/` via `POST /api/wallpapers/:slot`. `config.json` houdt alleen lichte URL-refs (`/api/wallpapers/static.jpg`). Domein/IP/browsers delen dezelfde look. Migratie: bestaande localStorage data-URLs worden eenmalig naar de server geüpload.
+- **Wallpaper sync-status** in Instellingen — “gesynchroniseerd” vs “alleen dit apparaat” als de config-api offline is.
+- **Release-popup config-api** — Melding `config-api-required-1.9.10` voor early installs zonder config-api (max 1×, hardened popup-systeem).
+- **Live wallpaper GA** — Feature flag standaard aan; video max ~20MB op de server (niet meer base64 in localStorage).
+
+### Opgelost (Fixed)
+- **Container-knoppen ontbraken op veel tegels** — Start/Stop/Herstart verscheen alleen als de host-poort uit de tegel-URL voorkwam in de poortenlijst van Docker. Die lijst is in drie gevallen leeg of onbruikbaar: bij een **gestopte** container (`Ports: []` — precies wanneer je Start nodig hebt), bij `network_mode: host` (jellyfin, home assistant, qbittorrent, scrypted, music-assistant hadden dus **nooit** knoppen) en bij een tegel die via een **domein** gaat en geen poort in de URL heeft. Er is nu een tweede stap: match op **containernaam** of op het compose-servicelabel, allebei ook beschikbaar als de container uit staat. De poort-match blijft eerst — die is preciezer als twee tegels naar dezelfde host wijzen. Zelf-bescherming (dashboard + config-api) ongewijzigd.
+- **Weer-radar widget: CSS-stretch bij size-wissel** — Bij S/M/L bleef de canvas op oude pixel-afmetingen staan en werd alleen opgerekt. Nu: `ResizeObserver` + `onResize` na size-change → volledige re-paint op de nieuwe breedte/hoogte (geen refresh meer nodig).
+- **Release-popup bleef terugkomen** — (meegenomen uit 1.9.9-build-1) belangrijke updates max 1×, meteen als gezien, cross-device dismiss + `expireAfter`.
+
+### Verbeterd (Changed)
+- **Weer-radar widget layout (large)** — Kaart vult de widget-body (geen lege dode zone onder de map in canvas mode). Layer-chips als overlay op de kaart (pill-stijl), zoom-controls strakker. Size S toont alleen emoji’s; M/L emoji + label. Optionele min-hoogte i.p.v. vaste `height` in config.
+- **Config POST guard** — Grote `data:`-URLs in config.json worden geweigerd (413); media hoort via `/api/wallpapers`.
+
+## [v1.9.9-build-1] - 2026-08-01
+
+### Opgelost (Fixed)
+- **Release-popup bleef terugkomen** — De weather-backdrop melding (v1.8.5) bleef bij sommige users steeds opnieuw verschijnen. Dat is verleden tijd: een belangrijke update of fix verschijnt nu **maximaal 1×**, wordt meteen als gezien gemarkeerd, en blijft daarna weg (ook na refresh, ander device of IP vs domein).
 
 ## [v1.9.9] - 2026-08-01
 
@@ -72,7 +94,6 @@
 ### Opgelost (Fixed)
 - **Dynamische Canvas Hoogte** — Probleem opgelost waarbij de widgets op de Home tab buiten de parent container overflowden en lagere elementen overlapten. De containerhoogte wordt nu dynamisch berekend en aangepast op basis van de widgetposities en -hoogtes (met behulp van een `ResizeObserver` en drag event listeners).
 - **Home Widgets Vertaling** — De titel en omschrijving van de "Home Widgets" sectie in de instellingen waren hardcoded in het Nederlands (inclusief incorrecte meertaligheid). Deze zijn nu overgezet naar het i18n-systeem (`data-i18n`) en netjes vertaald naar alle ondersteunde talen (NL, EN, DE, FR, ES), inclusief een grammaticale verbetering ("gesynchroniseerd tussen al je apparaten").
-
 
 ## [v1.9.3] - 2026-06-14
 ### Toegevoegd (Added)

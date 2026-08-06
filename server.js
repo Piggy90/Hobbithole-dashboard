@@ -53,6 +53,17 @@ app.post('/api/config', (req, res) => {
   if (!req.body || typeof req.body !== 'object') {
     return res.status(400).json({ error: 'invalid_body' });
   }
+  // v1.9.10: refuse multi-MB data-URLs in config.json — use /api/wallpapers files instead.
+  // Keeps config light and cross-device reliable (64kb JSON limit on this endpoint).
+  try {
+    const bad = findHeavyDataUrls(req.body);
+    if (bad) {
+      return res.status(413).json({
+        error: 'payload_too_large',
+        message: `Field "${bad}" contains a large data URL. Upload media via POST /api/wallpapers/:slot instead.`
+      });
+    }
+  } catch (_) { /* non-fatal */ }
   try {
     fs.writeFileSync(CONFIG_PATH, JSON.stringify(req.body, null, 2));
     res.json({ status: 'ok' });
@@ -60,6 +71,29 @@ app.post('/api/config', (req, res) => {
     res.status(500).json({ error: 'write_failed', message: err.message });
   }
 });
+
+/** Detect data:… base64 blobs that would bloat config.json (limit ~2KB inline). */
+function findHeavyDataUrls(obj, prefix = '') {
+  if (obj == null) return null;
+  if (typeof obj === 'string') {
+    if (obj.startsWith('data:') && obj.length > 2048) return prefix || 'value';
+    return null;
+  }
+  if (Array.isArray(obj)) {
+    for (let i = 0; i < obj.length; i++) {
+      const hit = findHeavyDataUrls(obj[i], `${prefix}[${i}]`);
+      if (hit) return hit;
+    }
+    return null;
+  }
+  if (typeof obj === 'object') {
+    for (const k of Object.keys(obj)) {
+      const hit = findHeavyDataUrls(obj[k], prefix ? `${prefix}.${k}` : k);
+      if (hit) return hit;
+    }
+  }
+  return null;
+}
 
 const { exec } = require('child_process');
 
@@ -331,6 +365,133 @@ app.post('/api/vmservice/action/:blockId', async (req, res) => {
     res.json({ status: 'ok', data: result });
   } catch (err) {
     res.status(500).json({ error: 'action_failed', message: err.message });
+  }
+});
+
+// === WALLPAPERS (v1.9.10) ===
+// Files under /app/data/wallpapers/; config.json only stores light refs
+// (e.g. "/api/wallpapers/static.jpg") — never multi-MB base64.
+const WALLPAPERS_DIR = path.join(DATA_DIR, 'wallpapers');
+if (!fs.existsSync(WALLPAPERS_DIR)) fs.mkdirSync(WALLPAPERS_DIR, { recursive: true });
+
+const WALLPAPER_SLOT_RE = /^(static|live|dynamic-[0-4])$/;
+const WALLPAPER_MIME = {
+  'image/jpeg': '.jpg',
+  'image/jpg': '.jpg',
+  'image/png': '.png',
+  'image/webp': '.webp',
+  'image/gif': '.gif',
+  'video/mp4': '.mp4',
+  'video/webm': '.webm'
+};
+const WALLPAPER_MAX = {
+  static: 4 * 1024 * 1024,      // compressed JPEG typically <1MB
+  live: 20 * 1024 * 1024,       // short loop video
+  'dynamic-0': 4 * 1024 * 1024,
+  'dynamic-1': 4 * 1024 * 1024,
+  'dynamic-2': 4 * 1024 * 1024,
+  'dynamic-3': 4 * 1024 * 1024,
+  'dynamic-4': 4 * 1024 * 1024
+};
+
+function wallpaperFilesForSlot(slot) {
+  try {
+    return fs.readdirSync(WALLPAPERS_DIR).filter(f =>
+      f === slot || f.startsWith(slot + '.')
+    );
+  } catch {
+    return [];
+  }
+}
+
+function clearWallpaperSlot(slot) {
+  for (const f of wallpaperFilesForSlot(slot)) {
+    try { fs.unlinkSync(path.join(WALLPAPERS_DIR, f)); } catch (_) {}
+  }
+}
+
+function publicWallpaperUrl(filename) {
+  // cache-bust so browsers pick up replacements immediately
+  try {
+    const st = fs.statSync(path.join(WALLPAPERS_DIR, filename));
+    return `/api/wallpapers/${filename}?v=${Math.floor(st.mtimeMs)}`;
+  } catch {
+    return `/api/wallpapers/${filename}`;
+  }
+}
+
+// GET /api/wallpapers/:file — serve uploaded media
+app.get('/api/wallpapers/:file', (req, res) => {
+  const file = path.basename(req.params.file || '');
+  if (!file || file.includes('..') || !/^[a-z0-9._-]+$/i.test(file)) {
+    return res.status(400).json({ error: 'invalid_file' });
+  }
+  const full = path.join(WALLPAPERS_DIR, file);
+  if (!full.startsWith(WALLPAPERS_DIR) || !fs.existsSync(full)) {
+    return res.status(404).json({ error: 'not_found' });
+  }
+  res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.sendFile(full);
+});
+
+// POST /api/wallpapers/:slot — raw body, Content-Type = image/* or video/*
+app.post(
+  '/api/wallpapers/:slot',
+  express.raw({ type: () => true, limit: '22mb' }),
+  (req, res) => {
+    const slot = req.params.slot;
+    if (!WALLPAPER_SLOT_RE.test(slot)) {
+      return res.status(400).json({ error: 'invalid_slot', message: 'Use static, live, or dynamic-0..4' });
+    }
+    const ctype = String(req.headers['content-type'] || '').split(';')[0].trim().toLowerCase();
+    const ext = WALLPAPER_MIME[ctype];
+    if (!ext) {
+      return res.status(415).json({
+        error: 'unsupported_media',
+        message: `Content-Type must be one of: ${Object.keys(WALLPAPER_MIME).join(', ')}`
+      });
+    }
+    if (slot === 'live' && !ctype.startsWith('video/')) {
+      return res.status(415).json({ error: 'unsupported_media', message: 'live slot requires video/*' });
+    }
+    if (slot !== 'live' && !ctype.startsWith('image/')) {
+      return res.status(415).json({ error: 'unsupported_media', message: 'image slots require image/*' });
+    }
+    const buf = Buffer.isBuffer(req.body) ? req.body : Buffer.from(req.body || []);
+    if (!buf.length) {
+      return res.status(400).json({ error: 'empty_body' });
+    }
+    const max = WALLPAPER_MAX[slot] || WALLPAPER_MAX.static;
+    if (buf.length > max) {
+      return res.status(413).json({
+        error: 'too_large',
+        message: `Max ${Math.round(max / (1024 * 1024))}MB for slot ${slot} (got ${(buf.length / (1024 * 1024)).toFixed(1)}MB)`
+      });
+    }
+    try {
+      clearWallpaperSlot(slot);
+      const filename = `${slot}${ext}`;
+      fs.writeFileSync(path.join(WALLPAPERS_DIR, filename), buf);
+      const url = publicWallpaperUrl(filename);
+      console.log(`[wallpapers] saved ${filename} (${buf.length} bytes)`);
+      res.json({ status: 'ok', slot, filename, url, bytes: buf.length });
+    } catch (err) {
+      res.status(500).json({ error: 'write_failed', message: err.message });
+    }
+  }
+);
+
+// DELETE /api/wallpapers/:slot
+app.delete('/api/wallpapers/:slot', (req, res) => {
+  const slot = req.params.slot;
+  if (!WALLPAPER_SLOT_RE.test(slot)) {
+    return res.status(400).json({ error: 'invalid_slot' });
+  }
+  try {
+    clearWallpaperSlot(slot);
+    res.json({ status: 'ok', slot });
+  } catch (err) {
+    res.status(500).json({ error: 'delete_failed', message: err.message });
   }
 });
 
