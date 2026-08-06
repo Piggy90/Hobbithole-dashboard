@@ -4,9 +4,11 @@
 
 A blazing fast, responsive, self‑configuring dashboard for your homelab. Smart Docker auto‑detection, a cinematic weather widget, and **cross‑device settings sync** via a tiny config API.
 
-> **v1.9.5** — **High-Quality Media Showcase**: Added a high-quality animated dashboard showcase GIF and detailed screenshots (Home, Weather, Themes) generated via the new automated Playwright & FFmpeg pipeline in Webtop.
+> **v1.9.10** — **Cross-device wallpapers** (static / dynamic 5-slot / live video) stored as files on the config-api; **smarter container Start/Stop/Restart** (works for stopped containers, host-network apps, and domain tiles); live weather radar polish; release popup hardened (shows at most once).
 >
-> Previously in **v1.9.4**: VM & Service Control and floating language switcher. **v1.9.3**: Universal USB Eject & version auto-sync.
+> Previously in **v1.9.9**: Weerenradar + global RainViewer, home weather-radar widget, canvas mode on server. **v1.9.5**: media showcase. **v1.9.4**: VM/Service control. **v1.9.3**: Universal USB Eject.
+>
+> **Upgrade tip:** always pull **both** images (`hobbithole-dashboard` **and** `hobbithole-config-api`) to the same version. The API is required for sync, wallpapers, themes and widgets.
 
 ## USB Eject Configuration
 
@@ -67,33 +69,32 @@ docker pull piggyoriginal/hobbithole-config-api
 
 ## Features
 
-- **USB & External Storage Management** (v1.9.2) — Manage and safely unmount USB drives and external SSDs with real-time feedback and data integrity protection
-- **Live p95 Resource Metrics** (v1.9.2) — Real-time CPU and RAM usage display for containers via on-demand benchmarking
+- **Cross‑device wallpapers** (v1.9.10) — static image, dynamic time-of-day slots (5), and live video; files live under config-api `data/wallpapers/` (not bloated into `config.json`)
+- **Container quick actions** (improved v1.9.10) — Start / Stop / Restart on tiles; matches by port **or** container/compose name (stopped containers, `network_mode: host`, domain/NPM tiles)
+- **Live weather radar** (v1.9.9+) — Weerenradar (Europe) + RainViewer global; home widget + expanded panel, layer chips, zoom
+- **Canvas mode** (GA) — free-place home widgets; preference synced via config-api
+- **Theme engine** (v1.9.0+) — curated experiences (Classic, Glass Ocean, Midnight Neon, Nordic Frost)
+- **USB & External Storage Management** (v1.9.2) — safely unmount USB / external SSDs (SIGNAL or NATIVE eject)
+- **Live p95 Resource Metrics** (v1.9.2) — on-demand CPU/RAM benchmark for containers
+- **Proxmox / VM control** (v1.9.4) — status + start/stop/restart for VMs and LXCs
 - **First‑Run Wizard** (zero setup)
-- **Smart Docker Detection** — auto‑detects containers via image name + dashboard‑icons CDN (1000+ apps), skips background services automatically
+- **Smart Docker Detection** — auto‑detects containers via image name + dashboard‑icons CDN (1000+ apps)
 - **Dynamic IP Auto‑Detection**
-- **Customizable look** — accent color picker, background image upload, card transparency slider, animated weather backdrop
+- **Customizable look** — accent color, card transparency, wallpapers, animated weather backdrop
 - **Responsive UI** (desktop/mobile aware)
 - **Drag & Drop** layout
 - **Cross‑device settings sync** via lightweight config API
 - **Cinematic Weather Widget**
-  - Click to expand — hourly forecast (3‑hour blocks) + 7‑day outlook
-  - Click any day see that day's hourly breakdown
+  - Expandable hourly (3‑hour blocks) + 7‑day outlook
   - Search location by city name (no coordinates needed)
-  - Wind, rain probability, min/max temp shown when relevant
   - Animated backdrop: rain, snow, sun (toggle in settings)
-  - Powered by open‑meteo (free, no API key)
-- **Live App Widgets** (v1.4.0+) — server‑side fetched, cached per type:
-  - SABnzbd (download speed + queue)
-  - Pi‑hole (DNS stats)
-  - Sonarr / Radarr (upcoming TV/movies)
-  - Jellyfin (now playing)
-  - Extensible: drop a new adapter in `widgets/` to add more
+  - Buienradar / Open‑Meteo hybrid (free; no API key for Open‑Meteo)
+- **Live App Widgets** — server‑side fetched, cached per type (SABnzbd, Pi‑hole, Sonarr/Radarr, Jellyfin, Plex, …)
 - **Command Palette** (`Cmd/Ctrl+K`) — fuzzy launcher for apps + actions
-- **⋯ Tile menu** — pin / edit / delete via clean popover
+- **⋯ Tile menu** — pin / edit / delete
 - **Live status dots** — green/red ping on every tile
-- **Pinned favorites strip** — top apps highlighted with gold border
-- **Fuzzy Search** across all your tiles
+- **Pinned favorites strip**
+- **Fuzzy Search** across tiles
 - **Backup & Restore** settings as JSON
 - **Screensaver Mode** — fullscreen clock when idle
 - **Multi‑language** (NL / EN / DE / FR / ES)
