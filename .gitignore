@@ -5,6 +5,8 @@ data/
 import/
 *.bak-*
 ROADMAP.md
+# Lab-only helper (LAN paths / Pingvin) — not product
+croc-help.html
 
 # Admin Scripts & Infrastructure
 pre-build.sh
