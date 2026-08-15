@@ -1,8 +1,83 @@
 # Hobbithole Cinema Dashboard — Changelog
 
-## [v1.9.11-dev] - 2026-08-06
+## [v1.10.1-dev] - 2026-08-15
 ### In progress
+- Clarify auth UI: turning login **off** keeps accounts; turn **on** again → same password (no first-run). (~1.10.1)
 - New features for the next release.
+
+
+## [v1.10.0] - 2026-08-15
+### Added
+- **Optional authentication (product feature):** set `AUTH_ENABLED=true` and `SESSION_SECRET` on
+  config-api. First visit creates the admin account (email + password; Apple Passwords-friendly
+  fields). Unauthenticated clients get **401** on `/api/*` (except `/api/health` and `/api/auth/*`).
+  Multi-user per install: admin can `POST /api/auth/users`. Google/Microsoft/passkeys next.
+  Default remains **off** so existing installs are unchanged.
+- **Release popup** `optional-auth-remote-1.10.0` — optional login + safer remote access via reverse proxy (once max).
+- **Auth via the UI (zero-config):** Settings → Security → “Secure this dashboard”. No compose edit; `SESSION_SECRET` auto-generated under `data/auth/`. Compose `AUTH_ENABLED=true|false` still works and locks the toggle.
+- **Login UI:** overlay for first-run setup or sign-in; **Show/Hide** password toggle.
+- **Docker endpoints via config-api:** containers/info/start/stop/restart no longer hit the Docker
+  socket from the browser nginx path. Raw `/docker/` returns 404 so auth can protect actions.
+
+### Fixed
+- **Login loop on LAN HTTP:** session cookie was marked `Secure` because `AUTH_PUBLIC_URL` was
+  https while logging in over `http://IP:8086`. Browsers drop that cookie → Enter returns to the
+  login screen. `Secure` now follows the **request** (`X-Forwarded-Proto` / TLS), not only the
+  public URL. Override with `AUTH_COOKIE_SECURE=true|false` if needed.
+- **Empty dashboard without login screen:** a duplicate `const pw` in the auth overlay crashed the
+  whole frontend (SyntaxError). No gate, no apps; `/api/config` returned 401. Fixed; a 401 on
+  config now opens the login overlay instead of an empty “offline” config.
+
+### Security
+- Do not expose port 8086 to the internet without `AUTH_ENABLED=true` (or reverse-proxy auth).
+- Auth status must not be treated as “auth off” on fetch failure (avoids silent empty 401 UI).
+
+### Fixed — earlier bugs in (pre) 1.9.10, removed in 1.10.0
+- **Docker scan produced unusable URLs (2026-08-12):** two bugs in one line.
+  **(1) Wrong host** — the host came from `localStorage.hobbithole_nas_ip`, a key written by the
+  Synology app-adder. Anyone who had ever added Synology apps got their NAS IP baked into every
+  scanned tile, even though the container list comes from `/api/containers` on the dashboard host
+  itself. That fallback is gone: explicit field, otherwise `window.location.hostname`.
+  **(2) Wrong port + scheme** — `Ports.find(p => p.PublicPort)` took the first port from the Docker
+  API and always prefixed `http://`. That array is not in compose order and lists every port twice
+  (IPv4 + IPv6), so for images publishing both HTTP and HTTPS (linuxserver/kasm: 3000 + 3001) which
+  one you got was chance — and `http://` against the TLS port returns `400 Bad Request`, which reads
+  as "the tile is broken". New `pickEndpoint()` de-duplicates on `PublicPort` and **prefers the TLS
+  port whenever the container publishes one** (`https://`), otherwise the lowest port over `http://`.
+  HTTPS wins on purpose: such a link works from both an http and an https dashboard, whereas an http
+  link from an https page dies as mixed content — the status ping first, so the tile reads offline
+  while the container is running. Cost: one browser warning for self-signed certificates. Concretely,
+  webtop now yields `https://host:3021` instead of `http://host:3020`.
+- **Docker scan warns on a domain host:** when tiles are built on a hostname that is not an IP
+  address they point at your reverse proxy rather than the container ports — the scan cannot know
+  this, since Docker only reports port numbers. Instead of silently producing broken tiles, the
+  scan result now carries a notice asking for the LAN IP.
+- **Deleting a tile left its widget behind — API key included:** `deleteApp()` removed the app from
+  its category and nothing else. `serverConfig.appWidgets[app.id]` stayed, an orphaned configuration
+  you can no longer see or edit, holding that app's API key. Over a long-lived install these pile
+  up — four here (sabnzbd, radarr, sonarr, jellyfin) belonging to a retired NAS. `deleteApp()` now
+  clears the matching widget; it rides along in the same POST, so no extra round trip.
+- **Existing orphans are cleaned up automatically:** the fix above prevents new ones, but anyone
+  running an older install already has them and cannot reach them through the UI — no tile, no
+  button. `pruneOrphanWidgets()` removes every widget whose tile no longer exists at startup, and
+  only saves when something actually had to go. Deliberately in-app rather than a separate cleanup
+  script: users would have to find and run that themselves, and the ones who need it most never
+  hear about it. Safety brake: with no apps in any category, or a config that failed to load, it
+  does nothing — otherwise a half-loaded config would wipe every widget.
+- **A deleted tile could return after a refresh:** `pushCategoriesToServer()` opened with
+  `if (!serverConfig) return;` — a silent skip. If the config API was not ready yet or briefly
+  unreachable, the change landed in localStorage only, while on load the server wins
+  (`syncCategoriesWithServer`). The tile was back after a refresh and nothing had ever been
+  reported. The config is now loaded on demand, and if that fails a toast says the change is on
+  this device only. Init is exempt via `_categorieSyncKlaar`, so the local cache cannot overwrite
+  the server copy before the sync has decided.
+- **App URL field (`//` / bare IP):** Add/Edit App modals used `input type="url"`, which blocked typing `//` mid-entry in many browsers. Now `type="text"` + `inputmode="url"`. On save (and when opening tiles) `http://` is prepended if no scheme is present — bare `192.168.x.x:port` no longer opens as a relative path on the dashboard host.
+- **`/` shortcut ate slashes in URL fields:** global “press `/` → focus search” called `preventDefault` on every `/` except the search box itself. You could not type `http://` in Add/Edit App (or any other input). Shortcut now skips all `input`/`textarea`/`select`/contenteditable.
+
+### Changed — lab/release tooling
+- **Docker Hub README sync** — `hub-readme-sync.sh` updates full + short description via the free Hub API (dashboard + config-api). Invoked by `push.sh` after image push; can run standalone for README-only updates. Auth: `docker login` or `DOCKERHUB_*`.
+- **Pre-build changelog** — strips the default “In progress” stub from the *release* section (keeps it only under `*-dev`).
+
 
 ## [v1.9.10] - 2026-08-06
 

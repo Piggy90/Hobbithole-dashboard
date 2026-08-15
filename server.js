@@ -40,6 +40,12 @@ if (!fs.existsSync(CONFIG_PATH)) {
 const app = express();
 app.use(express.json({ limit: '64kb' }));
 
+// v1.10: optional auth (AUTH_ENABLED) — product feature, default off
+const auth = require('./auth');
+auth.mountRoutes(app);
+app.use(auth.requireAuth);
+auth.tryEnvBootstrap();
+
 app.get('/api/config', (req, res) => {
   try {
     const data = fs.readFileSync(CONFIG_PATH, 'utf8');
@@ -543,7 +549,103 @@ app.get('/api/themes/:id', (req, res) => {
   }
 });
 
+
+// === Docker API proxy (v1.10) — used so AUTH_ENABLED can protect container actions ===
+// When the socket is not mounted, endpoints return 502 (same as a dead docker).
+const http = require('http');
+
+function dockerRequest(method, dockerPath, bodyBuf) {
+  return new Promise((resolve, reject) => {
+    const opts = {
+      socketPath: process.env.DOCKER_SOCKET || '/var/run/docker.sock',
+      path: dockerPath,
+      method,
+      headers: {},
+    };
+    if (bodyBuf && bodyBuf.length) {
+      opts.headers['Content-Type'] = 'application/json';
+      opts.headers['Content-Length'] = Buffer.byteLength(bodyBuf);
+    } else if (method === 'POST' || method === 'PUT') {
+      opts.headers['Content-Length'] = 0;
+    }
+    const req = http.request(opts, (resp) => {
+      const chunks = [];
+      resp.on('data', (c) => chunks.push(c));
+      resp.on('end', () => {
+        const buf = Buffer.concat(chunks);
+        resolve({ status: resp.statusCode || 500, headers: resp.headers, body: buf });
+      });
+    });
+    req.on('error', reject);
+    req.setTimeout(30000, () => {
+      req.destroy(new Error('docker_timeout'));
+    });
+    if (bodyBuf && bodyBuf.length) req.write(bodyBuf);
+    req.end();
+  });
+}
+
+function sendDockerJson(res, result) {
+  const ct = result.headers['content-type'] || '';
+  if (ct.includes('application/json') || result.body.length) {
+    try {
+      const text = result.body.toString('utf8');
+      if (!text) return res.status(result.status).end();
+      return res.status(result.status).json(JSON.parse(text));
+    } catch {
+      return res.status(result.status).type('text').send(result.body);
+    }
+  }
+  return res.status(result.status).end();
+}
+
+app.get('/api/containers', async (req, res) => {
+  try {
+    const r = await dockerRequest('GET', '/containers/json?all=false');
+    sendDockerJson(res, r);
+  } catch (err) {
+    res.status(502).json({ error: 'docker_unavailable', message: err.message });
+  }
+});
+
+app.get('/api/containers-all', async (req, res) => {
+  try {
+    const r = await dockerRequest('GET', '/containers/json?all=true');
+    sendDockerJson(res, r);
+  } catch (err) {
+    res.status(502).json({ error: 'docker_unavailable', message: err.message });
+  }
+});
+
+app.get('/api/docker-info', async (req, res) => {
+  try {
+    const r = await dockerRequest('GET', '/info');
+    sendDockerJson(res, r);
+  } catch (err) {
+    res.status(502).json({ error: 'docker_unavailable', message: err.message });
+  }
+});
+
+const CONTAINER_ID_RE = /^[a-zA-Z0-9_.-]+$/;
+app.post('/api/container/:id/:action', async (req, res) => {
+  const { id, action } = req.params;
+  if (!CONTAINER_ID_RE.test(id) || !['start', 'stop', 'restart'].includes(action)) {
+    return res.status(400).json({ error: 'invalid_request' });
+  }
+  try {
+    const r = await dockerRequest('POST', `/containers/${encodeURIComponent(id)}/${action}`);
+    if (r.status === 204 || r.status === 304 || r.body.length === 0) {
+      return res.status(r.status === 304 ? 200 : r.status).json({ status: 'ok', action, id });
+    }
+    sendDockerJson(res, r);
+  } catch (err) {
+    res.status(502).json({ error: 'docker_unavailable', message: err.message });
+  }
+});
+
+
 const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Config API listening on :${PORT}, config at ${CONFIG_PATH}`);
+  const authOn = auth.authEnabled();
+  console.log(`Config API listening on :${PORT}, config at ${CONFIG_PATH}, auth=${authOn ? 'on' : 'off'}`);
 });

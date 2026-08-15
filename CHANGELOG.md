@@ -1,8 +1,87 @@
 # Hobbithole Cinema Dashboard - Changelog
 
-## [v1.9.11-dev] - 2026-08-06
+## [v1.10.1-dev] - 2026-08-15
 ### In uitvoering (In Progress)
+- Auth-UI verduidelijken: login **uit** = accounts blijven; **weer aan** = zelfde wachtwoord (geen first-run). (~1.10.1)
 - Nieuwe features voor de volgende release.
+
+
+## [v1.10.0] - 2026-08-15
+### Toegevoegd
+- **Optionele authenticatie (productfeature):** `AUTH_ENABLED=true` + `SESSION_SECRET` op config-api.
+  Eerste bezoek: admin-account (e-mail + wachtwoord; velden geschikt voor Apple Passwords).
+  Zonder sessie: **401** op `/api/*` (behalve `/api/health` en `/api/auth/*`).
+  Multi-user per install: admin via `POST /api/auth/users`. Google/Microsoft/passkeys volgen.
+  Standaard **uit** — bestaande installs ongewijzigd.
+- **Release-popup** `optional-auth-remote-1.10.0` — wijst op optionele login + veilig buitenshuis via reverse proxy (max 1×).
+- **Auth ook via de UI (zero-config):** Settings → Beveiliging → “Beveilig dit dashboard”. Geen compose-edit nodig; `SESSION_SECRET` wordt auto gegenereerd in `data/auth/`. Compose `AUTH_ENABLED=true|false` blijft werken en vergrendelt de toggle.
+- **Login-UI:** overlay met first-run setup of sign-in; knop **Show/Hide** bij wachtwoord.
+- **Docker-endpoints via config-api:** containers/info/start/stop/restart niet meer raw via
+  nginx→socket. `/docker/` geeft 404 — auth kan container-acties beschermen.
+
+### Opgelost
+- **Login-loop op LAN-HTTP:** sessie-cookie kreeg `Secure` omdat `AUTH_PUBLIC_URL` op https stond,
+  terwijl je via `http://IP:8086` inlogt. Browsers bewaren die cookie dan niet → na Enter weer
+  het login-scherm. `Secure` hangt nu aan de **request** (`X-Forwarded-Proto` / TLS), niet alleen
+  aan de public URL. Forceer met `AUTH_COOKIE_SECURE=true|false` indien nodig.
+- **Leeg dashboard zonder login-scherm:** dubbele `const pw` in de auth-overlay crashte de hele
+  frontend (SyntaxError). Geen gate, geen apps; `/api/config` gaf 401. Opgelost; bij 401 op
+  config wordt het login-scherm getoond i.p.v. een lege “offline”-config.
+
+### Beveiliging
+- Poort 8086 niet open op internet zonder `AUTH_ENABLED=true` (of andere proxy-auth).
+- Auth-status mag bij fout **niet** als “auth uit” worden behandeld (voorkomt stille 401-lege UI).
+
+### Opgelost (Fixed) — eerder bugs in (pre) 1.9.10, eruit in 1.10.0
+- **Docker-scan bouwde onbruikbare URL's (2026-08-12):** twee fouten in één regel.
+  **(1) Verkeerde host** — de host kwam uit `localStorage.hobbithole_nas_ip`, maar díe sleutel
+  wordt geschreven door de Synology-app-toevoeger. Wie ooit Synology-apps had toegevoegd kreeg
+  daarna het IP van zijn NAS in elke gescande tegel, terwijl de containerlijst gewoon van
+  `/api/containers` op de dashboard-host zelf komt. Die fallback is eruit: eigen veld, anders
+  `window.location.hostname`. **(2) Verkeerde poort + schema** — `Ports.find(p => p.PublicPort)`
+  pakte de eerste poort uit de Docker-API en zette er altijd `http://` voor. Die lijst staat niet
+  in compose-volgorde en bevat elke poort dubbel (IPv4 + IPv6), dus bij een image dat HTTP én
+  HTTPS publiceert (linuxserver/kasm: 3000 + 3001) was het toeval welke je trok — met `http://`
+  op de TLS-poort als resultaat, wat `400 Bad Request` geeft en leest als "de tegel is stuk".
+  Nieuw: `pickEndpoint()` ontdubbelt op `PublicPort` en **kiest de TLS-poort als de container er
+  één publiceert** (`https://`), anders de laagste poort met `http://`. HTTPS wint bewust: die
+  link werkt vanaf zowel een http- als een https-dashboard, terwijl een http-link vanaf een
+  https-pagina als mixed content sneuvelt — de status-ping als eerste, waardoor de tegel offline
+  lijkt terwijl de container draait. Prijs: bij een self-signed certificaat waarschuwt de browser
+  één keer. Concreet: webtop levert nu `https://host:3021` in plaats van `http://host:3020`.
+- **Docker-scan waarschuwt bij een domein-host:** bouwt de scan zijn tegels op een hostnaam die
+  geen IP-adres is, dan wijzen ze naar je reverse proxy en niet naar de containerpoorten — de
+  scan kan dat niet weten, want Docker levert alleen poortnummers. In plaats van stilzwijgend
+  kapotte tegels af te leveren staat er nu een melding bij het scanresultaat met de vraag om het
+  LAN-IP in te vullen.
+- **Tegel verwijderen liet zijn widget staan — mét API-sleutel:** `deleteApp()` haalde de app uit
+  de categorie en verder niets. `serverConfig.appWidgets[app.id]` bleef achter: een configuratie
+  die je daarna nergens meer kunt zien of bewerken, met de API-sleutel van die app erin. In een
+  lang gebruikte installatie stapelt dat op — hier vier verweesde entries (sabnzbd, radarr,
+  sonarr, jellyfin) van een NAS die al met pensioen is. `deleteApp()` ruimt de bijbehorende
+  widget nu mee op; de push gaat in dezelfde POST mee, dus geen extra ronde naar de server.
+- **Bestaande wezen worden automatisch opgeruimd:** de fix hierboven voorkomt nieuwe, maar wie al
+  een tijd draait heeft ze al staan en kan er via de UI niet meer bij — zonder tegel is er geen
+  knop. `pruneOrphanWidgets()` verwijdert bij het starten elke widget waarvan de tegel niet meer
+  bestaat, en slaat alleen op als er echt iets weg moest. Bewust in de app en niet als los
+  opruimscript: dat zou iedereen zelf moeten vinden en draaien, terwijl juist wie het nodig heeft
+  er nooit van hoort. Veiligheidsrem: zonder ook maar één app in de categorieën, of met een config
+  die niet geladen kon worden, doet hij niets — anders zou een half geladen config alle widgets
+  wissen.
+- **Verwijderde tegel kon terugkomen na een refresh:** `pushCategoriesToServer()` begon met
+  `if (!serverConfig) return;` — een stille skip. Was de config-api net niet klaar of even weg,
+  dan landde je wijziging alleen in localStorage, terwijl bij het laden juist de server wint
+  (`syncCategoriesWithServer`). Resultaat: de tegel stond er na een refresh weer, en er was nooit
+  iets gemeld. Nu wordt de config alsnog geladen, en lukt dat niet, dan zegt een melding dat de
+  wijziging alleen op dit apparaat staat. De init-fase is uitgezonderd via `_categorieSyncKlaar`,
+  zodat de lokale cache de serverversie niet kan overschrijven voordat de sync heeft beslist.
+- **App URL-veld (`//` / bare IP):** modal Add/Edit App gebruikte `input type="url"`, waardoor browsers tussentijds `//` blokkeerden bij typen. Nu `type="text"` + `inputmode="url"`. Bij opslaan (en bij openen van tegels) wordt `http://` automatisch gezet als er geen scheme staat — bare `192.168.x.x:port` opent niet meer als relatief pad op het dashboard.
+- **`/`-sneltoets at slash in URL-velden:** globale hotkey “druk `/` → focus zoekbalk” deed `preventDefault` op **elke** `/`, behalve in de zoekbalk zelf. In App toevoegen/bewerken (en andere inputs) kon je daardoor geen `http://` typen. Hotkey negeert nu alle `input`/`textarea`/`select`/contenteditable.
+
+### Verbeterd (Changed) — lab/release tooling
+- **Docker Hub README sync** — `hub-readme-sync.sh` werkt full + short description bij via de gratis Hub API (dashboard + config-api). Aangeroepen door `push.sh` na image-push; los te draaien voor README-only updates. Auth: `docker login` of `DOCKERHUB_*`.
+- **Pre-build changelog** — standaard “In uitvoering / In progress”-stub wordt van de *release*-sectie gestript (blijft alleen onder `*-dev`).
+
 
 ## [v1.9.10] - 2026-08-06
 

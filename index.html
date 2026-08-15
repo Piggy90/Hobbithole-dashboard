@@ -3603,7 +3603,19 @@
             0%, 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.5); }
             50%      { box-shadow: 0 0 0 4px rgba(56, 189, 248, 0); }
         }
-        /* ===== RELEASE ANNOUNCEMENT MODAL (v1.8.5) — first-run feature popup ===== */
+        /* ===== RELEASE ANNOUNCEMENT MODAL (v1.8.5, layout fix v1.10) =====
+           Overlay: centered with flex (showReleaseAnnouncement sets display:flex).
+           Card: max-height + column layout; body scrolls so long copy stays readable;
+           header/icon/title/actions stay pinned. */
+        .modal-overlay#release-announcement-modal {
+            /* ensure true viewport centering even if parent styles differ */
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+            box-sizing: border-box;
+            overflow-y: auto; /* tiny screens: overlay can scroll if card still too tall */
+        }
         .release-announcement-content {
             background: var(--card-bg-solid);
             backdrop-filter: blur(var(--card-blur));
@@ -3611,20 +3623,24 @@
             border: var(--card-border);
             border-radius: var(--card-radius);
             max-width: 480px;
-            width: 90%;
-            max-height: 85vh;
+            width: min(480px, 100%);
+            max-height: min(85vh, 720px);
             display: flex;
             flex-direction: column;
-            padding: 28px;
+            padding: 0; /* sections pad themselves so body can scroll cleanly */
             text-align: center;
             position: relative;
+            margin: auto; /* backup centering inside scrollable overlay */
             box-shadow: 0 16px 64px rgba(0, 0, 0, 0.45);
+            overflow: hidden; /* clip; scroll lives on .release-announcement-body */
+            box-sizing: border-box;
         }
         .release-announcement-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            padding: 18px 22px 0;
+            flex-shrink: 0;
         }
         .release-announcement-version {
             font-size: 0.72rem;
@@ -3636,19 +3652,29 @@
         .release-announcement-icon {
             font-size: 3.5rem;
             line-height: 1;
-            margin: 8px 0 14px;
+            margin: 8px 0 10px;
+            flex-shrink: 0;
+            padding: 0 22px;
         }
         .release-announcement-title {
             font-size: 1.35rem;
-            margin: 0 0 12px;
+            margin: 0 0 10px;
             color: var(--text-color);
+            flex-shrink: 0;
+            padding: 0 22px;
         }
         .release-announcement-body {
             color: var(--text-muted);
             font-size: 0.95rem;
             line-height: 1.55;
-            margin-bottom: 22px;
+            margin: 0;
+            padding: 0 22px 8px;
             text-align: left;
+            flex: 1 1 auto;
+            min-height: 0; /* critical for flex child scrolling */
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
         }
         .release-announcement-body code {
             font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -3656,12 +3682,17 @@
             background: rgba(0, 0, 0, 0.35);
             padding: 2px 6px;
             border-radius: 4px;
+            word-break: break-word;
         }
         .release-announcement-actions {
             display: flex;
             justify-content: center;
             gap: 10px;
             flex-wrap: wrap;
+            flex-shrink: 0;
+            padding: 16px 22px 22px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            background: linear-gradient(to top, var(--card-bg-solid) 70%, transparent);
         }
 
         /* ===== CHANGELOG MODAL ===== */
@@ -3956,6 +3987,42 @@
 </head>
 <body>
 
+<!-- v1.10.0 optional auth gate -->
+<div id="auth-overlay" style="display:none;position:fixed;inset:0;z-index:100000;background:rgba(8,10,18,0.92);backdrop-filter:blur(8px);align-items:center;justify-content:center;font-family:Inter,system-ui,sans-serif;">
+  <div style="width:min(400px,92vw);background:#141824;border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px 24px;box-shadow:0 20px 60px rgba(0,0,0,0.45);color:#e8eaef;">
+    <h1 id="auth-title" style="margin:0 0 6px;font-size:1.35rem;font-weight:600;">Hobbithole Dashboard</h1>
+    <p id="auth-subtitle" style="margin:0 0 20px;font-size:0.9rem;opacity:0.7;">Sign in to continue</p>
+    <form id="auth-form" autocomplete="on" style="display:flex;flex-direction:column;gap:12px;">
+      <label style="display:flex;flex-direction:column;gap:4px;font-size:0.8rem;opacity:0.85;">
+        <span data-i18n="settings.authEmail">Email</span>
+        <input id="auth-email" name="username" type="email" autocomplete="username" required
+          style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:#0c0e14;color:inherit;font-size:1rem;">
+      </label>
+      <label style="display:flex;flex-direction:column;gap:4px;font-size:0.8rem;opacity:0.85;">
+        <span data-i18n="settings.authPassword">Password</span>
+        <div style="position:relative;display:flex;align-items:center;">
+          <input id="auth-password" name="password" type="password" autocomplete="current-password" required minlength="8"
+            style="width:100%;box-sizing:border-box;padding:10px 44px 10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:#0c0e14;color:inherit;font-size:1rem;">
+          <button type="button" id="auth-password-toggle" aria-label="Show password" title="Show password" data-i18n="settings.authShowPassword"
+            style="position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:rgba(255,255,255,0.65);cursor:pointer;padding:6px 8px;border-radius:8px;font-size:0.85rem;line-height:1;">
+            Show
+          </button>
+        </div>
+      </label>
+      <label id="auth-name-wrap" style="display:none;flex-direction:column;gap:4px;font-size:0.8rem;opacity:0.85;">
+        <span data-i18n="settings.authDisplayName">Display name</span>
+        <input id="auth-display-name" name="name" type="text" autocomplete="nickname"
+          style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:#0c0e14;color:inherit;font-size:1rem;">
+      </label>
+      <p id="auth-error" style="display:none;margin:0;color:#ff8a8a;font-size:0.85rem;"></p>
+      <button type="submit" id="auth-submit" style="margin-top:4px;padding:12px;border:0;border-radius:10px;background:linear-gradient(135deg,#5b7cfa,#7c5cfc);color:#fff;font-weight:600;font-size:0.95rem;cursor:pointer;">
+        Sign in
+      </button>
+    </form>
+  </div>
+</div>
+
+
 <!-- ===== WEATHER BACKDROP (rain/snow/sun particles) ===== -->
 <canvas id="weather-fx" aria-hidden="true"></canvas>
 <div id="weather-fx-glow" aria-hidden="true"></div>
@@ -4216,7 +4283,7 @@
 
     <footer>
         &copy; 2026 Hobbithole Dashboard &bull; Powered by <a href="#">LokaiOS</a> &bull;
-        <button class="footer-version-btn" id="footer-version-btn" onclick="openChangelogModal()" title="Wat is er nieuw in deze versie?">v<span id="footer-version-text">1.9.10-dev</span><span id="footer-new-badge" class="footer-new-badge" style="display:none;">✨ NEW</span></button>
+        <button class="footer-version-btn" id="footer-version-btn" onclick="openChangelogModal()" title="Wat is er nieuw in deze versie?">v<span id="footer-version-text">1.10.0-dev</span><span id="footer-new-badge" class="footer-new-badge" style="display:none;">✨ NEW</span></button>
     </footer>
 
     <!-- v1.8.5: Release announcement modal — first-run pop-up that highlights a specific
@@ -4288,6 +4355,25 @@
                     <option value="es">🇪🇸 Español</option>
                 </select>
             </div>
+        </div>
+
+
+        <!-- Security / Auth (v1.10) — zero-config toggle; compose can lock via AUTH_ENABLED -->
+        <div class="setting-section" id="settings-security-section">
+            <h3>🔐 <span data-i18n="settings.security">Beveiliging</span></h3>
+            <p id="auth-settings-status" data-i18n="settings.securityLoading" style="color: var(--text-muted); font-size: 0.9rem; margin: 0 0 14px; line-height: 1.45;">
+                Laden…
+            </p>
+            <div id="auth-settings-actions" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+                <button type="button" class="btn btn-action" id="auth-settings-enable-btn" style="display:none;"
+                    onclick="openAuthEnableFlow()" data-i18n="settings.securityEnable">Beveilig dit dashboard</button>
+                <button type="button" class="btn btn-secondary" id="auth-settings-disable-btn" style="display:none;"
+                    onclick="disableDashboardAuth()" data-i18n="settings.securityDisable">Login uitzetten</button>
+            </div>
+            <small data-i18n="settings.securityHelp" style="color: var(--text-muted); display: block; margin-top: 12px; line-height: 1.45;">
+                Optioneel. Zet login aan als je het dashboard buitenshuis via Nginx/Proxy bereikt.
+                Power users kunnen auth ook forceren met <code>AUTH_ENABLED</code> in compose (dan is deze knop vergrendeld).
+            </small>
         </div>
 
         <!-- Customize Section -->
@@ -4747,7 +4833,8 @@
         </div>
         <div class="form-group">
             <label data-i18n="modal.appUrl">URL</label>
-            <input type="url" id="modal-app-url" placeholder="http://your-server:8096" oninput="maybeAutoFillIconFromUrl('add')">
+            <input type="text" id="modal-app-url" inputmode="url" autocomplete="url" spellcheck="false" placeholder="http://your-server:8096 of 192.168.1.10:8096" oninput="maybeAutoFillIconFromUrl('add')">
+            <small style="color: var(--text-muted); display: block; margin-top: 4px;">Zonder http(s):// wordt automatisch <code>http://</code> toegevoegd.</small>
         </div>
         <div class="form-group">
             <label data-i18n="modal.appCategory">Categorie</label>
@@ -4794,7 +4881,8 @@
         </div>
         <div class="form-group">
             <label data-i18n="modal.appUrl">URL</label>
-            <input type="url" id="edit-app-url" oninput="maybeAutoFillIconFromUrl('edit')">
+            <input type="text" id="edit-app-url" inputmode="url" autocomplete="url" spellcheck="false" placeholder="http://your-server:8096 of 192.168.1.10:8096" oninput="maybeAutoFillIconFromUrl('edit')">
+            <small style="color: var(--text-muted); display: block; margin-top: 4px;">Zonder http(s):// wordt automatisch <code>http://</code> toegevoegd.</small>
         </div>
 
         <!-- Collapsible widget config -->
@@ -4924,6 +5012,32 @@ function applyTranslations() {
 function changeLanguage(lang) {
     loadLanguage(lang).then(() => {
         applyTranslations();
+        if (typeof refreshAuthSettingsPanel === 'function') refreshAuthSettingsPanel();
+        // Re-render open release announcement in the new language
+        if (_activeAnnouncement && typeof showReleaseAnnouncement === 'function') {
+            const a = _activeAnnouncement;
+            _announcementShownThisSession = false; // allow re-paint without re-marking? already marked
+            // re-fill without re-marking dismissed: call fill only
+            const modal = document.getElementById('release-announcement-modal');
+            if (modal && modal.style.display === 'flex') {
+                // temporarily bypass session guard
+                _announcementShownThisSession = true;
+                const verEl   = document.getElementById('release-announcement-version');
+                const iconEl  = document.getElementById('release-announcement-icon');
+                const titleEl = document.getElementById('release-announcement-title');
+                const bodyEl  = document.getElementById('release-announcement-body');
+                const ctaEl   = document.getElementById('release-announcement-cta');
+                if (verEl) verEl.textContent = a.version ? `v${a.version}` : '';
+                if (iconEl) iconEl.textContent = a.icon || '';
+                const key = a.i18nKey;
+                if (titleEl) titleEl.textContent = key ? t(`announcements.${key}.title`, a.title || '') : (a.title || '');
+                if (bodyEl) bodyEl.innerHTML = key ? t(`announcements.${key}.body`, a.body || '') : (a.body || '');
+                if (ctaEl && a.cta) {
+                    const label = key ? t(`announcements.${key}.cta`, a.cta.label || '') : (a.cta.label || '');
+                    if (label) { ctaEl.style.display = ''; ctaEl.textContent = label; }
+                }
+            }
+        }
         showToast(t('toast.languageChanged', 'Taal gewijzigd'), 'success');
     });
 }
@@ -5790,10 +5904,24 @@ function saveCategories() {
 
 // Debounced server push so rapid-fire saves (drag-drop sort, multi-app updates) batch into one POST.
 let _categoriesPushTimer = null;
+// Pas ná de initiële sync mag een wijziging naar de server. Daarvóór is `categories` nog de
+// localStorage-cache, en die naar boven duwen zou de serverversie overschrijven — precies wat
+// syncCategoriesWithServer() moet beslissen.
+let _categorieSyncKlaar = false;
 function pushCategoriesToServer() {
-    if (!serverConfig) return; // serverConfig not loaded yet — skip silently, init flow handles initial sync
     clearTimeout(_categoriesPushTimer);
-    _categoriesPushTimer = setTimeout(() => {
+    _categoriesPushTimer = setTimeout(async () => {
+        // Init-fase: de sync-routine doet de eerste push zelf. Hier niets doen.
+        if (!_categorieSyncKlaar) return;
+        // Was `if (!serverConfig) return;` — een stille skip. Stond de config-api even niet
+        // klaar, dan landde je verwijdering alléén in localStorage; bij de volgende refresh
+        // wint de server en stond de tegel er weer, zonder dat er ooit iets gemeld was.
+        if (!serverConfig) await loadServerConfig();
+        if (!serverConfig || serverConfig._offline) {
+            showToast(t('toast.saveLocalOnly',
+                'Niet op de server opgeslagen — deze wijziging staat alleen op dit apparaat'), 'error');
+            return;
+        }
         serverConfig.categories = categories;
         serverConfig.collapsedCategories = collapsedCategories || {};
         saveServerConfig();
@@ -5853,6 +5981,41 @@ async function syncCategoriesWithServer() {
     }
 
     return 'both-empty';
+}
+
+// Opruiming van verweesde widgets (v1.9.11). Tot deze versie liet `deleteApp()` de entry
+// `appWidgets[app.id]` staan als je een tegel weggooide. In elke installatie die al even
+// draait liggen daardoor widgetconfiguraties — mét API-sleutel — van apps die de gebruiker
+// allang verwijderd heeft. Via de UI is daar niet meer bij te komen: zonder tegel is er geen
+// knop. Vandaar hier, en niet als los opruimscript: dat zou iedereen zelf moeten vinden en
+// draaien, terwijl juist de mensen die het nodig hebben er nooit van horen.
+//
+// Draait bij elke start. Kost niets als er niets te doen is (geen POST), en repareert ook
+// installaties die deze versie overslaan.
+function pruneOrphanWidgets() {
+    if (!serverConfig || serverConfig._offline) return 0;
+    const widgets = serverConfig.appWidgets;
+    if (!widgets || !Object.keys(widgets).length) return 0;
+
+    const ids = new Set();
+    let appCount = 0;
+    for (const cat of (categories || [])) {
+        for (const app of (cat.apps || [])) {
+            appCount++;
+            if (app.id) ids.add(app.id);
+        }
+    }
+    // Veiligheidsrem: zonder ook maar één app is élke widget "verweesd" en zou dit alles
+    // wissen. Dat is precies hoe een half geladen of lege config eruitziet — dan niets doen.
+    if (!appCount) return 0;
+
+    const weg = Object.keys(widgets).filter(id => !ids.has(id));
+    if (!weg.length) return 0;
+
+    weg.forEach(id => delete widgets[id]);
+    saveServerConfig();
+    console.log(`[migratie] ${weg.length} verweesde widget(s) opgeruimd:`, weg);
+    return weg.length;
 }
 
 function makeAppId() {
@@ -5979,9 +6142,28 @@ function loadSearchEngineSettings() {
     updateSearchPlaceholder();
 }
 
+/** Normalize app/bookmark URLs so bare IPs/hosts open correctly (not as relative paths). */
+function normalizeAppUrl(url) {
+    if (url == null) return url;
+    let u = String(url).trim();
+    if (!u) return u;
+    // Typo: "http:192.168.1.1:8083" (missing //) — breaks status ping + click.
+    // Seen on Copyparty/Music tiles 2026-08-11.
+    const bareScheme = u.match(/^(https?):(?!\/\/)(.+)$/i);
+    if (bareScheme) u = bareScheme[1] + '://' + bareScheme[2];
+    // Scheme with authority (http://, https://, custom://…) — not host:port
+    if (/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(u)) return u;
+    // Schemes without // (data:, blob:, mailto:, tel:)
+    if (/^(data|blob|mailto|tel|about):/i.test(u)) return u;
+    // Protocol-relative //host → default to http
+    if (u.startsWith('//')) return 'http:' + u;
+    return 'http://' + u;
+}
+
 function buildAppCard(app, catId, appIndex, opts = {}) {
     const card = document.createElement('a');
-    card.href = app.url;
+    const href = normalizeAppUrl(app.url);
+    card.href = href;
     card.className = 'card' + (app.pinned ? ' is-pinned' : '') + (opts.inFavorites ? ' in-favorites' : '');
     card.setAttribute('data-name', app.name);
     card.setAttribute('data-cat-id', catId);
@@ -5990,7 +6172,7 @@ function buildAppCard(app, catId, appIndex, opts = {}) {
     card.rel = 'noopener noreferrer';
 
     card.innerHTML = `
-        <span class="status-dot" data-url="${app.url}" title="Status onbekend"></span>
+        <span class="status-dot" data-url="${href}" title="Status onbekend"></span>
         ${app.pinned ? '<span class="pin-indicator" title="Favoriet">⭐</span>' : ''}
         <button class="tile-menu-btn" onclick="event.preventDefault(); event.stopPropagation(); openTileMenu(event, '${catId}', ${appIndex});" title="Acties">⋯</button>
         <img src="${resolveIconSrc(app.icon)}"
@@ -6330,7 +6512,7 @@ function getCommandItems() {
                 name: app.name,
                 hint: cat.name,
                 iconSrc: resolveIconSrc(app.icon),
-                action: () => window.open(app.url, '_blank', 'noopener')
+                action: () => window.open(normalizeAppUrl(app.url), '_blank', 'noopener')
             });
         });
     });
@@ -6660,7 +6842,15 @@ let serverConfig = null;
 
 async function loadServerConfig() {
     try {
-        const res = await fetch('/api/config', { cache: 'no-store' });
+        const res = await fetch('/api/config', { cache: 'no-store', credentials: 'same-origin' });
+        if (res.status === 401) {
+            // Auth required — show login instead of empty "offline" dashboard
+            console.warn('Config requires auth (401)');
+            serverConfig = null;
+            bindAuthForm();
+            showAuthOverlay(false);
+            return null;
+        }
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         serverConfig = await res.json();
         delete serverConfig._offline;
@@ -8113,7 +8303,7 @@ closeBtn.onclick = () => {
 
 // v1.8.2: changelog modal — "What's New" with auto-detected NEW badge.
 // CHANGELOG.md is baked into the dashboard image (COPY in Dockerfile) at /CHANGELOG.md
-const APP_VERSION = '1.9.11-dev';
+const APP_VERSION = '1.10.1-dev';
 
 // ===== RELEASE ANNOUNCEMENTS (v1.8.5, hardened v1.9.10) =====
 // Big-feature popup — must show AT MOST ONCE. Past bug (weather backdrop): entry stayed
@@ -8128,19 +8318,25 @@ const APP_VERSION = '1.9.11-dev';
 //
 // Enable a new one: append to RELEASE_ANNOUNCEMENTS with fresh id + expireAfter a few minors later.
 const RELEASE_ANNOUNCEMENTS = [
-    // v1.9.10: early Docker Hub installs sometimes lack config-api (~900 API vs ~1.8k dashboard pulls)
+    // v1.10.0: optional auth — safe to put dashboard behind nginx / expose remotely
+    // Copy via i18n: announcements.optionalAuth.*
+    {
+        id: 'optional-auth-remote-1.10.0',
+        version: '1.10.0',
+        expireAfter: '1.9.16',
+        icon: '🔐',
+        i18nKey: 'optionalAuth',
+        cta: { action: 'openChangelog' }
+    },
+    // v1.9.10: early Docker Hub installs sometimes lack config-api
+    // Copy via i18n: announcements.configApiRequired.*
     {
         id: 'config-api-required-1.9.10',
         version: '1.9.10',
         expireAfter: '1.9.14',
         icon: '🔌',
-        title: 'Config API update required',
-        body:
-            'This dashboard release needs <strong>hobbithole-config-api</strong> on the same version as the dashboard.<br><br>' +
-            'Early installs sometimes only ran the dashboard image. Without the config API you lose cross-device sync, home widgets, themes, wallpapers and weather settings.<br><br>' +
-            '<code>docker pull piggyoriginal/hobbithole-config-api:latest</code><br>' +
-            'Then recreate/restart the <code>config-api</code> service (see compose on Docker Hub / GitHub).',
-        cta: { label: 'Open changelog', action: 'openChangelog' }
+        i18nKey: 'configApiRequired',
+        cta: { action: 'openChangelog' }
     },
 ];
 
@@ -8240,8 +8436,31 @@ function checkReleaseAnnouncements() {
     if (_announcementShownThisSession) return;
     if (_activeAnnouncement) return;
     retireStaleAnnouncements();
+    // Dev/dogfood: ?announce=<id> or ?announce=1 forces that (or first) announcement once
+    let forceId = null;
+    try { forceId = new URLSearchParams(location.search).get('announce'); } catch (_) {}
     const dismissed = getDismissedAnnouncements();
-    const next = RELEASE_ANNOUNCEMENTS.find(a => isAnnouncementEligible(a, dismissed));
+    let next = null;
+    if (forceId) {
+        if (forceId === '1' || forceId === 'true') {
+            next = RELEASE_ANNOUNCEMENTS[0] || null;
+        } else {
+            next = RELEASE_ANNOUNCEMENTS.find(a => a && a.id === forceId) || null;
+        }
+        // allow re-show even if previously dismissed
+        if (next) {
+            try {
+                const local = JSON.parse(localStorage.getItem('hobbithole_dismissed_announcements') || '[]')
+                    .filter(x => x !== next.id);
+                localStorage.setItem('hobbithole_dismissed_announcements', JSON.stringify(local));
+            } catch (_) {}
+            if (serverConfig && Array.isArray(serverConfig.dismissedAnnouncements)) {
+                serverConfig.dismissedAnnouncements = serverConfig.dismissedAnnouncements.filter(x => x !== next.id);
+            }
+        }
+    } else {
+        next = RELEASE_ANNOUNCEMENTS.find(a => isAnnouncementEligible(a, dismissed));
+    }
     if (next) showReleaseAnnouncement(next);
 }
 
@@ -8264,15 +8483,28 @@ function showReleaseAnnouncement(announcement) {
 
     verEl.textContent   = announcement.version ? `v${announcement.version}` : '';
     if (iconEl) iconEl.textContent = announcement.icon || '';
-    titleEl.textContent = announcement.title || '';
-    bodyEl.innerHTML    = announcement.body || '';
+
+    // i18n: prefer announcements.<i18nKey>.{title,body,cta}; fall back to legacy title/body/cta.label
+    const key = announcement.i18nKey;
+    const title = key
+        ? t(`announcements.${key}.title`, announcement.title || '')
+        : (announcement.title || '');
+    const body = key
+        ? t(`announcements.${key}.body`, announcement.body || '')
+        : (announcement.body || '');
+    titleEl.textContent = title;
+    bodyEl.innerHTML    = body;
 
     if (ctaEl) {
-        if (announcement.cta && announcement.cta.label) {
+        const ctaAction = announcement.cta && announcement.cta.action;
+        const ctaLabel = key
+            ? t(`announcements.${key}.cta`, (announcement.cta && announcement.cta.label) || '')
+            : (announcement.cta && announcement.cta.label);
+        if (ctaAction && ctaLabel) {
             ctaEl.style.display = '';
-            ctaEl.textContent = announcement.cta.label;
+            ctaEl.textContent = ctaLabel;
             ctaEl.onclick = () => {
-                runAnnouncementAction(announcement.cta.action);
+                runAnnouncementAction(ctaAction);
                 dismissReleaseAnnouncement();
             };
         } else {
@@ -8421,6 +8653,7 @@ function openSettingsAtWidgets() {
     mainView.style.display = 'none';
     renderAppList();
     loadSettingsValues();
+    // auth panel via loadSettingsValues
     // Scroll to the Home Widgets section after the modal is visible
     setTimeout(() => {
         const target = document.getElementById('setting-widget-picker');
@@ -8490,6 +8723,9 @@ function loadSettingsValues() {
 
     // v1.9.2: refresh USB settings UI
     if (FEATURE_FLAGS.usbManagement) refreshSettingsUsbUI();
+
+    // v1.10.0: security / auth panel
+    if (typeof refreshAuthSettingsPanel === 'function') refreshAuthSettingsPanel();
 }
 
 function saveDashboardSettings() {
@@ -10987,7 +11223,7 @@ function saveNewBookmark(blockId) {
         showToast('Vul naam én URL in', 'error');
         return;
     }
-    const finalUrl = /^https?:\/\//i.test(url) ? url : 'http://' + url;
+    const finalUrl = normalizeAppUrl(url);
 
     const layout = getHomeLayout();
     const block = layout.blocks.find(b => b.id === blockId);
@@ -11105,7 +11341,7 @@ registerStandaloneWidget('app-widget', {
         wrap.dataset.appWidgetAppId = appId;
         wrap.innerHTML = renderAppWidgetBlockHtml(app, widgetCache[appId]);
         const link = wrap.querySelector('.app-widget-link');
-        if (link) link.href = app.url;
+        if (link) link.href = normalizeAppUrl(app.url);
         container.appendChild(wrap);
     }
 });
@@ -11157,7 +11393,7 @@ function updateAllAppWidgetBlocks() {
         const widget = widgetCache[appId];
         el.innerHTML = renderAppWidgetBlockHtml(app, widget);
         const link = el.querySelector('.app-widget-link');
-        if (link) link.href = app.url;
+        if (link) link.href = normalizeAppUrl(app.url);
     });
 }
 
@@ -12484,7 +12720,7 @@ function updateIconPreview(mode) {
 function saveApp() {
     const name = document.getElementById('modal-app-name').value.trim();
     const icon = document.getElementById('modal-app-icon').value.trim();
-    const url = document.getElementById('modal-app-url').value.trim();
+    const url = normalizeAppUrl(document.getElementById('modal-app-url').value);
     const catId = document.getElementById('modal-app-category').value;
 
     if (!name || !url) {
@@ -12678,7 +12914,7 @@ async function updateApp() {
         if (!app.id) app.id = makeAppId();
         app.name = document.getElementById('edit-app-name').value.trim();
         app.icon = document.getElementById('edit-app-icon').value.trim();
-        app.url = document.getElementById('edit-app-url').value.trim();
+        app.url = normalizeAppUrl(document.getElementById('edit-app-url').value);
         saveCategories();
 
         // Persist widget config to server-side store (cross-device)
@@ -12691,12 +12927,25 @@ async function updateApp() {
     }
 }
 
-function deleteApp(catId, appIndex) {
+async function deleteApp(catId, appIndex) {
     if (!confirm(t('confirm.deleteApp', 'Weet je zeker dat je deze app wilt verwijderen?'))) return;
 
     const cat = categories.find(c => c.id === catId);
     if (cat) {
-        cat.apps.splice(appIndex, 1);
+        const [verwijderd] = cat.apps.splice(appIndex, 1);
+
+        // Widget van deze tegel mee opruimen. Tot v1.9.11 bleef `appWidgets[app.id]` staan
+        // nadat de tegel weg was: een verweesde configuratie die niemand meer kan zien of
+        // bewerken, mét de API-sleutel van die app erin. Over de jaren stapelt dat op in
+        // config.json — sleutels van apps die je allang verwijderd hebt.
+        if (verwijderd && verwijderd.id) {
+            if (!serverConfig) await loadServerConfig();
+            if (serverConfig && serverConfig.appWidgets && serverConfig.appWidgets[verwijderd.id]) {
+                delete serverConfig.appWidgets[verwijderd.id];
+            }
+        }
+
+        // saveCategories() POST de héle serverConfig, dus de opgeruimde appWidgets gaan mee.
         saveCategories();
         renderDashboard();
         renderAppList();
@@ -12845,6 +13094,48 @@ function categoryFor(slug) {
     return 'Apps';
 }
 
+// Private ports die per conventie TLS spreken. Een linuxserver/kasm-image publiceert
+// er standaard twee: 3000 = HTTP, 3001 = HTTPS. Zet je http:// voor de tweede, dan
+// antwoordt nginx met 400 Bad Request en lijkt de tegel simpelweg stuk.
+const TLS_PRIVATE_PORTS = new Set([443, 3001, 8443, 9443]);
+
+// Kies de poort waarop de app echt te bereiken is, plus het bijbehorende schema.
+// Voorheen: `Ports.find(p => p.PublicPort)` — de eerste uit de lijst, altijd met http://.
+// Die lijst staat niet in compose-volgorde en bevat elke poort twee keer (IPv4 + IPv6),
+// dus welke je trok was in de praktijk willekeurig.
+//
+// Publiceert een container BEIDE (linuxserver/kasm: 3000 http + 3001 https), dan wint
+// HTTPS. Dat is de enige keuze die nooit geblokkeerd wordt: een https-link werkt zowel
+// vanaf een http- als vanaf een https-dashboard, terwijl een http-link vanaf een
+// https-pagina als mixed content sneuvelt (de status-ping als eerste). Prijs: bij een
+// self-signed certificaat krijg je één keer een waarschuwing van je browser.
+function pickEndpoint(container) {
+    const published = (container.Ports || []).filter(p => p.PublicPort);
+    if (!published.length) return null;
+    // IPv4 en IPv6 leveren dezelfde poort dubbel; ontdubbelen op PublicPort.
+    const uniek = [...new Map(published.map(p => [p.PublicPort, p])).values()];
+    // Laagste PrivatePort eerst: bij vrijwel elk image is dat de hoofdpoort.
+    uniek.sort((a, b) => a.PrivatePort - b.PrivatePort);
+    const chosen = uniek.find(p => TLS_PRIVATE_PORTS.has(p.PrivatePort)) || uniek[0];
+    return {
+        port: chosen.PublicPort,
+        scheme: TLS_PRIVATE_PORTS.has(chosen.PrivatePort) ? 'https' : 'http'
+    };
+}
+
+// Waarschuwing als de host waarop de tegels gebouwd worden geen IP-adres is. Dan draai
+// je het dashboard achter een domein, en dat domein wijst naar je proxy — niet naar de
+// containerpoorten. De scan kan dat niet weten (Docker levert alleen poortnummers), dus
+// hier alleen melden in plaats van stilzwijgend kapotte tegels afleveren.
+function hostWaarschuwing(ip) {
+    const isIP = /^\d{1,3}(\.\d{1,3}){3}$/.test(ip) || ip.includes(':') || ip === 'localhost';
+    if (isIP) return '';
+    return `<p style="color: var(--warning-color); font-size: 0.85rem; margin-top: 8px;">`
+        + `⚠️ Tegels worden gebouwd op <strong>${ip}</strong>. Dat is geen IP-adres, dus ze `
+        + `wijzen naar je proxy en niet naar de containerpoorten. Vul hierboven het LAN-IP in `
+        + `(bijv. 192.168.1.10) en scan opnieuw.</p>`;
+}
+
 function detectApp(container) {
     const slug = imageBasename(container.Image);
     if (!slug) return null;
@@ -12878,11 +13169,11 @@ async function wizScanDocker() {
             const detected = detectApp(container);
             if (!detected) continue;
             // Only include containers with a HOST-published port (skip background services like watchtower)
-            const port = container.Ports?.find(p => p.PublicPort)?.PublicPort;
-            if (!port) continue;
+            const endpoint = pickEndpoint(container);
+            if (!endpoint) continue;
             foundApps.push({
                 ...detected,
-                url: `http://${ip}:${port}`
+                url: `${endpoint.scheme}://${ip}:${endpoint.port}`
             });
         }
 
@@ -12908,7 +13199,12 @@ async function wizScanDocker() {
 }
 
 async function scanDockerContainers() {
-    const ip = document.getElementById('setting-docker-ip').value.trim() || localStorage.getItem('hobbithole_nas_ip') || window.location.hostname;
+    // Host voor de gegenereerde URL's. NIET uit `hobbithole_nas_ip` halen: die sleutel wordt
+    // door de Synology-app-toevoeger geschreven, dus wie ooit Synology-apps heeft toegevoegd
+    // kreeg daarna het IP van zijn NAS in elke gescande Docker-tegel — terwijl de containers
+    // via /api/containers van de dashboard-host zelf komen. Vandaar: eigen veld of de host
+    // waar je het dashboard op geopend hebt.
+    const ip = document.getElementById('setting-docker-ip').value.trim() || window.location.hostname;
     const resultsEl = document.getElementById('docker-scan-results');
 
     resultsEl.innerHTML = `<p style="color: var(--accent-color);">${t('scanner.scanningContainers', '🔍 Scannen naar Docker containers...')}</p>`;
@@ -12924,11 +13220,11 @@ async function scanDockerContainers() {
             const detected = detectApp(container);
             if (!detected) continue;
             // Only include containers with a HOST-published port
-            const port = container.Ports?.find(p => p.PublicPort)?.PublicPort;
-            if (!port) continue;
+            const endpoint = pickEndpoint(container);
+            if (!endpoint) continue;
             foundApps.push({
                 ...detected,
-                url: `http://${ip}:${port}`,
+                url: `${endpoint.scheme}://${ip}:${endpoint.port}`,
                 containerName: container.name || container.Names?.[0]
             });
         }
@@ -12936,6 +13232,7 @@ async function scanDockerContainers() {
         if (foundApps.length > 0) {
             resultsEl.innerHTML = `
                 <p style="color: var(--success-color); margin-bottom: 10px;">${t('scanner.appsFound', '✅ ${count} apps gevonden:').replace('${count}', foundApps.length)}</p>
+                ${hostWaarschuwing(ip)}
                 ${foundApps.map((app, i) => `
                     <div class="app-item" style="margin-bottom: 8px;">
                         <div class="app-item-info">
@@ -13485,8 +13782,261 @@ async function updateP95Stats() {
     } catch (e) { console.error('Failed to fetch p95 stats', e); }
 }
 
+
+// ===== v1.10.0 AUTH GATE =====
+let authState = { enabled: false, authenticated: true, setupRequired: false, user: null };
+
+async function fetchAuthStatus() {
+    try {
+        const res = await fetch('/api/auth/status', { cache: 'no-store', credentials: 'same-origin' });
+        if (!res.ok) {
+            // Do NOT pretend auth is off — that loads an empty dashboard with 401s.
+            return { enabled: true, authenticated: false, setupRequired: false, statusError: res.status };
+        }
+        return await res.json();
+    } catch (e) {
+        return { enabled: true, authenticated: false, setupRequired: false, statusError: 'network' };
+    }
+}
+
+function showAuthOverlay(setup) {
+    const ov = document.getElementById('auth-overlay');
+    if (!ov) return;
+    ov.style.display = 'flex';
+    bindAuthPasswordToggle();
+
+    const title = document.getElementById('auth-title');
+    const sub = document.getElementById('auth-subtitle');
+    const btn = document.getElementById('auth-submit');
+    const nameWrap = document.getElementById('auth-name-wrap');
+    const pw = document.getElementById('auth-password');
+    const tbtn = document.getElementById('auth-password-toggle');
+    // always start hidden when overlay opens
+    if (pw) {
+        pw.type = 'password';
+        pw.setAttribute('autocomplete', setup ? 'new-password' : 'current-password');
+    }
+    if (tbtn) {
+        const showL = t('settings.authShowPassword', 'Show');
+        tbtn.textContent = showL;
+        tbtn.setAttribute('aria-label', showL);
+        tbtn.title = showL;
+    }
+    if (setup) {
+        if (title) title.textContent = t('settings.authSetupTitle', 'Create admin account');
+        if (sub) sub.textContent = t('settings.authSetupSubtitle', 'First-time setup — this becomes the administrator.');
+        if (btn) btn.textContent = t('settings.authSetupSubmit', 'Create account');
+        if (nameWrap) nameWrap.style.display = 'flex';
+    } else {
+        if (title) title.textContent = t('settings.authSignInTitle', 'Hobbithole Dashboard');
+        if (sub) sub.textContent = t('settings.authSignInSubtitle', 'Sign in to continue');
+        if (btn) btn.textContent = t('settings.authSignInSubmit', 'Sign in');
+        if (nameWrap) nameWrap.style.display = 'none';
+    }
+    document.body.style.overflow = 'hidden';
+}
+
+function hideAuthOverlay() {
+    const ov = document.getElementById('auth-overlay');
+    if (ov) ov.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function bindAuthPasswordToggle() {
+    const btn = document.getElementById('auth-password-toggle');
+    const pw = document.getElementById('auth-password');
+    if (!btn || !pw || btn.dataset.bound) return;
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', () => {
+        const show = pw.type === 'password';
+        pw.type = show ? 'text' : 'password';
+        const hideL = t('settings.authHidePassword', 'Hide');
+        const showL = t('settings.authShowPassword', 'Show');
+        btn.textContent = show ? hideL : showL;
+        btn.setAttribute('aria-label', show ? hideL : showL);
+        btn.title = show ? hideL : showL;
+        // keep caret at end after toggle
+        try { pw.focus(); const n = pw.value.length; pw.setSelectionRange(n, n); } catch (_) {}
+    });
+}
+
+function bindAuthForm() {
+    const form = document.getElementById('auth-form');
+    bindAuthPasswordToggle();
+    if (!form || form.dataset.bound) return;
+    form.dataset.bound = '1';
+    form.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const errEl = document.getElementById('auth-error');
+        if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
+        const email = (document.getElementById('auth-email') || {}).value || '';
+        const password = (document.getElementById('auth-password') || {}).value || '';
+        const displayName = (document.getElementById('auth-display-name') || {}).value || '';
+        const enableFlow = Boolean(authState && authState._enableFlow);
+        const setup = authState.setupRequired;
+        const url = enableFlow ? '/api/auth/enable' : (setup ? '/api/auth/setup' : '/api/auth/login');
+        const body = (enableFlow || setup) ? { email, password, displayName } : { email, password };
+        try {
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify(body),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                const msg = data.error === 'invalid_credentials' ? t('settings.authInvalidCredentials', 'Invalid email or password')
+                    : data.error === 'rate_limited' ? t('settings.authRateLimited', 'Too many attempts — try again later')
+                    : data.error === 'email_exists' ? t('settings.authEmailExists', 'Email already registered')
+                    : (data.message || data.error || t('settings.authLoginFailed', 'Login failed'));
+                if (errEl) { errEl.textContent = msg; errEl.style.display = 'block'; }
+                return;
+            }
+            authState = await fetchAuthStatus();
+            if (authState) authState._enableFlow = false;
+            hideAuthOverlay();
+            if (typeof refreshAuthSettingsPanel === 'function') {
+                try { await refreshAuthSettingsPanel(); } catch (_) {}
+            }
+            // continue boot if we deferred init
+            if (typeof window.__authResumeInit === 'function') {
+                const fn = window.__authResumeInit;
+                window.__authResumeInit = null;
+                await fn();
+            } else {
+                location.reload();
+            }
+        } catch (e) {
+            if (errEl) { errEl.textContent = 'Network error'; errEl.style.display = 'block'; }
+        }
+    });
+}
+
+async function ensureAuthenticated() {
+    try {
+        authState = await fetchAuthStatus();
+    } catch (e) {
+        console.error('auth status failed', e);
+        authState = { enabled: true, authenticated: false, setupRequired: false };
+    }
+    if (!authState.enabled) return true;
+    if (authState.authenticated) return true;
+    try {
+        bindAuthForm();
+        showAuthOverlay(Boolean(authState.setupRequired));
+    } catch (e) {
+        console.error('auth overlay failed', e);
+        // last resort: still block boot so we never show empty 401 dashboard
+        alert('Login screen failed to open. Hard-refresh (Ctrl+Shift+R). Details in console.');
+    }
+    return false;
+}
+
+
+// ===== v1.10 Security settings (UI enable/disable, zero-config) =====
+async function refreshAuthSettingsPanel() {
+    const statusEl = document.getElementById('auth-settings-status');
+    const enBtn = document.getElementById('auth-settings-enable-btn');
+    const disBtn = document.getElementById('auth-settings-disable-btn');
+    if (!statusEl) return;
+    try {
+        const st = await fetchAuthStatus();
+        authState = st;
+        const src = st.source || (st.enabled ? 'unknown' : 'off');
+        if (!st.enabled) {
+            statusEl.innerHTML = st.canToggle
+                ? t('settings.securityOffToggle', 'Login is <strong>off</strong>. Anyone on your network can open the dashboard.')
+                : t('settings.securityOffLocked', 'Login is <strong>off</strong> (locked via compose/environment).');
+            if (enBtn) {
+                enBtn.style.display = st.canToggle ? '' : 'none';
+                enBtn.textContent = t('settings.securityEnable', 'Secure this dashboard');
+            }
+            if (disBtn) disBtn.style.display = 'none';
+        } else {
+            const who = st.user
+                ? t('settings.securityLoggedInAs', 'Signed in as <strong>{email}</strong>. ').replace('{email}', escapeHtml(st.user.email || ''))
+                : '';
+            const tpl = st.canToggle
+                ? t('settings.securityOnToggle', 'Login is <strong>on</strong> ({source}). {who}Enabled from this dashboard (or settings file).')
+                : t('settings.securityOnLocked', 'Login is <strong>on</strong> ({source}). {who}Locked via <code>AUTH_ENABLED</code> in compose — change it there only.');
+            statusEl.innerHTML = tpl.replace('{source}', escapeHtml(src)).replace('{who}', who);
+            if (enBtn) enBtn.style.display = 'none';
+            if (disBtn) {
+                disBtn.style.display = st.canToggle ? '' : 'none';
+                disBtn.textContent = t('settings.securityDisable', 'Turn login off');
+            }
+        }
+    } catch (e) {
+        statusEl.textContent = t('settings.securityStatusError', 'Could not load auth status.');
+    }
+}
+
+function escapeHtml(s) {
+    return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+/** Open the same auth overlay in "enable" mode (create admin or re-enable with password). */
+function openAuthEnableFlow() {
+    authState = Object.assign({}, authState, {
+        enabled: false,
+        setupRequired: !(authState && authState.hasUsers),
+        _enableFlow: true,
+    });
+    // If users already exist, treat as login-to-enable (not first-run name field)
+    bindAuthForm();
+    showAuthOverlay(!(authState.hasUsers));
+    const sub = document.getElementById('auth-subtitle');
+    const title = document.getElementById('auth-title');
+    const btn = document.getElementById('auth-submit');
+    if (!authState.hasUsers) {
+        if (title) title.textContent = t('settings.securityEnableTitle', 'Secure this dashboard');
+        if (sub) sub.textContent = t('settings.securityEnableSubtitle', 'Create an admin account. Login will be required afterwards.');
+        if (btn) btn.textContent = t('settings.securityEnableSubmit', 'Enable & create account');
+    } else {
+        if (title) title.textContent = t('settings.securityReenableTitle', 'Turn login back on');
+        if (sub) sub.textContent = t('settings.securityReenableSubtitle', 'Confirm with email and password of an existing account.');
+        if (btn) btn.textContent = t('settings.securityReenableSubmit', 'Turn on');
+    }
+}
+
+async function disableDashboardAuth() {
+    if (!confirm(t('settings.securityDisableConfirm', 'Turn login off? Anyone on the network can open the dashboard without a password.'))) return;
+    try {
+        const res = await fetch('/api/auth/disable', { method: 'POST', credentials: 'same-origin' });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+            alert(data.message || data.error || t('settings.securityDisableFailed', 'Could not turn off'));
+            return;
+        }
+        if (typeof showToast === 'function') showToast(t('settings.securityDisabledToast', 'Login turned off'), 'success');
+        await refreshAuthSettingsPanel();
+        location.reload();
+    } catch (e) {
+        alert(t('settings.securityNetworkError', 'Network error'));
+    }
+}
+
+
+async function authLogout() {
+    try {
+        await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' });
+    } catch (_) {}
+    location.reload();
+}
+
 // ===== INITIALIZATION =====
 (async function init() {
+    // v1.10.0: optional auth gate (AUTH_ENABLED on config-api)
+    const authed = await ensureAuthenticated();
+    if (!authed) {
+        window.__authResumeInit = async () => { await init(); };
+        return;
+    }
+
     // Load language
     await loadLanguage(currentLang);
     applyTranslations();
@@ -13506,7 +14056,7 @@ async function updateP95Stats() {
 
     // v1.9.3: auto-sync footer version with constant
     // Lokaal: "1.9.10 (dev)" zodat je ziet waar je in werkt.
-    // Release: pre-build/push strippen -dev → APP_VERSION is schoon → users zien "1.9.10".
+    // Release: pre-build/push strippen -dev → APP_VERSION is schoon → users zien "1.10.0".
     const footerVer = document.getElementById('footer-version-text');
     if (footerVer) footerVer.textContent = APP_VERSION.replace('-dev', ' (dev)');
 
@@ -13567,6 +14117,8 @@ async function updateP95Stats() {
     // v1.8.0: cross-device sync. Fetch server categories and merge with local cache.
     // Server wins if it has data, otherwise localStorage is pushed up (one-time migration).
     await syncCategoriesWithServer();
+    _categorieSyncKlaar = true; // vanaf hier mogen wijzigingen naar de server
+    pruneOrphanWidgets();       // eenmalige opruiming; stil als er niets te doen is
     renderDashboard(); // re-render with whatever is now authoritative
 
     // v1.8.0: render standalone widget blocks (clock/notes/calendar/etc) once layout is loaded
@@ -13613,7 +14165,14 @@ async function updateP95Stats() {
             closeModals();
             closeChangelogModal();
         }
-        if (e.key === '/' && document.activeElement !== searchInput) {
+        // Focus search with "/" — but never steal "/" from real text fields
+        // (app URL needs "http://…"; previously only searchInput was excluded).
+        if (e.key === '/') {
+            const el = document.activeElement;
+            const tag = el && el.tagName ? el.tagName.toLowerCase() : '';
+            const typing = tag === 'input' || tag === 'textarea' || tag === 'select'
+                || (el && el.isContentEditable);
+            if (typing || el === searchInput) return;
             e.preventDefault();
             searchInput.focus();
         }

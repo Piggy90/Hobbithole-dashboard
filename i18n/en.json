@@ -191,7 +191,43 @@
     "saveIntegrationBtn": "💾 Save",
     "canvasModeDesc": "Free placement vs stacked grid. Synced across devices (domain, IP, browsers) via server config — same as your widgets.",
     "wallpaperSynced": "✅ Synced via config-api (all devices)",
-    "wallpaperLocalOnly": "⚠️ This device only — config-api offline or unreachable"
+    "wallpaperLocalOnly": "⚠️ This device only — config-api offline or unreachable",
+    "security": "Security",
+    "securityLoading": "Loading…",
+    "securityEnable": "Secure this dashboard",
+    "securityDisable": "Turn login off",
+    "securityHelp": "Optional. Turn login on if you reach the dashboard from outside your home via Nginx/Proxy. Power users can also force auth with <code>AUTH_ENABLED</code> in compose (this button is then locked).",
+    "securityOffToggle": "Login is <strong>off</strong>. Anyone on your network can open the dashboard.",
+    "securityOffLocked": "Login is <strong>off</strong> (locked via compose/environment).",
+    "securityOnToggle": "Login is <strong>on</strong> ({source}). {who}Enabled from this dashboard (or settings file).",
+    "securityOnLocked": "Login is <strong>on</strong> ({source}). {who}Locked via <code>AUTH_ENABLED</code> in compose — change it there only.",
+    "securityLoggedInAs": "Signed in as <strong>{email}</strong>. ",
+    "securityStatusError": "Could not load auth status.",
+    "securityEnableTitle": "Secure this dashboard",
+    "securityEnableSubtitle": "Create an admin account. Login will be required afterwards.",
+    "securityEnableSubmit": "Enable & create account",
+    "securityReenableTitle": "Turn login back on",
+    "securityReenableSubtitle": "Confirm with email and password of an existing account.",
+    "securityReenableSubmit": "Turn on",
+    "securityDisableConfirm": "Turn login off? Anyone on the network can open the dashboard without a password.",
+    "securityDisabledToast": "Login turned off",
+    "securityDisableFailed": "Could not turn off",
+    "securityNetworkError": "Network error",
+    "authSignInTitle": "Hobbithole Dashboard",
+    "authSignInSubtitle": "Sign in to continue",
+    "authSignInSubmit": "Sign in",
+    "authSetupTitle": "Create admin account",
+    "authSetupSubtitle": "First-time setup — this becomes the administrator.",
+    "authSetupSubmit": "Create account",
+    "authEmail": "Email",
+    "authPassword": "Password",
+    "authDisplayName": "Display name",
+    "authShowPassword": "Show",
+    "authHidePassword": "Hide",
+    "authInvalidCredentials": "Invalid email or password",
+    "authRateLimited": "Too many attempts — try again later",
+    "authEmailExists": "Email already registered",
+    "authLoginFailed": "Login failed"
   },
   "modal": {
     "addApp": "Add app",
@@ -385,5 +421,17 @@
     "iframeWidgetDesc": "Embed a URL as live frame",
     "quickstatWidgetDesc": "Live number from a custom endpoint",
     "calendarWidgetDesc": "Upcoming events from an ICS feed"
+  },
+  "announcements": {
+    "optionalAuth": {
+      "title": "Login & remote access",
+      "body": "You can now turn on <strong>optional authentication</strong> on the config-api.<br><br>With login (Settings → Security, or <code>AUTH_ENABLED=true</code>), the dashboard asks for email + password (first visit creates the admin). APIs and container actions stay locked without a session — so it is much safer to reach your dashboard <strong>from outside your home</strong> via Nginx Proxy Manager, Caddy, Traefik, or any reverse proxy with HTTPS.<br><br><strong>Still zero-config by default:</strong> auth stays off until you enable it. Do not publish port 8086 to the internet without auth (or another proxy login).<br><br>See the changelog for details. Google / Microsoft / passkeys are next.",
+      "cta": "Open changelog"
+    },
+    "configApiRequired": {
+      "title": "Config API update required",
+      "body": "This dashboard release needs <strong>hobbithole-config-api</strong> on the same version as the dashboard.<br><br>Early installs sometimes only ran the dashboard image. Without the config API you lose cross-device sync, home widgets, themes, wallpapers and weather settings.<br><br><code>docker pull piggyoriginal/hobbithole-config-api:latest</code><br>Then recreate/restart the <code>config-api</code> service (see compose on Docker Hub / GitHub).",
+      "cta": "Open changelog"
+    }
   }
 }

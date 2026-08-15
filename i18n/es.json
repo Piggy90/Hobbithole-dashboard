@@ -191,7 +191,43 @@
     "saveIntegrationBtn": "💾 Guardar",
     "canvasModeDesc": "Colocación libre vs rejilla apilada. Sincronizado entre dispositivos (dominio, IP, navegadores) vía config del servidor.",
     "wallpaperSynced": "✅ Synced via config-api (all devices)",
-    "wallpaperLocalOnly": "⚠️ This device only — config-api offline or unreachable"
+    "wallpaperLocalOnly": "⚠️ This device only — config-api offline or unreachable",
+    "security": "Seguridad",
+    "securityLoading": "Cargando…",
+    "securityEnable": "Proteger este panel",
+    "securityDisable": "Desactivar inicio de sesión",
+    "securityHelp": "Opcional. Activa el inicio de sesión si accedes al panel fuera de casa vía Nginx/Proxy. Los usuarios avanzados pueden forzar auth con <code>AUTH_ENABLED</code> en compose (el botón queda bloqueado).",
+    "securityOffToggle": "El inicio de sesión está <strong>desactivado</strong>. Cualquiera en la red puede abrir el panel.",
+    "securityOffLocked": "El inicio de sesión está <strong>desactivado</strong> (fijado por compose/entorno).",
+    "securityOnToggle": "El inicio de sesión está <strong>activado</strong> ({source}). {who}Activado desde este panel (o archivo settings).",
+    "securityOnLocked": "El inicio de sesión está <strong>activado</strong> ({source}). {who}Fijado con <code>AUTH_ENABLED</code> en compose — solo se cambia allí.",
+    "securityLoggedInAs": "Sesión iniciada como <strong>{email}</strong>. ",
+    "securityStatusError": "No se pudo cargar el estado de auth.",
+    "securityEnableTitle": "Proteger este panel",
+    "securityEnableSubtitle": "Crea una cuenta admin. Después hará falta iniciar sesión.",
+    "securityEnableSubmit": "Activar y crear cuenta",
+    "securityReenableTitle": "Volver a activar el inicio de sesión",
+    "securityReenableSubtitle": "Confirma con el correo y contraseña de una cuenta existente.",
+    "securityReenableSubmit": "Activar",
+    "securityDisableConfirm": "¿Desactivar el inicio de sesión? Cualquiera en la red podrá abrir el panel sin contraseña.",
+    "securityDisabledToast": "Inicio de sesión desactivado",
+    "securityDisableFailed": "No se pudo desactivar",
+    "securityNetworkError": "Error de red",
+    "authSignInTitle": "Hobbithole Dashboard",
+    "authSignInSubtitle": "Inicia sesión para continuar",
+    "authSignInSubmit": "Iniciar sesión",
+    "authSetupTitle": "Crear cuenta admin",
+    "authSetupSubtitle": "Configuración inicial — será el administrador.",
+    "authSetupSubmit": "Crear cuenta",
+    "authEmail": "Correo",
+    "authPassword": "Contraseña",
+    "authDisplayName": "Nombre visible",
+    "authShowPassword": "Mostrar",
+    "authHidePassword": "Ocultar",
+    "authInvalidCredentials": "Correo o contraseña no válidos",
+    "authRateLimited": "Demasiados intentos — prueba más tarde",
+    "authEmailExists": "El correo ya está registrado",
+    "authLoginFailed": "Error al iniciar sesión"
   },
   "modal": {
     "addApp": "Agregar app",
@@ -385,5 +421,17 @@
     "iframeWidgetDesc": "Insertar una URL como frame en vivo",
     "quickstatWidgetDesc": "Número en vivo de un endpoint personalizado",
     "calendarWidgetDesc": "Eventos próximos de un feed ICS"
+  },
+  "announcements": {
+    "optionalAuth": {
+      "title": "Inicio de sesión y acceso remoto",
+      "body": "Ya puedes activar la <strong>autenticación opcional</strong> en la config-api.<br><br>Con el login (Ajustes → Seguridad, o <code>AUTH_ENABLED=true</code>), el panel pide correo + contraseña (la primera visita crea el admin). Las API y acciones de contenedores quedan bloqueadas sin sesión — mucho más seguro para usarlo <strong>fuera de casa</strong> con Nginx Proxy Manager, Caddy, Traefik, etc. por HTTPS.<br><br><strong>Sigue siendo zero-config por defecto:</strong> la auth está apagada hasta que la actives. No publiques el puerto 8086 en Internet sin auth.<br><br>Consulta el changelog. Google / Microsoft / passkeys vienen después.",
+      "cta": "Abrir changelog"
+    },
+    "configApiRequired": {
+      "title": "Se requiere actualizar la config-api",
+      "body": "Esta versión del panel necesita <strong>hobbithole-config-api</strong> en la misma versión.<br><br>Las instalaciones tempranas a veces solo tenían la imagen del dashboard. Sin config-api pierdes sync multi-dispositivo, widgets, temas, fondos y el clima.<br><br><code>docker pull piggyoriginal/hobbithole-config-api:latest</code><br>Luego reinicia el servicio <code>config-api</code> (compose en Docker Hub / GitHub).",
+      "cta": "Abrir changelog"
+    }
   }
 }

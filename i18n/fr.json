@@ -191,7 +191,43 @@
     "saveIntegrationBtn": "💾 Enregistrer",
     "canvasModeDesc": "Placement libre vs grille empilée. Synchronisé entre appareils (domaine, IP, navigateurs) via la config serveur.",
     "wallpaperSynced": "✅ Synced via config-api (all devices)",
-    "wallpaperLocalOnly": "⚠️ This device only — config-api offline or unreachable"
+    "wallpaperLocalOnly": "⚠️ This device only — config-api offline or unreachable",
+    "security": "Sécurité",
+    "securityLoading": "Chargement…",
+    "securityEnable": "Sécuriser ce tableau de bord",
+    "securityDisable": "Désactiver la connexion",
+    "securityHelp": "Optionnel. Activez la connexion si vous accédez au tableau de bord hors domicile via Nginx/Proxy. Les utilisateurs avancés peuvent forcer l’auth avec <code>AUTH_ENABLED</code> dans compose (le bouton est alors verrouillé).",
+    "securityOffToggle": "La connexion est <strong>désactivée</strong>. Toute personne sur le réseau peut ouvrir le tableau de bord.",
+    "securityOffLocked": "La connexion est <strong>désactivée</strong> (verrouillée via compose/environnement).",
+    "securityOnToggle": "La connexion est <strong>activée</strong> ({source}). {who}Activée depuis ce tableau de bord (ou fichier settings).",
+    "securityOnLocked": "La connexion est <strong>activée</strong> ({source}). {who}Verrouillée via <code>AUTH_ENABLED</code> dans compose — à changer uniquement là.",
+    "securityLoggedInAs": "Connecté en tant que <strong>{email}</strong>. ",
+    "securityStatusError": "Impossible de charger le statut d’auth.",
+    "securityEnableTitle": "Sécuriser ce tableau de bord",
+    "securityEnableSubtitle": "Créez un compte admin. La connexion sera ensuite obligatoire.",
+    "securityEnableSubmit": "Activer et créer le compte",
+    "securityReenableTitle": "Réactiver la connexion",
+    "securityReenableSubtitle": "Confirmez avec l’e-mail et le mot de passe d’un compte existant.",
+    "securityReenableSubmit": "Activer",
+    "securityDisableConfirm": "Désactiver la connexion ? Toute personne sur le réseau pourra ouvrir le tableau de bord sans mot de passe.",
+    "securityDisabledToast": "Connexion désactivée",
+    "securityDisableFailed": "Échec de la désactivation",
+    "securityNetworkError": "Erreur réseau",
+    "authSignInTitle": "Hobbithole Dashboard",
+    "authSignInSubtitle": "Connectez-vous pour continuer",
+    "authSignInSubmit": "Connexion",
+    "authSetupTitle": "Créer le compte admin",
+    "authSetupSubtitle": "Première configuration — devient l’administrateur.",
+    "authSetupSubmit": "Créer le compte",
+    "authEmail": "E-mail",
+    "authPassword": "Mot de passe",
+    "authDisplayName": "Nom affiché",
+    "authShowPassword": "Afficher",
+    "authHidePassword": "Masquer",
+    "authInvalidCredentials": "E-mail ou mot de passe invalide",
+    "authRateLimited": "Trop de tentatives — réessayez plus tard",
+    "authEmailExists": "E-mail déjà enregistré",
+    "authLoginFailed": "Échec de la connexion"
   },
   "modal": {
     "addApp": "Ajouter une app",
@@ -385,5 +421,17 @@
     "iframeWidgetDesc": "Intégrer une URL comme frame en direct",
     "quickstatWidgetDesc": "Nombre en direct d'un endpoint personnalisé",
     "calendarWidgetDesc": "Événements à venir d'un flux ICS"
+  },
+  "announcements": {
+    "optionalAuth": {
+      "title": "Connexion & accès distant",
+      "body": "Vous pouvez activer une <strong>authentification optionnelle</strong> sur la config-api.<br><br>Avec la connexion (Paramètres → Sécurité, ou <code>AUTH_ENABLED=true</code>), le tableau de bord demande e-mail + mot de passe (la première visite crée l’admin). Les API et actions conteneurs restent verrouillées sans session — bien plus sûr pour y accéder <strong>hors domicile</strong> via Nginx Proxy Manager, Caddy, Traefik, etc. en HTTPS.<br><br><strong>Toujours zero-config par défaut :</strong> l’auth reste off jusqu’à activation. N’ouvrez pas le port 8086 sur Internet sans auth.<br><br>Voir le changelog. Google / Microsoft / passkeys arrivent ensuite.",
+      "cta": "Ouvrir le changelog"
+    },
+    "configApiRequired": {
+      "title": "Mise à jour config-api requise",
+      "body": "Cette version du tableau de bord nécessite <strong>hobbithole-config-api</strong> à la même version.<br><br>Les installs précoces n’avaient parfois que l’image dashboard. Sans config-api : pas de sync multi-appareils, widgets, thèmes, fonds d’écran ni météo.<br><br><code>docker pull piggyoriginal/hobbithole-config-api:latest</code><br>Puis redémarrez le service <code>config-api</code> (compose sur Docker Hub / GitHub).",
+      "cta": "Ouvrir le changelog"
+    }
   }
 }

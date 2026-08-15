@@ -191,7 +191,43 @@
     "saveIntegrationBtn": "💾 Opslaan",
     "canvasModeDesc": "Vrije plaatsing vs gestapelde grid. Gesynchroniseerd over apparaten (domein, IP, browsers) via server-config — net als je widgets.",
     "wallpaperSynced": "✅ Gesynchroniseerd via config-api (alle apparaten)",
-    "wallpaperLocalOnly": "⚠️ Alleen dit apparaat — config-api offline of niet bereikbaar"
+    "wallpaperLocalOnly": "⚠️ Alleen dit apparaat — config-api offline of niet bereikbaar",
+    "security": "Beveiliging",
+    "securityLoading": "Laden…",
+    "securityEnable": "Beveilig dit dashboard",
+    "securityDisable": "Login uitzetten",
+    "securityHelp": "Optioneel. Zet login aan als je het dashboard buitenshuis via Nginx/Proxy bereikt. Power users kunnen auth ook forceren met <code>AUTH_ENABLED</code> in compose (dan is deze knop vergrendeld).",
+    "securityOffToggle": "Login staat <strong>uit</strong>. Iedereen op je netwerk kan het dashboard openen.",
+    "securityOffLocked": "Login staat <strong>uit</strong> (vastgezet via compose/environment).",
+    "securityOnToggle": "Login staat <strong>aan</strong> ({source}). {who}Aangezet via dit dashboard (of settings-bestand).",
+    "securityOnLocked": "Login staat <strong>aan</strong> ({source}). {who}Vastgezet via <code>AUTH_ENABLED</code> in compose — uitzetten kan alleen daar.",
+    "securityLoggedInAs": "Ingelogd als <strong>{email}</strong>. ",
+    "securityStatusError": "Kon auth-status niet laden.",
+    "securityEnableTitle": "Beveilig dit dashboard",
+    "securityEnableSubtitle": "Maak een admin-account. Daarna is login verplicht.",
+    "securityEnableSubmit": "Aanzetten & account maken",
+    "securityReenableTitle": "Login weer aanzetten",
+    "securityReenableSubtitle": "Bevestig met e-mail en wachtwoord van een bestaand account.",
+    "securityReenableSubmit": "Aanzetten",
+    "securityDisableConfirm": "Login uitzetten? Iedereen op het netwerk kan het dashboard dan weer openen zonder wachtwoord.",
+    "securityDisabledToast": "Login uitgezet",
+    "securityDisableFailed": "Uitzetten mislukt",
+    "securityNetworkError": "Netwerkfout",
+    "authSignInTitle": "Hobbithole Dashboard",
+    "authSignInSubtitle": "Log in om door te gaan",
+    "authSignInSubmit": "Inloggen",
+    "authSetupTitle": "Admin-account maken",
+    "authSetupSubtitle": "Eerste setup — dit wordt de beheerder.",
+    "authSetupSubmit": "Account maken",
+    "authEmail": "E-mail",
+    "authPassword": "Wachtwoord",
+    "authDisplayName": "Weergavenaam",
+    "authShowPassword": "Toon",
+    "authHidePassword": "Verberg",
+    "authInvalidCredentials": "Ongeldig e-mailadres of wachtwoord",
+    "authRateLimited": "Te veel pogingen — probeer later opnieuw",
+    "authEmailExists": "E-mailadres al in gebruik",
+    "authLoginFailed": "Inloggen mislukt"
   },
   "modal": {
     "addApp": "App toevoegen",
@@ -385,5 +421,17 @@
     "iframeWidgetDesc": "Embed een URL als live frame",
     "quickstatWidgetDesc": "Live nummer van een custom endpoint",
     "calendarWidgetDesc": "Komende events uit een ICS feed"
+  },
+  "announcements": {
+    "optionalAuth": {
+      "title": "Login & toegang op afstand",
+      "body": "Je kunt nu <strong>optionele authenticatie</strong> aanzetten op de config-api.<br><br>Met login (via Instellingen → Beveiliging, of <code>AUTH_ENABLED=true</code>) vraagt het dashboard om e-mail + wachtwoord (eerste bezoek maakt de admin). API’s en container-acties blijven op slot zonder sessie — zo is het veel veiliger om je dashboard <strong>buitenshuis</strong> te bereiken via Nginx Proxy Manager, Caddy, Traefik of een andere reverse proxy met HTTPS.<br><br><strong>Nog steeds zero-config standaard:</strong> auth blijft uit tot je hem aanzet. Zet poort 8086 niet open op internet zonder login (of een andere proxy-login).<br><br>Zie de changelog voor details. Google / Microsoft / passkeys volgen.",
+      "cta": "Open changelog"
+    },
+    "configApiRequired": {
+      "title": "Config API-update nodig",
+      "body": "Deze dashboard-release heeft <strong>hobbithole-config-api</strong> nodig op dezelfde versie als het dashboard.<br><br>Vroege installs draaiden soms alleen de dashboard-image. Zonder config-api mis je cross-device sync, home-widgets, thema’s, wallpapers en weer-instellingen.<br><br><code>docker pull piggyoriginal/hobbithole-config-api:latest</code><br>Daarna de <code>config-api</code>-service opnieuw starten (zie compose op Docker Hub / GitHub).",
+      "cta": "Open changelog"
+    }
   }
 }

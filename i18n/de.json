@@ -191,7 +191,43 @@
     "saveIntegrationBtn": "💾 Speichern",
     "canvasModeDesc": "Freie Platzierung vs. gestapeltes Raster. Geräteübergreifend synchronisiert (Domain, IP, Browser) über die Server-Config.",
     "wallpaperSynced": "✅ Synced via config-api (all devices)",
-    "wallpaperLocalOnly": "⚠️ This device only — config-api offline or unreachable"
+    "wallpaperLocalOnly": "⚠️ This device only — config-api offline or unreachable",
+    "security": "Sicherheit",
+    "securityLoading": "Laden…",
+    "securityEnable": "Dashboard absichern",
+    "securityDisable": "Login ausschalten",
+    "securityHelp": "Optional. Login aktivieren, wenn du das Dashboard von außerhalb per Nginx/Proxy erreichst. Power-User können Auth auch mit <code>AUTH_ENABLED</code> in der Compose erzwingen (dann ist der Schalter gesperrt).",
+    "securityOffToggle": "Login ist <strong>aus</strong>. Jeder im Netzwerk kann das Dashboard öffnen.",
+    "securityOffLocked": "Login ist <strong>aus</strong> (per Compose/Umgebung festgelegt).",
+    "securityOnToggle": "Login ist <strong>an</strong> ({source}). {who}Über dieses Dashboard (oder settings-Datei) aktiviert.",
+    "securityOnLocked": "Login ist <strong>an</strong> ({source}). {who}Per <code>AUTH_ENABLED</code> in Compose gesperrt — nur dort änderbar.",
+    "securityLoggedInAs": "Angemeldet als <strong>{email}</strong>. ",
+    "securityStatusError": "Auth-Status konnte nicht geladen werden.",
+    "securityEnableTitle": "Dashboard absichern",
+    "securityEnableSubtitle": "Admin-Konto erstellen. Danach ist Login erforderlich.",
+    "securityEnableSubmit": "Aktivieren & Konto erstellen",
+    "securityReenableTitle": "Login wieder aktivieren",
+    "securityReenableSubtitle": "Mit E-Mail und Passwort eines bestehenden Kontos bestätigen.",
+    "securityReenableSubmit": "Aktivieren",
+    "securityDisableConfirm": "Login ausschalten? Dann kann jeder im Netzwerk das Dashboard ohne Passwort öffnen.",
+    "securityDisabledToast": "Login ausgeschaltet",
+    "securityDisableFailed": "Ausschalten fehlgeschlagen",
+    "securityNetworkError": "Netzwerkfehler",
+    "authSignInTitle": "Hobbithole Dashboard",
+    "authSignInSubtitle": "Anmelden zum Fortfahren",
+    "authSignInSubmit": "Anmelden",
+    "authSetupTitle": "Admin-Konto erstellen",
+    "authSetupSubtitle": "Ersteinrichtung — wird der Administrator.",
+    "authSetupSubmit": "Konto erstellen",
+    "authEmail": "E-Mail",
+    "authPassword": "Passwort",
+    "authDisplayName": "Anzeigename",
+    "authShowPassword": "Zeigen",
+    "authHidePassword": "Verbergen",
+    "authInvalidCredentials": "Ungültige E-Mail oder Passwort",
+    "authRateLimited": "Zu viele Versuche — später erneut versuchen",
+    "authEmailExists": "E-Mail bereits registriert",
+    "authLoginFailed": "Anmeldung fehlgeschlagen"
   },
   "modal": {
     "addApp": "App hinzufügen",
@@ -385,5 +421,17 @@
     "iframeWidgetDesc": "Eine URL als Live-Frame einbetten",
     "quickstatWidgetDesc": "Live-Zahl von einem benutzerdefinierten Endpunkt",
     "calendarWidgetDesc": "Anstehende Termine aus einem ICS-Feed"
+  },
+  "announcements": {
+    "optionalAuth": {
+      "title": "Login & Fernzugriff",
+      "body": "Du kannst jetzt <strong>optionale Authentifizierung</strong> an der config-api aktivieren.<br><br>Mit Login (Einstellungen → Sicherheit oder <code>AUTH_ENABLED=true</code>) fragt das Dashboard nach E-Mail + Passwort (erster Besuch erstellt den Admin). APIs und Container-Aktionen bleiben ohne Sitzung gesperrt — so ist der Zugriff <strong>von außerhalb</strong> über Nginx Proxy Manager, Caddy, Traefik o. Ä. mit HTTPS deutlich sicherer.<br><br><strong>Weiterhin zero-config standardmäßig:</strong> Auth bleibt aus, bis du sie einschaltest. Port 8086 nicht ohne Login ins Internet legen.<br><br>Details im Changelog. Google / Microsoft / Passkeys folgen.",
+      "cta": "Changelog öffnen"
+    },
+    "configApiRequired": {
+      "title": "Config-API-Update erforderlich",
+      "body": "Dieses Dashboard braucht <strong>hobbithole-config-api</strong> in derselben Version wie das Dashboard.<br><br>Frühe Installationen liefen manchmal nur mit dem Dashboard-Image. Ohne Config-API fehlen Cross-Device-Sync, Home-Widgets, Themes, Wallpapers und Wetter-Einstellungen.<br><br><code>docker pull piggyoriginal/hobbithole-config-api:latest</code><br>Danach den <code>config-api</code>-Service neu starten (Compose auf Docker Hub / GitHub).",
+      "cta": "Changelog öffnen"
+    }
   }
 }

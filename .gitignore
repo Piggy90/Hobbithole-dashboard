@@ -10,6 +10,7 @@ ROADMAP.md
 pre-build.sh
 push.sh
 github-push.sh
+hub-readme-sync.sh
 README_PIPELINE.md
 README.dockerhub.md
 README.dockerhub.config-api.md
