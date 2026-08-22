@@ -14,6 +14,7 @@ pre-build.sh
 push.sh
 github-push.sh
 hub-readme-sync.sh
+sync-readme-from-changelog.py
 README_PIPELINE.md
 README.dockerhub.md
 README.dockerhub.config-api.md

@@ -4,41 +4,51 @@
 
 A blazing fast, responsive, self‑configuring dashboard for your homelab. Smart Docker auto‑detection, a cinematic weather widget, and **cross‑device settings sync** via a tiny config API.
 
-> **v1.10.0** — **Optional authentication** (off by default) so you can put the dashboard behind a reverse proxy safely, plus a pack of **Docker scan / tile / URL** fixes. Details below.
+> **v1.10.1** — **Status dot: Docker first, URL fallback**, **Optional `containerName` field**, **Compact service tile**, plus more. Details below.
 >
-> Previously in **v1.9.10**: cross-device wallpapers + smarter container Start/Stop/Restart. **v1.9.9**: weather radar. **v1.9.5**: media showcase. **v1.9.4**: VM/Service control. **v1.9.3**: Universal USB Eject.
+> Previously in **v1.10.0**: Optional authentication (product feature), Release popup.
 >
 > **Upgrade tip:** always pull **both** images (`hobbithole-dashboard` **and** `hobbithole-config-api`) to the **same version**. The API is required for sync, wallpapers, themes, widgets, and auth.
+
+## What's new in v1.10.1
+
+### Added
+
+- **Status dot: Docker first, URL fallback** — match on `containerName` / URL port / tile name (compose service).
+- **Optional `containerName` field** — on add/edit app — explicit link for status dot and p95 when the display name differs from the container name.
+- **Compact service tile** — (`compact: true`) — chip row: status dot + name + p95 RAM (no large icon, no CPU line).
+- **Compact stacks in Apps** — consecutive compact tiles form a vertical column (`.compact-stack`, one grid cell).
+- **Settings → Help & tips** — searchable FAQ near the top of Settings (after Language).
+- **Settings: “Back to top” button** — floating control bottom-right while Settings is open (viewport-fixed).
+- **Settings: jump legend (section nav)** — sticky “Jump to section” chips for all visible Settings blocks.
+
+### Fixed
+
+- **Docker scanner skipped host-network containers** — (2026-08-22) — Settings → Scan Docker Containers only kept containers with a `PublicPort`.
+- **Wind radar (Gust) — animated white streamlines** — Weerenradar delivers base map (JPEG) + **wind vector field** (`wind:N:png` in X-Custom-Body; R/G vs offset 85) + `windvalues` JSON.
+- **p95 metrics missing on tiles despite a valid benchmark** — the run measures all running Docker containers, but a tile only showed CPU/RAM when the **display name** matched after stripping spaces and `-`.
+- **Compact tile looked like an empty square** — in a mixed grid: CSS grid stretched the chip to the row height of icon cards.
+- **GitHub blob icon URLs** — (`/blob/…` or `?raw=true`) are rewritten in `resolveIconSrc` to `raw.githubusercontent.com` (stable `image/*`).
 
 ## What's new in v1.10.0
 
 ### Added
 
-- **Optional authentication** (product feature, **off by default** — existing installs unchanged)
-  - **UI:** Settings → Security → “Secure this dashboard” (zero-config; `SESSION_SECRET` auto under `data/auth/`)
-  - **Compose lock:** `AUTH_ENABLED=true|false` on config-api locks the toggle
-  - First visit creates the admin (email + password; password Show/Hide on login)
-  - Unauthenticated clients get **401** on `/api/*` (except `/api/health` and `/api/auth/*`)
-  - Multi-user per install via admin API (`POST /api/auth/users`); OIDC/passkeys later
-- **Docker actions via config-api** — containers list/start/stop/restart no longer go raw browser → nginx → Docker socket; raw `/docker/` is closed so auth can protect those actions
-- **Release popup** — one-time note about optional login + safer remote access via reverse proxy
+- **Optional authentication (product feature)** — set `AUTH_ENABLED=true` and `SESSION_SECRET` on config-api.
+- **Release popup** — `optional-auth-remote-1.10.0` — optional login + safer remote access via reverse proxy (once max).
+- **Auth via the UI (zero-config)** — Settings → Security → “Secure this dashboard”.
+- **Login UI** — overlay for first-run setup or sign-in; **Show/Hide** password toggle.
+- **Docker endpoints via config-api** — containers/info/start/stop/restart no longer hit the Docker socket from the browser nginx path.
 
 ### Fixed
 
-- **Login loop on LAN HTTP** — session cookie is no longer forced `Secure` only because `AUTH_PUBLIC_URL` is https; `Secure` follows the request (`X-Forwarded-Proto` / TLS). Override with `AUTH_COOKIE_SECURE` if needed
-- **Empty dashboard / no login UI** — JS crash in the auth overlay; 401 on config now opens login instead of a blank offline shell
-- **Docker scan wrong host** — no longer reuses Synology `localStorage` NAS IP for every scanned tile; uses the dashboard host (or an explicit field)
-- **Docker scan wrong port / scheme** — prefers the published **HTTPS** port when available (e.g. webtop `https://host:3021` instead of a random `http://` twin port that looked “broken”)
-- **Docker scan on a domain host** — warns to fill in the LAN IP instead of silently building reverse-proxy tiles
-- **Delete tile left orphan widgets + API keys** — widget config is removed with the tile; existing orphans are pruned at startup
-- **Deleted tile came back after refresh** — category changes no longer silently skip when config-api was briefly unavailable
-- **App URL field** — bare IPs / typing `//` work again (`type=text` + auto-`http://` when no scheme)
-- **`/` keyboard shortcut** — no longer steals `/` inside inputs (you can type `http://` in Add/Edit App)
+- **Login loop on LAN HTTP** — session cookie was marked `Secure` because `AUTH_PUBLIC_URL` was https while logging in over `http://IP:8086`.
+- **Empty dashboard without login screen** — a duplicate `const pw` in the auth overlay crashed the whole frontend (SyntaxError).
 
 ### Security
 
-- Do not expose port **8086** to the internet without auth (or reverse-proxy auth)
-- Auth status is never treated as “off” on a failed status fetch (avoids a silent empty 401 UI)
+- Do not expose port 8086 to the internet without `AUTH_ENABLED=true` (or reverse-proxy auth).
+- Auth status must not be treated as “auth off” on fetch failure (avoids silent empty 401 UI).
 
 ## Optional authentication (how to enable)
 
@@ -111,8 +121,12 @@ docker pull piggyoriginal/hobbithole-config-api
 
 ## Features
 
-- **Optional authentication** (v1.10.0) — off by default; UI or compose; API lock + login overlay
-- **Safer Docker control plane** (v1.10.0) — start/stop/restart via config-api; smarter scan (host/HTTPS/orphan widgets)
+- **Status dot: Docker first, URL fallback** (v1.10.1) — match on `containerName` / URL port / tile name (compose service).
+- **Optional `containerName` field** (v1.10.1) — on add/edit app — explicit link for status dot and p95 when the display name differs from the container name.
+- **Compact service tile** (v1.10.1) — (`compact: true`) — chip row: status dot + name + p95 RAM (no large icon, no CPU line).
+- **Compact stacks in Apps** (v1.10.1) — consecutive compact tiles form a vertical column (`.compact-stack`, one grid cell).
+- **Optional authentication (product feature)** (v1.10.0) — set `AUTH_ENABLED=true` and `SESSION_SECRET` on config-api.
+- **Release popup** (v1.10.0) — `optional-auth-remote-1.10.0` — optional login + safer remote access via reverse proxy (once max).
 - **Cross‑device wallpapers** (v1.9.10) — static image, dynamic time-of-day slots (5), and live video; files under config-api `data/wallpapers/`
 - **Container quick actions** (improved v1.9.10) — Start / Stop / Restart on tiles; matches by port **or** container/compose name
 - **Live weather radar** (v1.9.9+) — Weerenradar (Europe) + RainViewer global; home widget + expanded panel
@@ -137,20 +151,3 @@ docker pull piggyoriginal/hobbithole-config-api
 - **Command Palette** (`Cmd/Ctrl+K`) — fuzzy launcher for apps + actions
 - **⋯ Tile menu** — pin / edit / delete
 - **Live status dots** — green/red ping on every tile
-- **Pinned favorites strip**
-- **Fuzzy Search** across tiles
-- **Backup & Restore** settings as JSON
-- **Screensaver Mode** — fullscreen clock when idle
-- **Multi‑language** (NL / EN / DE / FR / ES)
-
-## Screenshots
-
-| Main Dashboard | Weather Widget | Dynamic Wallpaper |
-| :---: | :---: | :---: |
-| ![Main Dashboard](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/main/images/dashboard-home.png) | ![Weather Widget](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/main/images/weather-widget.png) | ![Dynamic Wallpaper](https://raw.githubusercontent.com/Piggy90/Hobbithole-dashboard/main/images/theme-nordic-frost.png) |
-
-## Perfect for
-
-NAS systems, homelabs, Docker users, and anyone who wants a clean, self‑configuring dashboard without hassle.
-
-Made using LokaiOS — the AI‑native operating system.
