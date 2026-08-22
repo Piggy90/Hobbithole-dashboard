@@ -37,6 +37,7 @@
   "settings": {
     "title": "Paramètres",
     "close": "Fermer",
+    "backToTop": "Haut de page",
     "save": "Enregistrer",
     "reset": "Réinitialiser",
     "dashboard": "Tableau de bord",
@@ -227,7 +228,8 @@
     "authInvalidCredentials": "E-mail ou mot de passe invalide",
     "authRateLimited": "Trop de tentatives — réessayez plus tard",
     "authEmailExists": "E-mail déjà enregistré",
-    "authLoginFailed": "Échec de la connexion"
+    "authLoginFailed": "Échec de la connexion",
+    "tocTitle": "Aller à la section"
   },
   "modal": {
     "addApp": "Ajouter une app",
@@ -242,7 +244,10 @@
     "addCategory": "Ajouter une catégorie",
     "editCategory": "Modifier la catégorie",
     "categoryName": "Nom",
-    "deleteCategory": "Supprimer la catégorie"
+    "deleteCategory": "Supprimer la catégorie",
+    "containerName": "Nom du conteneur Docker (optionnel)",
+    "containerNameHelp": "Pour le point d’état et p95 si le nom de tuile diffère du conteneur.",
+    "compactTile": "Tuile service compacte (nom + état + RAM)"
   },
   "toast": {
     "languageChanged": "Langue modifiée",
@@ -433,5 +438,59 @@
       "body": "Cette version du tableau de bord nécessite <strong>hobbithole-config-api</strong> à la même version.<br><br>Les installs précoces n’avaient parfois que l’image dashboard. Sans config-api : pas de sync multi-appareils, widgets, thèmes, fonds d’écran ni météo.<br><br><code>docker pull piggyoriginal/hobbithole-config-api:latest</code><br>Puis redémarrez le service <code>config-api</code> (compose sur Docker Hub / GitHub).",
       "cta": "Ouvrir le changelog"
     }
+  },
+  "help": {
+    "title": "📚 Aide & astuces",
+    "intro": "Les libellés restent courts. Ici, les réponses détaillées — ouvre un sujet ou cherche.",
+    "searchPlaceholder": "Rechercher dans l’aide…",
+    "noResults": "Aucun sujet trouvé.",
+    "openWhatsNew": "Nouveautés",
+    "openReadme": "GitHub README",
+    "jumpSecurity": "Aller à Sécurité",
+    "topics": {
+      "icons": {
+        "title": "App icons (slug, URL, or upload)",
+        "body": "<p>When adding/editing an app you can set the icon in three ways:</p><ul><li><strong>Slug</strong> — name from the <a href=\"https://dashboardicons.com\" target=\"_blank\" rel=\"noopener\">dashboard-icons</a> library (e.g. <code>sonarr</code>, <code>jellyfin</code>), loaded from a CDN.</li><li><strong>URL</strong> — paste a direct link to PNG, SVG, GIF, or WebP. Nothing is stored locally; great for project logos (e.g. Spotweb).</li><li><strong>Upload (📁)</strong> — file is stored as a data URL in your config (uses more storage).</li></ul><p><strong>GitHub tip:</strong> use <code>raw.githubusercontent.com/…</code>, not the blob page. Links with <code>/blob/</code> or <code>?raw=true</code> are rewritten automatically.</p><p>If a slug is missing from the library you see initials (DiceBear) until you pick a URL or upload.</p>"
+      },
+      "tiles": {
+        "title": "Tiles & app URLs",
+        "body": "<p>Each tile is a link (name + icon + URL). Bare IPs/ports are fine — <code>http://</code> is added if no scheme is present.</p><ul><li>⋯ on a tile: edit, pin, delete, container start/stop/restart (when Docker is available).</li><li>Categories can collapse and reorder under Settings → Apps.</li><li>Per-app widgets (stats) are configured on the tile.</li></ul>"
+      },
+      "benchmark": {
+        "title": "System benchmark (p95 CPU/RAM)",
+        "body": "<p>Settings → <strong>System Benchmark</strong> runs ~5 minutes across <strong>all running Docker containers</strong> (not tiles or external bookmarks).</p><ul><li>Results are CSVs on the host and show as p95 CPU/RAM on tiles.</li><li>Tile names match container names after normalizing (strip spaces, <code>-</code>, <code>_</code>). Example: tile <em>Immich Server</em> ↔ container <code>immich_server</code>.</li><li>Deliberately different names (e.g. <em>Jellyfin Fork</em> vs <code>jellyfin</code>) will not match.</li><li>New containers appear only after a <em>new</em> run.</li></ul>"
+      },
+      "auth": {
+        "title": "Login & security",
+        "body": "<p>Login is <strong>optional</strong> (off by default). Enable it under Settings → Security if you reach the dashboard remotely via a reverse proxy.</p><ul><li><strong>Disabling</strong> does not delete accounts — data stays in <code>data/auth/</code>.</li><li><strong>Re-enabling</strong> uses the same email + password (no first-run again) when users already exist.</li><li>Compose can force policy with <code>AUTH_ENABLED=true|false</code> (UI toggle locked).</li></ul><p>Without login: do not expose port 8086 to the internet.</p>"
+      },
+      "widgets": {
+        "title": "Home widgets",
+        "body": "<p>Add widgets on the home layout (weather, downloads, media, Proxmox, …). Configure API keys and URLs per widget in Settings or on the tile.</p><ul><li>Some widgets need extra compose setup (USB eject, Watchtower HTTP API).</li><li>Empty home? Use “add your first widget” or Edit Home.</li></ul>"
+      },
+      "wallpapers": {
+        "title": "Backgrounds & themes",
+        "body": "<p>Appearance: accent color, transparency, theme engine, and wallpapers.</p><ul><li><strong>Static</strong> — one image (file via config-api, not a giant data URL in config).</li><li><strong>Dynamic</strong> — up to 5 time-of-day slots.</li><li><strong>Live</strong> — short video background (max ~20 MB).</li></ul><p>Files live under the config-api wallpapers path so every device matches.</p>"
+      },
+      "docker": {
+        "title": "Docker: scan, start/stop",
+        "body": "<p>The dashboard can list containers and start/stop/restart them via the config-api.</p><ul><li>Scan suggests tiles; matching uses port and/or container name.</li><li>Host-network or stopped containers may have empty port lists — name matching covers that.</li><li>Not every container needs a tile; external bookmarks are not part of the benchmark.</li></ul>"
+      },
+      "home": {
+        "title": "Home / canvas editing",
+        "body": "<p>Home layout (canvas) lets you arrange blocks and widgets. Enable Edit Home to drag and resize.</p><ul><li>Preference is stored on the server (cross-device).</li><li>Command palette / search actions cover quick navigation.</li></ul>"
+      },
+      "status": {
+        "title": "Status dot: Docker first, else URL",
+        "body": "<p>Green/red does not always mean “website opens”.</p><ul><li><strong>Docker match</strong> — if the tile maps to a container (port, name, or <em>Docker container name</em>), the dot follows container state: <code>running</code> = green, else red. Tooltip shows the container name.</li><li><strong>URL ping</strong> — no Docker match → the browser probes the tile URL (as before). Localhost-only ports (e.g. CrowdSec LAPI on <code>127.0.0.1</code>) looked “down” while the container was fine.</li></ul><p><strong>Compact service tile:</strong> short row with name, status dot, and p95 RAM (no large icon). Great for infra without a web UI. Toggle when editing an app.</p><p><strong>Stacking:</strong> mark several apps as <em>compact service tiles</em> and drag them under each other in Apps. Consecutive compact tiles form a vertical stack. Reorder chips inside the stack, or pull one out next to the large app cards.</p>"
+      }
+    }
+  },
+  "status": {
+    "noUrl": "Pas d’URL à interroger",
+    "httpOk": "En ligne (URL joignable)",
+    "httpFail": "Hors ligne / URL injoignable",
+    "dockerRunning": "Conteneur en cours",
+    "dockerStopped": "Conteneur arrêté"
   }
 }

@@ -4,15 +4,13 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY default.conf /etc/nginx/conf.d/default.conf
 
-# Kopieer de schone template als de standaard index.html
+# Release UI: stripped template (no LAB_ONLY). Lab dogfood serves public/index.html via compose map-mount.
 COPY template_index.html /usr/share/nginx/html/index.html
 
-# Kopieer de vertalingen
-COPY i18n /usr/share/nginx/html/i18n
-
-# Kopieer de changelog (NL default + EN for English UI)
-COPY CHANGELOG.md /usr/share/nginx/html/CHANGELOG.md
-COPY CHANGELOG.en.md /usr/share/nginx/html/CHANGELOG.en.md
+# Statische assets uit public/ (lab + staging layout). Nooit public/index.html — die heeft lab-only code.
+COPY public/i18n /usr/share/nginx/html/i18n
+COPY public/CHANGELOG.md /usr/share/nginx/html/CHANGELOG.md
+COPY public/CHANGELOG.en.md /usr/share/nginx/html/CHANGELOG.en.md
 
 # Maak de images directory aan (zodat gebruikers deze eventueel kunnen mounten)
 RUN mkdir -p /usr/share/nginx/html/images

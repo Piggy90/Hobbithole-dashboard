@@ -37,6 +37,7 @@
   "settings": {
     "title": "Instellingen",
     "close": "Sluiten",
+    "backToTop": "Terug naar boven",
     "save": "Opslaan",
     "reset": "Reset",
     "dashboard": "Dashboard",
@@ -227,7 +228,8 @@
     "authInvalidCredentials": "Ongeldig e-mailadres of wachtwoord",
     "authRateLimited": "Te veel pogingen — probeer later opnieuw",
     "authEmailExists": "E-mailadres al in gebruik",
-    "authLoginFailed": "Inloggen mislukt"
+    "authLoginFailed": "Inloggen mislukt",
+    "tocTitle": "Spring naar sectie"
   },
   "modal": {
     "addApp": "App toevoegen",
@@ -242,7 +244,10 @@
     "addCategory": "Categorie toevoegen",
     "editCategory": "Categorie bewerken",
     "categoryName": "Naam",
-    "deleteCategory": "Categorie verwijderen"
+    "deleteCategory": "Categorie verwijderen",
+    "containerName": "Docker-containernaam (optioneel)",
+    "containerNameHelp": "Voor status-dot en p95 als de tegelnaam anders is dan de container.",
+    "compactTile": "Compacte service-tegel (naam + status + RAM, geen groot icoon)"
   },
   "toast": {
     "languageChanged": "Taal gewijzigd",
@@ -433,5 +438,59 @@
       "body": "Deze dashboard-release heeft <strong>hobbithole-config-api</strong> nodig op dezelfde versie als het dashboard.<br><br>Vroege installs draaiden soms alleen de dashboard-image. Zonder config-api mis je cross-device sync, home-widgets, thema’s, wallpapers en weer-instellingen.<br><br><code>docker pull piggyoriginal/hobbithole-config-api:latest</code><br>Daarna de <code>config-api</code>-service opnieuw starten (zie compose op Docker Hub / GitHub).",
       "cta": "Open changelog"
     }
+  },
+  "help": {
+    "title": "📚 Help & tips",
+    "intro": "Bij de velden houden we het kort. Hier staan de diepere antwoorden — open een onderwerp of zoek.",
+    "searchPlaceholder": "Zoek in help…",
+    "noResults": "Geen onderwerpen gevonden.",
+    "openWhatsNew": "Wat is er nieuw",
+    "openReadme": "GitHub README",
+    "jumpSecurity": "Naar Beveiliging",
+    "topics": {
+      "icons": {
+        "title": "App-iconen (slug, URL of upload)",
+        "body": "<p>Bij toevoegen/bewerken van een app kun je het icoon op drie manieren zetten:</p><ul><li><strong>Slug</strong> — naam uit de <a href=\"https://dashboardicons.com\" target=\"_blank\" rel=\"noopener\">dashboard-icons</a>-library (bv. <code>sonarr</code>, <code>jellyfin</code>). Wordt geladen via CDN.</li><li><strong>URL</strong> — plak een directe link naar PNG, SVG, GIF of WebP. Niets wordt lokaal opgeslagen; ideaal voor project-logo’s (bv. Spotweb).</li><li><strong>Upload (📁)</strong> — bestand wordt als data-URL in je config gezet (kost meer opslag).</li></ul><p><strong>GitHub-tip:</strong> gebruik <code>raw.githubusercontent.com/…</code>, niet de blob-pagina. Links met <code>/blob/</code> of <code>?raw=true</code> worden automatisch omgezet.</p><p>Bestaat de slug niet in de library, dan zie je initialen (DiceBear) tot je een URL of upload kiest.</p>"
+      },
+      "tiles": {
+        "title": "Tegels & app-URL’s",
+        "body": "<p>Elke tegel is een link (naam + icoon + URL). URL mag een bare IP of poort zijn — zonder schema wordt <code>http://</code> gezet.</p><ul><li>⋯ op een tegel: bewerken, pin, verwijderen, container start/stop/restart (als Docker bereikbaar is).</li><li>Categorieën kun je inklappen en herordenen in Settings → Apps.</li><li>Widgets (stats) koppel je per app via de widget-instelling op de tegel.</li></ul>"
+      },
+      "benchmark": {
+        "title": "Systeem-benchmark (p95 CPU/RAM)",
+        "body": "<p>Settings → <strong>Systeem Benchmark</strong> start een meting van ~5 minuten over <strong>alle draaiende Docker-containers</strong> (niet over tegels of externe links).</p><ul><li>Resultaten landen als CSV op de host en verschijnen als p95 CPU/RAM op tegels.</li><li>De tegelnaam wordt gematcht op de containernaam na normalisatie (spaties, <code>-</code> en <code>_</code> weg). Voorbeeld: tegel <em>Immich Server</em> ↔ container <code>immich_server</code>.</li><li>Afwijkende namen (bv. <em>Jellyfin Fork</em> vs <code>jellyfin</code>) matchen niet — dan geen metrics op die tegel.</li><li>Nieuwe containers verschijnen pas na een <em>nieuwe</em> run.</li></ul>"
+      },
+      "auth": {
+        "title": "Login & beveiliging",
+        "body": "<p>Login is <strong>optioneel</strong> (standaard uit). Zet ‘m aan via Settings → Beveiliging als je het dashboard buitenshuis via een reverse proxy bereikt.</p><ul><li><strong>Uitzetten</strong> wist je accounts niet — data blijft in <code>data/auth/</code>.</li><li><strong>Opnieuw aanzetten</strong> = zelfde e-mail + wachtwoord (geen first-run opnieuw), zolang er al users zijn.</li><li>Compose kan auth forceren met <code>AUTH_ENABLED=true|false</code> (UI-toggle dan vergrendeld).</li></ul><p>Zonder login: niet poort 8086 open op internet zetten.</p>"
+      },
+      "widgets": {
+        "title": "Home-widgets",
+        "body": "<p>Op de home-layout kun je widgets toevoegen (weer, downloads, media, Proxmox, …). Configureer API-keys en URL’s per widget in Settings of via de tegel-widget.</p><ul><li>Sommige widgets hebben een feature-flag of extra compose-setup (USB eject, Watchtower HTTP API).</li><li>Lege home? Gebruik “voeg je eerste widget toe” of Edit Home.</li></ul>"
+      },
+      "wallpapers": {
+        "title": "Achtergronden & thema’s",
+        "body": "<p>Vormgeving: accentkleur, transparantie, thema-engine, en achtergronden.</p><ul><li><strong>Static</strong> — één afbeelding (bestand via config-api, niet als reuzen-data-URL in config).</li><li><strong>Dynamic</strong> — tot 5 slots die wisselen met het tijdstip.</li><li><strong>Live</strong> — korte video-achtergrond (max. ~20 MB).</li></ul><p>Bestanden staan onder de config-api wallpapers-map zodat ze op elk apparaat hetzelfde zijn.</p>"
+      },
+      "docker": {
+        "title": "Docker: scan, start/stop",
+        "body": "<p>Het dashboard kan containers tonen en (via config-api) starten/stoppen/herstarten.</p><ul><li>Scan helpt tegels voorstellen; match gebeurt op poort en/of containernaam.</li><li>Host-network of gestopte containers hebben soms geen poort in de API — naam-match vangt dat op.</li><li>Niet elke container hoeft een tegel: bookmarks en externe URL’s meten niet mee in de benchmark.</li></ul>"
+      },
+      "home": {
+        "title": "Home / canvas bewerken",
+        "body": "<p>Home-layout (canvas) laat je blokken en widgets rangschikken. Zet Edit Home aan om te verslepen en groottes te kiezen.</p><ul><li>Voorkeur wordt op de server bewaard (cross-device).</li><li>Command palette (zoekacties) bereik je via de UI-snelkoppeling / zoekbalk-acties.</li></ul>"
+      },
+      "status": {
+        "title": "Status-dot: Docker eerst, anders URL",
+        "body": "<p>De groene/rode dot betekent niet altijd “website open”.</p><ul><li><strong>Docker-match</strong> — als de tegel aan een container hangt (poort, naam of veld <em>Docker-containernaam</em>), volgt de dot de container-state: <code>running</code> = groen, anders rood. Tooltip toont de containernaam.</li><li><strong>URL-ping</strong> — geen Docker-match → de browser probeert de tegel-URL (zoals voorheen). Localhost-only poorten (bv. CrowdSec LAPI op <code>127.0.0.1</code>) leken “uit” terwijl de container wel draaide.</li></ul><p><strong>Compacte service-tegel:</strong> smalle rij met naam, status-dot en p95-RAM (geen groot icoon). Handig voor infra zonder web-UI (CrowdSec, databases, …). Aan/uit in app bewerken.</p><p><strong>Stapelen:</strong> zet meerdere apps op <em>compacte service-tegel</em> en sleep ze in de Apps-sectie onder elkaar. Opeenvolgende compacte tegels vormen automatisch een kolom (stapel). Sleep chips binnen de stapel om te herordenen, of trek er één tussen de grote tegels uit.</p>"
+      }
+    }
+  },
+  "status": {
+    "noUrl": "Geen URL om te pingen",
+    "httpOk": "Online (URL bereikbaar)",
+    "httpFail": "Offline / URL niet bereikbaar",
+    "dockerRunning": "Container draait",
+    "dockerStopped": "Container gestopt"
   }
 }

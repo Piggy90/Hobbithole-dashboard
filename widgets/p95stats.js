@@ -67,7 +67,9 @@ async function fetchData() {
             memValues.sort((a, b) => a - b);
             const p95Idx = Math.min(Math.floor(cpuValues.length * 0.95), cpuValues.length - 1);
             
-            results[name.replace(/[-\s]/g, "").toLowerCase()] = {
+            // Zelfde normalisatie als UI: spaties, -, _ weg → lowercase
+            // (immich_server ↔ "Immich Server", m3u-editor ↔ "M3u Editor")
+            results[name.replace(/[-\s_]/g, "").toLowerCase()] = {
                 cpu: cpuValues[p95Idx].toFixed(2) + '%',
                 mem: memValues[p95Idx].toFixed(2) + ' MiB'
             };
