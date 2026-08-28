@@ -4,8 +4,88 @@
 ### In uitvoering (In Progress)
 - Nieuwe features voor de volgende release.
 
+### Gewijzigd (Changed)
+- **Weer-overlay: één rAF, twee canvassen** (2026-08-29) — `animateCinematicFx` (lucht) en
+  `animateWeatherFx` (regen/sneeuw) deelden niet dezelfde frame: twee callbacks, lagen konden
+  een tick uit de pas lopen. Nu `tickWeatherOverlay`: één lus, beide tekenroutines. Stop pas
+  als **beide** klaar zijn (anders valt de regen stil als de lucht stopt, of omgekeerd).
+  Stap 2 (één canvas) is niet gedaan. Headless rAF-tellingen zijn opgeblazen; op een scherm
+  ~60 fps voor de *gecombineerde* lus i.p.v. ~60+60.
+- **Weer-overlay 30 fps** (2026-08-29) — dezelfde lus wacht na elk frame het restant van
+  33 ms (zoals radar-windflow). Halveert het tekenwerk t.o.v. vsync; wolken/regen blijven.
+  **In de praktijk bevestigd:** met het dashboard open blies de ventilator van een laptop
+  eerst wel en nu niet meer, en het beeld loopt soepeler. Het verschil met 60 fps is niet
+  opgevallen — dat was de aanname en die klopt dus.
+- **Weer-overlay: beweging losgekoppeld van de framerate** (2026-08-29) — de deeltjes en wolken
+  bewogen **per frame** (`p.y += p.speed`, `c.x += c.speed`), niet per seconde. De stap van 60
+  naar 30 fps halveerde daarmee stilzwijgend ook de val- en drijfsnelheid. Dat viel niet op en
+  het huidige beeld is zo goedgekeurd, dus dát is nu het ijkpunt: een stapfactor genormaliseerd
+  op 30 fps (bij 30 exact 1, dus onveranderd) uit de werkelijk verstreken tijd, geklemd op
+  0,25–3× zodat een hapering of een teruggekeerd tabblad de regen niet door het beeld schiet.
+  De framerate regelt nu alleen nog vloeiendheid en verbruik, niet de snelheid — pas daardoor
+  is een eerlijke vergelijking tussen 30 en 24 fps mogelijk.
+  Verstellen kan zonder de code aan te raken: **`?fxfps=24`** achter de URL, of
+  `setWeatherOverlayFps(24)` in de console.
+
+### Beveiliging (Security)
+- **Dockersocket weg bij de webserver** — `docker-compose.hub.yml` mountte `/var/run/docker.sock`
+  ook op de `dashboard`-service (nginx), met de opmerking "Vereist voor de Auto-Detectie van
+  Docker containers". Dat klopt sinds **v1.10** niet meer: container-endpoints lopen via
+  config-api (`/api/containers*`) en `location /docker/` geeft in nginx gewoon `404`. De mount
+  was een restant en werd nergens gebruikt — `default.conf` verwijst naar geen enkele socket,
+  alleen `proxy_pass` naar `config-api:3000`. Ook read-only geeft zo'n socket toegang tot al je
+  containers, images en logs. **De socket zit nu alleen nog op config-api**, waar hij hoort.
+  Geen actie nodig bij bijwerken; de auto-detectie blijft werken.
+
+### Toegevoegd (Added)
+- **Hub update-check** — config-api `GET /api/updates/check` leest nieuwste release-tags van
+  `piggyoriginal/hobbithole-dashboard` + `…-config-api` (cache 30 min). Stille footer-**Update**-badge
+  + Settings → Help als Hub nieuwer is dan `APP_VERSION`. Dismiss tot de volgende nieuwere tag;
+  altijd **beide** images naar dezelfde versie pullen. Geen popup. Als Hub-tags voor de twee
+  images verschillen: sterkere **skew**-waarschuwing en beide naar de nieuwere tag.
+- **Settings: meer inklapbare secties** — Apps, Docker-scan, Home-widgets, Backup, Zoekmachine,
+  Weather, Feedback, Benchmark (plus bestaande imports/integraties). Jump-legenda blijft werken;
+  Dashboard / Taal / Help / Beveiliging / Vormgeving / Weergave / Danger blijven open.
+
+### Verbeterd (Changed)
+- **Hub update-check hardening** — 5 min negatieve cache bij Hub-fouten; `?refresh=1` max 1×/60s;
+  tag-paginatie-afkapping wordt gelogd + in de API gezet (`truncated`).
+- **Release-hygiëne** — lab-`docker-compose.yml` en lab-`public/index.html` gaan niet naar GitHub
+  (getrackte UI = gestripte `template_index.html`). Showcase-GIF (~53 MB) uit image/repo;
+  README gebruikt `dashboard-home.png`.
+
+### Opgelost (Fixed)
+- **Weer-widget: paneel over de weerkaart heen** (2026-08-29) — het uitgeklapte paneel hing op
+  een **vaste** `top` (100px, 80px onder de mobiele media-query), terwijl de kaart erboven met
+  zijn inhoud meegroeit. In een smal venster brak "Zwaar bewolkt en regen" over twee regels, werd
+  de kaart 92px hoog en schoof het paneel er 12px overheen. Het paneel meet nu bij het openen de
+  échte onderkant van de kaart op (`positionExpandedWeather()`, ook bij `resize`) en houdt 10px
+  ruimte. Een groter vast getal was geen oplossing — dat verschuift alleen naar de volgende lange
+  omschrijving. Meteen een `max-height` erbij, want het paneel schuift nu naar beneden mee.
+- **Neerslaggrafiek: staven op verschillende bodemlijnen** (2026-08-29) — het tijdlabel stond
+  als flex-kind ín de staafkolom, maar staat maar bij elke derde staaf. Die kolommen reserveerden
+  ~18px voor tekst en de rest niets; omdat de staafhoogte een percentage van de héle kolom is,
+  werden staven mét een label eronder **18px omhooggeduwd**. Gevolg: twee bodemlijnen in plaats
+  van één, met de tijden tussen de lage staafjes van de buurkolommen. Labels staan nu absoluut
+  gepositioneerd onder de grafiek en tellen niet meer mee in de kolomhoogte.
+- **Radar-afspeelframes gaven hun geheugen niet terug** — `buildWeerenradarFrameCanvases()`
+  maakt per verversing een verse set losse canvassen, één per tijdstap (`1024×639` = 2,6 MB
+  backing store elk, tot 24 stuks). Die backing store telt **niet** mee in de JS-heap, dus V8
+  ziet per canvas alleen een leeg object van een paar honderd bytes en draait nooit een GC —
+  de bitmaps bleven staan tot iets anders toevallig geheugendruk gaf. Gemeten: JS-heap vlak op
+  3,5 MB terwijl het renderer-proces naar 800 MB liep, en `querySelectorAll('canvas')` bleef
+  op 4 staan omdat deze frames nooit in de DOM hangen.
+  Nieuwe `releaseRadarFrameCanvases()` zet elk canvas op `0×0` — de enige deterministische
+  manier — en wordt op drie plekken aangeroepen: in `ctrl.destroy()`, in `applyPack()` vóór de
+  oude set vervangen wordt, en in `ensureFrames()` voor een set die klaarkomt nádat de
+  controller al vervangen is (die viel voorheen compleet op de grond). Gemeten in bedrijf:
+  één aanroep per cyclus, 52 canvassen = 145 MB teruggegeven in 6 minuten.
+- **Auth UI-copy bij login uit met bestaande accounts** — status + knop “Login weer aanzetten”
+  (zelfde e-mail/wachtwoord, geen nieuwe first-run); disable-confirm/toast vermelden dat accounts
+  bewaard blijven.
+
 ## [v1.10.1] - 2026-08-16
-### Toegevoegd
+### Toegevoegd (Added)
 - **Status-dot: Docker eerst, URL als fallback** — match op `containerName` / poort in
   URL / tegelnaam (compose-service). Tooltip toont container-state. Geen valse “offline”
   meer voor localhost-only LAPI’s (CrowdSec e.d.) zolang de container `running` is.
@@ -32,7 +112,7 @@
   open, korte highlight). Verborgen feature-secties (USB/benchmark) blijven uit de
   legenda. i18n `settings.tocTitle`.
 
-### Opgelost
+### Opgelost (Fixed)
 - **Docker-scanner sloeg host-netwerkcontainers over** (2026-08-22) — Settings → Scan
   Docker Containers hield alleen containers met een `PublicPort`. Bij
   `network_mode: host` is `Ports: []`, dus **scrypted**, jellyfin, Home Assistant,
@@ -59,7 +139,7 @@
   icoonveld noemt PNG/SVG/GIF/WebP + raw-URL-tip (icon-URL bestond al; was onduidelijk).
 
 ## [v1.10.0] - 2026-08-15
-### Toegevoegd
+### Toegevoegd (Added)
 - **Optionele authenticatie (productfeature):** `AUTH_ENABLED=true` + `SESSION_SECRET` op config-api.
   Eerste bezoek: admin-account (e-mail + wachtwoord; velden geschikt voor Apple Passwords).
   Zonder sessie: **401** op `/api/*` (behalve `/api/health` en `/api/auth/*`).
@@ -71,7 +151,7 @@
 - **Docker-endpoints via config-api:** containers/info/start/stop/restart niet meer raw via
   nginx→socket. `/docker/` geeft 404 — auth kan container-acties beschermen.
 
-### Opgelost
+### Opgelost (Fixed)
 - **Login-loop op LAN-HTTP:** sessie-cookie kreeg `Secure` omdat `AUTH_PUBLIC_URL` op https stond,
   terwijl je via `http://IP:8086` inlogt. Browsers bewaren die cookie dan niet → na Enter weer
   het login-scherm. `Secure` hangt nu aan de **request** (`X-Forwarded-Proto` / TLS), niet alleen
@@ -80,7 +160,7 @@
   frontend (SyntaxError). Geen gate, geen apps; `/api/config` gaf 401. Opgelost; bij 401 op
   config wordt het login-scherm getoond i.p.v. een lege “offline”-config.
 
-### Beveiliging
+### Beveiliging (Security)
 - Poort 8086 niet open op internet zonder `AUTH_ENABLED=true` (of andere proxy-auth).
 - Auth-status mag bij fout **niet** als “auth uit” worden behandeld (voorkomt stille 401-lege UI).
 

@@ -15,14 +15,22 @@ push.sh
 github-push.sh
 hub-readme-sync.sh
 sync-readme-from-changelog.py
+privacy-scan.sh
+.privacy-scan-allow
 README_PIPELINE.md
 README.dockerhub.md
 README.dockerhub.config-api.md
 
 # Snapshots & Backups
 backups/
-template_index.html
+# template_index.html is TRACKED (release UI, LAB_ONLY stripped).
+# Lab dogfood edits public/index.html via compose map-mount — keep that OUT of GitHub.
+public/index.html
 template_docker-compose.yml
+
+# Lab compose — absolute /root mounts + oauth env_file. NOT for GitHub.
+# Consumers: docker-compose.hub.yml (tracked) or template_docker-compose.yml (lab).
+docker-compose.yml
 
 # Node.js
 node_modules/
@@ -33,3 +41,7 @@ images/Bron/
 images/Scherm*
 public/images/Bron/
 public/images/Scherm*
+
+# Never ship chat/session dumps or lab raw assets
+public/i18n/logs.json
+i18n/logs.json

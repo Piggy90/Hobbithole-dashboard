@@ -4,6 +4,82 @@
 ### In progress
 - New features for the next release.
 
+### Security
+- **Docker socket removed from the web server** — `docker-compose.hub.yml` also mounted
+  `/var/run/docker.sock` on the `dashboard` (nginx) service, labelled "required for Docker
+  container auto-detection". That has not been true since **v1.10**: container endpoints go
+  through config-api (`/api/containers*`) and `location /docker/` returns `404` in nginx. The
+  mount was a leftover and was never used — `default.conf` references no socket at all, only
+  `proxy_pass` to `config-api:3000`. Even read-only, that socket exposes every container, image
+  and log on the host. **The socket now lives only on config-api**, where it belongs. No action
+  needed when upgrading; auto-detection keeps working.
+
+### Added
+- **Hub update check** — config-api `GET /api/updates/check` reads newest release tags for
+  `piggyoriginal/hobbithole-dashboard` + `…-config-api` (30m cache). Quiet footer **Update**
+  badge + Settings → Help panel when Hub is newer than `APP_VERSION`. Dismiss until the next
+  newer tag; always pull **both** images to the same version. No popup. If Hub tags for the
+  two images differ, the panel shows a stronger **skew** warning and points both at the newer tag.
+- **Settings: more collapsible sections** — Apps, Docker scan, Home widgets, Backup, Search,
+  Weather, Feedback, Benchmark (plus existing imports/integrations). Jump legend still reaches
+  them; Dashboard / Language / Help / Security / Customize / Display / Danger stay open.
+
+### Changed
+- **Weather overlay: one rAF, two canvases** (2026-08-29) — `animateCinematicFx` (sky) and
+  `animateWeatherFx` (rain/snow) did not share a frame: two callbacks, and the layers could
+  drift a tick apart. Now `tickWeatherOverlay`: one loop, both paint routines. It stops only
+  when **both** are done (otherwise the rain freezes when the sky stops, or the other way
+  round). Step 2 (a single canvas) was not done. Headless rAF counts are inflated; on a real
+  display this is ~60 fps for the *combined* loop instead of ~60+60.
+- **Weather overlay at 30 fps** (2026-08-29) — that same loop now waits out the remainder of
+  33 ms after each frame, like the radar wind flow already did. Halves the drawing work versus
+  vsync; clouds, sun glow and rain are unchanged. **Confirmed in practice:** with the dashboard
+  open a laptop's fan used to spin up and no longer does, and the page feels smoother. Nobody
+  noticed the difference with 60 fps — which was the assumption, so it held.
+- **Weather overlay: motion decoupled from the frame rate** (2026-08-29) — particles and clouds
+  moved **per frame** (`p.y += p.speed`, `c.x += c.speed`), not per second. Going from 60 to
+  30 fps therefore silently halved the falling and drifting speed too. Nobody noticed, and the
+  current look was signed off, so that is now the reference: a step factor normalised to 30 fps
+  (exactly 1 at 30, so unchanged) derived from the time actually elapsed, clamped to 0.25–3× so
+  a hitch or a returning tab cannot shoot the rain across the screen. The frame rate now governs
+  only smoothness and cost, not speed — which is what makes an honest 30-vs-24 comparison
+  possible. Adjust without touching the code: **`?fxfps=24`** on the URL, or
+  `setWeatherOverlayFps(24)` in the console.
+- **Hub update-check hardening** — 5 min negative cache on Hub failures; `?refresh=1` throttled
+  to ≥60s; tag pagination truncation is logged + flagged in the API response (`truncated`).
+- **Release hygiene** — lab `docker-compose.yml` and lab `public/index.html` are not shipped to
+  GitHub (tracked UI source is stripped `template_index.html`). Showcase GIF removed from the
+  image/repo (~53 MB); README uses `dashboard-home.png` instead.
+
+### Fixed
+- **Weather widget: panel overlapped the weather card** (2026-08-29) — the expanded panel used a
+  **fixed** `top` (100px, 80px under the mobile media query) while the card above it grows with
+  its content. In a narrow window "Zwaar bewolkt en regen" wrapped onto two lines, the card grew
+  to 92px, and the panel covered it by 12px. The panel now measures the card's real bottom edge
+  when it opens (`positionExpandedWeather()`, also on `resize`) and keeps a 10px gap. A larger
+  fixed number would not have fixed it — it just moves the problem to the next long description.
+  A `max-height` came with it, since the panel now shifts further down.
+- **Rain chart: bars sat on two different baselines** (2026-08-29) — the time label was a flex
+  child *inside* the bar column, but only every third bar has one. Those columns reserved ~18px
+  for text and the rest reserved none; since bar height is a percentage of the whole column,
+  bars with a label under them were pushed **18px upwards**. The result was two baselines instead
+  of one, with the times sitting among the neighbouring columns' short bars. Labels are now
+  absolutely positioned below the chart and no longer count towards column height.
+- **Radar playback frames never released their memory** — `buildWeerenradarFrameCanvases()`
+  builds a fresh set of detached canvases on every refresh, one per timestep (`1024×639` =
+  2.6 MB of backing store each, up to 24 of them). That backing store does **not** count
+  towards the JS heap, so V8 only sees a few hundred bytes per canvas and never has a reason
+  to run a GC — the bitmaps stayed until something else happened to create memory pressure.
+  Measured: JS heap flat at 3.5 MB while the renderer process climbed to 800 MB, and
+  `querySelectorAll('canvas')` stayed at 4 because these frames are never in the DOM.
+  New `releaseRadarFrameCanvases()` sets each canvas to `0×0` — the only deterministic way —
+  called in three places: `ctrl.destroy()`, `applyPack()` before the old set is replaced, and
+  `ensureFrames()` for a set that finishes loading *after* the controller was already replaced
+  (previously dropped on the floor in full). Measured live: one call per cycle, 52 canvases
+  = 145 MB returned over 6 minutes.
+- **Auth UI copy when login is off but accounts exist** — status + button say “Turn login back
+  on” (same email/password, no new first-run); disable confirm/toast state that accounts are kept.
+
 ## [v1.10.1] - 2026-08-16
 ### Added
 - **Status dot: Docker first, URL fallback** — match on `containerName` / URL port /
