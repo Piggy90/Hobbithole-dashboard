@@ -2946,6 +2946,8 @@
 
         .form-group input[type="text"],
         .form-group input[type="url"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
         .form-group input[type="number"],
         .form-group select {
             width: 100%;
@@ -5309,6 +5311,28 @@
                 <button type="button" class="btn btn-secondary" id="auth-settings-disable-btn" style="display:none;"
                     onclick="disableDashboardAuth()" data-i18n="settings.securityDisable">Login uitzetten</button>
             </div>
+            <form id="auth-change-password" style="display:none; margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08);"
+                  onsubmit="changeDashboardPassword(event)">
+                <label style="font-weight: 600; display: block; margin-bottom: 10px;" data-i18n="settings.changePassword">Wachtwoord wijzigen</label>
+                <div class="form-group">
+                    <label for="auth-pw-current" data-i18n="settings.authPasswordCurrent">Huidig wachtwoord</label>
+                    <input type="password" id="auth-pw-current" name="current-password" autocomplete="current-password" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label for="auth-pw-new" data-i18n="settings.authPasswordNew">Nieuw wachtwoord</label>
+                    <input type="password" id="auth-pw-new" name="new-password" autocomplete="new-password" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label for="auth-pw-confirm" data-i18n="settings.authPasswordConfirm">Bevestig nieuw wachtwoord</label>
+                    <input type="password" id="auth-pw-confirm" name="new-password-confirm" autocomplete="new-password" required minlength="8">
+                </div>
+                <button type="submit" class="btn btn-action btn-small" data-i18n="settings.changePasswordSubmit">Opslaan</button>
+                <p id="auth-pw-msg" style="display:none; margin: 10px 0 0; font-size: 0.85rem; line-height: 1.4;"></p>
+                <small data-i18n="settings.changePasswordHint" style="color: var(--text-muted); display: block; margin-top: 10px; line-height: 1.45;">
+                    Andere sessies (andere browsers/apparaten) worden uitgelogd. Ben je het wachtwoord kwijt, dan kan dat alleen op de host:
+                    <code>docker exec -it hobbithole-config-api node auth.js passwd</code>
+                </small>
+            </form>
             <small data-i18n="settings.securityHelp" style="color: var(--text-muted); display: block; margin-top: 12px; line-height: 1.45;">
                 Optioneel. Zet login aan als je het dashboard buitenshuis via Nginx/Proxy bereikt.
                 Uitzetten wist geen accounts. Power users kunnen auth ook forceren met <code>AUTH_ENABLED</code> in compose (dan is deze knop vergrendeld).
@@ -12208,13 +12232,14 @@ function applyCinematicBackdrop(weatherCode) {
             setCinematicFxMode(cinematicFxModeFor(condition, phase));
         } else {
             // Neither toggle on — kill FX entirely
-            if (cinematicFx.rafId) cancelAnimationFrame(cinematicFx.rafId);
-            cinematicFx.rafId = null;
+            cinematicFx.mode = 'none';
             if (cinematicFx.canvas) {
                 cinematicFx.canvas.classList.remove('active');
                 if (cinematicFx.ctx) cinematicFx.ctx.clearRect(0, 0, cinematicFx.canvas.width, cinematicFx.canvas.height);
             }
-            cinematicFx.mode = 'none';
+            if (typeof weatherFxNeedsFrame === 'function' && !weatherFxNeedsFrame()) {
+                cancelWeatherOverlayLoop();
+            }
         }
         return;
     }
@@ -12723,11 +12748,12 @@ function drawHorizonGlow(intensity) {
     ctx.fillRect(0, h * 0.55, w, h * 0.45);
 }
 
-function animateCinematicFx() {
+function paintCinematicFxFrame() {
     const { ctx, canvas, mode } = cinematicFx;
+    if (!ctx || !canvas) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Stop the loop only when nothing needs drawing (incl. ongoing forced lightning)
+    // Stop painting when nothing needs drawing (incl. ongoing forced lightning)
     if (mode === 'none' && !lightning.active) return;
 
     // v1.8.6: split element categories so labels match what they control.
@@ -12767,8 +12793,10 @@ function animateCinematicFx() {
 
     // Lightning is a global overlay — auto-fired in thunder mode, force-fired by Shift+L
     drawLightning();
+}
 
-    cinematicFx.rafId = requestAnimationFrame(animateCinematicFx);
+function animateCinematicFx() {
+    ensureWeatherOverlayLoop();
 }
 
 // Easter egg — Shift+L summons a lightning bolt regardless of current weather mode
@@ -12791,8 +12819,7 @@ function forceLightningStrike() {
     lightning.alpha = 1;
     lightning.nextTriggerAt = Date.now() + 5000;
 
-    cancelAnimationFrame(cinematicFx.rafId);
-    animateCinematicFx();
+    ensureWeatherOverlayLoop();
 }
 
 // Easter egg keyboard shortcut: Shift+L → summon one lightning bolt
@@ -12813,43 +12840,42 @@ function setCinematicFxMode(mode) {
     if (!cinematicFx.canvas) return;
     if (cinematicFx.mode === mode) return;
 
-    if (cinematicFx.rafId) cancelAnimationFrame(cinematicFx.rafId);
-    cinematicFx.rafId = null;
     cinematicFx.mode = mode;
 
     if (mode === 'clouds') {
         cinematicFx.clouds = makeClouds(15, 0.9);
         cinematicFx.canvas.classList.add('active');
-        animateCinematicFx();
+        ensureWeatherOverlayLoop();
     } else if (mode === 'clouds-with-sun') {
         // Cloudy day: substantial cloud cover, sun dimmed and partially obscured.
         // v1.8.4: tuned for Apple Weather feel — visible sky between clouds, not a haze blanket.
         cinematicFx.clouds = makeClouds(16, 1.0);
         cinematicFx.canvas.classList.add('active');
-        animateCinematicFx();
+        ensureWeatherOverlayLoop();
     } else if (mode === 'cloudy-night') {
         // Apple-style cloudy night: stars overhead, thin haze near horizon, moon dimmed
         cinematicFx.clouds = makeClouds(8, 0.6);
         cinematicFx.stars = makeStars(140);
         cinematicFx.canvas.classList.add('active');
-        animateCinematicFx();
+        ensureWeatherOverlayLoop();
     } else if (mode === 'thunder') {
         // Dense dark storm clouds + intermittent vector lightning
         cinematicFx.clouds = makeClouds(18, 1.4);
         lightning.active = false;
         lightning.nextTriggerAt = Date.now() + 1500; // first bolt within 1.5s
         cinematicFx.canvas.classList.add('active');
-        animateCinematicFx();
+        ensureWeatherOverlayLoop();
     } else if (mode === 'clear') {
         cinematicFx.canvas.classList.add('active');
-        animateCinematicFx();
+        ensureWeatherOverlayLoop();
     } else if (mode === 'stars') {
         cinematicFx.stars = makeStars(160);
         cinematicFx.canvas.classList.add('active');
-        animateCinematicFx();
+        ensureWeatherOverlayLoop();
     } else {
         cinematicFx.canvas.classList.remove('active');
         if (cinematicFx.ctx) cinematicFx.ctx.clearRect(0, 0, cinematicFx.canvas.width, cinematicFx.canvas.height);
+        if (!weatherFxNeedsFrame()) cancelWeatherOverlayLoop();
     }
 }
 
@@ -12876,6 +12902,67 @@ const weatherFx = {
     rafId: null,
     lastFlash: 0
 };
+
+// Stap 1 (roadmap): één rAF-callback, twee canvassen. Lucht en regen in dezelfde
+// frame — geen scheuring. Stap 2 (één canvas) niet. Remt op 30 fps zoals de
+// radar-windflow (`msPerFrame`): tekenen, rest van het interval wachten, dan rAF.
+// Headless rAF zonder rem vuurde ongeremd (~169/s); op een scherm was dat ~60.
+const WEATHER_OVERLAY_FPS = 30;
+const WEATHER_OVERLAY_MS = 1000 / WEATHER_OVERLAY_FPS;
+let weatherOverlayRafId = null;
+let weatherOverlayWaitId = null;
+
+function cinematicFxNeedsFrame() {
+    return (cinematicFx.mode && cinematicFx.mode !== 'none') || !!(lightning && lightning.active);
+}
+
+function weatherFxNeedsFrame() {
+    const m = weatherFx && weatherFx.mode;
+    return m === 'rain' || m === 'heavy-rain' || m === 'snow' || m === 'thunder';
+}
+
+function paintWeatherFxFrame() {
+    if (weatherFx.mode === 'rain') drawRain(1);
+    else if (weatherFx.mode === 'heavy-rain') drawRain(1.5);
+    else if (weatherFx.mode === 'snow') drawSnow();
+    else if (weatherFx.mode === 'thunder') drawThunder();
+}
+
+function scheduleWeatherOverlayFrame() {
+    weatherOverlayRafId = requestAnimationFrame(tickWeatherOverlay);
+    cinematicFx.rafId = weatherOverlayRafId;
+    weatherFx.rafId = weatherOverlayRafId;
+}
+
+function tickWeatherOverlay() {
+    weatherOverlayRafId = null;
+    cinematicFx.rafId = null;
+    weatherFx.rafId = null;
+    const t0 = performance.now();
+    if (cinematicFxNeedsFrame()) paintCinematicFxFrame();
+    if (weatherFxNeedsFrame()) paintWeatherFxFrame();
+    // Doorlopen zolang één van beide nog iets te doen heeft.
+    if (!(cinematicFxNeedsFrame() || weatherFxNeedsFrame())) return;
+    const wait = Math.max(0, WEATHER_OVERLAY_MS - (performance.now() - t0));
+    weatherOverlayWaitId = setTimeout(() => {
+        weatherOverlayWaitId = null;
+        scheduleWeatherOverlayFrame();
+    }, wait);
+}
+
+function ensureWeatherOverlayLoop() {
+    if (weatherOverlayRafId || weatherOverlayWaitId) return;
+    tickWeatherOverlay();
+}
+
+function cancelWeatherOverlayLoop() {
+    if (weatherOverlayRafId) cancelAnimationFrame(weatherOverlayRafId);
+    if (weatherOverlayWaitId) clearTimeout(weatherOverlayWaitId);
+    weatherOverlayRafId = null;
+    weatherOverlayWaitId = null;
+    cinematicFx.rafId = null;
+    weatherFx.rafId = null;
+}
 
 function setupWeatherFx() {
     weatherFx.canvas = document.getElementById('weather-fx');
@@ -12969,20 +13056,14 @@ function drawThunder() {
 }
 
 function animateWeatherFx() {
-    if (weatherFx.mode === 'rain') drawRain(1);
-    else if (weatherFx.mode === 'heavy-rain') drawRain(1.5);
-    else if (weatherFx.mode === 'snow') drawSnow();
-    else if (weatherFx.mode === 'thunder') drawThunder();
-    else return;
-    weatherFx.rafId = requestAnimationFrame(animateWeatherFx);
+    ensureWeatherOverlayLoop();
 }
 
 function stopWeatherFx() {
-    if (weatherFx.rafId) cancelAnimationFrame(weatherFx.rafId);
-    weatherFx.rafId = null;
-    if (weatherFx.ctx) weatherFx.ctx.clearRect(0, 0, weatherFx.canvas.width, weatherFx.canvas.height);
+    if (weatherFx.ctx && weatherFx.canvas) weatherFx.ctx.clearRect(0, 0, weatherFx.canvas.width, weatherFx.canvas.height);
     if (weatherFx.canvas) weatherFx.canvas.classList.remove('active');
     if (weatherFx.glow) weatherFx.glow.classList.remove('active');
+    if (!cinematicFxNeedsFrame()) cancelWeatherOverlayLoop();
 }
 
 function setWeatherFxMode(mode) {
@@ -13028,8 +13109,8 @@ function toggleWeatherFx() {
     const enabled = document.getElementById('setting-weather-fx').checked;
     localStorage.setItem('hobbithole_weather_fx', enabled);
     if (!enabled) {
-        stopWeatherFx();
         weatherFx.mode = 'none';
+        stopWeatherFx();
     } else {
         if (typeof lastWeatherCode === 'number') {
             setWeatherFxMode(fxModeForWeatherCode(lastWeatherCode));
@@ -13067,13 +13148,12 @@ function toggleWeatherBackdrop() {
         const el = document.getElementById('weather-cinematic');
         if (el) el.classList.remove('active');
         document.body.classList.remove('cinematic-active');
-        if (cinematicFx.rafId) cancelAnimationFrame(cinematicFx.rafId);
-        cinematicFx.rafId = null;
+        cinematicFx.mode = 'none';
         if (cinematicFx.canvas) {
             cinematicFx.canvas.classList.remove('active');
             if (cinematicFx.ctx) cinematicFx.ctx.clearRect(0, 0, cinematicFx.canvas.width, cinematicFx.canvas.height);
         }
-        cinematicFx.mode = 'none';
+        if (!weatherFxNeedsFrame()) cancelWeatherOverlayLoop();
         // NOTE: do NOT touch wallpaper-active here — it's controlled by the wallpaper layers
         // (dynamic + live). Removing it would un-show the wallpaper and break the layering.
     }
@@ -17041,6 +17121,7 @@ async function refreshAuthSettingsPanel() {
     const statusEl = document.getElementById('auth-settings-status');
     const enBtn = document.getElementById('auth-settings-enable-btn');
     const disBtn = document.getElementById('auth-settings-disable-btn');
+    const pwForm = document.getElementById('auth-change-password');
     if (!statusEl) return;
     try {
         const st = await fetchAuthStatus();
@@ -17065,6 +17146,7 @@ async function refreshAuthSettingsPanel() {
                     : t('settings.securityEnable', 'Secure this dashboard');
             }
             if (disBtn) disBtn.style.display = 'none';
+            if (pwForm) pwForm.style.display = 'none';
         } else {
             const who = st.user
                 ? t('settings.securityLoggedInAs', 'Signed in as <strong>{email}</strong>. ').replace('{email}', escapeHtml(st.user.email || ''))
@@ -17078,6 +17160,7 @@ async function refreshAuthSettingsPanel() {
                 disBtn.style.display = st.canToggle ? '' : 'none';
                 disBtn.textContent = t('settings.securityDisable', 'Turn login off');
             }
+            if (pwForm) pwForm.style.display = st.user ? '' : 'none';
         }
     } catch (e) {
         statusEl.textContent = t('settings.securityStatusError', 'Could not load auth status.');
@@ -17113,6 +17196,57 @@ function openAuthEnableFlow() {
         if (title) title.textContent = t('settings.securityReenableTitle', 'Turn login back on');
         if (sub) sub.textContent = t('settings.securityReenableSubtitle', 'Use the same email and password as before — your account was kept when login was turned off.');
         if (btn) btn.textContent = t('settings.securityReenableSubmit', 'Turn on');
+    }
+}
+
+async function changeDashboardPassword(ev) {
+    if (ev && typeof ev.preventDefault === 'function') ev.preventDefault();
+    const currentPassword = (document.getElementById('auth-pw-current') || {}).value || '';
+    const newPassword = (document.getElementById('auth-pw-new') || {}).value || '';
+    const confirm = (document.getElementById('auth-pw-confirm') || {}).value || '';
+    const msg = document.getElementById('auth-pw-msg');
+    const setMsg = (text, ok) => {
+        if (!msg) return;
+        msg.textContent = text || '';
+        msg.style.display = text ? 'block' : 'none';
+        msg.style.color = ok ? 'var(--accent-color)' : '#ef4444';
+    };
+    if (newPassword.length < 8) {
+        setMsg(t('settings.authPasswordTooShort', 'Password must be at least 8 characters'), false);
+        return;
+    }
+    if (newPassword !== confirm) {
+        setMsg(t('settings.changePasswordMismatch', 'New passwords do not match'), false);
+        return;
+    }
+    try {
+        const res = await fetch('/api/auth/password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ currentPassword, newPassword }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+            const m = data.error === 'invalid_credentials'
+                ? t('settings.authInvalidCredentials', 'Invalid email or password')
+                : data.error === 'same_password'
+                    ? t('settings.changePasswordSame', 'New password must be different')
+                    : data.error === 'rate_limited'
+                        ? t('settings.authRateLimited', 'Too many attempts — try again later')
+                        : (data.message || t('settings.changePasswordFailed', 'Could not change password'));
+            setMsg(m, false);
+            return;
+        }
+        ['auth-pw-current', 'auth-pw-new', 'auth-pw-confirm'].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        const ok = t('settings.changePasswordOk', 'Password updated. Other sessions were signed out.');
+        setMsg(ok, true);
+        if (typeof showToast === 'function') showToast(ok, 'success');
+    } catch (e) {
+        setMsg(t('settings.securityNetworkError', 'Network error'), false);
     }
 }
 

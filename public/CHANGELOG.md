@@ -38,6 +38,10 @@
   Geen actie nodig bij bijwerken; de auto-detectie blijft werken.
 
 ### Toegevoegd (Added)
+- **Wachtwoord wijzigen** — Settings → Beveiliging (ingelogd): huidig + nieuw. Andere sessies
+  van hetzelfde account gaan eruit. Geen e-mailreset op het loginscherm (e-mail is alleen de
+  loginnaam). Lock-out: op de host `docker exec -it hobbithole-config-api node auth.js passwd`.
+  Power users kunnen nog steeds de hash in `data/auth/users.json` zetten.
 - **Hub update-check** — config-api `GET /api/updates/check` leest nieuwste release-tags van
   `piggyoriginal/hobbithole-dashboard` + `…-config-api` (cache 30 min). Stille footer-**Update**-badge
   + Settings → Help als Hub nieuwer is dan `APP_VERSION`. Dismiss tot de volgende nieuwere tag;
@@ -55,6 +59,9 @@
   README gebruikt `dashboard-home.png`.
 
 ### Opgelost (Fixed)
+- **Login-cookie liep af terwijl je het dashboard wél gebruikte** — de server schoof de sessie
+  14 dagen op bij elk request, de browser-cookie `Max-Age` niet. Na twee weken inloggen opnieuw
+  nodig. Cookie wordt nu meegeschoven met de sessie.
 - **Changelog-modal: lange bullets afgekapt** — de renderer nam alleen de eerste regel van elk
   `-`-item; wrapping in CHANGELOG.md (ingesprongen vervolgregels) verdween. Doorlopende regels
   horen nu bij het item, dus de hele zin is zichtbaar.

@@ -55,8 +55,10 @@ A blazing fast, responsive, self‑configuring dashboard for your homelab. Smart
 Default remains **open / zero-config**. When you want login (e.g. before nginx / NPM / Cloudflare):
 
 1. **UI (recommended):** Settings → Security → enable “Secure this dashboard”. First browser creates the admin.
-2. **Compose lock (ops):** set `AUTH_ENABLED=true` on **config-api** (optional `SESSION_SECRET`).
-3. **Do not** put port `8086` on the public internet without auth (or reverse-proxy auth).
+2. **Change password:** Settings → Security while signed in. There is **no** email reset (the email is a login name, not a mailbox we send to).
+3. **Forgot password (host):** `docker exec -it hobbithole-config-api node auth.js passwd` (optional `--email`). Power users can still replace the hash in `data/auth/users.json`.
+4. **Compose lock (ops):** set `AUTH_ENABLED=true` on **config-api** (optional `SESSION_SECRET`).
+5. **Do not** put port `8086` on the public internet without auth (or reverse-proxy auth).
 
 ## USB Eject Configuration
 

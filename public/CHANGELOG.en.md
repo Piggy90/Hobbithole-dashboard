@@ -15,6 +15,10 @@
   needed when upgrading; auto-detection keeps working.
 
 ### Added
+- **Change password** — Settings → Security while signed in (current + new). Other sessions
+  for the same account are dropped. No email reset on the login screen (email is only a login
+  name). Locked out: on the host `docker exec -it hobbithole-config-api node auth.js passwd`.
+  Power users can still replace the hash in `data/auth/users.json`.
 - **Hub update check** — config-api `GET /api/updates/check` reads newest release tags for
   `piggyoriginal/hobbithole-dashboard` + `…-config-api` (30m cache). Quiet footer **Update**
   badge + Settings → Help panel when Hub is newer than `APP_VERSION`. Dismiss until the next
@@ -52,6 +56,9 @@
   image/repo (~53 MB); README uses `dashboard-home.png` instead.
 
 ### Fixed
+- **Login cookie expired while you were still using the dashboard** — the server slid the
+  session 14 days on every request, the browser cookie `Max-Age` did not. After two weeks you
+  had to sign in again. The cookie now slides with the session.
 - **Changelog modal: long bullets truncated** — the renderer took only the first line of each
   `-` item; wrapped continuation lines in CHANGELOG.md were dropped. Continuations now belong
   to the item, so the full sentence is visible.

@@ -153,6 +153,40 @@ function saveUsers(data) {
   writeJson(USERS_PATH, data);
 }
 
+const MIN_PASSWORD_LEN = 8;
+
+function setPasswordForUserId(userId, newPassword) {
+  if (!newPassword || String(newPassword).length < MIN_PASSWORD_LEN) {
+    const err = new Error('invalid_credentials');
+    err.code = 'invalid_credentials';
+    throw err;
+  }
+  const data = loadUsers();
+  const u = data.users.find((x) => x.id === userId && !x.disabled);
+  if (!u) {
+    const err = new Error('not_found');
+    err.code = 'not_found';
+    throw err;
+  }
+  u.passwordHash = hashPassword(newPassword);
+  u.passwordChangedAt = new Date().toISOString();
+  saveUsers(data);
+  return u;
+}
+
+function destroySessionsForUser(userId, { exceptId } = {}) {
+  const store = loadSessions();
+  let n = 0;
+  for (const [id, s] of Object.entries(store.sessions)) {
+    if (s && s.userId === userId && id !== exceptId) {
+      delete store.sessions[id];
+      n += 1;
+    }
+  }
+  if (n) saveSessions(store);
+  return n;
+}
+
 function loadSessions() {
   const data = readJson(SESSIONS_PATH, { sessions: {} });
   if (!data.sessions || typeof data.sessions !== 'object') data.sessions = {};
@@ -286,7 +320,7 @@ function destroySession(sessionId) {
   }
 }
 
-function getSessionUser(req) {
+function getSessionUser(req, res) {
   if (!authEnabled()) return null;
   const cookies = parseCookies(req);
   const sid = cookies[COOKIE_NAME];
@@ -295,10 +329,11 @@ function getSessionUser(req) {
   if (purgeExpiredSessions(store)) saveSessions(store);
   const sess = store.sessions[sid];
   if (!sess || sess.expiresAt < Date.now()) return null;
-  // sliding expiry
+  // sliding expiry — also refresh the browser cookie (Max-Age is otherwise stuck at login)
   sess.expiresAt = Date.now() + SESSION_MS;
   store.sessions[sid] = sess;
   saveSessions(store);
+  if (res) setSessionCookie(res, sid, req);
   const user = findUserById(sess.userId);
   if (!user) return null;
   return { sessionId: sid, user };
@@ -347,7 +382,7 @@ function clientKey(req) {
   return req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket?.remoteAddress || 'unknown';
 }
 
-function statusPayload(req) {
+function statusPayload(req, res) {
   const enabled = authEnabled();
   const source = authSource();
   const providers = {
@@ -368,7 +403,7 @@ function statusPayload(req) {
       providers,
     };
   }
-  const sess = getSessionUser(req);
+  const sess = getSessionUser(req, res);
   const setupRequired = userCount() === 0;
   return {
     enabled: true,
@@ -391,7 +426,7 @@ function requireAuth(req, res, next) {
   const p = req.path || '';
   if (p === '/api/health' || p === '/health') return next();
   if (p.startsWith('/api/auth/')) return next();
-  const sess = getSessionUser(req);
+  const sess = getSessionUser(req, res);
   if (!sess) {
     return res.status(401).json({ error: 'unauthorized', message: 'Authentication required' });
   }
@@ -412,7 +447,7 @@ function mountRoutes(app) {
   // Always register routes so frontend can probe status; handlers no-op appropriately.
 
   app.get('/api/auth/status', (req, res) => {
-    res.json(statusPayload(req));
+    res.json(statusPayload(req, res));
   });
 
   app.post('/api/auth/setup', (req, res) => {
@@ -452,6 +487,43 @@ function mountRoutes(app) {
     const sid = createSession(user.id);
     setSessionCookie(res, sid, req);
     res.json({ status: 'ok', user: publicUser(user) });
+  });
+
+  /**
+   * Change own password (logged-in). Other sessions for this user are dropped.
+   * There is no unauthenticated email-reset: the email is a login name, not a mailbox we send to.
+   * Locked-out break-glass: `node auth.js passwd --email you@x.com` on the host.
+   */
+  app.post('/api/auth/password', (req, res) => {
+    if (!authEnabled()) {
+      return res.status(400).json({ error: 'auth_disabled' });
+    }
+    if (!rateLimitOk(`passwd:${clientKey(req)}`)) {
+      return res.status(429).json({ error: 'rate_limited' });
+    }
+    const sess = getSessionUser(req);
+    if (!sess) return res.status(401).json({ error: 'unauthorized' });
+    const { currentPassword, newPassword } = req.body || {};
+    if (!verifyPassword(currentPassword, sess.user.passwordHash)) {
+      return res.status(401).json({ error: 'invalid_credentials' });
+    }
+    if (!newPassword || String(newPassword).length < MIN_PASSWORD_LEN) {
+      return res.status(400).json({
+        error: 'invalid_credentials',
+        message: `Password must be at least ${MIN_PASSWORD_LEN} characters`,
+      });
+    }
+    if (String(currentPassword) === String(newPassword)) {
+      return res.status(400).json({ error: 'same_password' });
+    }
+    try {
+      setPasswordForUserId(sess.user.id, newPassword);
+      destroySessionsForUser(sess.user.id, { exceptId: sess.sessionId });
+      setSessionCookie(res, sess.sessionId, req);
+      return res.json({ status: 'ok' });
+    } catch (e) {
+      return res.status(400).json({ error: e.code || 'password_failed', message: e.message });
+    }
   });
 
   app.post('/api/auth/logout', (req, res) => {
@@ -587,6 +659,86 @@ function tryEnvBootstrap() {
   }
 }
 
+function parsePasswdArgs(argv) {
+  const out = { email: null, password: null, help: false };
+  const args = argv.slice(3);
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i];
+    if (a === '--help' || a === '-h') out.help = true;
+    else if (a === '--email' || a === '-e') out.email = args[++i];
+    else if (a && a.startsWith('--email=')) out.email = a.slice(8);
+    else if (a === '--password' || a === '-p') out.password = args[++i];
+    else if (a && a.startsWith('--password=')) out.password = a.slice(11);
+  }
+  return out;
+}
+
+function readLineFromStdin() {
+  return new Promise((resolve) => {
+    const chunks = [];
+    process.stdin.setEncoding('utf8');
+    process.stdin.on('data', (c) => chunks.push(c));
+    process.stdin.on('end', () => resolve(chunks.join('').replace(/\r?\n$/, '').trim()));
+  });
+}
+
+async function runPasswdCli() {
+  const opts = parsePasswdArgs(process.argv);
+  if (opts.help) {
+    process.stdout.write(
+      'Usage: node auth.js passwd [--email ADDR] [--password NEW]\n' +
+        '  Locked-out break-glass (host / docker exec). No email is sent.\n' +
+        '  Password: --password, AUTH_NEW_PASSWORD, or one line on stdin.\n' +
+        '  --email can be omitted when there is only one user.\n'
+    );
+    return;
+  }
+  const users = loadUsers().users.filter((u) => u && !u.disabled);
+  if (!users.length) {
+    console.error('No users in data/auth/users.json');
+    process.exitCode = 1;
+    return;
+  }
+  const user = opts.email
+    ? users.find((u) => u.email === normalizeEmail(opts.email))
+    : (users.length === 1 ? users[0] : null);
+  if (!user) {
+    console.error(opts.email
+      ? `No user for ${opts.email}`
+      : 'Multiple users — pass --email');
+    process.exitCode = 1;
+    return;
+  }
+  let password = opts.password || process.env.AUTH_NEW_PASSWORD || '';
+  if (!password) {
+    if (process.stdin.isTTY) {
+      process.stderr.write(`New password for ${user.email} (min ${MIN_PASSWORD_LEN}): `);
+    }
+    password = await readLineFromStdin();
+  }
+  if (!password || String(password).length < MIN_PASSWORD_LEN) {
+    console.error(`Password must be at least ${MIN_PASSWORD_LEN} characters`);
+    process.exitCode = 1;
+    return;
+  }
+  setPasswordForUserId(user.id, password);
+  const n = destroySessionsForUser(user.id);
+  console.log(`Password updated for ${user.email} (${n} other session(s) dropped).`);
+}
+
+if (require.main === module) {
+  const cmd = process.argv[2];
+  if (cmd === 'passwd' || cmd === 'password') {
+    runPasswdCli().catch((e) => {
+      console.error(e && e.message ? e.message : e);
+      process.exit(1);
+    });
+  } else {
+    console.error('Usage: node auth.js passwd [--email ADDR] [--password NEW]');
+    process.exit(2);
+  }
+}
+
 module.exports = {
   authEnabled,
   authSource,
@@ -599,4 +751,9 @@ module.exports = {
   publicUser,
   statusPayload,
   setAuthEnabledFile,
+  createUser,
+  setPasswordForUserId,
+  verifyPassword,
+  hashPassword,
+  findUserByEmail,
 };
