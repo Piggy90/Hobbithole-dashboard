@@ -52,6 +52,12 @@
   image/repo (~53 MB); README uses `dashboard-home.png` instead.
 
 ### Fixed
+- **Changelog modal: long bullets truncated** — the renderer took only the first line of each
+  `-` item; wrapped continuation lines in CHANGELOG.md were dropped. Continuations now belong
+  to the item, so the full sentence is visible.
+- **Changelog modal: dates hidden** — the version-header date (`## [vX] - YYYY-MM-DD`) and
+  inline `(YYYY-MM-DD)` on bullets are no longer shown. They stay in the markdown file
+  (Keep a Changelog / GitHub Release).
 - **Weather widget: panel overlapped the weather card** (2026-08-29) — the expanded panel used a
   **fixed** `top` (100px, 80px under the mobile media query) while the card above it grows with
   its content. In a narrow window "Zwaar bewolkt en regen" wrapped onto two lines, the card grew

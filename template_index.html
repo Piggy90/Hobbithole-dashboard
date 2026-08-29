@@ -4616,6 +4616,8 @@
             position: relative;
             line-height: 1.55;
             font-size: 0.9rem;
+            overflow-wrap: anywhere;
+            word-break: break-word;
         }
         .changelog-item::before {
             content: '•';
@@ -11173,23 +11175,35 @@ function closeChangelogModal() {
     document.getElementById('changelog-modal').style.display = 'none';
 }
 
-// Minimal markdown renderer for CHANGELOG.md — handles: ## [vX.Y.Z] - date / ### Heading / - **bold** body / `code`
+// Minimal markdown renderer for CHANGELOG.md — ## [vX.Y.Z] / ### Heading / wrapped - items / **bold** / `code`.
+// Dates stay in the markdown (Keep a Changelog) but are not shown in the modal.
+function isChangelogWrapLine(line) {
+    if (!/^[ \t]+\S/.test(line)) return false;
+    const t = line.trim();
+    if (/^#{1,3}\s/.test(t)) return false;
+    if (/^[-*+]\s/.test(t)) return false;
+    return true;
+}
+
+function stripChangelogDates(s) {
+    return String(s || '').replace(/\s*\(\d{4}-\d{2}-\d{2}\)/g, '');
+}
+
 function renderChangelogMarkdown(md) {
     const out = [];
     let inVersion = false;
-    const lines = md.split('\n');
+    const lines = md.split(/\r?\n/);
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         // Top-level # title — skip (modal has its own header)
         if (/^#\s+/.test(line)) continue;
-        // ## [v1.8.2] - 2026-05-11
+        // ## [v1.8.2] - 2026-05-11  (date suffix is kept in the file, not rendered)
         const versionMatch = line.match(/^##\s+\[v?([^\]]+)\](?:\s*-\s*(.+))?/);
         if (versionMatch) {
             if (inVersion) out.push('</div>');
             inVersion = true;
             out.push('<div class="changelog-version">');
             out.push(`<div class="changelog-version-head">v${escapeHtmlSafe(versionMatch[1])}</div>`);
-            if (versionMatch[2]) out.push(`<div class="changelog-version-date">${escapeHtmlSafe(versionMatch[2].trim())}</div>`);
             continue;
         }
         // ### Subsection
@@ -11198,13 +11212,34 @@ function renderChangelogMarkdown(md) {
             out.push(`<div class="changelog-section-head">${escapeHtmlSafe(subMatch[1])}</div>`);
             continue;
         }
-        // - list item (inline bold + code)
+        // - list item; wrap lines (indent, not a new heading/bullet) belong to this item
         const itemMatch = line.match(/^-\s+(.+)/);
         if (itemMatch) {
-            out.push(`<div class="changelog-item">${renderInlineMarkdown(itemMatch[1])}</div>`);
+            const parts = [itemMatch[1].trim()];
+            while (i + 1 < lines.length) {
+                const next = lines[i + 1];
+                if (/^\s*$/.test(next)) {
+                    let j = i + 2;
+                    while (j < lines.length && /^\s*$/.test(lines[j])) j++;
+                    if (j < lines.length && isChangelogWrapLine(lines[j])) {
+                        parts.push(lines[j].trim());
+                        i = j;
+                        continue;
+                    }
+                    break;
+                }
+                if (isChangelogWrapLine(next)) {
+                    parts.push(next.trim());
+                    i++;
+                    continue;
+                }
+                break;
+            }
+            const text = stripChangelogDates(parts.join(' '));
+            out.push(`<div class="changelog-item">${renderInlineMarkdown(text)}</div>`);
             continue;
         }
-        // Blank line — section separator, just skip
+        // Blank line / leftover wrap — skip (wraps already consumed above)
     }
     if (inVersion) out.push('</div>');
     return out.join('');

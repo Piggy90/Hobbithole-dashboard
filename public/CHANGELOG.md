@@ -55,6 +55,12 @@
   README gebruikt `dashboard-home.png`.
 
 ### Opgelost (Fixed)
+- **Changelog-modal: lange bullets afgekapt** — de renderer nam alleen de eerste regel van elk
+  `-`-item; wrapping in CHANGELOG.md (ingesprongen vervolgregels) verdween. Doorlopende regels
+  horen nu bij het item, dus de hele zin is zichtbaar.
+- **Changelog-modal: datums weg** — de versiekop-datum (`## [vX] - YYYY-MM-DD`) en inline
+  `(YYYY-MM-DD)` in bullets worden niet meer getoond. Ze blijven in het markdown-bestand
+  (Keep a Changelog / GitHub Release).
 - **Weer-widget: paneel over de weerkaart heen** (2026-08-29) — het uitgeklapte paneel hing op
   een **vaste** `top` (100px, 80px onder de mobiele media-query), terwijl de kaart erboven met
   zijn inhoud meegroeit. In een smal venster brak "Zwaar bewolkt en regen" over twee regels, werd
