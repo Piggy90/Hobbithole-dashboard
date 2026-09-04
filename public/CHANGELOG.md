@@ -38,6 +38,10 @@
   Geen actie nodig bij bijwerken; de auto-detectie blijft werken.
 
 ### Toegevoegd (Added)
+- **Bookmarks: icoon via URL of slug** — het icoonveld is niet meer alleen emoji (en
+  `maxlength=3` sneed een geplakte link af). Zelfde resolver als handmatige app-tegels:
+  `https://…` / data-URL, dashboard-icons-slug (`github`, `jellyfin`), of een emoji.
+  Leeg = 🔗. Bestaande bookmarks met een afgekapte URL opnieuw opslaan.
 - **Wachtwoord wijzigen** — Settings → Beveiliging (ingelogd): huidig + nieuw. Andere sessies
   van hetzelfde account gaan eruit. Geen e-mailreset op het loginscherm (e-mail is alleen de
   loginnaam). Lock-out: op de host `docker exec -it hobbithole-config-api node auth.js passwd`.
