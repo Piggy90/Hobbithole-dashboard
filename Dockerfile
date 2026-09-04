@@ -8,6 +8,7 @@ COPY default.conf /etc/nginx/conf.d/default.conf
 COPY template_index.html /usr/share/nginx/html/index.html
 
 # Statische assets uit public/ (lab + staging layout). Nooit public/index.html — die heeft lab-only code.
+# public/images (o.a. de showcase-GIF) hoort op GitHub/README, niet in dit image.
 COPY public/i18n /usr/share/nginx/html/i18n
 COPY public/CHANGELOG.md /usr/share/nginx/html/CHANGELOG.md
 COPY public/CHANGELOG.en.md /usr/share/nginx/html/CHANGELOG.en.md

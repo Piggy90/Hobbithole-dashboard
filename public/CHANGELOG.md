@@ -60,9 +60,9 @@
 ### Verbeterd (Changed)
 - **Hub update-check hardening** — 5 min negatieve cache bij Hub-fouten; `?refresh=1` max 1×/60s;
   tag-paginatie-afkapping wordt gelogd + in de API gezet (`truncated`).
-- **Release-hygiëne** — lab-`docker-compose.yml` en lab-`public/index.html` gaan niet naar GitHub
-  (getrackte UI = gestripte `template_index.html`). Showcase-GIF (~53 MB) uit image/repo;
-  README gebruikt `dashboard-home.png`.
+- **Release-hygiëne** — lab-`docker-compose.yml` gaat niet naar GitHub. Showcase-GIF (~54 MB)
+  staat wél op GitHub (README-animatie), **niet** in het Docker-image. Hub-README blijft
+  `dashboard-home.png`.
 
 ### Opgelost (Fixed)
 - **Login-cookie liep af terwijl je het dashboard wél gebruikte** — de server schoof de sessie

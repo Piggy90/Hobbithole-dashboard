@@ -57,9 +57,9 @@
   `setWeatherOverlayFps(24)` in the console.
 - **Hub update-check hardening** — 5 min negative cache on Hub failures; `?refresh=1` throttled
   to ≥60s; tag pagination truncation is logged + flagged in the API response (`truncated`).
-- **Release hygiene** — lab `docker-compose.yml` and lab `public/index.html` are not shipped to
-  GitHub (tracked UI source is stripped `template_index.html`). Showcase GIF removed from the
-  image/repo (~53 MB); README uses `dashboard-home.png` instead.
+- **Release hygiene** — lab `docker-compose.yml` is not shipped to GitHub. The showcase GIF
+  (~54 MB) lives on GitHub for the README animation, **not** in the Docker image. Hub README
+  keeps `dashboard-home.png`.
 
 ### Fixed
 - **Login cookie expired while you were still using the dashboard** — the server slid the
