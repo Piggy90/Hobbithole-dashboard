@@ -19,6 +19,8 @@
   (`maxlength=3` used to truncate a pasted link). Same resolver as manual app tiles:
   `https://…` / data URL, a dashboard-icons slug (`github`, `jellyfin`), or an emoji.
   Empty = 🔗. Re-save any bookmark that stored a truncated URL.
+- **Edit bookmarks** — ✎ on an existing row (visible on hover) opens the same form with
+  name/URL/icon filled in. No more delete-then-re-add.
 - **Change password** — Settings → Security while signed in (current + new). Other sessions
   for the same account are dropped. No email reset on the login screen (email is only a login
   name). Locked out: on the host `docker exec -it hobbithole-config-api node auth.js passwd`.
