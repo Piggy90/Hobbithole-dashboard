@@ -4861,11 +4861,11 @@
 <body>
 
 <!-- v1.10.0 optional auth gate -->
-<div id="auth-overlay" style="display:none;position:fixed;inset:0;z-index:100000;background:rgba(8,10,18,0.92);backdrop-filter:blur(8px);align-items:center;justify-content:center;font-family:Inter,system-ui,sans-serif;">
+<div id="auth-overlay" class="auth-overlay" style="display:none;position:fixed;inset:0;z-index:100000;background:rgba(8,10,18,0.92);backdrop-filter:blur(8px);align-items:center;justify-content:center;font-family:Inter,system-ui,sans-serif;">
   <div style="width:min(400px,92vw);background:#141824;border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px 24px;box-shadow:0 20px 60px rgba(0,0,0,0.45);color:#e8eaef;">
     <h1 id="auth-title" style="margin:0 0 6px;font-size:1.35rem;font-weight:600;">Hobbithole Dashboard</h1>
     <p id="auth-subtitle" style="margin:0 0 20px;font-size:0.9rem;opacity:0.7;">Sign in to continue</p>
-    <form id="auth-form" autocomplete="on" style="display:flex;flex-direction:column;gap:12px;">
+    <form id="auth-form" method="post" action="/api/auth/login" autocomplete="on" style="display:flex;flex-direction:column;gap:12px;">
       <label style="display:flex;flex-direction:column;gap:4px;font-size:0.8rem;opacity:0.85;">
         <span data-i18n="settings.authEmail">Email</span>
         <input id="auth-email" name="username" type="email" autocomplete="username" required
@@ -4873,11 +4873,11 @@
       </label>
       <label style="display:flex;flex-direction:column;gap:4px;font-size:0.8rem;opacity:0.85;">
         <span data-i18n="settings.authPassword">Password</span>
-        <div style="position:relative;display:flex;align-items:center;">
+        <div style="display:flex;align-items:stretch;gap:8px;">
           <input id="auth-password" name="password" type="password" autocomplete="current-password" required minlength="8"
-            style="width:100%;box-sizing:border-box;padding:10px 44px 10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:#0c0e14;color:inherit;font-size:1rem;">
+            style="flex:1;min-width:0;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:#0c0e14;color:inherit;font-size:1rem;">
           <button type="button" id="auth-password-toggle" aria-label="Show password" title="Show password" data-i18n="settings.authShowPassword"
-            style="position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:rgba(255,255,255,0.65);cursor:pointer;padding:6px 8px;border-radius:8px;font-size:0.85rem;line-height:1;">
+            style="flex:none;border:1px solid rgba(255,255,255,0.12);background:#0c0e14;color:rgba(255,255,255,0.75);cursor:pointer;padding:0 12px;border-radius:10px;font-size:0.85rem;line-height:1;white-space:nowrap;">
             Show
           </button>
         </div>
@@ -16986,6 +16986,12 @@ function showAuthOverlay(setup) {
     const ov = document.getElementById('auth-overlay');
     if (!ov) return;
     ov.style.display = 'flex';
+    // Overlay starts as display:none. KeePassXC-Browser skips hidden fields on
+    // first scan, and a style-only mutation on a parent is easy to miss.
+    // Moving the node to the end of <body> fires childList so the extension
+    // sees visible username/password inputs. Also puts the overlay last in
+    // paint order so its hit-testing (elementFromPoint) isn't stolen.
+    document.body.appendChild(ov);
     bindAuthPasswordToggle();
 
     const title = document.getElementById('auth-title');
