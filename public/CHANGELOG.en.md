@@ -62,6 +62,12 @@
   keeps `dashboard-home.png`.
 
 ### Fixed
+- **Password managers did not see the login form** (2026-09-16) — the overlay started as
+  `display:none` (first scan misses the fields) and the **Show** button sat on top of the
+  password field (KeePassXC-Browser then treats it as hidden). The overlay is now re-inserted
+  into the DOM once visible, **Show** sits beside the field, and the form is a real POST login
+  (`autocomplete` username / current-password). **Confirmed in practice** with Edge +
+  KeePassXC-Browser.
 - **Login cookie expired while you were still using the dashboard** — the server slid the
   session 14 days on every request, the browser cookie `Max-Age` did not. After two weeks you
   had to sign in again. The cookie now slides with the session.

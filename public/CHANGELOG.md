@@ -65,6 +65,11 @@
   `dashboard-home.png`.
 
 ### Opgelost (Fixed)
+- **Wachtwoordmanagers zagen het loginscherm niet** (2026-09-16) — de overlay startte als
+  `display:none` (eerste scan mist de velden) en de knop **Toon** lag over het wachtwoordveld
+  (KeePassXC-Browser telt het dan als onzichtbaar). Overlay wordt nu zichtbaar opnieuw in de
+  DOM gezet, **Toon** staat ernaast, formulier is een echte POST-login (`autocomplete`
+  username / current-password). **In de praktijk bevestigd** met Edge + KeePassXC-Browser.
 - **Login-cookie liep af terwijl je het dashboard wél gebruikte** — de server schoof de sessie
   14 dagen op bij elk request, de browser-cookie `Max-Age` niet. Na twee weken inloggen opnieuw
   nodig. Cookie wordt nu meegeschoven met de sessie.
