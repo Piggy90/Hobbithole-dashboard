@@ -1,8 +1,10 @@
 # Hobbithole Cinema Dashboard - Changelog
 
-## [v1.10.2-dev] - 2026-08-22
+## [v1.10.3-dev] - 2026-09-16
 ### In uitvoering (In Progress)
 - Nieuwe features voor de volgende release.
+
+## [v1.10.2] - 2026-09-16
 
 ### Gewijzigd (Changed)
 - **Weer-overlay: één rAF, twee canvassen** (2026-08-29) — `animateCinematicFx` (lucht) en

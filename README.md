@@ -4,11 +4,36 @@
 
 A blazing fast, responsive, self‑configuring dashboard for your homelab. Smart Docker auto‑detection, a cinematic weather widget, and **cross‑device settings sync** via a tiny config API.
 
-> **v1.10.1** — **Status dot: Docker first, URL fallback**, **Optional `containerName` field**, **Compact service tile**, plus more. Details below.
+> **v1.10.2** — **Bookmarks: icon from URL or slug**, **Edit bookmarks**, **Change password**, plus more. Details below.
 >
-> Previously in **v1.10.0**: Optional authentication (product feature), Release popup.
+> Previously in **v1.10.1**: Status dot: Docker first, URL fallback, Optional `containerName` field.
 >
 > **Upgrade tip:** always pull **both** images (`hobbithole-dashboard` **and** `hobbithole-config-api`) to the **same version**. The API is required for sync, wallpapers, themes, widgets, and auth.
+
+## What's new in v1.10.2
+
+### Added
+
+- **Bookmarks: icon from URL or slug** — the icon field is no longer emoji-only (`maxlength=3` used to truncate a pasted link).
+- **Edit bookmarks** — ✎ on an existing row (visible on hover) opens the same form with name/URL/icon filled in.
+- **Change password** — Settings → Security while signed in (current + new).
+- **Hub update check** — config-api `GET /api/updates/check` reads newest release tags for `piggyoriginal/hobbithole-dashboard` + `…-config-api` (30m cache).
+- **Settings: more collapsible sections** — Apps, Docker scan, Home widgets, Backup, Search, Weather, Feedback, Benchmark (plus existing imports/integrations).
+
+### Fixed
+
+- **Password managers did not see the login form** — (2026-09-16) — the overlay started as `display:none` (first scan misses the fields) and the **Show** button sat on top of the password field…
+- **Login cookie expired while you were still using the dashboard** — the server slid the session 14 days on every request, the browser cookie `Max-Age` did not.
+- **Changelog modal: long bullets truncated** — the renderer took only the first line of each `-` item; wrapped continuation lines in CHANGELOG.md were dropped.
+- **Changelog modal: dates hidden** — the version-header date (`## [vX] - YYYY-MM-DD`) and inline `(YYYY-MM-DD)` on bullets are no longer shown.
+- **Weather widget: panel overlapped the weather card** — (2026-08-29) — the expanded panel used a **fixed** `top` (100px, 80px under the mobile media query) while the card above it grows with its content.
+- **Rain chart: bars sat on two different baselines** — (2026-08-29) — the time label was a flex child *inside* the bar column, but only every third bar has one.
+- **Radar playback frames never released their memory** — `buildWeerenradarFrameCanvases()` builds a fresh set of detached canvases on every refresh, one per timestep (`1024×639` = 2.6 MB of backing store each, up to…
+- **Auth UI copy when login is off but accounts exist** — status + button say “Turn login back on” (same email/password, no new first-run); disable confirm/toast state that accounts are kept.
+
+### Security
+
+- **Docker socket removed from the web server** — `docker-compose.hub.yml` also mounted `/var/run/docker.sock` on the `dashboard` (nginx) service, labelled "required for Docker container auto-detection".
 
 ## What's new in v1.10.1
 
@@ -30,35 +55,13 @@ A blazing fast, responsive, self‑configuring dashboard for your homelab. Smart
 - **Compact tile looked like an empty square** — in a mixed grid: CSS grid stretched the chip to the row height of icon cards.
 - **GitHub blob icon URLs** — (`/blob/…` or `?raw=true`) are rewritten in `resolveIconSrc` to `raw.githubusercontent.com` (stable `image/*`).
 
-## What's new in v1.10.0
-
-### Added
-
-- **Optional authentication (product feature)** — set `AUTH_ENABLED=true` and `SESSION_SECRET` on config-api.
-- **Release popup** — `optional-auth-remote-1.10.0` — optional login + safer remote access via reverse proxy (once max).
-- **Auth via the UI (zero-config)** — Settings → Security → “Secure this dashboard”.
-- **Login UI** — overlay for first-run setup or sign-in; **Show/Hide** password toggle.
-- **Docker endpoints via config-api** — containers/info/start/stop/restart no longer hit the Docker socket from the browser nginx path.
-
-### Fixed
-
-- **Login loop on LAN HTTP** — session cookie was marked `Secure` because `AUTH_PUBLIC_URL` was https while logging in over `http://IP:8086`.
-- **Empty dashboard without login screen** — a duplicate `const pw` in the auth overlay crashed the whole frontend (SyntaxError).
-
-### Security
-
-- Do not expose port 8086 to the internet without `AUTH_ENABLED=true` (or reverse-proxy auth).
-- Auth status must not be treated as “auth off” on fetch failure (avoids silent empty 401 UI).
-
 ## Optional authentication (how to enable)
 
 Default remains **open / zero-config**. When you want login (e.g. before nginx / NPM / Cloudflare):
 
 1. **UI (recommended):** Settings → Security → enable “Secure this dashboard”. First browser creates the admin.
-2. **Change password:** Settings → Security while signed in. There is **no** email reset (the email is a login name, not a mailbox we send to).
-3. **Forgot password (host):** `docker exec -it hobbithole-config-api node auth.js passwd` (optional `--email`). Power users can still replace the hash in `data/auth/users.json`.
-4. **Compose lock (ops):** set `AUTH_ENABLED=true` on **config-api** (optional `SESSION_SECRET`).
-5. **Do not** put port `8086` on the public internet without auth (or reverse-proxy auth).
+2. **Compose lock (ops):** set `AUTH_ENABLED=true` on **config-api** (optional `SESSION_SECRET`).
+3. **Do not** put port `8086` on the public internet without auth (or reverse-proxy auth).
 
 ## USB Eject Configuration
 
@@ -123,12 +126,12 @@ docker pull piggyoriginal/hobbithole-config-api
 
 ## Features
 
+- **Bookmarks: icon from URL or slug** (v1.10.2) — the icon field is no longer emoji-only (`maxlength=3` used to truncate a pasted link).
+- **Edit bookmarks** (v1.10.2) — ✎ on an existing row (visible on hover) opens the same form with name/URL/icon filled in.
+- **Change password** (v1.10.2) — Settings → Security while signed in (current + new).
+- **Hub update check** (v1.10.2) — config-api `GET /api/updates/check` reads newest release tags for `piggyoriginal/hobbithole-dashboard` +…
 - **Status dot: Docker first, URL fallback** (v1.10.1) — match on `containerName` / URL port / tile name (compose service).
 - **Optional `containerName` field** (v1.10.1) — on add/edit app — explicit link for status dot and p95 when the display name differs from the container name.
-- **Compact service tile** (v1.10.1) — (`compact: true`) — chip row: status dot + name + p95 RAM (no large icon, no CPU line).
-- **Compact stacks in Apps** (v1.10.1) — consecutive compact tiles form a vertical column (`.compact-stack`, one grid cell).
-- **Optional authentication (product feature)** (v1.10.0) — set `AUTH_ENABLED=true` and `SESSION_SECRET` on config-api.
-- **Release popup** (v1.10.0) — `optional-auth-remote-1.10.0` — optional login + safer remote access via reverse proxy (once max).
 - **Cross‑device wallpapers** (v1.9.10) — static image, dynamic time-of-day slots (5), and live video; files under config-api `data/wallpapers/`
 - **Container quick actions** (improved v1.9.10) — Start / Stop / Restart on tiles; matches by port **or** container/compose name
 - **Live weather radar** (v1.9.9+) — Weerenradar (Europe) + RainViewer global; home widget + expanded panel

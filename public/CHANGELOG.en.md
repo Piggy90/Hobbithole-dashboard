@@ -1,8 +1,10 @@
 # Hobbithole Cinema Dashboard — Changelog
 
-## [v1.10.2-dev] - 2026-08-22
+## [v1.10.3-dev] - 2026-09-16
 ### In progress
 - New features for the next release.
+
+## [v1.10.2] - 2026-09-16
 
 ### Security
 - **Docker socket removed from the web server** — `docker-compose.hub.yml` also mounted

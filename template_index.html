@@ -822,6 +822,13 @@
             font-size: 1rem;
             flex-shrink: 0;
         }
+        .bookmark-icon-img {
+            width: 1.15rem;
+            height: 1.15rem;
+            object-fit: contain;
+            flex-shrink: 0;
+            border-radius: 3px;
+        }
         .bookmark-name {
             font-size: 0.9rem;
             overflow: hidden;
@@ -831,6 +838,12 @@
         .bookmark-link:hover .bookmark-name {
             color: var(--accent-color);
         }
+        .bookmark-actions {
+            display: flex;
+            flex-shrink: 0;
+            gap: 2px;
+        }
+        .bookmark-edit,
         .bookmark-remove {
             background: transparent;
             border: none;
@@ -842,8 +855,12 @@
             opacity: 0;
             transition: opacity var(--transition-fast), color var(--transition-fast);
         }
+        .bookmark-item:hover .bookmark-edit,
         .bookmark-item:hover .bookmark-remove {
             opacity: 1;
+        }
+        .bookmark-edit:hover {
+            color: var(--accent-color);
         }
         .bookmark-remove:hover {
             color: #ef4444;
@@ -3797,12 +3814,12 @@
             gap: 6px;
             z-index: 10;
             pointer-events: auto;
-            /* Surf/iPad: geen gesture-interference op de knoppenstapel */
+            /* Touch-clients: geen gesture-interference op de knoppenstapel */
             touch-action: manipulation;
         }
 
         #radar-controls .radar-zoom-btn {
-            /* ≥44px hit target (Apple HIG / Surf touch mapping) */
+            /* ≥ 44px hit target (Apple HIG-richtlijn voor touch) */
             width: 44px;
             height: 44px;
             min-width: 44px;
@@ -4252,12 +4269,17 @@
             line-height: 1.3;
         }
 
+        /* Hoogte 140 met 26px onderpadding = ~104px tekenruimte, gelijk aan de oude 120/4.
+           Die onderpadding is de strook waar de tijdlabels in hangen (zie .rain-bar-time);
+           daarbinnen worden ze niet weggeknipt door de overflow van dit blok. */
         .rain-graph-bars {
             display: flex;
             align-items: flex-end;
             gap: 3px;
-            height: 120px;
-            padding: 10px 6px 4px 6px;
+            height: 140px;
+            /* zijpadding 10 i.p.v. 6: het eerste tijdlabel is breder dan zijn staafkolom en
+               stak er anders net buiten — dat werd door de overflow hieronder afgeknipt. */
+            padding: 10px 10px 26px 10px;
             background: rgba(0, 0, 0, 0.25);
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -4287,12 +4309,25 @@
             background: linear-gradient(180deg, #a855f7 0%, #6366f1 100%);
         }
 
+        /* UIT DE FLOW HALEN — dit was de oorzaak van de rommelige grafiek (gemeld 29-08-2026).
+           Het label stond als tweede flex-kind ín de staafkolom. Maar het staat maar bij elke
+           derde staaf, dus die kolommen reserveerden ~19px voor tekst en de andere niets. De
+           staafhoogte is een percentage van de héle kolom, dus in een kolom mét label paste
+           staaf + tekst niet meer en werd de staaf omhooggeduwd: staven met een tijd eronder
+           zweefden 19px hoger dan hun buren, en de tekst kwam tussen de lage staafjes te staan.
+           Absoluut gepositioneerd telt het label niet mee in de kolomhoogte — alle staven
+           staan weer op dezelfde bodemlijn en de tijden hangen er netjes onder. */
         .rain-bar-time {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 5px;
             font-size: 0.62rem;
             color: var(--text-muted);
-            margin-top: 6px;
             text-align: center;
             white-space: nowrap;
+            pointer-events: none;
         }
 
         @media (max-width: 768px) {
@@ -5031,7 +5066,7 @@
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
             </button>
             <button class="radar-zoom-btn radar-play-pause is-paused" id="radar-play-pause" type="button" data-radar-action="play" title="Afspelen (bewegende radar)" aria-label="Afspelen" aria-pressed="false" hidden>▶</button>
-            <!-- + boven, − onder; stack blijft omhoog in map-only (bottom: 72px) t.o.v. Surf Exit -->
+            <!-- + boven, − onder; stack blijft omhoog in map-only (bottom: 72px) t.o.v. de exit-knop -->
             <button class="radar-zoom-btn" type="button" data-radar-zoom="1" title="Inzoomen" aria-label="Inzoomen">+</button>
             <span class="radar-zoom-level" id="radar-zoom-level" title="Zoomniveau">7</span>
             <button class="radar-zoom-btn" type="button" data-radar-zoom="-1" title="Uitzoomen" aria-label="Uitzoomen">−</button>
@@ -5527,7 +5562,7 @@
                     <h5 style="margin-bottom: 10px; font-size: 0.9rem; color: var(--accent-color);" data-i18n="settings.proxmoxApiTitle">Proxmox VE API</h5>
                     <div class="form-group">
                         <label for="setting-proxmox-url" data-i18n="settings.proxmoxUrl">Proxmox URL</label>
-                        <input type="text" id="setting-proxmox-url" placeholder="https://192.168.1.135:8006" autocomplete="off">
+                        <input type="text" id="setting-proxmox-url" placeholder="https://proxmox.local:8006" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="setting-proxmox-token" data-i18n="settings.proxmoxToken">Token ID</label>
@@ -8707,7 +8742,7 @@ async function fetchRainForecast(lat, lon) {
 
             return `<div class="rain-bar-wrapper" title="${tooltip}">
                 <div class="rain-bar ${isHeavy ? 'heavy' : ''}" style="height: ${heightPercent}%;"></div>
-                <div class="rain-bar-time">${showTime}</div>
+                ${showTime ? `<div class="rain-bar-time">${showTime}</div>` : ''}
             </div>`;
         }).join('');
 
@@ -8869,7 +8904,7 @@ function updateRadarZoomLabel() {
     if (radarZoom < RADAR_ZOOM_MIN) radarZoom = RADAR_ZOOM_MIN;
     const el = document.getElementById('radar-zoom-level');
     if (el) el.textContent = String(radarZoom);
-    // +/- state (Surf: geen "dode" + die faalt en andere kaart toont)
+    // +/- state: nooit een “dode” knop die faalt en een andere kaart toont
     document.querySelectorAll('#radar-controls [data-radar-zoom]').forEach((btn) => {
         const d = parseInt(btn.getAttribute('data-radar-zoom'), 10);
         if (!d) return;
@@ -9561,7 +9596,7 @@ async function getRainViewerRadarFrame() {
     };
 }
 
-/** Past frames for animation (oldest → newest). Caps count for Surf/CPU. */
+/** Past frames for animation (oldest → newest). Frame count is capped to bound CPU on low-power clients. */
 async function getRainViewerPastFrames(maxFrames) {
     const data = await getRainViewerMapsData();
     const past = (data.radar && data.radar.past) || [];
@@ -9920,7 +9955,7 @@ const _radarAnimPreferPlay = new WeakMap();
  *
  * Een canvas op 0x0 zetten geeft de buffer meteen vrij. Dat is de enige
  * deterministische manier; op de GC wachten werkt hier aantoonbaar niet.
- * Achtergrond: changelog 2026-08-21 (surf-geheugenplafond).
+ * Achtergrond: changelog 2026-08-21 (geheugenplafond bij remote rendering).
  */
 function releaseRadarFrameCanvases(frames) {
     if (!Array.isArray(frames)) return;
@@ -10497,7 +10532,7 @@ async function renderRadarCanvas() {
     });
 }
 
-/** Coalesce snelle zoom-taps: label meteen, paint gebatched (Surf/iPad). */
+/** Coalesce snelle zoom-taps: label meteen, paint gebatched (trage touch-clients). */
 let _radarZoomPaintTimer = 0;
 let _radarZoomWired = false;
 
@@ -10520,7 +10555,7 @@ function zoomRadar(delta) {
 }
 
 /**
- * Robuuste touch/click wiring voor radar-controls + zon-balk ▶ + legenda-i (Surf).
+ * Robuuste touch/click wiring voor radar-controls + zon-balk ▶ + legenda-i.
  * pointerdown/touch i.p.v. alleen onclick — grotere hit + geen gemiste synthesised clicks.
  * Sunbar-play / legend zitten buiten #radar-controls → apart root-wiren.
  */
@@ -10536,7 +10571,7 @@ function wireRadarControlButtons() {
         if (!btn || btn.disabled) return false;
         if (btn.hidden || btn.getAttribute('aria-hidden') === 'true') return false;
         if (btn.offsetParent === null && getComputedStyle(btn).display === 'none') return false;
-        // Debounce: één actie per knop per 120ms (Surf double-dispatch)
+        // Debounce: één actie per knop per 120ms (clients die pointer+click dubbel sturen)
         const now = Date.now();
         if (btn._radarActAt && (now - btn._radarActAt) < 120) {
             if (e) {
@@ -10751,6 +10786,30 @@ function renderRadarLegendBody() {
     `;
 }
 
+/* Het paneel hing op een VASTE `top` (100px desktop, 80px in de mobiele media-query), terwijl
+   de weerkaart erboven met zijn inhoud meegroeit: plaatsnaam, temperatuur en omschrijving onder
+   elkaar, en die omschrijving breekt in een smal venster over twee regels. Werd de kaart hoger
+   dan de aanname, dan schoof het paneel eroverheen — gemeld 29-08-2026 met "Zwaar bewolkt en
+   regen" in een smal venster.
+
+   Een groter vast getal verplaatst het probleem alleen naar de volgende lange omschrijving.
+   Daarom hier de échte onderkant van de kaart opmeten. Beide staan `position: fixed`, dus
+   `getBoundingClientRect().bottom` kan rechtstreeks als `top`.
+
+   De max-height hoort erbij: het paneel schuift nu naar beneden mee, en zonder rem loopt het
+   op een laag venster onderuit het beeld. */
+function positionExpandedWeather() {
+    const exp = document.getElementById('weather-expanded');
+    const widget = document.getElementById('weather-widget');
+    if (!exp || !widget) return;
+    const kaart = widget.getBoundingClientRect();
+    if (!kaart.height) return;   // widget verborgen (weer uit) — CSS-waarde laten staan
+    const top = Math.round(kaart.bottom + 10);
+    exp.style.top = top + 'px';
+    exp.style.maxHeight = `calc(100vh - ${top + 20}px)`;
+    exp.style.overflowY = 'auto';
+}
+
 async function toggleExpandedWeather() {
     const exp = document.getElementById('weather-expanded');
     const isOpen = exp.classList.contains('open');
@@ -10758,6 +10817,7 @@ async function toggleExpandedWeather() {
         exp.classList.remove('open');
         return;
     }
+    positionExpandedWeather();   // vóór .open, anders zie je hem springen
     if (!serverConfig) await loadServerConfig();
     const { lat, lon } = serverConfig.weather;
     const container = document.getElementById('weather-forecast');
@@ -10792,6 +10852,13 @@ document.addEventListener('click', (e) => {
     if (!exp || !exp.classList.contains('open')) return;
     if (exp.contains(e.target) || (widget && widget.contains(e.target))) return;
     exp.classList.remove('open');
+});
+
+// Bij draaien/verslepen verandert de hoogte van de weerkaart (omschrijving breekt anders af),
+// dus opnieuw uitmeten zolang het paneel open staat.
+window.addEventListener('resize', () => {
+    const exp = document.getElementById('weather-expanded');
+    if (exp && exp.classList.contains('open')) positionExpandedWeather();
 });
 
 async function searchWeatherLocation() {
@@ -10902,7 +10969,7 @@ closeBtn.onclick = () => {
 
 // v1.8.2: changelog modal — "What's New" with auto-detected NEW badge.
 // CHANGELOG.md is baked into the dashboard image (COPY in Dockerfile) at /CHANGELOG.md
-const APP_VERSION = '1.10.2-dev';
+const APP_VERSION = '1.10.2';
 
 // ===== RELEASE ANNOUNCEMENTS (v1.8.5, hardened v1.9.10) =====
 // Big-feature popup — must show AT MOST ONCE. Past bug (weather backdrop): entry stayed
@@ -12534,7 +12601,7 @@ function drawClouds() {
             grad.addColorStop(1,   'rgba(255, 255, 255, 0)');
             ctx.fillStyle = grad;
             ctx.fillRect(left, c.y - c.height / 2, c.width, c.height);
-            c.x += c.speed;
+            c.x += c.speed * weatherOverlayStep;
             if (c.x - c.width / 2 > w) c.x = -c.width / 2;
             return;
         }
@@ -12545,7 +12612,7 @@ function drawClouds() {
         if (c.sprite) {
             ctx.drawImage(c.sprite.canvas, c.x - c.sprite.offX, c.y - c.sprite.offY);
         }
-        c.x += c.speed;
+        c.x += c.speed * weatherOverlayStep;
         if (c.x - c.width > w) c.x = -c.width;
     });
 }
@@ -12907,8 +12974,38 @@ const weatherFx = {
 // frame — geen scheuring. Stap 2 (één canvas) niet. Remt op 30 fps zoals de
 // radar-windflow (`msPerFrame`): tekenen, rest van het interval wachten, dan rAF.
 // Headless rAF zonder rem vuurde ongeremd (~169/s); op een scherm was dat ~60.
-const WEATHER_OVERLAY_FPS = 30;
-const WEATHER_OVERLAY_MS = 1000 / WEATHER_OVERLAY_FPS;
+// LET OP — de beweging zit PER FRAME in de tekenroutines (`p.y += p.speed`, `c.x += c.speed`),
+// niet per seconde. Van 60 naar 30 fps halveerde daarmee óók de val- en drijfsnelheid; dát is
+// het beeld dat nu op het scherm staat. Zou je de fps verder verlagen zonder correctie, dan
+// meet je niet de vloeiendheid maar de snelheid — bij 24 fps zou de regen nog eens 20%
+// langzamer vallen, en dan vergelijk je twee verschillende animaties.
+//
+// Daarom een stapfactor, genormaliseerd op 30: bij 30 fps is hij exact 1 (onveranderd beeld),
+// bij 24 corrigeert hij de beweging terug naar diezelfde snelheid. De fps-knop regelt zo
+// alleen nog hoe vloeiend het loopt en wat het kost. Geklemd, zodat een teruggekeerd tabblad
+// of een haperende frame de regen niet in één klap door het beeld schiet.
+const WEATHER_OVERLAY_BASIS_FPS = 30;
+let weatherOverlayFps = 30;
+let weatherOverlayMs = 1000 / weatherOverlayFps;
+let weatherOverlayStep = 1;
+let weatherOverlayVorigeTijd = 0;
+
+/** Live verstellen om te vergelijken: `setWeatherOverlayFps(24)` in de console. */
+function setWeatherOverlayFps(fps) {
+    const n = Math.min(60, Math.max(5, Number(fps) || WEATHER_OVERLAY_BASIS_FPS));
+    weatherOverlayFps = n;
+    weatherOverlayMs = 1000 / n;
+    return n;
+}
+
+// …of zonder console: ?fxfps=24 achter de URL. Handig om twee tabbladen naast elkaar te zetten.
+(() => {
+    try {
+        const p = new URLSearchParams(location.search).get('fxfps');
+        if (p) setWeatherOverlayFps(p);
+    } catch (e) { /* geen URLSearchParams — dan gewoon de standaard */ }
+})();
+
 let weatherOverlayRafId = null;
 let weatherOverlayWaitId = null;
 
@@ -12939,11 +13036,21 @@ function tickWeatherOverlay() {
     cinematicFx.rafId = null;
     weatherFx.rafId = null;
     const t0 = performance.now();
+    // Stapfactor uit de werkelijk verstreken tijd, niet uit de ingestelde fps: als het
+    // tekenen uitloopt of het tabblad even weg was, klopt de beweging dan alsnog.
+    const basisMs = 1000 / WEATHER_OVERLAY_BASIS_FPS;
+    weatherOverlayStep = weatherOverlayVorigeTijd
+        ? Math.min(3, Math.max(0.25, (t0 - weatherOverlayVorigeTijd) / basisMs))
+        : 1;
+    weatherOverlayVorigeTijd = t0;
     if (cinematicFxNeedsFrame()) paintCinematicFxFrame();
     if (weatherFxNeedsFrame()) paintWeatherFxFrame();
     // Doorlopen zolang één van beide nog iets te doen heeft.
-    if (!(cinematicFxNeedsFrame() || weatherFxNeedsFrame())) return;
-    const wait = Math.max(0, WEATHER_OVERLAY_MS - (performance.now() - t0));
+    if (!(cinematicFxNeedsFrame() || weatherFxNeedsFrame())) {
+        weatherOverlayVorigeTijd = 0;   // volgende start weer schoon, geen sprong
+        return;
+    }
+    const wait = Math.max(0, weatherOverlayMs - (performance.now() - t0));
     weatherOverlayWaitId = setTimeout(() => {
         weatherOverlayWaitId = null;
         scheduleWeatherOverlayFrame();
@@ -13018,8 +13125,8 @@ function drawRain(intensity) {
         ctx.moveTo(p.x, p.y);
         ctx.lineTo(p.x - 2, p.y + p.len);
         ctx.stroke();
-        p.y += p.speed * intensity;
-        p.x -= 1;
+        p.y += p.speed * intensity * weatherOverlayStep;
+        p.x -= weatherOverlayStep;
         if (p.y > h) { p.y = -p.len; p.x = Math.random() * w; }
         if (p.x < 0) p.x = w;
     });
@@ -13034,9 +13141,9 @@ function drawSnow() {
         ctx.beginPath();
         ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
         ctx.fill();
-        f.sway += f.swaySpeed;
-        f.x += Math.sin(f.sway) * 0.4;
-        f.y += f.vy;
+        f.sway += f.swaySpeed * weatherOverlayStep;
+        f.x += Math.sin(f.sway) * 0.4 * weatherOverlayStep;
+        f.y += f.vy * weatherOverlayStep;
         if (f.y > h) { f.y = -8; f.x = Math.random() * w; }
     });
 }
@@ -14198,10 +14305,13 @@ function renderBookmarks(block, container) {
         list.innerHTML = items.map((item, idx) => `
             <div class="bookmark-item">
                 <a href="${escapeHtmlSafe(item.url)}" target="_blank" rel="noopener noreferrer" class="bookmark-link">
-                    <span class="bookmark-icon">${escapeHtmlSafe(item.icon || '🔗')}</span>
+                    ${bookmarkIconHtml(item)}
                     <span class="bookmark-name">${escapeHtmlSafe(item.name)}</span>
                 </a>
-                <button class="bookmark-remove" title="${t('ui.deleteLabel', 'Verwijderen')}" onclick="removeBookmark('${block.id}', ${idx})">✕</button>
+                <div class="bookmark-actions">
+                    <button type="button" class="bookmark-edit" title="${t('ui.editLabel', 'Bewerken')}" onclick="event.preventDefault(); event.stopPropagation(); editBookmark('${block.id}', ${idx})">✎</button>
+                    <button type="button" class="bookmark-remove" title="${t('ui.deleteLabel', 'Verwijderen')}" onclick="event.preventDefault(); event.stopPropagation(); removeBookmark('${block.id}', ${idx})">✕</button>
+                </div>
             </div>
         `).join('');
     }
@@ -14210,27 +14320,81 @@ function renderBookmarks(block, container) {
     const addBtn = document.createElement('button');
     addBtn.className = 'bookmark-add-btn';
     addBtn.innerHTML = t('ui.addButton', '+ Toevoegen');
-    addBtn.onclick = () => showBookmarkAddForm(block, container);
+    addBtn.onclick = () => showBookmarkForm(block, container, null);
     container.appendChild(addBtn);
 }
 
-function showBookmarkAddForm(block, container) {
-    // Replace add button with inline form
-    const oldBtn = container.querySelector('.bookmark-add-btn');
-    if (!oldBtn) return;
+function editBookmark(blockId, idx) {
+    const layout = getHomeLayout();
+    const block = layout.blocks.find(b => b.id === blockId);
+    if (!block) return;
+    const card = document.querySelector(`[data-block-id="${blockId}"] .standalone-block-body`);
+    if (!card) return;
+    renderBookmarks(block, card);
+    showBookmarkForm(block, card, idx);
+}
+
+function showBookmarkForm(block, container, editIdx) {
+    const items = (block.config && block.config.items) || [];
+    const editing = Number.isInteger(editIdx) && editIdx >= 0 && editIdx < items.length;
+    const item = editing ? items[editIdx] : null;
+
     const form = document.createElement('div');
     form.className = 'bookmark-add-form';
+    form.dataset.editIdx = editing ? String(editIdx) : '';
     form.innerHTML = `
         <input type="text" placeholder="Naam (bv. GitHub)" id="bm-name-${block.id}">
         <input type="text" placeholder="URL (https://...)" id="bm-url-${block.id}">
-        <input type="text" placeholder="Icoon (emoji, optioneel)" id="bm-icon-${block.id}" maxlength="3">
+        <input type="text" placeholder="Icoon: emoji, jellyfin of https://…" id="bm-icon-${block.id}">
         <div class="bookmark-add-actions">
-            <button class="btn btn-action btn-small" type="button" onclick="saveNewBookmark('${block.id}')">Opslaan</button>
+            <button class="btn btn-action btn-small" type="button" onclick="saveBookmark('${block.id}')">Opslaan</button>
             <button class="btn btn-secondary btn-small" type="button" onclick="cancelNewBookmark('${block.id}')">Annuleren</button>
         </div>
     `;
-    oldBtn.replaceWith(form);
-    setTimeout(() => document.getElementById(`bm-name-${block.id}`).focus(), 50);
+
+    if (editing) {
+        const row = container.querySelectorAll('.bookmark-item')[editIdx];
+        if (row) row.replaceWith(form);
+        const addBtn = container.querySelector('.bookmark-add-btn');
+        if (addBtn) addBtn.remove();
+    } else {
+        const oldBtn = container.querySelector('.bookmark-add-btn');
+        if (!oldBtn) return;
+        oldBtn.replaceWith(form);
+    }
+
+    const nameEl = document.getElementById(`bm-name-${block.id}`);
+    const urlEl = document.getElementById(`bm-url-${block.id}`);
+    const iconEl = document.getElementById(`bm-icon-${block.id}`);
+    if (item) {
+        nameEl.value = item.name || '';
+        urlEl.value = item.url || '';
+        iconEl.value = item.icon || '';
+    }
+    setTimeout(() => nameEl.focus(), 50);
+}
+
+/** Emoji blijft tekst; http(s)/data/slug gaat door dezelfde resolver als app-tegels. */
+function isBookmarkImageIcon(v) {
+    const s = String(v || '').trim();
+    if (!s) return false;
+    if (s.startsWith('https://') || s.startsWith('http://') || s.startsWith('data:')) return true;
+    return /^[a-z0-9]+(?:-[a-z0-9]+)*$/i.test(s);
+}
+
+function bookmarkIconHtml(item) {
+    const raw = (item && item.icon) ? String(item.icon).trim() : '';
+    if (!raw) {
+        return '<span class="bookmark-icon">🔗</span>';
+    }
+    if (isBookmarkImageIcon(raw)) {
+        const src = resolveIconSrc(raw);
+        if (!src) {
+            return `<span class="bookmark-icon">${escapeHtmlSafe(raw)}</span>`;
+        }
+        return `<img class="bookmark-icon-img" src="${escapeHtmlSafe(src)}" alt="" onerror="this.outerHTML='<span class=bookmark-icon>🔗</span>'">`;
+    }
+    return `<span class="bookmark-icon">${escapeHtmlSafe(raw)}</span>`;
 }
 
 function cancelNewBookmark(blockId) {
@@ -14241,7 +14405,7 @@ function cancelNewBookmark(blockId) {
     if (card) renderBookmarks(block, card);
 }
 
-function saveNewBookmark(blockId) {
+function saveBookmark(blockId) {
     const name = document.getElementById(`bm-name-${blockId}`).value.trim();
     const url  = document.getElementById(`bm-url-${blockId}`).value.trim();
     const icon = document.getElementById(`bm-icon-${blockId}`).value.trim();
@@ -14256,7 +14420,15 @@ function saveNewBookmark(blockId) {
     if (!block) return;
     block.config = block.config || { items: [] };
     if (!Array.isArray(block.config.items)) block.config.items = [];
-    block.config.items.push({ name, url: finalUrl, icon: icon || null });
+    const entry = { name, url: finalUrl, icon: icon || null };
+    const form = document.querySelector(`[data-block-id="${blockId}"] .bookmark-add-form`);
+    const editRaw = form && form.dataset.editIdx;
+    const editIdx = editRaw === '' || editRaw == null ? NaN : parseInt(editRaw, 10);
+    if (Number.isInteger(editIdx) && editIdx >= 0 && editIdx < block.config.items.length) {
+        block.config.items[editIdx] = entry;
+    } else {
+        block.config.items.push(entry);
+    }
     saveHomeLayout();
 
     const card = document.querySelector(`[data-block-id="${blockId}"] .standalone-block-body`);
