@@ -9,8 +9,12 @@ services:
       # Optioneel: Mount de /images map als je foto's lokaal in plaats van via URL wilt gebruiken
       # - ./images:/usr/share/nginx/html/images:ro
 
-      # Vereist voor de Auto-Detectie van Docker containers
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Sinds v1.10 heeft de webserver GEEN dockersocket meer nodig: container-endpoints
+      # lopen via config-api (`/api/containers*`), en `location /docker/` geeft hier `404`.
+      # De mount stond hier nog als restant van vóór v1.10. Verwijderd 2026-08-27 —
+      # ook read-only geeft een socket toegang tot al je containers, images en logs, en
+      # nginx deed er aantoonbaar niets mee (geen enkele verwijzing in default.conf).
+      # De socket hoort alleen bij config-api hieronder.
     networks:
       - dashboard_net
     depends_on:

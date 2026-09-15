@@ -322,6 +322,30 @@ app.get('/api/watchtower/metrics', async (req, res) => {
   }
 });
 
+// === PRODUCT UPDATE CHECK (v1.10.2) ===
+// Newest Hub release tags for our own images (dashboard + config-api).
+// Not a generic proxy — fixed repos only. Cached 30m; ?refresh=1 bypass.
+const hubUpdates = require('./widgets/hubupdates');
+
+app.get('/api/updates/check', async (req, res) => {
+  try {
+    const refresh = String(req.query.refresh || '') === '1';
+    const result = await hubUpdates.checkUpdates({ refresh });
+    if (!result.ok) {
+      return res.status(502).json(result);
+    }
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({
+      ok: false,
+      error: 'check_failed',
+      message: err.message,
+      newest: null,
+      repos: {},
+    });
+  }
+});
+
 // === VM & SERVICE INTEGRATIE (v1.9.4) ===
 const vmserviceAdapter = require('./widgets/vmservice');
 
