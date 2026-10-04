@@ -1,8 +1,19 @@
 # Hobbithole Cinema Dashboard — Changelog
 
-## [v1.10.3-dev] - 2026-09-16
-### In progress
-- New features for the next release.
+## [v1.10.3-dev] - 2026-10-04
+### Added
+- **Discover containers that have no tile** — on open, the dashboard looks at running
+  containers. If one has a reachable port (published, or host-network with a known port) and
+  no tile yet, a quiet footer notice appears: `N without a tile`. No popup. Click opens
+  Settings → Docker Scanner with the list: add one, add all, or **Not now**. Not now hides
+  exactly those containers until a new one shows up (this browser and the server config, so a
+  second browser does not nag again). A tile counts as a match on container name, compose
+  service, the Docker container-name field, or the port in the URL — also when a host-network
+  container publishes no port. A generic base image (nginx, node, …) uses the container name
+  as the tile name, not "Nginx". The dashboard itself and
+  config-api are skipped. Databases and sidecars without a port stay off the list. A port
+  published only on 127.0.0.1 gets `127.0.0.1` in the URL, not the LAN address. Adding a tile
+  also stores the container name.
 
 ## [v1.10.2] - 2026-09-16
 

@@ -4465,6 +4465,28 @@
         .footer-update-badge:hover {
             filter: brightness(1.08);
         }
+        /* v1.10.3: stille ontdek-melding — draaiende container met poort, nog geen tegel */
+        .footer-discover-badge {
+            display: none;
+            margin-left: 6px;
+            padding: 1px 8px;
+            background: transparent;
+            color: var(--accent-color);
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            border: 1px solid rgba(56, 189, 248, 0.45);
+            cursor: pointer;
+            font-family: inherit;
+            vertical-align: middle;
+        }
+        .footer-discover-badge.visible {
+            display: inline-block;
+        }
+        .footer-discover-badge:hover {
+            background: rgba(56, 189, 248, 0.12);
+        }
         #settings-hub-update {
             display: none;
             margin: 12px 0 16px;
@@ -5226,6 +5248,7 @@
         &copy; 2026 Hobbithole Dashboard &bull; Powered by <a href="#">LokaiOS</a> &bull;
         <button class="footer-version-btn" id="footer-version-btn" onclick="openChangelogModal()" title="Wat is er nieuw in deze versie?">v<span id="footer-version-text">1.10.0-dev</span><span id="footer-new-badge" class="footer-new-badge" style="display:none;">✨ NEW</span></button>
         <button type="button" class="footer-update-badge" id="footer-update-badge" onclick="openHubUpdateDetails()" data-i18n="updates.badge" title="">Update</button>
+        <button type="button" class="footer-discover-badge" id="footer-discover-badge" onclick="openDockerDiscover()" title=""></button>
     </footer>
 
     <!-- v1.8.5: Release announcement modal — first-run pop-up that highlights a specific
@@ -5468,12 +5491,12 @@
         <!-- Docker Scanner Section (heavy — collapsible) -->
         <div class="setting-section collapsible" id="section-docker-scanner">
             <h3 onclick="toggleSettingSection(this)"><span data-i18n="settings.dockerScanner">🐳 Docker Scanner</span><span class="chevron">▾</span></h3>
-            <p style="color: var(--text-muted); margin-bottom: 15px;" data-i18n="settings.dockerScannerDesc">Scan je server voor draaiende Docker containers en voeg ze automatisch toe aan je dashboard.</p>
+            <p style="color: var(--text-muted); margin-bottom: 15px;" data-i18n="settings.dockerScannerDesc">Scan je server voor draaiende Docker containers zonder tegel. Staat er een met een bereikbare poort, dan verschijnt onderaan een stille melding.</p>
             <div class="form-group">
                 <label data-i18n="settings.dockerScannerIp">Server IP-adres</label>
                 <input type="text" id="setting-docker-ip" data-i18n-placeholder="settings.dockerScannerPlaceholder" placeholder="192.168.1.x">
             </div>
-            <div id="docker-scan-results" style="margin: 15px 0; max-height: 200px; overflow-y: auto;"></div>
+            <div id="docker-scan-results" style="margin: 15px 0; max-height: 360px; overflow-y: auto;"></div>
             <button class="btn btn-action" onclick="scanDockerContainers()" data-i18n="settings.dockerScannerBtn">🔍 Scan Docker Containers</button>
         </div>
 
@@ -10969,7 +10992,7 @@ closeBtn.onclick = () => {
 
 // v1.8.2: changelog modal — "What's New" with auto-detected NEW badge.
 // CHANGELOG.md is baked into the dashboard image (COPY in Dockerfile) at /CHANGELOG.md
-const APP_VERSION = '1.10.2';
+const APP_VERSION = '1.10.3-dev';
 
 // ===== RELEASE ANNOUNCEMENTS (v1.8.5, hardened v1.9.10) =====
 // Big-feature popup — must show AT MOST ONCE. Past bug (weather backdrop): entry stayed
@@ -16427,9 +16450,16 @@ function pickEndpoint(container) {
         // Laagste PrivatePort eerst: bij vrijwel elk image is dat de hoofdpoort.
         uniek.sort((a, b) => a.PrivatePort - b.PrivatePort);
         const chosen = uniek.find(p => TLS_PRIVATE_PORTS.has(p.PrivatePort)) || uniek[0];
+        // Alleen 127.0.0.1/::1: een LAN-IP in de tegel zou nergens heen gaan.
+        const bindings = published.filter(p => p.PublicPort === chosen.PublicPort);
+        const loopbackOnly = bindings.length > 0 && bindings.every(p => {
+            const bind = p.IP || '';
+            return bind === '127.0.0.1' || bind === '::1';
+        });
         return {
             port: chosen.PublicPort,
-            scheme: TLS_PRIVATE_PORTS.has(chosen.PrivatePort) ? 'https' : 'http'
+            scheme: TLS_PRIVATE_PORTS.has(chosen.PrivatePort) ? 'https' : 'http',
+            loopbackOnly
         };
     }
     const nm = (container.HostConfig && container.HostConfig.NetworkMode) || '';
@@ -16457,6 +16487,9 @@ function hostWaarschuwing(ip) {
         + `(bijv. 192.168.1.10) en scan opnieuw.</p>`;
 }
 
+// Basisimages. Een container `hobbithole-kiosk` op nginx is geen tegel "Nginx".
+const GENERIC_IMAGES = new Set(['nginx', 'node', 'alpine', 'python', 'httpd', 'ubuntu', 'debian']);
+
 function detectApp(container) {
     const slug = imageBasename(container.Image);
     const name = containerScanName(container).toLowerCase();
@@ -16466,10 +16499,14 @@ function detectApp(container) {
     const candidates = [slug, name, svc].filter(Boolean);
     let best = slug || name || svc;
     if (!best) return null;
-    for (const c of candidates) {
-        if (DISPLAY_NAME_OVERRIDES[c] || HOST_ENDPOINT_HINTS[c] || categoryFor(c) !== 'Apps') {
-            best = c;
-            break;
+    if (slug && GENERIC_IMAGES.has(slug) && name && !GENERIC_IMAGES.has(name)) {
+        best = name;
+    } else {
+        for (const c of candidates) {
+            if (DISPLAY_NAME_OVERRIDES[c] || HOST_ENDPOINT_HINTS[c] || categoryFor(c) !== 'Apps') {
+                best = c;
+                break;
+            }
         }
     }
     const icon = best === 'jellyfin-fork' ? 'jellyfin'
@@ -16480,6 +16517,204 @@ function detectApp(container) {
         icon, // dashboard-icons CDN slug; <img onerror> handles missing icons
         category: categoryFor(best === 'jellyfin-fork' ? 'jellyfin' : best)
     };
+}
+
+// v1.10.3: tegel bestaat al als containernaam, compose-service, containerName of URL-poort
+// op déze container matcht. Eén container per check, anders pakt een poort een andere.
+function containerIsTiled(container) {
+    const cats = (typeof categories !== 'undefined' && Array.isArray(categories)) ? categories : [];
+    for (let i = 0; i < cats.length; i++) {
+        const apps = cats[i].apps || [];
+        for (let j = 0; j < apps.length; j++) {
+            const hit = matchContainerForApp(apps[j], [container]);
+            if (hit && hit.id === container.Id) return true;
+        }
+    }
+    return false;
+}
+
+function isOwnDashboardContainer(container) {
+    const name = containerScanName(container);
+    if (typeof isSelfContainer === 'function' && isSelfContainer(name)) return true;
+    if (name === 'custom-dashboard' || name === 'custom-dashboard-config-api') return true;
+    const slug = imageBasename(container.Image);
+    return slug === 'hobbithole-dashboard' || slug === 'hobbithole-config-api';
+}
+
+function urlForEndpoint(endpoint, ip) {
+    const host = endpoint.loopbackOnly ? '127.0.0.1' : ip;
+    return endpoint.scheme + '://' + host + ':' + endpoint.port;
+}
+
+// Host-netwerk heeft geen PublicPort. Een tegel op dezelfde poort (Jellyfin Fork → :8096)
+// is dan alsnog dezelfde app, ook als de tegelnaam niet gelijk is aan de containernaam.
+function endpointAlreadyTiled(endpoint) {
+    if (!endpoint || !endpoint.port) return false;
+    const cats = (typeof categories !== 'undefined' && Array.isArray(categories)) ? categories : [];
+    for (let i = 0; i < cats.length; i++) {
+        const apps = cats[i].apps || [];
+        for (let j = 0; j < apps.length; j++) {
+            const m = String(apps[j].url || '').match(/:(\d+)(?:\/|$)/);
+            if (m && parseInt(m[1], 10) === endpoint.port) return true;
+        }
+    }
+    return false;
+}
+
+function collectUntiledApps(containers, ip) {
+    const found = [];
+    for (const container of containers) {
+        if (isOwnDashboardContainer(container)) continue;
+        const detected = detectApp(container);
+        if (!detected) continue;
+        const endpoint = pickEndpoint(container);
+        if (!endpoint) continue;
+        if (containerIsTiled(container) || endpointAlreadyTiled(endpoint)) continue;
+        found.push({
+            ...detected,
+            url: urlForEndpoint(endpoint, ip),
+            containerName: containerScanName(container),
+            hostMode: !!endpoint.hostMode,
+            loopbackOnly: !!endpoint.loopbackOnly
+        });
+    }
+    return found;
+}
+
+const UNTILED_DISMISS_KEY = 'hobbithole_dismissed_untiled';
+
+function readDismissedUntiled() {
+    const names = new Set();
+    try {
+        const local = JSON.parse(localStorage.getItem(UNTILED_DISMISS_KEY) || '[]');
+        if (Array.isArray(local)) local.forEach(n => { if (n) names.add(String(n)); });
+    } catch (_) { /* ignore */ }
+    const server = (typeof serverConfig !== 'undefined' && serverConfig) ? serverConfig.dismissedUntiled : null;
+    if (Array.isArray(server)) server.forEach(n => { if (n) names.add(String(n)); });
+    return names;
+}
+
+function writeDismissedUntiled(names) {
+    const list = Array.from(names).filter(Boolean).sort().slice(-200);
+    try { localStorage.setItem(UNTILED_DISMISS_KEY, JSON.stringify(list)); } catch (_) { /* ignore */ }
+    if (typeof serverConfig !== 'undefined' && serverConfig && !serverConfig._offline) {
+        serverConfig.dismissedUntiled = list;
+        if (typeof saveServerConfig === 'function') saveServerConfig().catch(() => {});
+    }
+}
+
+function discoverCopy(count, oneKey, manyKey, oneFallback, manyFallback) {
+    if (count === 1) return t(oneKey, oneFallback);
+    return i18nFormat(manyKey, { count: count }, manyFallback);
+}
+
+function applyDiscoverBadge(apps) {
+    const badge = document.getElementById('footer-discover-badge');
+    if (!badge) return;
+    const wiz = document.getElementById('wizard-overlay');
+    const wizardOpen = wiz && wiz.style.display === 'flex';
+    if (!apps.length || wizardOpen) {
+        badge.classList.remove('visible');
+        badge.textContent = '';
+        badge.title = '';
+        return;
+    }
+    const n = apps.length;
+    badge.textContent = discoverCopy(n,
+        'scanner.discoverBadgeOne', 'scanner.discoverBadge',
+        '1 zonder tegel', '{count} zonder tegel');
+    badge.title = discoverCopy(n,
+        'scanner.discoverBadgeTitleOne', 'scanner.discoverBadgeTitle',
+        '1 container draait zonder tegel. Klik om hem toe te voegen.',
+        '{count} containers draaien zonder tegel. Klik om ze toe te voegen.');
+    badge.classList.add('visible');
+}
+
+function dockerScanIp() {
+    // Niet `hobbithole_nas_ip`: die sleutel schrijft de Synology-toevoeger, en dan
+    // belandt het NAS-IP in elke Docker-tegel terwijl /api/containers van deze host komt.
+    const field = document.getElementById('setting-docker-ip');
+    const typed = field && field.value ? field.value.trim() : '';
+    return typed || window.location.hostname;
+}
+
+async function refreshDockerDiscover() {
+    try {
+        const response = await fetch('/api/containers', { cache: 'no-store' });
+        if (!response.ok) { applyDiscoverBadge([]); return null; }
+        const containers = await response.json();
+        if (!Array.isArray(containers)) { applyDiscoverBadge([]); return null; }
+        const all = collectUntiledApps(containers, dockerScanIp());
+        const dismissed = readDismissedUntiled();
+        const fresh = all.filter(a => !dismissed.has(a.containerName));
+        applyDiscoverBadge(fresh);
+        return { all: all, fresh: fresh };
+    } catch (_) {
+        applyDiscoverBadge([]);
+        return null;
+    }
+}
+
+function renderScannedApps(foundApps, ip) {
+    const resultsEl = document.getElementById('docker-scan-results');
+    window._scannedApps = foundApps;
+    if (!resultsEl) return;
+    if (!foundApps.length) {
+        resultsEl.innerHTML = '<p style="color: var(--warning-color);">'
+            + t('scanner.noAppsFound', '⚠️ Geen draaiende containers zonder tegel.') + '</p>';
+        return;
+    }
+    const rows = foundApps.map((app, i) => {
+        const host = String(app.url || '').replace(/^https?:\/\//, '');
+        const flags = [app.hostMode ? 'host' : '', app.loopbackOnly ? 'localhost' : ''].filter(Boolean).join(' · ');
+        const flagTxt = flags ? ' · ' + flags : '';
+        return '<div class="app-item" style="margin-bottom: 8px;">'
+            + '<div class="app-item-info">'
+            + '<img src="' + escapeHtml(resolveIconSrc(app.icon)) + '" class="app-item-icon" alt="" onerror="this.src=\'https://api.dicebear.com/7.x/initials/svg?seed=' + encodeURIComponent(app.name) + '\'">'
+            + '<span>' + escapeHtml(app.name) + ' (' + escapeHtml(app.category) + ')' + flagTxt + ' · ' + escapeHtml(host) + '</span>'
+            + '</div>'
+            + '<button class="btn btn-secondary btn-small" onclick="addSingleScannedApp(' + i + ')">'
+            + t('scanner.addSingle', '+ Toevoegen') + '</button>'
+            + '</div>';
+    }).join('');
+    resultsEl.innerHTML = ''
+        + '<p style="color: var(--success-color); margin-bottom: 10px;">'
+        + t('scanner.appsFound', '✅ ${count} apps gevonden:').replace('${count}', foundApps.length) + '</p>'
+        + '<p style="color: var(--text-muted); font-size: 0.85rem; margin: 0 0 10px;">'
+        + t('scanner.discoverScope', 'Alleen containers met een bereikbare poort, en nog geen tegel.') + '</p>'
+        + hostWaarschuwing(ip)
+        + rows
+        + '<div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:15px;">'
+        + '<button class="btn btn-action" onclick="addAllScannedApps()">'
+        + t('scanner.addAll', 'Alle ${count} apps toevoegen').replace('${count}', foundApps.length) + '</button>'
+        + '<button class="btn btn-secondary" onclick="dismissUntiledShown()">'
+        + t('scanner.discoverLater', 'Niet nu') + '</button>'
+        + '</div>';
+}
+
+async function openDockerDiscover() {
+    if (typeof settingsView !== 'undefined' && settingsView) settingsView.style.display = 'block';
+    if (typeof mainView !== 'undefined' && mainView) mainView.style.display = 'none';
+    if (typeof loadSettingsValues === 'function') loadSettingsValues();
+    if (typeof updateSettingsBackToTop === 'function') updateSettingsBackToTop();
+    await scanDockerContainers({ freshOnly: true });
+    setTimeout(() => {
+        if (typeof scrollSettingsToSection === 'function') scrollSettingsToSection('section-docker-scanner');
+    }, 60);
+}
+
+function dismissUntiledShown() {
+    const apps = window._scannedApps || [];
+    const names = readDismissedUntiled();
+    apps.forEach(a => { if (a.containerName) names.add(a.containerName); });
+    writeDismissedUntiled(names);
+    window._scannedApps = [];
+    applyDiscoverBadge([]);
+    const resultsEl = document.getElementById('docker-scan-results');
+    if (resultsEl) {
+        resultsEl.innerHTML = '<p style="color: var(--text-muted);">'
+            + t('scanner.discoverDismissed', 'Melding verborgen tot er een nieuwe container bij komt.') + '</p>';
+    }
 }
 
 async function wizScanDocker() {
@@ -16508,10 +16743,11 @@ async function wizScanDocker() {
             const endpoint = pickEndpoint(container);
             if (!endpoint) continue;
             const cName = containerScanName(container);
-            if (typeof isSelfContainer === 'function' && isSelfContainer(cName)) continue;
+            if (isOwnDashboardContainer(container) || endpointAlreadyTiled(endpoint)) continue;
             foundApps.push({
                 ...detected,
-                url: `${endpoint.scheme}://${ip}:${endpoint.port}`,
+                url: urlForEndpoint(endpoint, ip),
+                containerName: cName,
                 hostMode: !!endpoint.hostMode
             });
         }
@@ -16537,83 +16773,59 @@ async function wizScanDocker() {
     }
 }
 
-async function scanDockerContainers() {
-    // Host voor de gegenereerde URL's. NIET uit `hobbithole_nas_ip` halen: die sleutel wordt
-    // door de Synology-app-toevoeger geschreven, dus wie ooit Synology-apps heeft toegevoegd
-    // kreeg daarna het IP van zijn NAS in elke gescande Docker-tegel — terwijl de containers
-    // via /api/containers van de dashboard-host zelf komen. Vandaar: eigen veld of de host
-    // waar je het dashboard op geopend hebt.
-    const ip = document.getElementById('setting-docker-ip').value.trim() || window.location.hostname;
+async function scanDockerContainers(opts) {
+    const freshOnly = !!(opts && opts.freshOnly);
+    const ip = dockerScanIp();
     const resultsEl = document.getElementById('docker-scan-results');
 
-    resultsEl.innerHTML = `<p style="color: var(--accent-color);">${t('scanner.scanningContainers', '🔍 Scannen naar Docker containers...')}</p>`;
+    if (resultsEl) {
+        resultsEl.innerHTML = `<p style="color: var(--accent-color);">${t('scanner.scanningContainers', '🔍 Scannen naar Docker containers...')}</p>`;
+    }
 
     try {
         const response = await fetch('/api/containers');
         if (!response.ok) throw new Error(t('scanner.dockerNotReachableSocket', 'Docker API niet bereikbaar - is de socket gemount?'));
 
         const containers = await response.json();
-        const existing = new Set();
-        (typeof categories !== 'undefined' ? categories : []).forEach(cat => {
-            (cat.apps || []).forEach(a => {
-                if (a.name) existing.add(String(a.name).toLowerCase());
-                if (a.url) existing.add(String(a.url).toLowerCase());
-            });
-        });
-        const foundApps = [];
-
-        for (const container of containers) {
-            const detected = detectApp(container);
-            if (!detected) continue;
-            // Published ports óf host-netwerk + hint (scrypted/jellyfin/HA/…)
-            const endpoint = pickEndpoint(container);
-            if (!endpoint) continue;
-            const cName = containerScanName(container);
-            if (typeof isSelfContainer === 'function' && isSelfContainer(cName)) continue;
-            const url = `${endpoint.scheme}://${ip}:${endpoint.port}`;
-            if (existing.has(detected.name.toLowerCase()) || existing.has(url.toLowerCase())) continue;
-            foundApps.push({
-                ...detected,
-                url,
-                containerName: cName,
-                hostMode: !!endpoint.hostMode
-            });
+        const all = collectUntiledApps(containers, ip);
+        const dismissed = readDismissedUntiled();
+        const fresh = all.filter(a => !dismissed.has(a.containerName));
+        applyDiscoverBadge(fresh);
+        const foundApps = freshOnly ? fresh : all;
+        if (freshOnly && !foundApps.length && all.length) {
+            if (resultsEl) {
+                resultsEl.innerHTML = '<p style="color: var(--text-muted);">'
+                    + t('scanner.discoverDismissed', 'Melding verborgen tot er een nieuwe container bij komt.') + '</p>';
+            }
+            return;
         }
-
-        if (foundApps.length > 0) {
-            resultsEl.innerHTML = `
-                <p style="color: var(--success-color); margin-bottom: 10px;">${t('scanner.appsFound', '✅ ${count} apps gevonden:').replace('${count}', foundApps.length)}</p>
-                ${hostWaarschuwing(ip)}
-                ${foundApps.map((app, i) => `
-                    <div class="app-item" style="margin-bottom: 8px;">
-                        <div class="app-item-info">
-                            <img src="${resolveIconSrc(app.icon)}" class="app-item-icon" onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed=${app.name}'">
-                            <span>${app.name} (${app.category})${app.hostMode ? ' · host' : ''} · ${app.url.replace(/^https?:\/\//, '')}</span>
-                        </div>
-                        <button class="btn btn-secondary btn-small" onclick="addSingleScannedApp(${JSON.stringify(app).replace(/"/g, '&quot;')})">${t('scanner.addSingle', '+ Toevoegen')}</button>
-                    </div>
-                `).join('')}
-                <button class="btn btn-action" onclick="addAllScannedApps()" style="margin-top: 15px;">${t('scanner.addAll', 'Alle ${count} apps toevoegen').replace('${count}', foundApps.length)}</button>
-            `;
-            window._scannedApps = foundApps;
-        } else {
-            resultsEl.innerHTML = `<p style="color: var(--warning-color);">${t('scanner.noAppsFound', '⚠️ Geen nieuwe apps gevonden (host-netwerk + gepubliceerde poorten).')}</p>`;
-        }
+        renderScannedApps(foundApps, ip);
     } catch (error) {
-        resultsEl.innerHTML = `<p style="color: var(--danger-color);">${t('ui.errorLabel', 'Fout')}: ${error.message}</p>`;
+        if (resultsEl) {
+            resultsEl.innerHTML = `<p style="color: var(--danger-color);">${t('ui.errorLabel', 'Fout')}: ${escapeHtml(error.message)}</p>`;
+        }
     }
 }
 
-function addSingleScannedApp(app) {
+function addSingleScannedApp(index) {
+    const list = window._scannedApps || [];
+    const app = list[index];
+    if (!app) return;
     addScannedApps([app]);
     showToast(`${app.name} ${t('settings.added', 'toegevoegd!')}`, 'success');
+    renderScannedApps(list.filter((_, i) => i !== index), dockerScanIp());
 }
 
 function addAllScannedApps() {
-    if (window._scannedApps) {
-        addScannedApps(window._scannedApps);
-        showToast(`${window._scannedApps.length} apps ${t('settings.added', 'toegevoegd!')}`, 'success');
-        document.getElementById('docker-scan-results').innerHTML = `<p style="color: var(--success-color);">${t('scanner.allAppsAdded', '✅ Alle apps toegevoegd!')}</p>`;
+    const list = window._scannedApps || [];
+    if (!list.length) return;
+    const n = list.length;
+    addScannedApps(list);
+    showToast(`${n} apps ${t('settings.added', 'toegevoegd!')}`, 'success');
+    window._scannedApps = [];
+    const resultsEl = document.getElementById('docker-scan-results');
+    if (resultsEl) {
+        resultsEl.innerHTML = `<p style="color: var(--success-color);">${t('scanner.allAppsAdded', '✅ Alle apps toegevoegd!')}</p>`;
     }
 }
 
@@ -16625,11 +16837,13 @@ function addScannedApps(apps) {
         if (!categoryMap[catName]) {
             categoryMap[catName] = [];
         }
-        categoryMap[catName].push({
+        const tile = {
             name: app.name,
             icon: app.icon,
             url: app.url
-        });
+        };
+        if (app.containerName) tile.containerName = app.containerName;
+        categoryMap[catName].push(tile);
     }
 
     for (const [catName, catApps] of Object.entries(categoryMap)) {
@@ -16644,8 +16858,8 @@ function addScannedApps(apps) {
         }
 
         for (const app of catApps) {
-            // Check if app already exists
-            const exists = cat.apps.some(a => a.name === app.name || a.url === app.url);
+            const exists = cat.apps.some(a => a.name === app.name || a.url === app.url
+                || (app.containerName && a.containerName === app.containerName));
             if (!exists) {
                 cat.apps.push(app);
             }
@@ -16657,6 +16871,7 @@ function addScannedApps(apps) {
     if (settingsView.style.display === 'block') {
         renderAppList();
     }
+    refreshDockerDiscover();
 }
 
 // ===== HEIMDALL IMPORT =====
@@ -17628,6 +17843,8 @@ async function authLogout() {
     checkReleaseAnnouncements();
     // v1.10.2: quiet Hub update badge (after config/auth ready)
     scheduleHubUpdateChecks();
+    // v1.10.3: stille melding als er draaiende containers zonder tegel zijn
+    refreshDockerDiscover();
     if (FEATURE_FLAGS.metricsP95) updateP95Stats();
 })();
 </script>

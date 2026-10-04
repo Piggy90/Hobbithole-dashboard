@@ -1,8 +1,19 @@
 # Hobbithole Cinema Dashboard - Changelog
 
-## [v1.10.3-dev] - 2026-09-16
-### In uitvoering (In Progress)
-- Nieuwe features voor de volgende release.
+## [v1.10.3-dev] - 2026-10-04
+### Toegevoegd (Added)
+- **Ontdekstap: containers zonder tegel** — bij het openen kijkt het dashboard naar draaiende
+  containers. Heeft er een een bereikbare poort (gepubliceerd, of host-netwerk met een bekende
+  poort) en nog geen tegel, dan verschijnt een stille footer-melding `N zonder tegel`. Geen
+  popup. Klik opent Settings → Docker Scanner met de lijst: per container toevoegen, alles
+  toevoegen, of **Niet nu**. Niet nu verbergt precies die containers tot er een nieuwe bij komt
+  (dit apparaat én de serverconfig, zodat een tweede browser niet opnieuw zeurt). Een tegel
+  telt als koppeling via containernaam, compose-service, het veld Docker-containernaam, of de
+  poort in de URL — ook als de container op het host-netwerk geen gepubliceerde poort heeft.
+  Een generiek basisimage (nginx, node, …) krijgt de containernaam als tegelnaam, niet "Nginx".
+  Het dashboard zelf en config-api worden overgeslagen. Databases en sidecars
+  zonder poort komen niet in de lijst. Een poort die alleen op 127.0.0.1 gepubliceerd is krijgt
+  `127.0.0.1` in de URL, niet het LAN-adres. Toevoegen bewaart ook de containernaam op de tegel.
 
 ## [v1.10.2] - 2026-09-16
 
