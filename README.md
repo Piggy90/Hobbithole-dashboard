@@ -4,11 +4,19 @@
 
 A blazing fast, responsive, self‑configuring dashboard for your homelab. Smart Docker auto‑detection, a cinematic weather widget, and **cross‑device settings sync** via a tiny config API.
 
-> **v1.10.2** — **Bookmarks: icon from URL or slug**, **Edit bookmarks**, **Change password**, plus more. Details below.
+> **v1.10.3** — **Discover containers that have no tile**, **Pinned label `hobbithole.tile=<tile id>`**, **Clock in the header**. Details below.
 >
-> Previously in **v1.10.1**: Status dot: Docker first, URL fallback, Optional `containerName` field.
+> Previously in **v1.10.2**: Bookmarks: icon from URL or slug, Edit bookmarks.
 >
 > **Upgrade tip:** always pull **both** images (`hobbithole-dashboard` **and** `hobbithole-config-api`) to the **same version**. The API is required for sync, wallpapers, themes, widgets, and auth.
+
+## What's new in v1.10.3
+
+### Added
+
+- **Discover containers that have no tile** — on open, the dashboard looks at running containers.
+- **Pinned label `hobbithole.tile=<tile id>`** — (2026-11-15) — when the container name and the port do not point at the same container, this compose label wins.
+- **Clock in the header** — (2026-11-15) — time and date under the title.
 
 ## What's new in v1.10.2
 
@@ -34,26 +42,6 @@ A blazing fast, responsive, self‑configuring dashboard for your homelab. Smart
 ### Security
 
 - **Docker socket removed from the web server** — `docker-compose.hub.yml` also mounted `/var/run/docker.sock` on the `dashboard` (nginx) service, labelled "required for Docker container auto-detection".
-
-## What's new in v1.10.1
-
-### Added
-
-- **Status dot: Docker first, URL fallback** — match on `containerName` / URL port / tile name (compose service).
-- **Optional `containerName` field** — on add/edit app — explicit link for status dot and p95 when the display name differs from the container name.
-- **Compact service tile** — (`compact: true`) — chip row: status dot + name + p95 RAM (no large icon, no CPU line).
-- **Compact stacks in Apps** — consecutive compact tiles form a vertical column (`.compact-stack`, one grid cell).
-- **Settings → Help & tips** — searchable FAQ near the top of Settings (after Language).
-- **Settings: “Back to top” button** — floating control bottom-right while Settings is open (viewport-fixed).
-- **Settings: jump legend (section nav)** — sticky “Jump to section” chips for all visible Settings blocks.
-
-### Fixed
-
-- **Docker scanner skipped host-network containers** — (2026-08-22) — Settings → Scan Docker Containers only kept containers with a `PublicPort`.
-- **Wind radar (Gust) — animated white streamlines** — Weerenradar delivers base map (JPEG) + **wind vector field** (`wind:N:png` in X-Custom-Body; R/G vs offset 85) + `windvalues` JSON.
-- **p95 metrics missing on tiles despite a valid benchmark** — the run measures all running Docker containers, but a tile only showed CPU/RAM when the **display name** matched after stripping spaces and `-`.
-- **Compact tile looked like an empty square** — in a mixed grid: CSS grid stretched the chip to the row height of icon cards.
-- **GitHub blob icon URLs** — (`/blob/…` or `?raw=true`) are rewritten in `resolveIconSrc` to `raw.githubusercontent.com` (stable `image/*`).
 
 ## Optional authentication (how to enable)
 
@@ -126,12 +114,11 @@ docker pull piggyoriginal/hobbithole-config-api
 
 ## Features
 
+- **Discover containers that have no tile** (v1.10.3) — on open, the dashboard looks at running containers.
+- **Pinned label `hobbithole.tile=<tile id>`** (v1.10.3) — (2026-11-15) — when the container name and the port do not point at the same container, this compose label…
+- **Clock in the header** (v1.10.3) — (2026-11-15) — time and date under the title.
 - **Bookmarks: icon from URL or slug** (v1.10.2) — the icon field is no longer emoji-only (`maxlength=3` used to truncate a pasted link).
 - **Edit bookmarks** (v1.10.2) — ✎ on an existing row (visible on hover) opens the same form with name/URL/icon filled in.
-- **Change password** (v1.10.2) — Settings → Security while signed in (current + new).
-- **Hub update check** (v1.10.2) — config-api `GET /api/updates/check` reads newest release tags for `piggyoriginal/hobbithole-dashboard` +…
-- **Status dot: Docker first, URL fallback** (v1.10.1) — match on `containerName` / URL port / tile name (compose service).
-- **Optional `containerName` field** (v1.10.1) — on add/edit app — explicit link for status dot and p95 when the display name differs from the container name.
 - **Cross‑device wallpapers** (v1.9.10) — static image, dynamic time-of-day slots (5), and live video; files under config-api `data/wallpapers/`
 - **Container quick actions** (improved v1.9.10) — Start / Stop / Restart on tiles; matches by port **or** container/compose name
 - **Live weather radar** (v1.9.9+) — Weerenradar (Europe) + RainViewer global; home widget + expanded panel

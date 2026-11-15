@@ -1,6 +1,10 @@
 # Hobbithole Cinema Dashboard — Changelog
 
-## [v1.10.3-dev] - 2026-10-04
+## [v1.10.4-dev] - 2026-11-15
+### In progress
+- New features for the next release.
+
+## [v1.10.3] - 2026-10-04
 ### Added
 - **Discover containers that have no tile** — on open, the dashboard looks at running
   containers. If one has a reachable port (published, or host-network with a known port) and

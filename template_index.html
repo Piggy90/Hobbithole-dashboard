@@ -163,6 +163,28 @@
             font-size: 1.1rem;
         }
 
+        /* v1.10.3: klok onder de titel. Taal = dashboardtaal. Aan/uit in Weergave. */
+        .header-clock {
+            margin-top: 14px;
+            line-height: 1.35;
+        }
+        .header-clock[hidden] { display: none; }
+        .header-clock-time {
+            display: block;
+            font-size: 1.35rem;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.4px;
+            color: var(--text-color);
+        }
+        .header-clock-date {
+            display: block;
+            margin-top: 2px;
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
         .progress-bar {
             width: 80px;
             height: 6px;
@@ -4851,6 +4873,7 @@
         @media (max-width: 768px) {
             header h1 { font-size: 2rem; }
             header { margin: 30px 0 20px 0; }
+            .header-clock-time { font-size: 1.15rem; }
 
             .grid {
                 grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -5231,6 +5254,10 @@
     <header>
         <h1 id="dashboard-title">Hobbithole Cinema</h1>
         <p id="dashboard-subtitle" data-i18n="dashboard.subtitle">Jouw persoonlijke controlecentrum</p>
+        <div id="header-clock" class="header-clock" hidden>
+            <span id="header-clock-time" class="header-clock-time"></span>
+            <span id="header-clock-date" class="header-clock-date"></span>
+        </div>
     </header>
 
     <div id="search-container">
@@ -5729,6 +5756,13 @@
             <h3 data-i18n="settings.displayOptions">Weergave opties</h3>
             <div class="form-group">
                 <label>
+                    <input type="checkbox" id="setting-header-clock" checked onchange="toggleHeaderClock()">
+                    <span data-i18n="settings.headerClock">Klok in de kop</span>
+                </label>
+                <small style="color: var(--text-muted); display: block; margin-top: 4px; margin-left: 24px;" data-i18n="settings.headerClockDesc">Tijd en datum onder de titel. Volgt de dashboardtaal.</small>
+            </div>
+            <div class="form-group">
+                <label>
                     <input type="checkbox" id="setting-collapsible" checked onchange="toggleCollapsible()">
                     <span data-i18n="settings.collapsibleCategories">Categorieën inklapbaar</span>
                 </label>
@@ -6070,6 +6104,7 @@ function changeLanguage(lang) {
         if (typeof buildSettingsToc === 'function') buildSettingsToc();
         if (typeof refreshAuthSettingsPanel === 'function') refreshAuthSettingsPanel();
         if (typeof applyHubUpdateUi === 'function') applyHubUpdateUi();
+        if (typeof paintHeaderClock === 'function') paintHeaderClock();
         // Re-render open release announcement in the new language
         if (_activeAnnouncement && typeof showReleaseAnnouncement === 'function') {
             const a = _activeAnnouncement;
@@ -11025,7 +11060,7 @@ closeBtn.onclick = () => {
 
 // v1.8.2: changelog modal — "What's New" with auto-detected NEW badge.
 // CHANGELOG.md is baked into the dashboard image (COPY in Dockerfile) at /CHANGELOG.md
-const APP_VERSION = '1.10.3-dev';
+const APP_VERSION = '1.10.3';
 
 // ===== RELEASE ANNOUNCEMENTS (v1.8.5, hardened v1.9.10) =====
 // Big-feature popup — must show AT MOST ONCE. Past bug (weather backdrop): entry stayed
@@ -11765,6 +11800,8 @@ function loadSettingsValues() {
     document.getElementById('setting-show-search').checked = localStorage.getItem('hobbithole_show_search') !== 'false';
     document.getElementById('setting-collapsible').checked = collapsibleEnabled;
     document.getElementById('setting-status-dots').checked = localStorage.getItem('hobbithole_status_dots') !== 'false';
+    const headerClockCb = document.getElementById('setting-header-clock');
+    if (headerClockCb) headerClockCb.checked = headerClockEnabled();
     document.getElementById('setting-weather-fx').checked = localStorage.getItem('hobbithole_weather_fx') !== 'false';
     // v1.8.5: cinematic backdrop pref (server > localStorage > default true)
     document.getElementById('setting-weather-backdrop').checked = cinematicWeatherEnabled();
@@ -15854,6 +15891,52 @@ function stopStatusPinging() {
     }
 }
 
+function headerClockEnabled() {
+    return localStorage.getItem('hobbithole_header_clock') !== 'false';
+}
+
+function headerClockLang() {
+    const lang = (typeof currentLang === 'string' ? currentLang : 'nl').slice(0, 2);
+    return lang || 'nl';
+}
+
+function paintHeaderClock() {
+    const timeEl = document.getElementById('header-clock-time');
+    const dateEl = document.getElementById('header-clock-date');
+    if (!timeEl || !dateEl) return;
+    const now = new Date();
+    const lang = headerClockLang();
+    timeEl.textContent = now.toLocaleTimeString(lang, {
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+    const raw = now.toLocaleDateString(lang, {
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+    dateEl.textContent = raw.charAt(0).toUpperCase() + raw.slice(1);
+}
+
+let headerClockTimer = null;
+
+function applyHeaderClock() {
+    const wrap = document.getElementById('header-clock');
+    if (!wrap) return;
+    const on = headerClockEnabled();
+    wrap.hidden = !on;
+    if (headerClockTimer) {
+        clearInterval(headerClockTimer);
+        headerClockTimer = null;
+    }
+    if (!on) return;
+    paintHeaderClock();
+    headerClockTimer = setInterval(paintHeaderClock, 1000);
+}
+
+function toggleHeaderClock() {
+    const el = document.getElementById('setting-header-clock');
+    localStorage.setItem('hobbithole_header_clock', el ? el.checked : true);
+    applyHeaderClock();
+}
+
 function toggleStatusDots() {
     const enabled = document.getElementById('setting-status-dots').checked;
     localStorage.setItem('hobbithole_status_dots', enabled);
@@ -17008,6 +17091,7 @@ const BACKUP_LOCALSTORAGE_KEYS = [
     'hobbithole_show_sysinfo',
     'hobbithole_collapsible',
     'hobbithole_status_dots',
+    'hobbithole_header_clock',
     'hobbithole_weather_fx',
     'hobbithole_search_engine',
     'hobbithole_custom_search',
@@ -17745,6 +17829,7 @@ async function authLogout() {
     if (localStorage.getItem('hobbithole_show_search') === 'false') {
         document.getElementById('search-container').style.display = 'none';
     }
+    applyHeaderClock();
     // v1.8.1: smart wizard skip — load server config first so cross-browser visits
     // don't re-trigger onboarding when the user already has a populated dashboard server-side.
     if (!serverConfig) await loadServerConfig();

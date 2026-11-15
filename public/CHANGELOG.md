@@ -1,6 +1,10 @@
 # Hobbithole Cinema Dashboard - Changelog
 
-## [v1.10.3-dev] - 2026-10-04
+## [v1.10.4-dev] - 2026-11-15
+### In uitvoering (In Progress)
+- Nieuwe features voor de volgende release.
+
+## [v1.10.3] - 2026-10-04
 ### Toegevoegd (Added)
 - **Ontdekstap: containers zonder tegel** — bij het openen kijkt het dashboard naar draaiende
   containers. Heeft er een een bereikbare poort (gepubliceerd, of host-netwerk met een bekende
