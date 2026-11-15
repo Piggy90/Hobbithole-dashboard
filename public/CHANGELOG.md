@@ -20,6 +20,10 @@
   label wint de draaiende. Het id staat bij App bewerken in het veld Vast label
   (`hobbithole.tile=app-…`), klik selecteert de regel om te kopiëren. De ontdekstap slaat een
   container over zodra zijn label op een bestaande tegel wijst.
+- **Klok in de kop** (2026-11-15) — tijd en datum onder de titel. Staat standaard aan.
+  Uit zetten kan in Settings → Weergave. De taal is de dashboardtaal (niet vast
+  Nederlands): Engels krijgt een Engelse datum, Duits een Duitse. Het 12- of
+  24-uursformaat volgt die taal ook. De keuze zit in de backup.
 
 ## [v1.10.2] - 2026-09-16
 

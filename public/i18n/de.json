@@ -62,6 +62,8 @@
         "displayOptions": "Anzeigeoptionen",
         "showSearch": "Suchleiste anzeigen",
         "showSystemInfo": "Systeminfo anzeigen",
+        "headerClock": "Uhr in der Kopfzeile",
+        "headerClockDesc": "Uhrzeit und Datum unter dem Titel. Folgt der Dashboard-Sprache.",
         "collapsibleCategories": "Kategorien einklappbar",
         "dangerZone": "Gefahrenzone",
         "dangerText": "Diese Aktionen können nicht rückgängig gemacht werden.",

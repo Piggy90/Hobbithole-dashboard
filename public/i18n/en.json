@@ -62,6 +62,8 @@
         "displayOptions": "Display options",
         "showSearch": "Show search bar",
         "showSystemInfo": "Show system info",
+        "headerClock": "Clock in the header",
+        "headerClockDesc": "Time and date under the title. Follows the dashboard language.",
         "collapsibleCategories": "Collapsible categories",
         "dangerZone": "Danger zone",
         "dangerText": "These actions cannot be undone.",

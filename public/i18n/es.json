@@ -62,6 +62,8 @@
         "displayOptions": "Opciones de visualización",
         "showSearch": "Mostrar barra de búsqueda",
         "showSystemInfo": "Mostrar info del sistema",
+        "headerClock": "Reloj en la cabecera",
+        "headerClockDesc": "Hora y fecha bajo el título. Sigue el idioma del panel.",
         "collapsibleCategories": "Categorías plegables",
         "dangerZone": "Zona de peligro",
         "dangerText": "Estas acciones no se pueden deshacer.",

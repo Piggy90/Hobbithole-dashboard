@@ -62,6 +62,8 @@
         "displayOptions": "Weergave opties",
         "showSearch": "Zoekbalk tonen",
         "showSystemInfo": "Systeeminfo tonen",
+        "headerClock": "Klok in de kop",
+        "headerClockDesc": "Tijd en datum onder de titel. Volgt de dashboardtaal.",
         "collapsibleCategories": "Categorieën inklapbaar",
         "dangerZone": "Gevarenzone",
         "dangerText": "Deze acties kunnen niet ongedaan worden gemaakt.",

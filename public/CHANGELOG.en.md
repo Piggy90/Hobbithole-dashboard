@@ -20,6 +20,11 @@
   label, the running one wins. The id is on App edit, in the Pinned label field
   (`hobbithole.tile=app-…`); click selects the line to copy. Discover skips a container once
   its label points at an existing tile.
+- **Clock in the header** (2026-11-15) — time and date under the title. On by
+  default. Turn it off in Settings → Display options. The language is the
+  dashboard language, not fixed Dutch: English gets an English date, German a
+  German one. 12-hour or 24-hour follows that language too. The choice is in
+  the backup.
 
 ## [v1.10.2] - 2026-09-16
 

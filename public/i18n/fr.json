@@ -62,6 +62,8 @@
         "displayOptions": "Options d'affichage",
         "showSearch": "Afficher la barre de recherche",
         "showSystemInfo": "Afficher les infos système",
+        "headerClock": "Horloge dans l'en-tête",
+        "headerClockDesc": "Heure et date sous le titre. Suit la langue du tableau de bord.",
         "collapsibleCategories": "Catégories réductibles",
         "dangerZone": "Zone de danger",
         "dangerText": "Ces actions ne peuvent pas être annulées.",
