@@ -14,6 +14,12 @@
   config-api are skipped. Databases and sidecars without a port stay off the list. A port
   published only on 127.0.0.1 gets `127.0.0.1` in the URL, not the LAN address. Adding a tile
   also stores the container name.
+- **Pinned label `hobbithole.tile=<tile id>`** (2026-11-15) — when the container name and the
+  port do not point at the same container, this compose label wins. A container pinned to
+  another tile no longer matches this one by port or name. If two containers carry the same
+  label, the running one wins. The id is on App edit, in the Pinned label field
+  (`hobbithole.tile=app-…`); click selects the line to copy. Discover skips a container once
+  its label points at an existing tile.
 
 ## [v1.10.2] - 2026-09-16
 

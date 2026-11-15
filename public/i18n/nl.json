@@ -260,6 +260,8 @@
         "deleteCategory": "Categorie verwijderen",
         "containerName": "Docker-containernaam (optioneel)",
         "containerNameHelp": "Voor status-dot en p95 als de tegelnaam anders is dan de container.",
+        "tilePin": "Vast label",
+        "tilePinHelp": "In compose onder labels. Dit wint van containernaam en poort, als die niet dezelfde container aanwijzen.",
         "compactTile": "Compacte service-tegel (naam + status + RAM, geen groot icoon)"
     },
     "toast": {

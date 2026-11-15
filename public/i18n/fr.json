@@ -260,6 +260,8 @@
         "deleteCategory": "Supprimer la catégorie",
         "containerName": "Nom du conteneur Docker (optionnel)",
         "containerNameHelp": "Pour le point d’état et p95 si le nom de tuile diffère du conteneur.",
+        "tilePin": "Label fixe",
+        "tilePinHelp": "Dans compose, sous labels. Il l’emporte sur le nom du conteneur et le port quand ceux-ci ne désignent pas le même conteneur.",
         "compactTile": "Tuile service compacte (nom + état + RAM)"
     },
     "toast": {

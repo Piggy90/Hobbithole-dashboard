@@ -260,6 +260,8 @@
         "deleteCategory": "Kategorie löschen",
         "containerName": "Docker-Containername (optional)",
         "containerNameHelp": "Für Statuspunkt und p95, wenn Kachelname ≠ Container.",
+        "tilePin": "Festes Label",
+        "tilePinHelp": "In Compose unter labels. Gewinnt vor Containername und Port, wenn die nicht denselben Container meinen.",
         "compactTile": "Kompakte Service-Kachel (Name + Status + RAM)"
     },
     "toast": {

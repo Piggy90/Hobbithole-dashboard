@@ -5927,6 +5927,11 @@
             <input type="text" id="edit-app-container" placeholder="crowdsec" autocomplete="off">
             <small style="color: var(--text-muted); display: block; margin-top: 4px;" data-i18n="modal.containerNameHelp">Voor status-dot en p95 als de tegelnaam anders is dan de container.</small>
         </div>
+        <div class="form-group" id="edit-app-tile-pin-group">
+            <label data-i18n="modal.tilePin">Vast label</label>
+            <input type="text" id="edit-app-tile-pin" readonly spellcheck="false" onclick="this.select()">
+            <small style="color: var(--text-muted); display: block; margin-top: 4px;" data-i18n="modal.tilePinHelp">In compose onder labels. Dit wint van containernaam en poort, als die niet dezelfde container aanwijzen.</small>
+        </div>
         <div class="form-group">
             <label class="widget-config-toggle">
                 <input type="checkbox" id="edit-app-compact">
@@ -7467,16 +7472,44 @@ function containerDisplayName(c) {
     return (c.Names && c.Names[0]) ? c.Names[0].replace(/^\//, '') : c.Id.slice(0, 12);
 }
 
+// Compose-label dat een container vast op één tegel zet: hobbithole.tile=<app.id>.
+// Exacte tekst, geen normalisatie — een tegel-id bevat streepjes.
+function tilePin(container) {
+    const labels = container && container.Labels;
+    if (!labels) return '';
+    const raw = labels['hobbithole.tile'];
+    return typeof raw === 'string' ? raw.trim() : '';
+}
+
 // Match a tile to a running/stopped container against an already-fetched list.
-// Order: explicit containerName → URL port → tile name / compose service.
+// Order: hobbithole.tile → explicit containerName → URL port → tile name / compose service.
+// A container pinned to another tile is not a candidate for the later steps.
 // Returns { id, name, state } or null.
 function matchContainerForApp(app, containers) {
     if (!app || !containers || !Array.isArray(containers)) return null;
+    const appId = String(app.id || '');
 
-    // 0. Explicit container name (best for infra services / compact tiles)
+    // 0. Vast label. Wint als naam en poort niet dezelfde container aanwijzen.
+    if (appId) {
+        const pinned = containers.filter(c => tilePin(c) === appId);
+        if (pinned.length) {
+            const c = pinned.find(x => x.State === 'running') || pinned[0];
+            const name = containerDisplayName(c);
+            if (isSelfContainer(name)) return null;
+            return { id: c.Id, name, state: c.State };
+        }
+    }
+
+    // Een pin naar een andere tegel mag hier niet via poort of naam alsnog matchen.
+    const open = containers.filter(c => {
+        const pin = tilePin(c);
+        return !pin || pin === appId;
+    });
+
+    // 1. Explicit container name (best for infra services / compact tiles)
     const explicit = normaliseContainerName(app.containerName);
     if (explicit) {
-        for (const c of containers) {
+        for (const c of open) {
             const name = containerDisplayName(c);
             const svc = (c.Labels && c.Labels['com.docker.compose.service']) || '';
             if (normaliseContainerName(name) !== explicit && normaliseContainerName(svc) !== explicit) continue;
@@ -7485,11 +7518,11 @@ function matchContainerForApp(app, containers) {
         }
     }
 
-    // 1. Poort-match — precies, en het enige dat twee tegels op dezelfde host uit elkaar houdt.
+    // 2. Poort-match — precies, en het enige dat twee tegels op dezelfde host uit elkaar houdt.
     const portMatch = String(app.url || '').match(/:(\d+)(?:\/|$)/);
     if (portMatch) {
         const port = parseInt(portMatch[1], 10);
-        for (const c of containers) {
+        for (const c of open) {
             const hit = (c.Ports || []).find(p => p.PublicPort === port);
             if (!hit) continue;
             const name = containerDisplayName(c);
@@ -7498,7 +7531,7 @@ function matchContainerForApp(app, containers) {
         }
     }
 
-    // 2. Naam-fallback. Nodig omdat stap 1 twee blinde vlekken heeft:
+    // 3. Naam-fallback. Nodig omdat stap 2 twee blinde vlekken heeft:
     //    - Een GESTOPTE container heeft geen poortbindingen: Docker geeft `Ports: []` zodra hij
     //      niet draait. Juist bij on-demand diensten (`restart: "no"`) verdween de start-knop dus
     //      precies wanneer je hem nodig had. Gevonden 2026-08-05 met copyparty.
@@ -7508,7 +7541,7 @@ function matchContainerForApp(app, containers) {
     //    pikt niet zomaar een willekeurige container op.
     const want = normaliseContainerName(app.name);
     if (!want) return null;
-    for (const c of containers) {
+    for (const c of open) {
         const name = containerDisplayName(c);
         const svc = (c.Labels && c.Labels['com.docker.compose.service']) || '';
         if (normaliseContainerName(name) !== want && normaliseContainerName(svc) !== want) continue;
@@ -16063,6 +16096,8 @@ function openEditAppModal(catId, appIndex) {
     document.getElementById('edit-app-url').value = (!app.url || app.url === '#') ? '' : app.url;
     const contEl = document.getElementById('edit-app-container');
     if (contEl) contEl.value = app.containerName || '';
+    const pinEl = document.getElementById('edit-app-tile-pin');
+    if (pinEl) pinEl.value = 'hobbithole.tile=' + app.id;
     const compactEl = document.getElementById('edit-app-compact');
     if (compactEl) compactEl.checked = !!app.compact;
     document.getElementById('edit-app-modal').style.display = 'flex';
@@ -16519,8 +16554,9 @@ function detectApp(container) {
     };
 }
 
-// v1.10.3: tegel bestaat al als containernaam, compose-service, containerName of URL-poort
-// op déze container matcht. Eén container per check, anders pakt een poort een andere.
+// v1.10.3: tegel bestaat al als hobbithole.tile, containernaam, compose-service,
+// containerName of URL-poort op déze container matcht. Eén container per check,
+// anders pakt een poort een andere.
 function containerIsTiled(container) {
     const cats = (typeof categories !== 'undefined' && Array.isArray(categories)) ? categories : [];
     for (let i = 0; i < cats.length; i++) {

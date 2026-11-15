@@ -260,6 +260,8 @@
         "deleteCategory": "Delete category",
         "containerName": "Docker container name (optional)",
         "containerNameHelp": "For status dot and p95 when the tile name differs from the container.",
+        "tilePin": "Pinned label",
+        "tilePinHelp": "Put this under labels in compose. It wins over the container name and the port when those point at different containers.",
         "compactTile": "Compact service tile (name + status + RAM, no large icon)"
     },
     "toast": {

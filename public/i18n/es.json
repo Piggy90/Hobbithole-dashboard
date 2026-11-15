@@ -260,6 +260,8 @@
         "deleteCategory": "Eliminar categoría",
         "containerName": "Nombre del contenedor Docker (opcional)",
         "containerNameHelp": "Para el punto de estado y p95 si el nombre del tile difiere del contenedor.",
+        "tilePin": "Etiqueta fija",
+        "tilePinHelp": "En compose, bajo labels. Gana al nombre del contenedor y al puerto cuando no apuntan al mismo contenedor.",
         "compactTile": "Tile de servicio compacto (nombre + estado + RAM)"
     },
     "toast": {

@@ -14,6 +14,12 @@
   Het dashboard zelf en config-api worden overgeslagen. Databases en sidecars
   zonder poort komen niet in de lijst. Een poort die alleen op 127.0.0.1 gepubliceerd is krijgt
   `127.0.0.1` in de URL, niet het LAN-adres. Toevoegen bewaart ook de containernaam op de tegel.
+- **Vast label `hobbithole.tile=<tegel-id>`** (2026-11-15) — als containernaam en poort niet
+  dezelfde container aanwijzen, wint dit compose-label. Een container met het label van een
+  andere tegel matcht daar niet alsnog via poort of naam. Bij twee containers met hetzelfde
+  label wint de draaiende. Het id staat bij App bewerken in het veld Vast label
+  (`hobbithole.tile=app-…`), klik selecteert de regel om te kopiëren. De ontdekstap slaat een
+  container over zodra zijn label op een bestaande tegel wijst.
 
 ## [v1.10.2] - 2026-09-16
 
